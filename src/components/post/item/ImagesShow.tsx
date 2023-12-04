@@ -14,12 +14,11 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
 
         <div className={cn(
           "grid gap-1",
-          images.length === 1 && 'grid-cols-1 [repeat(1, 1fr)] grid-rows-1 max-h-[500px]',
-          images.length === 2 && 'grid-cols-2 [repeat(1, 1fr)] grid-rows-1',
-          images.length === 3 && 'grid-cols-2 [repeat(2, 1fr)] grid-rows-2 max-h-[500px]',
-          images.length === 4 && 'grid-cols-2 [repeat(2, 1fr)] grid-rows-2 max-h-[500px]',
-          images.length === 5 && 'grid-cols-2 [repeat(2, 1fr)] grid-rows-3 max-h-[500px]',
-        
+          images.length === 1 && 'grid-cols-1 [repeat(1, 1fr)] grid-rows-1 h-[500px]',
+          images.length === 2 && 'grid-cols-2 [repeat(1, 1fr)] grid-rows-1 h-[500px]',
+          images.length === 3 && 'grid-cols-2 [repeat(2, 1fr)] grid-rows-2 h-[500px]',
+          images.length === 4 && 'grid-cols-2 [repeat(2, 1fr)] grid-rows-2 h-[500px]',
+          images.length === 5 && 'grid-cols-2 [repeat(2, 1fr)] grid-rows-3 h-[500px]',
         )}>
             {
               images.map((url,i)=>(

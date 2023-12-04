@@ -1,10 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import LoginSkeleton from "@/pages/skeleton/LoginSkeleton";
-import RegisterSkeleton from "@/pages/skeleton/RegisterSkeleton";
-import ForgotSkeleton from "@/pages/skeleton/ForgotSkeleton";
 import HomeSkeleton from "@/components/home/skeleton/HomeSkeleton";
+import CommonCardSkeleton from "@/components/common/skeleton/CommonCardSkeleton";
 
 // lazy loading
 const Home = lazy(() => import("@/pages/Home"));
@@ -25,7 +23,7 @@ const router = createBrowserRouter([
   {
     path: "login",
     element: (
-      <Suspense fallback={<LoginSkeleton />}>
+      <Suspense fallback={<CommonCardSkeleton className="h-[444px]" />}>
         <Login />
       </Suspense>
     ),
@@ -33,7 +31,7 @@ const router = createBrowserRouter([
   {
     path: "register",
     element: (
-      <Suspense fallback={<RegisterSkeleton />}>
+      <Suspense fallback={<CommonCardSkeleton className="h-[588px]" />}>
         <Register />
       </Suspense>
     ),
@@ -41,7 +39,7 @@ const router = createBrowserRouter([
   {
     path: "forgot",
     element: (
-      <Suspense fallback={<ForgotSkeleton />}>
+      <Suspense fallback={<CommonCardSkeleton className="h-[390px]" />}>
         <Forgot />
       </Suspense>
     ),
@@ -49,7 +47,7 @@ const router = createBrowserRouter([
   {
     path: "reset",
     element: (
-      <Suspense fallback={<ForgotSkeleton />}>
+      <Suspense fallback={<CommonCardSkeleton className="h-[388px]" />}>
         <Reset />
       </Suspense>
     ),
