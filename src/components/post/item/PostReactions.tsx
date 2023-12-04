@@ -11,7 +11,7 @@ import SaveIcon from "@/assets/images/ic_Saved2.svg";
 
 const PostReactions = () => {
   return (
-    <div className="px-4 py-2 flex items-center justify-between">
+    <div className="px-4 py-2 flex items-center justify-between select-none">
       <div className="flex items-center py-2 gap-2">
         <div className="flex items-center">
         <img src={LikeIcon} alt="like" className="w-5 cursor-pointer" />
