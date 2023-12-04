@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom';
 import {
     Card,
     CardContent,
@@ -12,7 +12,7 @@ import {
   interface Props {
     title: string;
     title2: string;
-    type: 'REGISTER';
+    type: 'REGISTER' | 'LOGIN' | 'FORGOT';
     children: React.ReactNode
   }
 
@@ -27,7 +27,9 @@ const CommonCard:React.FC<Props> = ({title,title2,type,children}) => {
           {children}
         </CardContent>
         <CardFooter className='justify-center'>
-          {type === 'REGISTER' && <p>I’m already member? <span className='underline'>Login</span></p>}
+          {type === 'REGISTER' && <p>Have an account? <Link to='/login' className='underline cursor-pointer hover:text-green-400 text-green-500 transition-all'>Login</Link></p>}
+          {type === 'LOGIN' && <p>Don&apos;t have an account? <Link to='/register' className='underline cursor-pointer hover:text-green-400 text-green-500 transition-all'>Register</Link></p>}
+          {type === 'FORGOT' && <p>Have an account? <Link to='/login' className='underline cursor-pointer hover:text-green-400 text-green-500 transition-all'>Login</Link></p>}
         </CardFooter>
       </Card>
   )
