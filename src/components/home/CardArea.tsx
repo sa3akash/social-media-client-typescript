@@ -6,9 +6,9 @@ import SujestedPage from "@/components/card/SujestedPage";
 
 const CardArea = () => {
   return (
-    <div className="hidden 2xl:flex flex-col max-w-[340px] w-[95%] mt-6 ">
+    <div className="hidden 2xl:flex flex-col max-w-[340px] w-[95%]">
       <ScrollArea className="h-[95%] w-full">
-        <div className="flex flex-col gap-4 mb-12">
+        <div className="flex flex-col gap-4 mb-12 mt-6">
           <StoryCard />
           <EventsCard />
           <SujestedFriends />
