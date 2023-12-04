@@ -64,9 +64,8 @@ const Login = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-left">Password</FormLabel>
-
                   <FormControl>
-                    <Input placeholder="password min 6 characters" {...field} />
+                    <Input placeholder="password min 6 characters" {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

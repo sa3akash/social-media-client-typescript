@@ -26,7 +26,7 @@ const CommonAlert: React.FC<Props> = ({ type, message }) => {
         </Alert>
       )}
       {type === "success" && (
-        <Alert variant="default">
+        <Alert variant="default" >
           <MailCheck className="h-4 w-4" />
           <AlertTitle>Email send successfull!</AlertTitle>
           <AlertDescription>{message || 'Please check your inbox to confirm your Account.'}</AlertDescription>

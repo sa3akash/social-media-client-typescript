@@ -21,7 +21,7 @@ const Reset = () => {
   const form = useForm<z.infer<typeof resetSchema>>({
     resolver: zodResolver(resetSchema),
     defaultValues: {
-        password: "",
+      password: "",
       confirmPassword: "",
     },
   });
@@ -49,7 +49,6 @@ const Reset = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-left">Password</FormLabel>
-
                   <FormControl>
                     <Input placeholder="password min 6 characters" {...field} />
                   </FormControl>
@@ -63,7 +62,6 @@ const Reset = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-left">Confirm Password</FormLabel>
-
                   <FormControl>
                     <Input placeholder="confirm your password" {...field} />
                   </FormControl>
