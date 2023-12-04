@@ -88,7 +88,7 @@
     @apply cursor-pointer filter brightness-75 hover:dark:brightness-150 hover:brightness-50  transition-all;
   }
   .reactText {
-    @apply roboto text-[14px] tracking-[0.1px] cursor-pointer flex items-center gap-1 hover:underline;
+    @apply roboto text-[14px] md:text-[15px] tracking-[0.1px] cursor-pointer flex items-center gap-1 hover:underline;
   }
 }
 
