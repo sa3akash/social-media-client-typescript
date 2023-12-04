@@ -34,7 +34,7 @@ export default SidebarLeft;
 const ViewItemWithScroll = () => {
   return (
     <ScrollArea className="h-full w-full rounded-md md:border-r">
-      <div className="md:mb-24 w-full">
+      <div className="w-full">
         <UserProfile />
         <div className="flex flex-col w-full gap-2 mb-4 lg:mb-0">
           {sidebarLeft.map((item, i) => (

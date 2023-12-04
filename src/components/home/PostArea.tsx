@@ -5,7 +5,7 @@ import AllPost from "@/components/post/AllPost";
 
 const PostArea = () => {
   return (
-    <div className="w-full md:max-w-[640px] md:w-[95%] mx-auto h-full">
+    <div className="w-full h-[calc(100%-80px)] md:max-w-[640px] md:w-[95%] mx-auto">
       <ScrollArea className="h-full w-full">
         <AddPost />
         <AddStory />
