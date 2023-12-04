@@ -4,6 +4,7 @@ import { lazy, Suspense } from "react";
 import LoginSkeleton from "@/pages/skeleton/LoginSkeleton";
 import RegisterSkeleton from "@/pages/skeleton/RegisterSkeleton";
 import ForgotSkeleton from "@/pages/skeleton/ForgotSkeleton";
+import HomeSkeleton from "@/components/home/skeleton/HomeSkeleton";
 
 // lazy loading
 const Home = lazy(() => import("@/pages/Home"));
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={"Loading"}>
+      <Suspense fallback={<HomeSkeleton />}>
         <Home />
       </Suspense>
     ),
