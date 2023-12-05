@@ -7,7 +7,7 @@ const PhotoAndVideo = () => {
   return (
     <div className="cardBG rounded-lg relative w-full">
       <div className="flex items-center justify-between px-4 py-4 ">
-        <h3 className="text-[14px] tracking-[0.1px]">Suggested Pages</h3>
+        <h3 className="text-[14px] tracking-[0.1px]">Photos and Videos</h3>
         <Link
           to="/"
           className="font-semibold text-[14px] uppercase cursor-pointer select-none"

@@ -7,6 +7,7 @@ import Friends from "@/assets/images/ic_Friends_Request.svg";
 import Notification from "@/assets/images/Notification.svg";
 import { cn } from "@/lib/utils";
 import Image from "@/components/common/Image";
+import { PageURL } from "@/utils/pageUrl";
 // import ChatOff from '@/assets/images/ic_Chat_off.svg'
 // import Notification_off from '@/assets/images/ic_Notification_off.svg'
 
@@ -18,7 +19,7 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
       <div className="flex items-center gap-6 lg:gap-24 flex-1">
-        <Link to="/" className="hidden md:block">
+        <Link to={PageURL.Feed} className="hidden md:block">
           <img
             src={Logo}
             alt="Logo"

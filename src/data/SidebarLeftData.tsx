@@ -5,48 +5,57 @@ import Videos from '@/assets/images/videos.svg'
 import Images from '@/assets/images/images.svg'
 import Files from '@/assets/images/files.svg'
 import MarketPlace from '@/assets/images/marketPlase.svg'
+import { PageURL } from '@/utils/pageUrl'
 
 export interface LeftSidebarDoc {
     _id: number;
     imageUrl: string;
     name: string;
+    link: string;
 }
 
 export const sidebarLeft:LeftSidebarDoc[] = [
     {
         _id: 1,
         imageUrl: Feed,
-        name: 'Feed'
+        name: 'Feed',
+        link: PageURL.Feed
     },
     {
         _id: 1,
         imageUrl: Friends,
-        name: 'Friends'
+        name: 'Friends',
+        link: PageURL.Friends
     },
     {
         _id: 1,
         imageUrl: Events,
-        name: 'Events'
+        name: 'Events',
+        link: PageURL.Events
     },
     {
         _id: 1,
         imageUrl: Videos,
-        name: 'WatchVideos'
+        name: 'WatchVideos',
+        link: PageURL.WatchVideos
     },
     {
         _id: 1,
         imageUrl: Images,
-        name: 'Photos'
+        name: 'Photos',
+        link: PageURL.Photos
     },
     {
         _id: 1,
         imageUrl: Files,
-        name: 'Files'
+        name: 'Files',
+        link: PageURL.Files
     },
     {
         _id: 1,
         imageUrl: MarketPlace,
-        name: 'Marketplace'
+        name: 'Marketplace',
+        link: PageURL.Marketplace
     },
 ];
 

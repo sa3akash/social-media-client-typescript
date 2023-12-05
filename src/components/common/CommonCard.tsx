@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PageURL } from "@/utils/pageUrl";
 
 interface Props {
   title: string;
@@ -29,7 +30,7 @@ const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
           <p>
             Have an account?
             <Link
-              to="/login"
+              to={PageURL.Login}
               className="underline cursor-pointer hover:text-green-400 text-green-500 transition-all"
             >
               Login
@@ -40,7 +41,7 @@ const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
           <p>
             Don&apos;t have an account?
             <Link
-              to="/register"
+              to={PageURL.Register}
               className="underline cursor-pointer hover:text-green-400 text-green-500 transition-all"
             >
               Register
@@ -51,7 +52,7 @@ const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
           <p>
             Have an account?
             <Link
-              to="/login"
+              to={PageURL.Login}
               className="underline cursor-pointer hover:text-green-400 text-green-500 transition-all"
             >
               Login

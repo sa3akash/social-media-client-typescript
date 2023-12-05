@@ -1,4 +1,5 @@
 import Image from "@/components/common/Image";
+import { PageURL } from "@/utils/pageUrl";
 import { Link } from "react-router-dom";
 
 const profileImage =
@@ -6,7 +7,7 @@ const profileImage =
 
 const UserProfile = () => {
   return (
-    <Link to="/profile/123" className="hidden md:block lg:mt-2 lg:mb-2 lg:px-4 pt-4 pb-4">
+    <Link to={`${PageURL.Profile}/123`} className="hidden md:block lg:mt-2 lg:mb-2 lg:px-4 pt-4 pb-4">
       <div className="dark:bg-[#292932] lg:borderWrapper py-3 px-4 lg:rounded-xl flex items-center lg:gap-2 select-none cursor-pointer">
         <div className="w-10 h-10 rounded-full overflow-hidden">
           <Image src={profileImage}/>

@@ -9,10 +9,10 @@ interface Props {
 }
 
 export const SingleLeftItem: React.FC<Props> = ({ item, pathname }) => {
-  const active = pathname === item.name.toLowerCase();
+  const active = pathname === item.link;
   return (
     <Link
-      to={item.name.toLowerCase()}
+      to={item.link}
       className={cn(
         "flex items-center w-full justify-center lg:justify-start h-12 md:h-14 pl-0 lg:pl-6 md:gap-3 relative cursor-pointer",
         active && "bg-muted md:bg-transparent rounded-md"

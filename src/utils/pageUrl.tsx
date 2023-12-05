@@ -1,0 +1,16 @@
+export const PageURL = {
+  Login: "login",
+  Register: "register",
+  Forgot: "forgot",
+  Reset: "reset",
+  Feed: "feed",
+  Friends: "friends",
+  Events: "events",
+  WatchVideos: "watch-videos",
+  Photos: "photos",
+  FRIENDS: "friends",
+  Files: "files",
+  Marketplace: "marketplace",
+  Profile: "u",
+  NotFound: "*",
+};

@@ -18,6 +18,7 @@ import { loginSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { PageURL } from "@/utils/pageUrl";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -65,7 +66,11 @@ const Login = () => {
                 <FormItem>
                   <FormLabel className="text-left">Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="password min 6 characters" {...field} type="password" />
+                    <Input
+                      placeholder="password min 6 characters"
+                      {...field}
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -91,7 +96,7 @@ const Login = () => {
                 )}
               />
               <Link
-                to="/forgot"
+                to={PageURL.Forgot}
                 className="hover:underline text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Forgot Password?

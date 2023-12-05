@@ -3,9 +3,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import HomeSkeleton from "@/components/home/skeleton/HomeSkeleton";
 import CommonCardSkeleton from "@/components/common/skeleton/CommonCardSkeleton";
-import Profile from "@/pages/Profile";
 import LayoutSkeleton from "@/pages/skeleton/LayoutSkeleton";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
+import { PageURL } from "@/utils/pageUrl";
 
 // lazy loading
 const Layout = lazy(() => import("@/pages/Layout"));
@@ -14,6 +14,14 @@ const Login = lazy(() => import("@/pages/auth/Login"));
 const Register = lazy(() => import("@/pages/auth/Register"));
 const Reset = lazy(() => import("@/pages/auth/tabs/Reset"));
 const Forgot = lazy(() => import("@/pages/auth/tabs/Forgot"));
+const Friends = lazy(() => import("@/pages/Friends"));
+const Profile = lazy(() => import("@/pages/Profile"));
+const NotFound = lazy(() => import("@/pages/404"));
+const Evants = lazy(() => import("@/pages/Evants"));
+const Videos = lazy(() => import("@/pages/Videos"));
+const Photos = lazy(() => import("@/pages/Photos"));
+const Files = lazy(() => import("@/pages/Files"));
+const MarketPlace = lazy(() => import("@/pages/MarketPlace"));
 
 const router = createBrowserRouter([
   {
@@ -25,7 +33,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/feed",
+        path: PageURL.Feed,
         element: (
           <Suspense fallback={<HomeSkeleton />}>
             <Home />
@@ -33,7 +41,55 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "profile/:id",
+        path: PageURL.Friends,
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <Friends />
+          </Suspense>
+        ),
+      },
+      {
+        path: PageURL.Events,
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <Evants />
+          </Suspense>
+        ),
+      },
+      {
+        path: PageURL.WatchVideos,
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <Videos />
+          </Suspense>
+        ),
+      },
+      {
+        path: PageURL.Photos,
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <Photos />
+          </Suspense>
+        ),
+      },
+      {
+        path: PageURL.Files,
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <Files />
+          </Suspense>
+        ),
+      },
+      {
+        path: PageURL.Marketplace,
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <MarketPlace />
+          </Suspense>
+        ),
+      },
+      {
+        path: `${PageURL.Profile}/:authId`,
         element: (
           <Suspense fallback={<ProfileSkeleton />}>
             <Profile />
@@ -43,7 +99,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "login",
+    path: PageURL.Login,
     element: (
       <Suspense fallback={<CommonCardSkeleton className="h-[444px]" />}>
         <Login />
@@ -51,7 +107,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "register",
+    path: PageURL.Register,
     element: (
       <Suspense fallback={<CommonCardSkeleton className="h-[588px]" />}>
         <Register />
@@ -59,7 +115,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "forgot",
+    path: PageURL.Forgot,
     element: (
       <Suspense fallback={<CommonCardSkeleton className="h-[390px]" />}>
         <Forgot />
@@ -67,10 +123,18 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "reset",
+    path: PageURL.Reset,
     element: (
       <Suspense fallback={<CommonCardSkeleton className="h-[388px]" />}>
         <Reset />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.NotFound,
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <NotFound />
       </Suspense>
     ),
   },
