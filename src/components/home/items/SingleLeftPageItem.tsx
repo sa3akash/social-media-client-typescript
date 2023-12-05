@@ -11,7 +11,7 @@ const SingleLeftPageItem: React.FC<Props> = ({ item }) => {
 
   return (
     <div
-      className="flex items-center w-full h-14 pl-0 justify-center lg:justify-start lg:pl-6 gap-3 relative cursor-pointer"
+      className="flex items-center w-full h-14 pl-0 justify-center lg:justify-start lg:pl-6 gap-3 relative cursor-pointer select-none"
       onClick={() => setSearchParams({ page: `${item._id}` })}
     >
       {item?.imageUrl?.length ? (

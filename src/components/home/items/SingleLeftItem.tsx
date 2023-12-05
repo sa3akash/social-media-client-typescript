@@ -14,7 +14,7 @@ export const SingleLeftItem: React.FC<Props> = ({ item, pathname }) => {
     <Link
       to={item.link}
       className={cn(
-        "flex items-center w-full justify-center lg:justify-start h-12 md:h-14 pl-0 lg:pl-6 md:gap-3 relative cursor-pointer",
+        "flex items-center w-full justify-center lg:justify-start h-12 md:h-14 pl-0 lg:pl-6 md:gap-3 relative cursor-pointer select-none",
         active && "bg-muted md:bg-transparent rounded-md"
       )}
     >
