@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import HomeSkeleton from "@/components/home/skeleton/HomeSkeleton";
 import CommonCardSkeleton from "@/components/common/skeleton/CommonCardSkeleton";
+import Profile from "@/pages/Profile";
 
 // lazy loading
 const Home = lazy(() => import("@/pages/Home"));
@@ -17,6 +18,14 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<HomeSkeleton />}>
         <Home />
+      </Suspense>
+    ),
+  },
+  {
+    path: "profile/:id",
+    element: (
+      <Suspense fallback={'Loading...'}>
+        <Profile />
       </Suspense>
     ),
   },
