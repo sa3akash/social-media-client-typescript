@@ -4,7 +4,7 @@ import ProfilePrograce from "@/components/card/ProfilePrograce";
 
 const CardAreaProfile = () => {
   return (
-    <div className="hidden 2xl:flex flex-col max-w-[340px] w-full">
+    <div className="flex flex-col 2xl:max-w-[340px] w-full">
         <div className="flex flex-col gap-4 mt-6">
           <ProfilePrograce />
           <AboutMeCard />

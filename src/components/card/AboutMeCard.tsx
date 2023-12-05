@@ -35,7 +35,7 @@ const AboutMeCard = () => {
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full gap-4">
-        <div className="flex flex-col justify-start cursor-pointer w-full gap-4">
+        <div className="flex flex-col justify-start cursor-pointer w-full gap-8 2xl:gap-4">
           <SingleItem icon={LocationIcon} text="Yogyakarta, ID" />
           <SingleItem icon={WebsiteIcon} text="dribbble.com/fawait" />
           <SingleItem icon={DateIcon} text="Joined June 2012" />

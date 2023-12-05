@@ -7,9 +7,9 @@ const Profile = () => {
   return (
     <div className="max-w-[1000px] h-full w-full">
       <ScrollArea className="h-[95%] w-full">
-        <div className="h-[calc(100%-224px)] w-full">
+        <div className="h-[calc(100%-224px)] w-full md:w-[95%] md:mx-auto mt-0 md:mt-6">
           <ProfileBar />
-          <div className="flex gap-8 w-full h-full mt-2 md:mt-0">
+          <div className="flex flex-col 2xl:flex-row gap-8 w-full h-full">
             <CardAreaProfile />
             <ProfilePost />
           </div>
