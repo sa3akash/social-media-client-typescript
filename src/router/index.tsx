@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/",
+        path: "/feed",
         element: (
           <Suspense fallback={<HomeSkeleton />}>
             <Home />

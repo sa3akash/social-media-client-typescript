@@ -4,21 +4,26 @@ import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
 import ScheduleIcon from "@/assets/images/ic_Schedule.svg";
 import BirthDayIcon from "@/assets/images/ic_Birthday.svg";
-import CardHeader from "@/components/card/item/CardHeader";
+import { cn } from "@/lib/utils";
 
 const EventsCard = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
   return (
     <div className="cardBG rounded-lg relative w-full">
-      <CardHeader
-        type="dot"
-        icon={MoreDot}
-        text="Events"
-        ref={docRef}
-        openModel={openModel}
-        setOpenModel={setOpenModel}
-      />
+      <div className="flex items-center justify-between px-4 py-4 ">
+        <h3 className="text-[14px] tracking-[0.1px]">Events</h3>
+        <div
+          className={cn(
+            "w-7 h-4 rounded-full grid place-items-center cursor-pointer select-none",
+            openModel && "borderColor"
+          )}
+          onClick={() => setOpenModel!((prev) => !prev)}
+          ref={docRef}
+        >
+          <img src={MoreDot} alt="dot" />
+        </div>
+      </div>
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full gap-4">

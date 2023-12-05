@@ -3,17 +3,20 @@ import Image from "@/components/common/Image";
 import { cn } from "@/lib/utils";
 import { userData } from "@/data/AddStoryData";
 import LikeThumbIcon from "@/assets/images/ic_Like_Thumb.svg";
-import CardHeader from "@/components/card/item/CardHeader";
+import { Link } from "react-router-dom";
 
 const SujestedPage = () => {
   return (
     <div className="cardBG rounded-lg relative w-full">
-      <CardHeader
-        type="link"
-        text="Suggested Pages"
-        linkText="See All"
-        link="/"
-      />
+      <div className="flex items-center justify-between px-4 py-4 ">
+        <h3 className="text-[14px] tracking-[0.1px]">Suggested Pages</h3>
+        <Link
+          to="/"
+          className="font-semibold text-[14px] uppercase cursor-pointer select-none"
+        >
+          See All
+        </Link>
+      </div>
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full gap-4">

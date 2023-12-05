@@ -1,29 +1,19 @@
 import UserProfile from "./items/UserProfile";
 import { sidebarLeft, sidebarLeftPage } from "@/data/SidebarLeftData";
-import { SingleLeftItem, SingleLeftPageItem } from "./items/SingleLeftItem";
+import { SingleLeftItem } from "./items/SingleLeftItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
-// import { useEffect } from "react";
-// import { useSearchParams } from "react-router-dom";
+import SingleLeftPageItem from "./items/SingleLeftPageItem";
+import { useLocation } from "react-router-dom";
 
 const SidebarLeft = () => {
-  // let [searchParams, setSearchParams] = useSearchParams();
-
-  // useEffect(() => {
-
-  //   const navItem = [...sidebarLeft,...sidebarLeftPage]
-
-  //   if (!searchParams.get("feed") || !navItem.some((i) => i.name === searchParams.get("feed"))) {
-  //     setSearchParams({ feed: sidebarLeft[0].name });
-  //   }
-  // }, [searchParams.get("feed")]);
-
+  const pathname = useLocation().pathname.split("/")[1];
   return (
     <>
       <div className="h-full hidden md:block">
-        <ViewItemWithScroll />
+        <ViewItemWithScroll pathname={pathname} />
       </div>
       <div className="h-full flex items-center md:hidden px-2">
-        <ViewItem />
+        <ViewItem pathname={pathname} />
       </div>
     </>
   );
@@ -31,14 +21,14 @@ const SidebarLeft = () => {
 
 export default SidebarLeft;
 
-const ViewItemWithScroll = () => {
+const ViewItemWithScroll = ({ pathname }: { pathname: string }) => {
   return (
     <ScrollArea className="h-full w-full rounded-md md:border-r">
       <div className="w-full">
         <UserProfile />
         <div className="flex flex-col w-full gap-2 mb-4 lg:mb-0">
           {sidebarLeft.map((item, i) => (
-            <SingleLeftItem key={i} item={item} />
+            <SingleLeftItem key={i} item={item} pathname={pathname} />
           ))}
         </div>
         <div className="flex w-full pt-4 lg:pt-0 border-t lg:border-none flex-col gap-2">
@@ -54,13 +44,13 @@ const ViewItemWithScroll = () => {
   );
 };
 
-const ViewItem = () => {
+const ViewItem = ({ pathname }: { pathname: string }) => {
   return (
     <>
       <UserProfile />
       <div className="flex flex-row md:flex-col gap-2 w-full">
         {sidebarLeft.map((item, i) => (
-          <SingleLeftItem key={i} item={item} />
+          <SingleLeftItem key={i} item={item} pathname={pathname} />
         ))}
       </div>
     </>

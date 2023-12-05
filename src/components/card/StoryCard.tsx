@@ -4,8 +4,8 @@ import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
 import { userData } from "@/data/AddStoryData";
 import { Plus } from "lucide-react";
-import CardHeader from "@/components/card/item/CardHeader";
 import SingleStoryItem from "@/components/card/item/SingleStoryItem";
+import { cn } from "@/lib/utils";
 
 const StoryCard = () => {
   const docRef = useRef(null);
@@ -13,14 +13,19 @@ const StoryCard = () => {
 
   return (
     <div className="cardBG rounded-lg relative w-full">
-      <CardHeader
-        type="dot"
-        icon={MoreDot}
-        text="Stories"
-        ref={docRef}
-        openModel={openModel}
-        setOpenModel={setOpenModel}
-      />
+      <div className="flex items-center justify-between px-4 py-4 ">
+        <h3 className="text-[14px] tracking-[0.1px]">Stories</h3>
+        <div
+          className={cn(
+            "w-7 h-4 rounded-full grid place-items-center cursor-pointer select-none",
+            openModel && "borderColor"
+          )}
+          onClick={() => setOpenModel!((prev) => !prev)}
+          ref={docRef}
+        >
+          <img src={MoreDot} alt="dot" />
+        </div>
+      </div>
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full items-center gap-4">

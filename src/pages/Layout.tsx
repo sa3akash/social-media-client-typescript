@@ -1,10 +1,18 @@
 import Navbar from "@/components/common/Navbar";
 import SidebarLeft from "@/components/home/SidebarLeft";
 import RightSide from "@/components/home/RightSide";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Layout = () => {
+  const pathname = useLocation().pathname.split("/")[1];
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!pathname) {
+      navigate("/feed");
+    }
+  }, [navigate, pathname]);
 
   return (
     <div className="h-full">

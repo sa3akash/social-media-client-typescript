@@ -1,17 +1,21 @@
 import { Separator } from "@/components/ui/separator";
 import { profileImage } from "@/data/ProfileImageGalary";
 import Image from "@/components/common/Image";
-import CardHeader from "@/components/card/item/CardHeader";
+import { Link } from "react-router-dom";
 
 const PhotoAndVideo = () => {
   return (
     <div className="cardBG rounded-lg relative w-full">
-       <CardHeader
-        type="link"
-        text="Suggested Pages"
-        linkText="See All"
-        link="/"
-      />
+      <div className="flex items-center justify-between px-4 py-4 ">
+        <h3 className="text-[14px] tracking-[0.1px]">Suggested Pages</h3>
+        <Link
+          to="/"
+          className="font-semibold text-[14px] uppercase cursor-pointer select-none"
+        >
+          See All
+        </Link>
+      </div>
+
       <Separator />
       <div className="px-4 py-4 flex-col w-full grid grid-cols-3 grid-rows-3 gap-2">
         {profileImage.slice(0, 9).map((image, index) => (

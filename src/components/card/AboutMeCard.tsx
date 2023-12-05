@@ -7,7 +7,7 @@ import WebsiteIcon from "@/assets/images/ic_website.svg";
 import DateIcon from "@/assets/images/ic_date.svg";
 import WorkingIcon from "@/assets/images/ic_Working.svg";
 import RelationShipIcon from "@/assets/images/ic_relationship.svg";
-import CardHeader from "@/components/card/item/CardHeader";
+import { cn } from "@/lib/utils";
 
 const AboutMeCard = () => {
   const docRef = useRef(null);
@@ -15,14 +15,19 @@ const AboutMeCard = () => {
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
   return (
     <div className="cardBG rounded-lg relative w-full">
-      <CardHeader
-        type="dot"
-        icon={MoreDot}
-        text="About us"
-        ref={docRef}
-        openModel={openModel}
-        setOpenModel={setOpenModel}
-      />
+      <div className="flex items-center justify-between px-4 py-4 ">
+        <h3 className="text-[14px] tracking-[0.1px]">About us</h3>
+        <div
+          className={cn(
+            "w-7 h-4 rounded-full grid place-items-center cursor-pointer select-none",
+            openModel && "borderColor"
+          )}
+          onClick={() => setOpenModel!((prev) => !prev)}
+          ref={docRef}
+        >
+          <img src={MoreDot} alt="dot" />
+        </div>
+      </div>
       <Separator />
       <div className="px-4 py-4 w-full roboto text-[14px] tracking-[0.1px]">
         “Pushing pixels and experiences in digital products for Sebostudio”
