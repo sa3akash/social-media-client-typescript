@@ -21,6 +21,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "file-saver": "^2.0.5",
     "lucide-react": "^0.294.0",
     "millify": "^6.1.0",
     "react": "^18.2.0",
@@ -32,6 +33,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^20.10.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
