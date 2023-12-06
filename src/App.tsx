@@ -3,17 +3,18 @@ import AppProvider from "@/AppProvider";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import { store } from "@/store";
+import { AuthProvider } from "@/context/authContext";
 
 const queryClient = new QueryClient();
 
-
 function App() {
-
   return (
     <div className="dark bg-background text-foreground h-full">
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <AppProvider />
+          <AuthProvider>
+            <AppProvider />
+          </AuthProvider>
         </Provider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

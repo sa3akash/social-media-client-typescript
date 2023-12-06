@@ -20,20 +20,37 @@ import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/services/utils/pageUrl";
 import CommonAlert from "@/components/common/CommonAlert";
+import { useMutation } from "react-query";
+import { loginFn } from "@/services/http";
+import { ILogin, IUserDoc } from "@/interfaces/auth.interface";
+import { AxiosError } from "axios";
+import { axiosError } from "@/services/utils/serializeError";
+import useAuth from "@/hooks/useAuth";
 
 const Login = () => {
+  const { login } = useAuth();
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
+      check: false,
     },
   });
 
-  const onLogin = async (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+  const mutation = useMutation((data: ILogin) => loginFn(data), {
+    onSuccess: ({ data }) => {
+      console.log(form.getValues());
+      console.log(data);
+      login(data.user as IUserDoc);
+      form.reset();
+    },
+  });
+
+  const onLogin = (values: z.infer<typeof loginSchema>) => {
+    mutation.mutate({ email: values.email, password: values.password });
   };
-  const isLoading = form.formState.isSubmitting;
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
@@ -83,7 +100,7 @@ const Login = () => {
                 control={form.control}
                 name="check"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md pt-2 pb-4">
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md pt-2 pb-4 select-none">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -104,8 +121,12 @@ const Login = () => {
               </Link>
             </div>
 
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? (
+            <Button
+              type="submit"
+              disabled={mutation.isLoading}
+              className="w-full"
+            >
+              {mutation.isLoading ? (
                 <span className="flex text-center gap-2">
                   Login...
                   <Loader2 className="animate-spin" size={20} />
@@ -114,7 +135,12 @@ const Login = () => {
                 "Login"
               )}
             </Button>
-            <CommonAlert type="error" message="Creadential in wrong!"/>
+            {mutation.isError && (
+              <CommonAlert
+                type="error"
+                message={axiosError(mutation.error as AxiosError).message}
+              />
+            )}
           </form>
         </Form>
       </CommonCard>

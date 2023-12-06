@@ -1,0 +1,84 @@
+import { Suspense, lazy } from "react";
+import { PageURL } from "@/services/utils/pageUrl";
+import HomeSkeleton from "@/components/home/skeleton/HomeSkeleton";
+import PhotoSkeleton from "@/components/photos/Skeleton/PhotoSkeleton";
+import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
+
+// lazy loading
+const Home = lazy(() => import("@/pages/Home"));
+const Friends = lazy(() => import("@/pages/Friends"));
+const Profile = lazy(() => import("@/pages/Profile"));
+const Evants = lazy(() => import("@/pages/Evants"));
+const Videos = lazy(() => import("@/pages/Videos"));
+const Photos = lazy(() => import("@/pages/Photos"));
+const Files = lazy(() => import("@/pages/Files"));
+const MarketPlace = lazy(() => import("@/pages/MarketPlace"));
+
+const Protected = [
+  {
+    path: PageURL.Feed,
+    element: (
+      <Suspense fallback={<HomeSkeleton />}>
+        <Home />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.Friends,
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <Friends />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.Events,
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <Evants />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.WatchVideos,
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <Videos />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.Photos,
+    element: (
+      <Suspense fallback={<PhotoSkeleton />}>
+        <Photos />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.Files,
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <Files />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.Marketplace,
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <MarketPlace />
+      </Suspense>
+    ),
+  },
+  {
+    path: `${PageURL.Profile}/:authId`,
+    element: (
+      <Suspense fallback={<ProfileSkeleton />}>
+        <Profile />
+      </Suspense>
+    ),
+  },
+];
+
+export default Protected;
