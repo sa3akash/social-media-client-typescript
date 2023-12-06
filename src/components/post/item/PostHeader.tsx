@@ -11,7 +11,7 @@ interface Props {
     createAt: string | Date
 }
 
-const PostHeader:React.FC<Props> = ({user,createAt}) => {
+const PostHeader:React.FC<Props> = ({user}) => {
 
     const docRef = useRef(null);
     const [openModel,setOpenModel] = useDetectOutsideClick(docRef,false);

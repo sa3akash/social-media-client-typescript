@@ -19,7 +19,7 @@ const AddPost = () => {
           <div className="w-10 h-10 rounded-full overflow-hidden">
             <Image src={profileImage} />
           </div>
-          <div className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer">
+          <div className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer select-none">
             <span className="text-[#696974] flex-1 tracking-[0.1px] text-[16px] cursor-text">
               What&apos;s on your mind?
             </span>
