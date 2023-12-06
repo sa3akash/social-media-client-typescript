@@ -1,7 +1,9 @@
+import { config } from "@/config";
+import { ILogin } from "@/interfaces/auth.interface";
 import axios, { AxiosInstance } from "axios";
 
 const api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:5500/api/v1",
+  baseURL: config.apiUrl,
   withCredentials: true,
   headers: {
     "Content-type": "application/json",
@@ -10,7 +12,7 @@ const api: AxiosInstance = axios.create({
 });
 
 // List of all the endpoints
-// export const sendOtp = (data) => api.post("/api/send-otp", data);
+export const loginFn = (data:ILogin) => api.post("/signin", data);
 // export const verifyOtp = (data) => api.post("/api/verify-otp", data);
 // export const activate = (data) => api.post("/api/activate", data);
 // export const logout = () => api.post("/api/logout");

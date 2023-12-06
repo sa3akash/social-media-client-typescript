@@ -6,7 +6,9 @@ import { store } from "@/store";
 
 const queryClient = new QueryClient();
 
+
 function App() {
+
   return (
     <div className="dark bg-background text-foreground h-full">
       <QueryClientProvider client={queryClient}>
