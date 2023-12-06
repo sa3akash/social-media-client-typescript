@@ -5,7 +5,7 @@ import Videos from '@/assets/images/videos.svg'
 import Images from '@/assets/images/images.svg'
 import Files from '@/assets/images/files.svg'
 import MarketPlace from '@/assets/images/marketPlase.svg'
-import { PageURL } from '@/utils/pageUrl'
+import { PageURL } from '@/services/utils/pageUrl'
 
 export interface LeftSidebarDoc {
     _id: number;

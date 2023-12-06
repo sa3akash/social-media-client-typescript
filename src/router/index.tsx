@@ -5,7 +5,7 @@ import HomeSkeleton from "@/components/home/skeleton/HomeSkeleton";
 import CommonCardSkeleton from "@/components/common/skeleton/CommonCardSkeleton";
 import LayoutSkeleton from "@/pages/skeleton/LayoutSkeleton";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
-import { PageURL } from "@/utils/pageUrl";
+import { PageURL } from "@/services/utils/pageUrl";
 import PhotoSkeleton from "@/components/photos/Skeleton/PhotoSkeleton";
 
 // lazy loading

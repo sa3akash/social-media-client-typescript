@@ -1,5 +1,5 @@
 import UserAvater from "@/components/common/UserAvater";
-import { PageURL } from "@/utils/pageUrl";
+import { PageURL } from "@/services/utils/pageUrl";
 import { Link } from "react-router-dom";
 
 const profileImage =

@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PageURL } from "@/utils/pageUrl";
+import { PageURL } from "@/services/utils/pageUrl";
 
 interface Props {
   title: string;

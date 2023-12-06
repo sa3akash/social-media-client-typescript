@@ -6,7 +6,7 @@ import Dropdown from "@/assets/images/ic_Dropdown.svg";
 import Friends from "@/assets/images/ic_Friends_Request.svg";
 import Notification from "@/assets/images/Notification.svg";
 import { cn } from "@/lib/utils";
-import { PageURL } from "@/utils/pageUrl";
+import { PageURL } from "@/services/utils/pageUrl";
 import UserAvater from "@/components/common/UserAvater";
 // import ChatOff from '@/assets/images/ic_Chat_off.svg'
 // import Notification_off from '@/assets/images/ic_Notification_off.svg'

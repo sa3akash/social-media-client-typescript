@@ -18,7 +18,7 @@ import { loginSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { PageURL } from "@/utils/pageUrl";
+import { PageURL } from "@/services/utils/pageUrl";
 import CommonAlert from "@/components/common/CommonAlert";
 
 const Login = () => {
