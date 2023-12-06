@@ -6,6 +6,7 @@ import CommonCardSkeleton from "@/components/common/skeleton/CommonCardSkeleton"
 import LayoutSkeleton from "@/pages/skeleton/LayoutSkeleton";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import { PageURL } from "@/utils/pageUrl";
+import PhotoSkeleton from "@/components/photos/Skeleton/PhotoSkeleton";
 
 // lazy loading
 const Layout = lazy(() => import("@/pages/Layout"));
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
       {
         path: PageURL.Photos,
         element: (
-          <Suspense fallback={"Loading..."}>
+          <Suspense fallback={<PhotoSkeleton />}>
             <Photos />
           </Suspense>
         ),

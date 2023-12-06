@@ -19,6 +19,7 @@ import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/utils/pageUrl";
+import CommonAlert from "@/components/common/CommonAlert";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -113,6 +114,7 @@ const Login = () => {
                 "Login"
               )}
             </Button>
+            <CommonAlert type="error" message="Creadential in wrong!"/>
           </form>
         </Form>
       </CommonCard>

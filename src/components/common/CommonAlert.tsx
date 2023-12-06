@@ -12,10 +12,10 @@ const CommonAlert: React.FC<Props> = ({ type, message }) => {
   return (
     <>
       {type === "error" && (
-        <Alert variant="destructive">
+        <Alert variant="destructive" className="bg-rose-300">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Uh no! Something went wrong!</AlertTitle>
-          <AlertDescription>{message || 'Try again letter.'}</AlertDescription>
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{message || 'Something went wrong! Try again letter.'}</AlertDescription>
         </Alert>
       )}
       {type === "email" && (

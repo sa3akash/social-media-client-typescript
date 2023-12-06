@@ -8,7 +8,7 @@ import {
 
 const PhotosHeader = () => {
   return (
-    <div className=" flex items-start justify-between px-4">
+    <div className=" flex items-start justify-between px-4 md:px-0">
       <div className="flex items-center gap-4 ">
         <h2 className="hidden 2xl:block font-semibold text-[24px] leading-9 tracking-[0.1px]">
           Your Photos
@@ -19,7 +19,7 @@ const PhotosHeader = () => {
           </span>
           <div className="cursor-pointer select-none flex items-center gap-2">
             <Select>
-              <SelectTrigger className="w-[130px] sm:w-[180px] bg-none border-none roboto text-[18px] font-semibold tracking-[0.1px] text-[#B5B5BE] focus:outline-none focus:ring-0 focus:ring-offset-0">
+              <SelectTrigger className="w-[130px] sm:w-[180px] bg-none border-none roboto text-[16px] xl:text-[18px] font-semibold tracking-[0.1px] text-[#B5B5BE] focus:outline-none focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder="My Photos" />
               </SelectTrigger>
               <SelectContent>
@@ -31,14 +31,14 @@ const PhotosHeader = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="pr-3 xl:pr-0">
         <div className="cardBG flex items-center w-full h-full px-4 py-0 md:py-1 rounded-lg">
           <span className="hidden md:block roboto text-[18px] tracking-[0.1px] text-[#696974]">
             Sort by:
           </span>
           <div className="cursor-pointer select-none flex items-center">
             <Select>
-              <SelectTrigger className="w-[120px] sm:w-[150px] cardBG border-none roboto text-[18px] font-semibold tracking-[0.1px] text-[#B5B5BE] focus:outline-none focus:ring-0 focus:ring-offset-0">
+              <SelectTrigger className="w-[120px] sm:w-[150px] cardBG border-none roboto text-[16px] xl:text-[18px] font-semibold tracking-[0.1px] text-[#B5B5BE] focus:outline-none focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder="Newest Post" />
               </SelectTrigger>
               <SelectContent>
