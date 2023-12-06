@@ -1,4 +1,4 @@
-import Image from "@/components/common/Image";
+import UserAvater from "@/components/common/UserAvater";
 import { IUserDoc } from "@/data/AddStoryData";
 import React from "react";
 
@@ -11,9 +11,7 @@ const RightSidePageItem: React.FC<Props> = ({ item, active }) => {
   return (
     <div className="flex items-center justify-between gap-2 cursor-pointer select-none">
       <div className="flex items-center gap-4">
-        <div className="w-12 h-12 rounded-full overflow-hidden">
-          <Image src={item.profilePicture} />
-        </div>
+        <UserAvater src={item.profilePicture} name={item.name.first} />
         <h3 className="capitalize text-[14px] tracking-[0.2px]">{`${item.name.first} ${item.name.last}`}</h3>
       </div>
       <div>

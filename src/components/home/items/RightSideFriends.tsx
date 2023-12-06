@@ -3,13 +3,13 @@ import RightSidePageItem from "@/components/home/items/RightSidePageItem";
 import React from "react";
 
 interface Props {
-    title: string;
-    data: IUserDoc[];
-    type: 'page' | 'friends' | 'groups';
+  title: string;
+  data: IUserDoc[];
+  type: "page" | "friends" | "groups";
 }
 
-const RightSideFriends:React.FC<Props> = ({title,data,type}) => {
-    const end = type === 'page' ? 3 : type === 'groups' ? 5 : data.length ;
+const RightSideFriends: React.FC<Props> = ({ title, data, type }) => {
+  const end = type === "page" ? 3 : type === "groups" ? 5 : data.length;
   return (
     <div className="px-4 py-6">
       <h3 className="text-[#92929D] font-semibold text-[14px] tracking-[1px] uppercase">

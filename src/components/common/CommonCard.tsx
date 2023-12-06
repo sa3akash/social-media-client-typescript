@@ -27,7 +27,7 @@ const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
       <CardContent className="text-center">{children}</CardContent>
       <CardFooter className="justify-center">
         {type === "REGISTER" && (
-          <p>
+          <p className="flex items-center gap-1">
             Have an account?
             <Link
               to={PageURL.Login}
@@ -38,7 +38,7 @@ const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
           </p>
         )}
         {type === "LOGIN" && (
-          <p>
+          <p className="flex items-center gap-1">
             Don&apos;t have an account?
             <Link
               to={PageURL.Register}
@@ -49,7 +49,7 @@ const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
           </p>
         )}
         {type === "FORGOT" && (
-          <p>
+          <p className="flex items-center gap-1">
             Have an account?
             <Link
               to={PageURL.Login}

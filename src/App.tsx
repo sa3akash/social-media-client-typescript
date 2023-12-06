@@ -1,14 +1,20 @@
-import { RouterProvider } from "react-router-dom";
-import router from "@/router";
-import ModelProviders from "@/components/providers/ModelProviders";
+import { QueryClient, QueryClientProvider } from "react-query";
+import AppProvider from "@/AppProvider";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { Provider } from "react-redux";
+import { store } from "@/store";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="dark bg-background text-foreground h-full">
-      <div className="max-w-[2160px] mx-auto h-full w-full">
-        <RouterProvider router={router} />
-        <ModelProviders />
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <AppProvider />
+        </Provider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </div>
   );
 }

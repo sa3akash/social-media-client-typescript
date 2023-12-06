@@ -6,8 +6,8 @@ import Dropdown from "@/assets/images/ic_Dropdown.svg";
 import Friends from "@/assets/images/ic_Friends_Request.svg";
 import Notification from "@/assets/images/Notification.svg";
 import { cn } from "@/lib/utils";
-import Image from "@/components/common/Image";
 import { PageURL } from "@/utils/pageUrl";
+import UserAvater from "@/components/common/UserAvater";
 // import ChatOff from '@/assets/images/ic_Chat_off.svg'
 // import Notification_off from '@/assets/images/ic_Notification_off.svg'
 
@@ -28,7 +28,7 @@ const Navbar = () => {
         </Link>
         <div className="flex select-none h-10 max-w-[500px] w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
           <div className="block md:hidden w-8 h-8 object-cover rounded-full overflow-hidden">
-            <Image src={profileImage} />
+          <UserAvater src={profileImage} name="Shakil Ahmed" />
           </div>
           <input
             className="focus:outline-none bg-transparent flex-1"
@@ -65,9 +65,7 @@ const Navbar = () => {
           <img src={Notification} alt="Notification" />
         </div>
         <div className="hidden md:flex items-center gap-2 cursor-pointer">
-          <div className="w-9 h-9  rounded-full overflow-hidden">
-            <Image src={profileImage} />
-          </div>
+        <UserAvater src={profileImage} name="Shakil Ahmed" />
           <img src={Dropdown} alt="drop" />
         </div>
       </div>

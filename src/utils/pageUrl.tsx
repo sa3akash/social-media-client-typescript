@@ -1,8 +1,8 @@
 export const PageURL = {
-  Login: "login",
-  Register: "register",
-  Forgot: "forgot",
-  Reset: "reset",
+  Login: "/login",
+  Register: "/register",
+  Forgot: "/forgot",
+  Reset: "/reset",
   Feed: "feed",
   Friends: "friends",
   Events: "events",

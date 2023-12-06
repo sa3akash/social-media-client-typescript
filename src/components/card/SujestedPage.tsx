@@ -1,9 +1,9 @@
 import { Separator } from "@/components/ui/separator";
-import Image from "@/components/common/Image";
 import { cn } from "@/lib/utils";
 import { userData } from "@/data/AddStoryData";
 import LikeThumbIcon from "@/assets/images/ic_Like_Thumb.svg";
 import { Link } from "react-router-dom";
+import UserAvater from "@/components/common/UserAvater";
 
 const SujestedPage = () => {
   return (
@@ -27,7 +27,8 @@ const SujestedPage = () => {
               userData[0].avatarColor && `border-[${userData[0].avatarColor}]`
             )}
           >
-            <Image src={userData[0].profilePicture} />
+        <UserAvater src={userData[0].profilePicture} name={userData[0].name.first} className="w-full h-full md:w-full md:h-full" />
+            
           </div>
           <div className="flex flex-col">
             <span className="text-[14px] tracking-[0.1px] capitalize font-semibold">{`${userData[0].name.first} ${userData[0].name.last}`}</span>

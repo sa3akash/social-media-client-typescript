@@ -1,7 +1,7 @@
 // import React from "react";
 import { Separator } from "@/components/ui/separator";
 import PostImage from "@/assets/images/post_image.svg";
-import Image from "../common/Image";
+import UserAvater from "@/components/common/UserAvater";
 
 const profileImage =
   "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -16,9 +16,8 @@ const AddPost = () => {
 
       <div className="px-4 py-4 md:px-4 md:pb-3 md:pt-0 flex justify-between items-center">
         <div className="flex gap-4 w-full">
-          <div className="w-10 h-10 rounded-full overflow-hidden">
-            <Image src={profileImage} />
-          </div>
+        <UserAvater src={profileImage} name="Shakil Ahmed"/>
+
           <div className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer select-none">
             <span className="text-[#696974] flex-1 tracking-[0.1px] text-[16px] cursor-text">
               What&apos;s on your mind?
