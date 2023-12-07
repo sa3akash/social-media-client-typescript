@@ -1,6 +1,7 @@
 import { createContext, useMemo, ReactNode, useCallback } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { IUserDoc } from "@/interfaces/auth.interface";
+import { storeKey } from "@/services/utils/keys";
 
 export interface AuthContextType {
   user: IUserDoc | null;
@@ -13,7 +14,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useLocalStorage<IUserDoc | null>("user", null);
+  const [user, setUser] = useLocalStorage<IUserDoc | null>(storeKey.User, null);
 
 
   const login = useCallback(

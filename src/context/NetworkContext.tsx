@@ -5,13 +5,14 @@ export interface NetworkDoc {
   show: boolean;
 }
 
-
-export const NetworkContext = createContext<NetworkDoc>({network: true,show: false});
+export const NetworkContext = createContext<NetworkDoc>({
+  network: true,
+  show: false,
+});
 
 export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   const [network, setNetwork] = useState<boolean>(navigator.onLine);
   const [show, setShow] = useState<boolean>(false);
-
 
   setTimeout(() => {
     if (show) {
@@ -22,7 +23,7 @@ export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const online = () => {
       setNetwork(true);
-      setShow(true)
+      setShow(true);
     };
     const offline = () => {
       setNetwork(false);
@@ -37,7 +38,7 @@ export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <NetworkContext.Provider value={{network,show}}>
+    <NetworkContext.Provider value={{ network, show }}>
       {children}
     </NetworkContext.Provider>
   );

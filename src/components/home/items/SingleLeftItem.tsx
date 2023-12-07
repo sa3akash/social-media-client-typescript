@@ -23,7 +23,7 @@ export const SingleLeftItem: React.FC<Props> = ({ item, pathname }) => {
         alt={item.name}
         className={cn(
           "",
-          active && "filter brightness-50 dark:brightness-150 "
+          active && "filter brightness-50 dark:brightness-150"
         )}
       />
       <h3

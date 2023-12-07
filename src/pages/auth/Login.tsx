@@ -23,6 +23,7 @@ import { ILogin } from "@/interfaces/auth.interface";
 import { useToast } from "@/components/ui/use-toast";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import useAuth from "@/hooks/useAuth";
+import { storeKey } from "@/services/utils/keys";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -36,14 +37,12 @@ const Login = () => {
 
   const { login } = useAuth();
   const { toast } = useToast();
-  const [, setKeepLogin] = useLocalStorage("keepLoggedIn");
+  const [, setKeepLogin] = useLocalStorage(storeKey.KeepLogin);
 
   const mutation = useMutation((data: ILogin) => loginFn(data), {
     onSuccess: ({ data }) => {
       const value = form.getValues();
-      if (value.check) {
-        setKeepLogin(value.check);
-      }
+      setKeepLogin(value.check);
       login(data.user);
       form.reset();
     },

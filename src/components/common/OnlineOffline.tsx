@@ -1,6 +1,6 @@
 import useNetwork from "@/hooks/useNetwork";
 import { Wifi, WifiOff } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 const OnlineOffline = () => {
   const { network, show } = useNetwork();

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const useDetectOutsideClick = (
   ref: React.MutableRefObject<HTMLDivElement | null>,
-  initialState: boolean
+  initialState: boolean,
 ) => {
   const [isActive, setIsActive] = useState<boolean>(initialState);
 

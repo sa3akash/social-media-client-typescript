@@ -1,3 +1,4 @@
+import Image from "@/components/common/Image";
 import { PageSidebarDoc } from "@/data/SidebarLeftData";
 import { cn } from "@/lib/utils";
 import React from "react";
@@ -15,14 +16,15 @@ const SingleLeftPageItem: React.FC<Props> = ({ item }) => {
       onClick={() => setSearchParams({ page: `${item._id}` })}
     >
       {item?.imageUrl?.length ? (
-        <img
-          src={item.imageUrl}
-          alt={item.name}
-          className={cn(
-            "",
-            active && "filter brightness-50 dark:brightness-150 "
-          )}
-        />
+        <div className="w-9 h-9 rounded-lg overflow-hidden">
+          <Image
+            src={item.imageUrl}
+            className={cn(
+              "w-full h-full object-cover",
+              active && "filter brightness-50 dark:brightness-150"
+            )}
+          />
+        </div>
       ) : (
         <div className="w-9 h-9 overflow-hidden rounded-md bg-rose-400"></div>
       )}
