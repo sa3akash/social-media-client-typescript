@@ -12,11 +12,9 @@ const useDetectOutsideClick = (
         setIsActive(!isActive);
       }
     };
-
     if (isActive) {
       document.addEventListener("mousedown", onClick);
     }
-
     return () => {
       document.removeEventListener("mousedown", onClick);
     };

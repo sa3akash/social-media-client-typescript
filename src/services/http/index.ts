@@ -1,5 +1,5 @@
 import { config } from "@/config";
-import { ILogin } from "@/interfaces/auth.interface";
+import { IForgotPassword, ILogin, IRegister, IResetPassword } from "@/interfaces/auth.interface";
 import axios, { AxiosInstance } from "axios";
 
 const api: AxiosInstance = axios.create({
@@ -13,6 +13,9 @@ const api: AxiosInstance = axios.create({
 
 // List of all the endpoints
 export const loginFn = (data:ILogin) => api.post("/signin", data);
+export const registerFn = (data:IRegister) => api.post("/signup", data);
+export const forgotFn = (data:IForgotPassword) => api.post("/forgot-password", data);
+export const resetFn = (token:string,data:IResetPassword) => api.post(`/reset-password/${token}`, data);
 // export const verifyOtp = (data) => api.post("/api/verify-otp", data);
 // export const activate = (data) => api.post("/api/activate", data);
 // export const logout = () => api.post("/api/logout");

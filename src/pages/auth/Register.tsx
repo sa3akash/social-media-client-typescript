@@ -24,6 +24,11 @@ import { Input } from "@/components/ui/input";
 import { registerSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
+import { useMutation } from "react-query";
+import { IRegister } from "@/interfaces/auth.interface";
+import { registerFn } from "@/services/http";
+import useAuth from "@/hooks/useAuth";
+import { useToast } from "@/components/ui/use-toast";
 
 const Register = () => {
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -37,19 +42,36 @@ const Register = () => {
       check: false,
     },
   });
+  const { login } = useAuth();
+  const { toast } = useToast();
+
+  const mutation = useMutation((data: IRegister) => registerFn(data), {
+    onSuccess: ({ data }) => {
+      login(data.user);
+      form.reset();
+    },
+    onError: ({ response }) => {
+      mutation.reset();
+      toast({
+        variant: "destructive",
+        description: response.data.message || response.message,
+      });
+    },
+  });
 
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
-    console.log(values);
+    mutation.mutate({
+      firstname: values.firstname,
+      lastname: values.lastname,
+      email: values.email,
+      gender: values.gender,
+      password: values.password,
+    });
   };
-  const isLoading = form.formState.isSubmitting;
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
-      <CommonCard
-        title="Register"
-        title2="Create Your Account"
-        type="REGISTER"
-      >
+      <CommonCard title="Register" title2="Create Your Account" type="REGISTER">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onRegister)}
@@ -127,7 +149,6 @@ const Register = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-left">Password</FormLabel>
-
                   <FormControl>
                     <Input placeholder="password min 6 characters" {...field} />
                   </FormControl>
@@ -148,14 +169,21 @@ const Register = () => {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                    By Signing Up i agree with <span className=" hover:underline">Teams & Condition</span>
+                      By Signing Up i agree with{" "}
+                      <span className=" hover:underline">
+                        Teams & Condition
+                      </span>
                     </FormLabel>
                   </div>
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? (
+            <Button
+              type="submit"
+              disabled={mutation.isLoading}
+              className="w-full"
+            >
+              {mutation.isLoading ? (
                 <span className="flex text-center gap-2">
                   Register...
                   <Loader2 className="animate-spin" size={20} />

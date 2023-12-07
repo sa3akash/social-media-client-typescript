@@ -2,6 +2,20 @@ export interface ILogin {
     email: string;
     password: string;
 }
+export interface IRegister {
+    email:string;
+    firstname:string;
+    gender: string;
+    lastname:string;
+    password:string;
+}
+export interface IForgotPassword {
+    email:string;
+}
+export interface IResetPassword {
+    password:string;
+    confirmPassword:string;
+}
 
 
 export interface NameDoc {

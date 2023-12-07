@@ -1,6 +1,5 @@
 import CommonCard from "@/components/common/CommonCard";
 import { Button } from "@/components/ui/button";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -12,24 +11,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Link } from "react-router-dom";
-
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/services/utils/pageUrl";
-import CommonAlert from "@/components/common/CommonAlert";
 import { useMutation } from "react-query";
 import { loginFn } from "@/services/http";
-import { ILogin, IUserDoc } from "@/interfaces/auth.interface";
-import { AxiosError } from "axios";
-import { axiosError } from "@/services/utils/serializeError";
+import { ILogin } from "@/interfaces/auth.interface";
+import { useToast } from "@/components/ui/use-toast";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import useAuth from "@/hooks/useAuth";
 
 const Login = () => {
-  const { login } = useAuth();
-
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -39,12 +34,25 @@ const Login = () => {
     },
   });
 
+  const { login } = useAuth();
+  const { toast } = useToast();
+  const [, setKeepLogin] = useLocalStorage("keepLoggedIn");
+
   const mutation = useMutation((data: ILogin) => loginFn(data), {
     onSuccess: ({ data }) => {
-      console.log(form.getValues());
-      console.log(data);
-      login(data.user as IUserDoc);
+      const value = form.getValues();
+      if (value.check) {
+        setKeepLogin(value.check);
+      }
+      login(data.user);
       form.reset();
+    },
+    onError: ({ response }) => {
+      mutation.reset();
+      toast({
+        variant: "destructive",
+        description: response.data.message || response.message,
+      });
     },
   });
 
@@ -135,12 +143,6 @@ const Login = () => {
                 "Login"
               )}
             </Button>
-            {mutation.isError && (
-              <CommonAlert
-                type="error"
-                message={axiosError(mutation.error as AxiosError).message}
-              />
-            )}
           </form>
         </Form>
       </CommonCard>

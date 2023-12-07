@@ -3,22 +3,23 @@ import AppProvider from "@/AppProvider";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import { AuthProvider } from "@/context/authContext";
+import { AuthProvider } from "@/context/AuthContextApi";
+import { NetworkProvider } from "./context/networkContext";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="dark bg-background text-foreground h-full">
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <NetworkProvider>
           <AuthProvider>
             <AppProvider />
           </AuthProvider>
-        </Provider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </div>
+        </NetworkProvider>
+      </Provider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
