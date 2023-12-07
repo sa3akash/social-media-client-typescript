@@ -6,6 +6,7 @@ import OnlineOffline from "@/components/common/OnlineOffline";
 
 const AppProvider = () => {
 
+
   return (
     <div className="dark bg-background text-foreground h-full">
       <div className="max-w-[2160px] mx-auto h-full w-full">

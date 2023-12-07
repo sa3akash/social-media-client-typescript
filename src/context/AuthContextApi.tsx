@@ -15,6 +15,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useLocalStorage<IUserDoc | null>("user", null);
 
+
   const login = useCallback(
     (data: IUserDoc) => {
       setUser(data);

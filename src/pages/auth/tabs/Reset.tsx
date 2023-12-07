@@ -38,7 +38,6 @@ const Reset = () => {
 
   const mutation = useMutation((data: IResetPassword) => resetFn(token, data), {
     onSuccess: ({ data }) => {
-      console.log(data);
       toast({
         variant: "default",
         description: data?.message,
@@ -50,7 +49,7 @@ const Reset = () => {
       mutation.reset();
       toast({
         variant: "destructive",
-        description: response.data.message,
+        description: response.data.message || response.message,
       });
     },
   });

@@ -1,8 +1,8 @@
-import { NetworkContext } from "@/context/networkContext";
+import { NetworkContext, NetworkDoc } from "@/context/NetworkContext";
 import { useContext } from "react";
 
 const useNetwork = () => {
-  return useContext(NetworkContext) as boolean;
+  return useContext(NetworkContext) as NetworkDoc;
 };
 
 export default useNetwork;
