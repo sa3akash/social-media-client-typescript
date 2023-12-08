@@ -2,10 +2,12 @@
 import { Separator } from "@/components/ui/separator";
 import PostImage from "@/assets/images/post_image.svg";
 import UserAvater from "@/components/common/UserAvater";
-import useAuth from "@/hooks/useAuth";
+import { Utils } from "@/services/utils/utils";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const AddPost = () => {
-  const { user } = useAuth();
+  const { user } = useSelector((store:RootState)=>store.auth);
 
   return (
     <div className="cardBG md:mt-6 md:rounded-xl md:borderWrapper">
@@ -18,8 +20,9 @@ const AddPost = () => {
         <div className="flex gap-4 w-full">
           <UserAvater
             src={user?.profilePicture}
-            name={user?.name.first as string}
-          />
+            name={Utils.getAvaterName(user!.name.first,user!.name.last)}
+            avaterColor={user?.avatarColor}
+            />
           <div className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer select-none">
             <span className="text-[#696974] flex-1 tracking-[0.1px] text-[16px] cursor-text">
               What&apos;s on your mind?

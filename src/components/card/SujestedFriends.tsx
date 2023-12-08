@@ -3,7 +3,6 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
-import { useQuery } from "react-query";
 import { suggestedFriendFn } from "@/services/http";
 import CardSkeleton from "./skeleton/CardSkeleton";
 import { IUserDoc } from "@/interfaces/auth.interface";
@@ -13,13 +12,12 @@ const SujestedFriends = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
 
-  const { isLoading, data } = useQuery("suggestedFriend", suggestedFriendFn);
 
-  if (isLoading) {
-    return <CardSkeleton />;
-  }
+  // if (isLoading) {
+  //   return <CardSkeleton />;
+  // }
 
-  const mainSuggestedFriend = data?.data?.users as IUserDoc[];
+  const mainSuggestedFriend = []
 
   return (
     <div className={cn("cardBG rounded-lg relative w-full", mainSuggestedFriend.length === 0 && 'hidden')}>

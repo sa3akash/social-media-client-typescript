@@ -1,4 +1,5 @@
 import { IUserDoc } from "@/interfaces/auth.interface";
+import { storeKey } from "@/services/utils/keys";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -7,14 +8,14 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem(storeKey.User) as string) || null,
 };
 
 export const AuthSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
-    setAuth: (state, action: PayloadAction<IUserDoc>) => {
+    setAuth: (state, action: PayloadAction<IUserDoc | null>) => {
       state.user = action.payload;
     },
   },

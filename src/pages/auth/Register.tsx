@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { registerSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
+import { api } from "@/services/http/api";
 
 const Register = () => {
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -38,11 +39,14 @@ const Register = () => {
     },
   });
 
-
-
-
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
-   console.log(values)
+    await api.registerCall({
+      email: values.email,
+      firstname: values.firstname,
+      gender: values.gender,
+      lastname: values.lastname,
+      password: values.password,
+    });
   };
 
   return (
@@ -154,11 +158,7 @@ const Register = () => {
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              disabled={false}
-              className="w-full"
-            >
+            <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
               {form.formState.isSubmitting ? (
                 <span className="flex text-center gap-2">
                   Register...

@@ -17,6 +17,7 @@ import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/services/utils/pageUrl";
+import { api } from "@/services/http/api";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -33,9 +34,8 @@ const Login = () => {
 
 
 
-  const onLogin = (values: z.infer<typeof loginSchema>) => {
-    // mutation.mutate({ email: values.email, password: values.password });
-    console.log(values)
+  const onLogin = async (values: z.infer<typeof loginSchema>) => {
+    await api.loginCall(values)
   };
 
   return (
@@ -109,7 +109,7 @@ const Login = () => {
 
             <Button
               type="submit"
-              disabled={false}
+              disabled={form.formState.isSubmitting}
               className="w-full"
             >
               {form.formState.isSubmitting ? (

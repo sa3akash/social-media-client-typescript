@@ -17,6 +17,7 @@ import { forgotSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import CommonAlert from "@/components/common/CommonAlert";
+import { api } from "@/services/http/api";
 
 const Forgot = () => {
   const form = useForm<z.infer<typeof forgotSchema>>({
@@ -26,14 +27,9 @@ const Forgot = () => {
     },
   });
 
-
-
-
   const onLogin = async (values: z.infer<typeof forgotSchema>) => {
-    // mutation.mutate(values);
-    console.log(values);
+    await api.forgotCall(values);
   };
-
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
@@ -61,12 +57,8 @@ const Forgot = () => {
               )}
             />
 
-            <Button
-              type="submit"
-              disabled={false}
-              className="w-full"
-            >
-              {form.formState.isSub ? (
+            <Button type="submit" disabled={false} className="w-full">
+              {form.formState.isSubmitting ? (
                 <span className="flex text-center gap-2">
                   Email Sending...
                   <Loader2 className="animate-spin" size={20} />
@@ -75,7 +67,7 @@ const Forgot = () => {
                 "Submit"
               )}
             </Button>
-            {mutation.isSuccess && <CommonAlert type="email" />}
+            {form.formState.isSubmitSuccessful && <CommonAlert type="email" />}
           </form>
         </Form>
       </CommonCard>

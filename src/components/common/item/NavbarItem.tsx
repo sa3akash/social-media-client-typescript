@@ -1,5 +1,4 @@
 import React from "react";
-import useAuth from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import {
   Menubar,
@@ -9,15 +8,19 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { setAuth } from "@/store/reducers/AuthReducer";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const NavbarItem: React.FC<Props> = ({ children }) => {
-  const { user, logout } = useAuth();
 
+  const dispatch:AppDispatch = useDispatch()
   const navigate = useNavigate();
+  const {user} = useSelector((store:RootState)=>store.auth)
 
   return (
     <Menubar className="bg-transparent border-none focus:bg-transparent">
@@ -28,7 +31,7 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
             Profile
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem onClick={() => logout()}>Logout</MenubarItem>
+          <MenubarItem onClick={() => dispatch(setAuth(null))}>Logout</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>

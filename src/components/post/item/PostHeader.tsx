@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
+import { Utils } from "@/services/utils/utils";
 
 interface Props {
   user: ICreator;
@@ -18,7 +19,10 @@ const PostHeader: React.FC<Props> = ({ user }) => {
   return (
     <div className="p-4 flex items-center justify-between gap-4 relative overflow-visible">
       <div className="flex items-center gap-2">
-        <UserAvater src={user.profilePicture} name={user.name.first}/>
+        <UserAvater
+          src={user.profilePicture}
+          name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+        />
         <div>
           <h3 className="capitalize font-semibold text-[14px] tracking-[0.1px]">{`${user.name.first} ${user.name.last}`}</h3>
           <span className="text-[12px] roboto text-[#696974]">20/02/2003</span>

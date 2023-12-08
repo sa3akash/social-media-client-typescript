@@ -16,8 +16,8 @@ import { Input } from "@/components/ui/input";
 import { resetSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { api } from "@/services/http/api";
 
 const Reset = () => {
   const form = useForm<z.infer<typeof resetSchema>>({
@@ -27,16 +27,14 @@ const Reset = () => {
       confirmPassword: "",
     },
   });
-  const { toast } = useToast();
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const token = searchParams.get("token") as string;
 
-  
-
   const onLogin = async (values: z.infer<typeof resetSchema>) => {
-    console.log(values);
+    await api.resetCall(token, values);
+    navigate("/feed");
   };
 
   return (
@@ -80,10 +78,10 @@ const Reset = () => {
 
             <Button
               type="submit"
-              disabled={mutation.isLoading}
+              disabled={form.formState.isSubmitting}
               className="w-full"
             >
-              {mutation.isLoading ? (
+              {form.formState.isSubmitting ? (
                 <span className="flex text-center gap-2">
                   Submit...
                   <Loader2 className="animate-spin" size={20} />

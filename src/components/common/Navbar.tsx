@@ -13,6 +13,7 @@ import useAuth from "@/hooks/useAuth";
 // import Notification_off from '@/assets/images/ic_Notification_off.svg'
 
 import NavbarItem from "./item/NavbarItem";
+import { Utils } from "@/services/utils/utils";
 
 const active = true;
 
@@ -34,7 +35,9 @@ const Navbar = () => {
             <NavbarItem>
               <UserAvater
                 src={user?.profilePicture}
-                name={user?.name.first as string}
+                name={Utils.getAvaterName(user!.name.first,user!.name.last)}
+                avaterColor={user?.avatarColor}
+
               />
             </NavbarItem>
           </div>
@@ -76,8 +79,9 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-2 cursor-pointer">
             <UserAvater
               src={user?.profilePicture}
-              name={user?.name.first as string}
-            />
+              name={Utils.getAvaterName(user!.name.first,user!.name.last)}
+              avaterColor={user?.avatarColor}
+              />
             <img src={Dropdown} alt="drop" />
           </div>
         </NavbarItem>
