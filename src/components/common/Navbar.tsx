@@ -36,7 +36,6 @@ const Navbar = () => {
               <UserAvater
                 src={user?.profilePicture}
                 name={Utils.getAvaterName(user!.name.first,user!.name.last)}
-                avaterColor={user?.avatarColor}
 
               />
             </NavbarItem>
@@ -80,7 +79,6 @@ const Navbar = () => {
             <UserAvater
               src={user?.profilePicture}
               name={Utils.getAvaterName(user!.name.first,user!.name.last)}
-              avaterColor={user?.avatarColor}
               />
             <img src={Dropdown} alt="drop" />
           </div>

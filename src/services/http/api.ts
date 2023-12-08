@@ -3,8 +3,9 @@ import {
   ILogin,
   IRegister,
   IResetPassword,
+  IUserDoc,
 } from "@/interfaces/auth.interface";
-import { forgotFn, loginFn, registerFn, resetFn } from ".";
+import { forgotFn, loginFn, registerFn, resetFn, suggestedFriendFn } from ".";
 import { store } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
 
@@ -43,6 +44,15 @@ class Api {
     try {
       const response = await resetFn(token, data);
       console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public async suggestedFriendCall(): Promise<IUserDoc[] | undefined> {
+    try {
+      const response = await suggestedFriendFn();
+      return response.data?.users as IUserDoc[];
     } catch (err) {
       console.log(err);
     }

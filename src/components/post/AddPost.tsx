@@ -21,7 +21,6 @@ const AddPost = () => {
           <UserAvater
             src={user?.profilePicture}
             name={Utils.getAvaterName(user!.name.first,user!.name.last)}
-            avaterColor={user?.avatarColor}
             />
           <div className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer select-none">
             <span className="text-[#696974] flex-1 tracking-[0.1px] text-[16px] cursor-text">

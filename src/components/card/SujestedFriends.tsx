@@ -1,26 +1,37 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
-import { suggestedFriendFn } from "@/services/http";
 import CardSkeleton from "./skeleton/CardSkeleton";
-import { IUserDoc } from "@/interfaces/auth.interface";
 import SingleSuggestedFriend from "@/components/card/item/SingleSuggestedFriend";
+import { api } from "@/services/http/api";
+import { IUserDoc } from "@/interfaces/auth.interface";
+import useEffectOnce from "@/hooks/useEffectOnece";
 
 const SujestedFriends = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
+  const [data, setData] = useState<IUserDoc[] | undefined>();
+  const [loading, setLoading] = useState(false);
 
+  useEffectOnce(async () => {
+    setLoading(true);
+    setData(await api.suggestedFriendCall());
+    setLoading(false);
+  });
 
-  // if (isLoading) {
-  //   return <CardSkeleton />;
-  // }
-
-  const mainSuggestedFriend = []
+  if (loading) {
+    return <CardSkeleton />;
+  }
 
   return (
-    <div className={cn("cardBG rounded-lg relative w-full", mainSuggestedFriend.length === 0 && 'hidden')}>
+    <div
+      className={cn(
+        "cardBG rounded-lg relative w-full",
+        data?.length === 0 && "hidden"
+      )}
+    >
       <div className="flex items-center justify-between px-4 py-4 ">
         <h3 className="text-[14px] tracking-[0.1px]">Suggested Friends</h3>
         <div
@@ -38,9 +49,7 @@ const SujestedFriends = () => {
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full items-center gap-4">
-        {mainSuggestedFriend.map((u, i) => (
-          <SingleSuggestedFriend key={i} item={u} />
-        ))}
+        {data?.map((u, i) => <SingleSuggestedFriend key={i} item={u} />)}
       </div>
     </div>
   );

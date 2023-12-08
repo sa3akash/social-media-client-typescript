@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { Utils } from "@/services/utils/utils";
 
 const SingleSuggestedFriend = ({ item }: { item: IUserDoc }) => {
-
   return (
     <div className="w-full flex items-center gap-4 justify-between mr-2">
       <div className="flex items-center gap-2">
@@ -24,7 +23,7 @@ const SingleSuggestedFriend = ({ item }: { item: IUserDoc }) => {
         <div className="text-[14px] tracking-[0.2px] capitalize">{`${item.name.first} ${item.name.last}`}</div>
       </div>
       <Button
-        onClick={() => console.log('follow user')}
+        onClick={() => console.log("follow user")}
         className="h-8 capitalize font-semibold text-[14px] bg-green-400"
       >
         follow

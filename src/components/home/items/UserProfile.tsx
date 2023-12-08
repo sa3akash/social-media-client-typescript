@@ -16,7 +16,6 @@ const UserProfile = () => {
         <UserAvater
           src={user?.profilePicture}
           name={Utils.getAvaterName(user!.name.first, user!.name.last)}
-          avaterColor={user?.avatarColor}
         />
         <div className="hidden lg:block">
           <h3 className="font-semibold text-[14px] tracking-[0.1px] capitalize">
