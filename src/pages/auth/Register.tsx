@@ -24,11 +24,6 @@ import { Input } from "@/components/ui/input";
 import { registerSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { useMutation } from "react-query";
-import { IRegister } from "@/interfaces/auth.interface";
-import { registerFn } from "@/services/http";
-import useAuth from "@/hooks/useAuth";
-import { useToast } from "@/components/ui/use-toast";
 
 const Register = () => {
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -42,31 +37,12 @@ const Register = () => {
       check: false,
     },
   });
-  const { login } = useAuth();
-  const { toast } = useToast();
 
-  const mutation = useMutation((data: IRegister) => registerFn(data), {
-    onSuccess: ({ data }) => {
-      login(data.user);
-      form.reset();
-    },
-    onError: ({ response }) => {
-      mutation.reset();
-      toast({
-        variant: "destructive",
-        description: response.data.message || response.message,
-      });
-    },
-  });
+
+
 
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
-    mutation.mutate({
-      firstname: values.firstname,
-      lastname: values.lastname,
-      email: values.email,
-      gender: values.gender,
-      password: values.password,
-    });
+   console.log(values)
   };
 
   return (
@@ -180,10 +156,10 @@ const Register = () => {
             />
             <Button
               type="submit"
-              disabled={mutation.isLoading}
+              disabled={false}
               className="w-full"
             >
-              {mutation.isLoading ? (
+              {form.formState.isSubmitting ? (
                 <span className="flex text-center gap-2">
                   Register...
                   <Loader2 className="animate-spin" size={20} />

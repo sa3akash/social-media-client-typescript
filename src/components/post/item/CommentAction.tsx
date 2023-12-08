@@ -1,6 +1,7 @@
 import AtachmentIcon from "@/assets/images/ic_attachment.svg";
 import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
 import ImageIcon from "@/assets/images/ic_Image.svg";
+import EmojiPicker from "@/components/common/EmojiPicker";
 import UserAvater from "@/components/common/UserAvater";
 
 const profileImage =
@@ -22,7 +23,9 @@ const CommentAction: React.FC<Props> = ({ commentInputRef }) => {
           ref={commentInputRef}
         />
         <img src={AtachmentIcon} alt="" className="w-5 icon" />
-        <img src={ImojiIcon} alt="" className="w-5 icon" />
+        <EmojiPicker onChange={(value: string) => console.log(value)}>
+          <img src={ImojiIcon} alt="" className="w-5 icon" />
+        </EmojiPicker>
         <img src={ImageIcon} alt="" className="w-5 icon" />
       </div>
     </div>

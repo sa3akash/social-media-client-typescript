@@ -19,10 +19,10 @@ const api: AxiosInstance = axios.create({
 // List of all the endpoints
 export const loginFn = (data: ILogin) => api.post("/signin", data);
 export const registerFn = (data: IRegister) => api.post("/signup", data);
-export const forgotFn = (data: IForgotPassword) =>
-  api.post("/forgot-password", data);
-export const resetFn = (token: string, data: IResetPassword) =>
-  api.post(`/reset-password/${token}`, data);
+export const forgotFn = (data: IForgotPassword) => api.post("/forgot-password", data);
+export const resetFn = (token: string, data: IResetPassword) => api.post(`/reset-password/${token}`, data);
+export const suggestedFriendFn = () => api.get('/users/random');
+export const followUserFn = (userId:string) => api.put(`user/follow/${userId}`);
 // export const verifyOtp = (data) => api.post("/api/verify-otp", data);
 // export const activate = (data) => api.post("/api/activate", data);
 // export const logout = () => api.post("/api/logout");

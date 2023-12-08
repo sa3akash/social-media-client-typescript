@@ -16,10 +16,7 @@ import { Input } from "@/components/ui/input";
 import { resetSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { useMutation } from "react-query";
-import { IResetPassword } from "@/interfaces/auth.interface";
 import { useToast } from "@/components/ui/use-toast";
-import { resetFn } from "@/services/http";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Reset = () => {
@@ -36,27 +33,10 @@ const Reset = () => {
 
   const token = searchParams.get("token") as string;
 
-  const mutation = useMutation((data: IResetPassword) => resetFn(token, data), {
-    onSuccess: ({ data }) => {
-      toast({
-        variant: "default",
-        description: data?.message,
-      });
-      form.reset();
-      setTimeout(()=>{navigate("/login")},1000)
-    },
-    onError: ({ response }) => {
-      mutation.reset();
-      toast({
-        variant: "destructive",
-        description: response.data.message || response.message,
-      });
-    },
-  });
+  
 
   const onLogin = async (values: z.infer<typeof resetSchema>) => {
     console.log(values);
-    mutation.mutate(values);
   };
 
   return (

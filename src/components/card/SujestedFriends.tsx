@@ -3,15 +3,26 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
-import { IUserDoc, userData } from "@/data/AddStoryData";
-import UserAvater from "@/components/common/UserAvater";
+import { useQuery } from "react-query";
+import { suggestedFriendFn } from "@/services/http";
+import CardSkeleton from "./skeleton/CardSkeleton";
+import { IUserDoc } from "@/interfaces/auth.interface";
+import SingleSuggestedFriend from "@/components/card/item/SingleSuggestedFriend";
 
 const SujestedFriends = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
 
+  const { isLoading, data } = useQuery("suggestedFriend", suggestedFriendFn);
+
+  if (isLoading) {
+    return <CardSkeleton />;
+  }
+
+  const mainSuggestedFriend = data?.data?.users as IUserDoc[];
+
   return (
-    <div className="cardBG rounded-lg relative w-full">
+    <div className={cn("cardBG rounded-lg relative w-full", mainSuggestedFriend.length === 0 && 'hidden')}>
       <div className="flex items-center justify-between px-4 py-4 ">
         <h3 className="text-[14px] tracking-[0.1px]">Suggested Friends</h3>
         <div
@@ -29,8 +40,8 @@ const SujestedFriends = () => {
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full items-center gap-4">
-        {userData.map((u, i) => (
-          <SingleFriend key={i} item={u} />
+        {mainSuggestedFriend.map((u, i) => (
+          <SingleSuggestedFriend key={i} item={u} />
         ))}
       </div>
     </div>
@@ -38,28 +49,3 @@ const SujestedFriends = () => {
 };
 
 export default SujestedFriends;
-
-const SingleFriend = ({ item }: { item: IUserDoc }) => {
-  return (
-    <div className="w-full flex items-center gap-4">
-      <div
-        className={cn(
-          "w-14 h-14 rounded-full overflow-hidden border-[2px]",
-          item.avatarColor && `border-[${item.avatarColor}]`
-        )}
-      >
-        <UserAvater
-          src={item.profilePicture}
-          name={userData[0].name.first}
-          className="w-full h-full md:w-full md:h-full"
-        />
-      </div>
-      <div className="flex flex-col">
-        <span className="text-[14px] tracking-[0.2px] capitalize">{`${item.name.first} ${item.name.last}`}</span>
-        <span className="text-[12px] text-[#696974]">
-          02/05/2001 at 10:20PM
-        </span>
-      </div>
-    </div>
-  );
-};

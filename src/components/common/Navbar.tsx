@@ -12,6 +12,8 @@ import useAuth from "@/hooks/useAuth";
 // import ChatOff from '@/assets/images/ic_Chat_off.svg'
 // import Notification_off from '@/assets/images/ic_Notification_off.svg'
 
+import NavbarItem from "./item/NavbarItem";
+
 const active = true;
 
 const Navbar = () => {
@@ -29,10 +31,12 @@ const Navbar = () => {
         </Link>
         <div className="flex select-none h-10 max-w-[500px] w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
           <div className="block md:hidden w-8 h-8 object-cover rounded-full overflow-hidden">
-            <UserAvater
-              src={user?.profilePicture}
-              name={user?.name.first as string}
-            />
+            <NavbarItem>
+              <UserAvater
+                src={user?.profilePicture}
+                name={user?.name.first as string}
+              />
+            </NavbarItem>
           </div>
           <input
             className="focus:outline-none bg-transparent flex-1"
@@ -43,7 +47,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 select-none">
+      <div className="flex items-center gap-0 md:gap-4 select-none">
         <div
           className={cn(
             "hidden md:block cursor-pointer",
@@ -68,13 +72,15 @@ const Navbar = () => {
         >
           <img src={Notification} alt="Notification" />
         </div>
-        <div className="hidden md:flex items-center gap-2 cursor-pointer">
-          <UserAvater
-            src={user?.profilePicture}
-            name={user?.name.first as string}
-          />
-          <img src={Dropdown} alt="drop" />
-        </div>
+        <NavbarItem>
+          <div className="hidden md:flex items-center gap-2 cursor-pointer">
+            <UserAvater
+              src={user?.profilePicture}
+              name={user?.name.first as string}
+            />
+            <img src={Dropdown} alt="drop" />
+          </div>
+        </NavbarItem>
       </div>
     </div>
   );
