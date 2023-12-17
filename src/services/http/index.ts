@@ -26,7 +26,7 @@ export const resetFn = (token: string, data: IResetPassword) =>
 export const suggestedFriendFn = () => api.get("/users/random");
 export const followUserFn = (userId: string) =>
   api.put(`user/follow/${userId}`);
-// export const verifyOtp = (data) => api.post("/api/verify-otp", data);
+export const currentUser = (authId:string) => api.get(`/current-user?authId=${authId}`);
 // export const activate = (data) => api.post("/api/activate", data);
 // export const logout = () => api.post("/api/logout");
 // export const createRoom = (data) => api.post("/api/rooms", data);

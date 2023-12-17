@@ -13,6 +13,7 @@ const Videos = lazy(() => import("@/pages/Videos"));
 const Photos = lazy(() => import("@/pages/Photos"));
 const Files = lazy(() => import("@/pages/Files"));
 const MarketPlace = lazy(() => import("@/pages/MarketPlace"));
+const Notification = lazy(() => import("@/pages/Notification"));
 
 const Protected = [
   {
@@ -76,6 +77,14 @@ const Protected = [
     element: (
       <Suspense fallback={<ProfileSkeleton />}>
         <Profile />
+      </Suspense>
+    ),
+  },
+  {
+    path: `${PageURL.Notification}`,
+    element: (
+      <Suspense fallback={'loading...'}>
+        <Notification />
       </Suspense>
     ),
   },

@@ -22,6 +22,7 @@ const PostHeader: React.FC<Props> = ({ user }) => {
         <UserAvater
           src={user.profilePicture}
           name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+          className="min-w-[36px] min-h-[36px]"
         />
         <div>
           <h3 className="capitalize font-semibold text-[14px] tracking-[0.1px]">{`${user.name.first} ${user.name.last}`}</h3>

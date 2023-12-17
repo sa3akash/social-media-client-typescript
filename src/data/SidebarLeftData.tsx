@@ -5,6 +5,7 @@ import Videos from '@/assets/images/videos.svg'
 import Images from '@/assets/images/images.svg'
 import Files from '@/assets/images/files.svg'
 import MarketPlace from '@/assets/images/marketPlase.svg'
+import Notificatons from '@/assets/images/ic_Notification_off.svg'
 import { PageURL } from '@/services/utils/pageUrl'
 
 export interface LeftSidebarDoc {
@@ -12,6 +13,7 @@ export interface LeftSidebarDoc {
     imageUrl: string;
     name: string;
     link: string;
+    disabled?: boolean;
 }
 
 export const sidebarLeft:LeftSidebarDoc[] = [
@@ -22,40 +24,48 @@ export const sidebarLeft:LeftSidebarDoc[] = [
         link: PageURL.Feed
     },
     {
-        _id: 1,
+        _id: 2,
         imageUrl: Friends,
         name: 'Friends',
         link: PageURL.Friends
     },
     {
-        _id: 1,
+        _id: 3,
         imageUrl: Events,
         name: 'Events',
         link: PageURL.Events
     },
     {
-        _id: 1,
+        _id: 4,
         imageUrl: Videos,
         name: 'WatchVideos',
         link: PageURL.WatchVideos
     },
     {
-        _id: 1,
+        _id: 5,
         imageUrl: Images,
         name: 'Photos',
         link: PageURL.Photos
     },
     {
-        _id: 1,
+        _id: 6,
         imageUrl: Files,
         name: 'Files',
-        link: PageURL.Files
+        link: PageURL.Files,
+        disabled: true
     },
     {
-        _id: 1,
+        _id: 7,
         imageUrl: MarketPlace,
         name: 'Marketplace',
-        link: PageURL.Marketplace
+        link: PageURL.Marketplace,
+        disabled: true
+    },
+    {
+        _id: 8,
+        imageUrl: Notificatons,
+        name: 'Notification',
+        link: PageURL.Notification
     },
 ];
 

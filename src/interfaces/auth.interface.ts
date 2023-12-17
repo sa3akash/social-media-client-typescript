@@ -35,3 +35,60 @@ export interface IUserDoc {
   avatarColor: string;
   createdAt: string | Date;
 }
+
+export interface RelationShipDoc {
+  type: "Single" | "In a relationship" | "Married" | "Divorced";
+  partner: string;
+}
+
+export interface IFullUserDoc {
+  work: string;
+  school: string;
+  website: string;
+  gender: string;
+  quote: string;
+  social: {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    youtube: string;
+  };
+  relationShip: {
+    type: string;
+    partner: string;
+  };
+  address: {
+    street: string;
+    city: string;
+    zipcode: string;
+    local: string;
+    country: string;
+  };
+
+  dob: {
+    day: string;
+    month: string;
+    year: string;
+  };
+  notifications: {
+    messages: boolean;
+    reactions: boolean;
+    comments: boolean;
+    follows: boolean;
+  };
+  blocked: string[];
+  blockedBy: string[];
+  postsCount: number;
+  followersCount: number;
+  followingCount: number;
+  username: string;
+  avatarColor: string;
+  createdAt: string;
+  email: string;
+  _id: string;
+  authId: string;
+  profilePicture: string;
+  uId: string;
+  name: NameDoc;
+  coverPicture: string;
+}

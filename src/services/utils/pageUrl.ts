@@ -7,6 +7,7 @@ export const PageURL = {
   Friends: "friends",
   Events: "events",
   WatchVideos: "watch-videos",
+  Notification: "notifications",
   Photos: "photos",
   FRIENDS: "friends",
   Files: "files",

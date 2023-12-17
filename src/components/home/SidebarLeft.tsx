@@ -4,6 +4,7 @@ import { SingleLeftItem } from "./items/SingleLeftItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SingleLeftPageItem from "./items/SingleLeftPageItem";
 import { useLocation } from "react-router-dom";
+import { PageURL } from "@/services/utils/pageUrl";
 
 const SidebarLeft = () => {
   const pathname = useLocation().pathname.split("/")[1];
@@ -28,7 +29,7 @@ const ViewItemWithScroll = ({ pathname }: { pathname: string }) => {
         <UserProfile />
         <div className="flex flex-col w-full gap-2 mb-4 lg:mb-0">
           {sidebarLeft.map((item, i) => (
-            <SingleLeftItem key={i} item={item} pathname={pathname} />
+            <SingleLeftItem key={i} item={item} pathname={pathname} hidden={item!.disabled} inNotificaton={item.link === PageURL.Notification}/>
           ))}
         </div>
         <div className="flex w-full pt-4 lg:pt-0 border-t lg:border-none flex-col gap-2">
@@ -50,7 +51,7 @@ const ViewItem = ({ pathname }: { pathname: string }) => {
       <UserProfile />
       <div className="flex flex-row md:flex-col gap-2 w-full">
         {sidebarLeft.map((item, i) => (
-          <SingleLeftItem key={i} item={item} pathname={pathname} />
+          <SingleLeftItem key={i} item={item} pathname={pathname} hidden={item!.disabled} inNotificaton={item.link === PageURL.Notification}/>
         ))}
       </div>
     </>
