@@ -1,16 +1,22 @@
 import { INotification } from "@/interfaces/notificaton.interface";
-import LoveIcon from "@/assets/images/ic_likesYellow.svg";
+// import LoveIcon from "@/assets/images/ic_likesYellow.svg";
 import CommentIcon from "@/assets/images/ic_commentGreen.svg";
 import CommunityIcon from "@/assets/images/ic_friendsBlue.svg";
+import LikeIcon from '@/assets/reactions/like.svg'
+import LoveIcon from '@/assets/reactions/love.svg'
+import WowIcon from '@/assets/reactions/wow.svg'
+import HappyIcon from '@/assets/reactions/haha.svg'
+import SadIcon from '@/assets/reactions/sad.svg'
+import AngryIcon from '@/assets/reactions/angry.svg'
 
 export const notificationIconMap = {
   love: LoveIcon,
   comment: CommentIcon,
-  like: "",
-  happy: "",
-  wow: "",
-  sad: "",
-  angry: "",
+  like: LikeIcon,
+  happy: HappyIcon,
+  wow: WowIcon,
+  sad: SadIcon,
+  angry: AngryIcon,
   community: CommunityIcon,
   follow: "",
 };
