@@ -18,7 +18,7 @@ const PostReactions = () => {
         <img src={LoveIcon} alt="love" className="w-5 cursor-pointer" />
         <img src={CareIcon} alt="care" className="w-5 cursor-pointer" />
         </div>
-        <div className="lowercase cursor-pointer hover:underline reactText">{millify(120000)}</div>
+        <div className="cursor-pointer hover:underline reactText">{millify(120000)}</div>
       </div>
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="reactText flex items-center gap-1">
