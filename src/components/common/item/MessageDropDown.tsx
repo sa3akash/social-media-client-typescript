@@ -9,6 +9,7 @@ const MessageDropDown = () => {
       )}
     >
       <ScrollArea className="h-full w-full flex">
+        <h3 className="p-4 cardBG text-[15px] font-semibold">Notifications</h3>
         <div>this new message</div>
       </ScrollArea>
     </div>
