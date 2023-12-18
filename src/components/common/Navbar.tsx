@@ -14,22 +14,14 @@ import useAuth from "@/hooks/useAuth";
 
 import NavbarItem from "@/components/common/item/NavbarItem";
 import { Utils } from "@/services/utils/utils";
-import NotificationDrop from "./item/NotificationDrop";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import { useRef } from "react";
-
-const active = true;
+import NotificationDrop from "./item/NotificationDrop";
+import FriendsDropDown from "./item/FriendsDropDown";
+import MessageDropDown from "./item/MessageDropDown";
 
 const Navbar = () => {
   const { user } = useAuth();
-
-  const detactRef = useRef<HTMLDivElement|null>(null);
-
-  const [notficationOpen, setNotificationOpen] = useDetectOutsideClick(
-    detactRef,
-    false
-  );
-
   return (
     <>
       <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
@@ -60,34 +52,9 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-0 md:gap-4 select-none">
-          <div
-            className={cn(
-              "hidden md:block cursor-pointer",
-              active && "bg-muted p-2 rounded-full"
-            )}
-          >
-            <img src={Friends} alt="Friends" />
-          </div>
-          <div
-            className={cn(
-              "cursor-pointer",
-              active && "bg-muted p-2 rounded-full"
-            )}
-          >
-            <img src={Chat} alt="chat" />
-          </div>
-          <div ref={detactRef}>
-            <div
-              className={cn(
-                "hidden md:block cursor-pointer",
-                active && "bg-muted p-2 rounded-full"
-              )}
-              onClick={() => setNotificationOpen(prev=>!prev)}
-            >
-              <img src={Notification} alt="Notification" />
-            </div>
-            {notficationOpen && <NotificationDrop />}
-          </div>
+          <NavItem imageSrc={Friends} DropNode={<FriendsDropDown />} />
+          <NavItem imageSrc={Chat} DropNode={<MessageDropDown />} text="chat" />
+          <NavItem imageSrc={Notification} DropNode={<NotificationDrop />} />
           <NavbarItem>
             <div className="hidden md:flex items-center gap-2 cursor-pointer">
               <UserAvater
@@ -104,3 +71,34 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+interface NavItemProps {
+  imageSrc: string;
+  DropNode: React.ReactNode;
+  text?: string;
+}
+
+const NavItem = ({ imageSrc, DropNode,text }: NavItemProps) => {
+  const detactRef = useRef<HTMLDivElement | null>(null);
+
+  const [notficationOpen, setNotificationOpen] = useDetectOutsideClick(
+    detactRef,
+    false
+  );
+
+  return (
+    <div ref={detactRef}>
+      <div
+        className={cn(
+          "hidden md:block cursor-pointer p-2 rounded-full transition-all",
+          notficationOpen && "bg-muted",
+          text === 'chat' && "block md:block"
+        )}
+        onClick={() => setNotificationOpen((prev) => !prev)}
+      >
+        <img src={imageSrc} alt="Notification" />
+      </div>
+      {notficationOpen && <>{DropNode}</>}
+    </div>
+  );
+};

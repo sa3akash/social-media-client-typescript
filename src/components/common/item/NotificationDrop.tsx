@@ -8,7 +8,7 @@ const NotificationDrop = () => {
   return (
     <div
       className={cn(
-        "fixed w-[340px] h-[calc(100%-80px)] top-[80px] right-0 bg-background z-10"
+        "fixed max-w-[340px] w-[95%] h-[calc(100%-80px)] top-[80px] right-0 bg-background z-10 transition-all"
       )}
     >
       <ScrollArea className="h-full w-full flex">
