@@ -1,20 +1,19 @@
 import UserAvater from "@/components/common/UserAvater";
 import { IUserDoc } from "@/data/AddStoryData";
-import { cn } from "@/lib/utils";
 
 const SingleStoryItem = ({ item }: { item: IUserDoc }) => {
   return (
     <div className="w-full flex items-center gap-4">
       <div
-        className={cn(
-          "w-14 h-14 rounded-full overflow-hidden border-[2px]",
-          item.avatarColor && `border-[${item.avatarColor}]`
-        )}
+        className="w-14 h-14 rounded-full overflow-hidden border-[2px]"
+        style={{borderColor: `${item.avatarColor}`}}
+
       >
         <UserAvater
           src={item.profilePicture}
           name={item.name.first}
           className="w-full h-full md:w-full md:h-full"
+          avatarColor={item.avatarColor}
         />
       </div>
       <div className="flex flex-col">

@@ -6,6 +6,7 @@ import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
 import { Utils } from "@/services/utils/utils";
+import { Link } from "react-router-dom";
 
 interface Props {
   user: ICreator;
@@ -23,9 +24,10 @@ const PostHeader: React.FC<Props> = ({ user }) => {
           src={user.profilePicture}
           name={Utils.getAvaterName(user!.name.first, user!.name.last)}
           className="min-w-[36px] min-h-[36px]"
+          avatarColor={user?.avatarColor}
         />
-        <div>
-          <h3 className="capitalize font-semibold text-[14px] tracking-[0.1px]">{`${user.name.first} ${user.name.last}`}</h3>
+        <div className="flex flex-col">
+          <Link to={`/u/${user._id}`} className="capitalize font-semibold text-[14px] tracking-[0.1px]">{`${user.name.first} ${user.name.last}`}</Link>
           <span className="text-[12px] roboto text-[#696974]">20/02/2003</span>
         </div>
       </div>

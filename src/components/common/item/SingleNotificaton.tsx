@@ -16,8 +16,8 @@ const SingleNotificaton: React.FC<Props> = ({ item }) => {
   return (
     <div
       className={cn(
-        "relative flex justify-between border gap-2 p-4 rounded-none w-full cursor-pointer hover:bg-[#292932]",
-        item.read ? "bg-[#292932]" : "bg-[#1C1C24]"
+        "relative flex justify-between border gap-2 p-4 rounded-none w-full cursor-pointer hover:bg-[#3d3d4a]",
+        item.read ? "cardBG" : "bg-[#292932]"
       )}
     >
       <div
@@ -35,6 +35,7 @@ const SingleNotificaton: React.FC<Props> = ({ item }) => {
             item.creator!.name.last
           )}
           className="w-[36px] h-[36px]"
+          avatarColor={item.creator?.avatarColor}
         />
 
         <img

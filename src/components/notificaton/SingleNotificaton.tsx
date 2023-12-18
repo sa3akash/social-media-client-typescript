@@ -30,6 +30,7 @@ const SingleNotificaton: React.FC<Props> = ({ item }) => {
             item.creator!.name.last
           )}
           className="w-[36px] h-[36px]"
+          avatarColor={item.creator?.avatarColor}
         />
 
         <img

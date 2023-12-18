@@ -1,5 +1,4 @@
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { userData } from "@/data/AddStoryData";
 import LikeThumbIcon from "@/assets/images/ic_Like_Thumb.svg";
 import { Link } from "react-router-dom";
@@ -22,12 +21,10 @@ const SujestedPage = () => {
       <div className="px-4 py-4 flex flex-col w-full gap-4">
         <div className="w-full flex items-center gap-4 cursor-pointer">
           <div
-            className={cn(
-              "w-14 h-14 rounded-full overflow-hidden border-[2px]",
-              userData[0].avatarColor && `border-[${userData[0].avatarColor}]`
-            )}
+            className="w-14 h-14 rounded-full overflow-hidden border-[2px]"
+            style={{borderColor: `${userData[0].avatarColor}`}}
           >
-        <UserAvater src={userData[0].profilePicture} name={userData[0].name.first} className="w-full h-full md:w-full md:h-full" />
+        <UserAvater src={userData[0].profilePicture} name={userData[0].name.first} className="w-full h-full md:w-full md:h-full" avatarColor={userData[0].avatarColor}/>
             
           </div>
           <div className="flex flex-col">

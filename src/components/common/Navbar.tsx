@@ -39,6 +39,7 @@ const Navbar = () => {
                 <UserAvater
                   src={user?.profilePicture}
                   name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+                  avatarColor={user?.avatarColor}
                 />
               </NavbarItem>
             </div>
@@ -60,6 +61,7 @@ const Navbar = () => {
               <UserAvater
                 src={user?.profilePicture}
                 name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+                avatarColor={user?.avatarColor}
               />
               <img src={Dropdown} alt="drop" />
             </div>
