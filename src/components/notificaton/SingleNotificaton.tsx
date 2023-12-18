@@ -16,10 +16,12 @@ const SingleNotificaton: React.FC<Props> = ({ item }) => {
   return (
     <div
       className={cn(
-        "flex justify-between gap-2 p-4 rounded-none md:rounded-lg w-full cursor-pointer",
-        item.read ? "bg-muted" : "cardBG"
+        "relative flex justify-between gap-2 p-4 rounded-none md:rounded-lg w-full cursor-pointer hover:bg-[#292932]",
+        item.read ? "bg-[#292932]" :"bg-[#1C1C24]"
       )}
     >
+      <div className={cn("hidden w-1 h-full bg-green-400 absolute top-0 left-0",
+      !item.read && 'block')}/>
       <div className="flex flex-col items-center justify-start gap-2">
         <UserAvater
           src={item.creator?.profilePicture}
