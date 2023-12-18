@@ -3,6 +3,7 @@ import SidebarLeft from "@/components/home/SidebarLeft";
 import RightSide from "@/components/home/RightSide";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import ModelProviders from "@/components/providers/ModelProviders";
 
 const Layout = () => {
   const pathname = useLocation().pathname.split("/")[1];
@@ -31,6 +32,8 @@ const Layout = () => {
         <div className="hidden xl:block max-w-[310px] w-full cardBG h-full border-l">
           <RightSide />
         </div>
+
+        <ModelProviders />
       </div>
     </div>
   );

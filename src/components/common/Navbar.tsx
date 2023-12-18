@@ -14,76 +14,92 @@ import useAuth from "@/hooks/useAuth";
 
 import NavbarItem from "@/components/common/item/NavbarItem";
 import { Utils } from "@/services/utils/utils";
+import NotificationDrop from "./item/NotificationDrop";
+import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
+import { useRef } from "react";
 
 const active = true;
 
 const Navbar = () => {
   const { user } = useAuth();
 
-  return (
-    <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
-      <div className="flex items-center gap-6 lg:gap-24 flex-1">
-        <Link to={PageURL.Feed} className="hidden md:block">
-          <img
-            src={Logo}
-            alt="Logo"
-            className="filter brightness-0 dark:brightness-100"
-          />
-        </Link>
-        <div className="flex select-none h-10 max-w-[500px] w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
-          <div className="block md:hidden w-8 h-8 object-cover rounded-full overflow-hidden">
-            <NavbarItem>
-              <UserAvater
-                src={user?.profilePicture}
-                name={Utils.getAvaterName(user!.name.first, user!.name.last)}
-              />
-            </NavbarItem>
-          </div>
-          <input
-            className="focus:outline-none bg-transparent flex-1"
-            type="search"
-            placeholder="Search"
-          />
-          <img src={Search} alt="search" className="pr-2 md:pr-0" />
-        </div>
-      </div>
+  const detactRef = useRef<HTMLDivElement|null>(null);
 
-      <div className="flex items-center gap-0 md:gap-4 select-none">
-        <div
-          className={cn(
-            "hidden md:block cursor-pointer",
-            active && "bg-muted p-2 rounded-full"
-          )}
-        >
-          <img src={Friends} alt="Friends" />
+  const [notficationOpen, setNotificationOpen] = useDetectOutsideClick(
+    detactRef,
+    false
+  );
+
+  return (
+    <>
+      <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
+        <div className="flex items-center gap-6 lg:gap-24 flex-1">
+          <Link to={PageURL.Feed} className="hidden md:block">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="filter brightness-0 dark:brightness-100"
+            />
+          </Link>
+          <div className="flex select-none h-10 max-w-[500px] w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
+            <div className="block md:hidden w-8 h-8 object-cover rounded-full overflow-hidden">
+              <NavbarItem>
+                <UserAvater
+                  src={user?.profilePicture}
+                  name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+                />
+              </NavbarItem>
+            </div>
+            <input
+              className="focus:outline-none bg-transparent flex-1"
+              type="search"
+              placeholder="Search"
+            />
+            <img src={Search} alt="search" className="pr-2 md:pr-0" />
+          </div>
         </div>
-        <div
-          className={cn(
-            "cursor-pointer",
-            active && "bg-muted p-2 rounded-full"
-          )}
-        >
-          <img src={Chat} alt="chat" />
-        </div>
+
+        <div className="flex items-center gap-0 md:gap-4 select-none">
           <div
             className={cn(
               "hidden md:block cursor-pointer",
               active && "bg-muted p-2 rounded-full"
             )}
           >
-            <img src={Notification} alt="Notification" />
+            <img src={Friends} alt="Friends" />
           </div>
-        <NavbarItem>
-          <div className="hidden md:flex items-center gap-2 cursor-pointer">
-            <UserAvater
-              src={user?.profilePicture}
-              name={Utils.getAvaterName(user!.name.first, user!.name.last)}
-            />
-            <img src={Dropdown} alt="drop" />
+          <div
+            className={cn(
+              "cursor-pointer",
+              active && "bg-muted p-2 rounded-full"
+            )}
+          >
+            <img src={Chat} alt="chat" />
           </div>
-        </NavbarItem>
+          <div ref={detactRef}>
+            <div
+              className={cn(
+                "hidden md:block cursor-pointer",
+                active && "bg-muted p-2 rounded-full"
+              )}
+              onClick={() => setNotificationOpen(prev=>!prev)}
+            >
+              <img src={Notification} alt="Notification" />
+            </div>
+            {notficationOpen && <NotificationDrop />}
+          </div>
+          <NavbarItem>
+            <div className="hidden md:flex items-center gap-2 cursor-pointer">
+              <UserAvater
+                src={user?.profilePicture}
+                name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+              />
+              <img src={Dropdown} alt="drop" />
+            </div>
+          </NavbarItem>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
