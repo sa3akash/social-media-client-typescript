@@ -14,13 +14,13 @@ interface Props {
 
 const SingleNotificaton: React.FC<Props> = ({ item }) => {
   return (
-    <Link to="/"
+    <div
       className={cn(
         "flex justify-between gap-2 p-4 rounded-none md:rounded-lg w-full cursor-pointer",
         item.read ? "bg-muted" : "cardBG"
       )}
     >
-      <div className="flex flex-col items-center justify-start gap-1">
+      <div className="flex flex-col items-center justify-start gap-2">
         <UserAvater
           src={item.creator?.profilePicture}
           name={Utils.getAvaterName(
@@ -87,7 +87,7 @@ const SingleNotificaton: React.FC<Props> = ({ item }) => {
         />
         <img src={MoreIcon} alt="icon" />
       </div>
-    </Link>
+    </div>
   );
 };
 

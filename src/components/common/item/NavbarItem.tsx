@@ -39,15 +39,3 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
 };
 
 export default NavbarItem;
-
-{
-  /* <Popover>
-      <PopoverTrigger>
-        {children}
-      </PopoverTrigger>
-      <PopoverContent className="flex flex-col gap-4">
-        <Button onClick={() => navigate(`/u/${user?._id}`)} className="w-full">Profile</Button>
-        <Button onClick={() => logout()} className="w-full">Logout</Button>
-      </PopoverContent>
-    </Popover> */
-}

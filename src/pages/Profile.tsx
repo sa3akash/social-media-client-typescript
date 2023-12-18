@@ -6,22 +6,23 @@ import useEffectOnce from "@/hooks/useEffectOnece";
 import { IFullUserDoc } from "@/interfaces/auth.interface";
 import { api } from "@/services/http/api";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState<IFullUserDoc>();
   const [loading, setLoading] = useState(false);
 
   const param = useParams();
+  const navigate = useNavigate()
 
   useEffectOnce(async () => {
     setLoading(true);
     const userResponse = await api.currentUser(param.authId as string);
+    if(!userResponse) return navigate('/404')
     setUser(userResponse);
     setLoading(false);
   });
 
-  console.log(loading, user);
 
   return (
     <div className="max-w-[1000px] h-full w-full">

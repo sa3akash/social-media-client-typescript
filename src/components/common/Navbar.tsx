@@ -12,7 +12,7 @@ import useAuth from "@/hooks/useAuth";
 // import ChatOff from '@/assets/images/ic_Chat_off.svg'
 // import Notification_off from '@/assets/images/ic_Notification_off.svg'
 
-import NavbarItem from "./item/NavbarItem";
+import NavbarItem from "@/components/common/item/NavbarItem";
 import { Utils } from "@/services/utils/utils";
 
 const active = true;
@@ -35,8 +35,7 @@ const Navbar = () => {
             <NavbarItem>
               <UserAvater
                 src={user?.profilePicture}
-                name={Utils.getAvaterName(user!.name.first,user!.name.last)}
-
+                name={Utils.getAvaterName(user!.name.first, user!.name.last)}
               />
             </NavbarItem>
           </div>
@@ -66,20 +65,20 @@ const Navbar = () => {
         >
           <img src={Chat} alt="chat" />
         </div>
-        <div
-          className={cn(
-            "hidden md:block cursor-pointer",
-            active && "bg-muted p-2 rounded-full"
-          )}
-        >
-          <img src={Notification} alt="Notification" />
-        </div>
+          <div
+            className={cn(
+              "hidden md:block cursor-pointer",
+              active && "bg-muted p-2 rounded-full"
+            )}
+          >
+            <img src={Notification} alt="Notification" />
+          </div>
         <NavbarItem>
           <div className="hidden md:flex items-center gap-2 cursor-pointer">
             <UserAvater
               src={user?.profilePicture}
-              name={Utils.getAvaterName(user!.name.first,user!.name.last)}
-              />
+              name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+            />
             <img src={Dropdown} alt="drop" />
           </div>
         </NavbarItem>
