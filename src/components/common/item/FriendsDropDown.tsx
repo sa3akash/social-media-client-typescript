@@ -9,8 +9,7 @@ const FriendsDropDown = () => {
       )}
     >
       <ScrollArea className="h-full w-full flex">
-        <h3 className="p-4 cardBG text-[15px] font-semibold">Notifications</h3>
-
+        <h3 className="p-4 cardBG text-[#92929D] font-semibold text-[14px] tracking-[1px]">Friends</h3>
         <div>this friends list</div>
       </ScrollArea>
     </div>
