@@ -4,7 +4,7 @@ import AllPost from "@/components/post/AllPost";
 
 const ProfilePost = () => {
   return (
-    <div className="w-full h-full 2xl:md:max-w-[640px] md:w-[100%] mx-auto">
+    <div className="w-full h-full mx-auto">
         <AddPost />
         <AddStory />
         <AllPost />

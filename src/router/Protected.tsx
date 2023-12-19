@@ -83,7 +83,7 @@ const Protected = [
   {
     path: `${PageURL.Notification}`,
     element: (
-      <Suspense fallback={'loading...'}>
+      <Suspense fallback={"loading..."}>
         <Notification />
       </Suspense>
     ),

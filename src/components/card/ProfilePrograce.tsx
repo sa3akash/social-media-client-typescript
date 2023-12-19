@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress";
 
 const ProfilePrograce = () => {
   return (
-    <div className="cardBG rounded-lg relative w-full">
+    <div className="cardBG md:rounded-lg relative w-full">
       <div className="flex items-center justify-between px-4 py-4 ">
         <h3 className="text-[14px] tracking-[0.1px]">Complete Your Profile</h3>
       </div>
