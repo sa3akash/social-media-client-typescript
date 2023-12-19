@@ -41,6 +41,7 @@
     "react-multi-carousel": "^2.8.4",
     "react-redux": "^9.0.2",
     "react-router-dom": "^6.20.1",
+    "swiper": "^11.0.5",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4",

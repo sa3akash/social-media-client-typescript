@@ -7,7 +7,7 @@ import { Plus } from "lucide-react";
 const AddStory = () => {
   return (
     <div className="h-[100px] w-full cardBG mt-2 flex md:hidden items-center border-b">
-      <div className="h-full w-full">
+      <div className="h-full max-w-[768px] overflow-auto">
         <div className="flex gap-4 px-4 overflow-auto h-full w-full items-center justify-start">
           <div className="flex flex-col items-center gap-2">
             <div className="w-14 h-14 bg-primary rounded-full overflow-hidden flex items-center justify-center">
@@ -56,3 +56,4 @@ export default AddStory;
 //     </Carousel>
 //   );
 // };
+
