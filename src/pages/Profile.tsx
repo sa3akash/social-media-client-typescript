@@ -23,6 +23,7 @@ const Profile = () => {
     setLoading(false);
   });
 
+  console.log(user, loading);
 
   return (
     <div className="max-w-[1000px] h-full w-full">

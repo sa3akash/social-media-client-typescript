@@ -1,5 +1,4 @@
 import { IPostHederMenu, postHederMenu } from "@/data/menuData";
-import React from "react";
 
 const PostHeaderModel = () => {
   return (

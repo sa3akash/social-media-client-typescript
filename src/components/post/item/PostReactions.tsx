@@ -1,4 +1,3 @@
-import React from "react";
 import LikeIcon from "@/assets/reactions/like.svg";
 import LoveIcon from "@/assets/reactions/love.svg";
 import CareIcon from "@/assets/reactions/care.svg";
