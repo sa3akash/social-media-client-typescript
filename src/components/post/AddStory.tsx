@@ -15,7 +15,7 @@ const AddStory = () => {
             </div>
             <span className="font-[500] text-[12px]">Add Story</span>
           </div>
-          {userData.map((data, i) => (
+          {userData.slice(0,3).map((data, i) => (
             <SingleStoryItem key={i} item={data} />
           ))}
          

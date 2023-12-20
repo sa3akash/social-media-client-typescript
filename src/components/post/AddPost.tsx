@@ -2,9 +2,9 @@
 import { Separator } from "@/components/ui/separator";
 import PostImage from "@/assets/images/post_image.svg";
 import UserAvater from "@/components/common/UserAvater";
-import { Utils } from "@/services/utils/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { NameDoc } from "@/interfaces/auth.interface";
 
 const AddPost = () => {
   const { user } = useSelector((store:RootState)=>store.auth);
@@ -20,7 +20,7 @@ const AddPost = () => {
         <div className="flex gap-4 w-full">
           <UserAvater
             src={user?.profilePicture}
-            name={Utils.getAvaterName(user!.name.first,user!.name.last)}
+            name={user?.name as NameDoc}
             className="min-w-[36px] min-h-[36px]"
             avatarColor={user?.avatarColor}
             />

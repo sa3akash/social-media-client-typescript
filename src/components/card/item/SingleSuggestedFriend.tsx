@@ -1,7 +1,6 @@
 import UserAvater from "@/components/common/UserAvater";
 import { Button } from "@/components/ui/button";
 import { IUserDoc } from "@/interfaces/auth.interface";
-import { Utils } from "@/services/utils/utils";
 
 const SingleSuggestedFriend = ({ item }: { item: IUserDoc }) => {
   return (
@@ -12,7 +11,7 @@ const SingleSuggestedFriend = ({ item }: { item: IUserDoc }) => {
         >
           <UserAvater
             src={item.profilePicture}
-            name={Utils.getAvaterName(item.name.first, item.name.last)}
+            name={item.name}
             className="w-full h-full md:w-full md:h-full"
             avatarColor={item.avatarColor}
           />

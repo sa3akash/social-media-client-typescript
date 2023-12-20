@@ -33,7 +33,7 @@ export interface IUserDoc {
   email: string;
   quote: string;
   avatarColor: string;
-  createdAt: string | Date;
+  createdAt?: string | Date;
 }
 
 export interface RelationShipDoc {

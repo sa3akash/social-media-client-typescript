@@ -19,6 +19,7 @@ import { useRef } from "react";
 import NotificationDrop from "./item/NotificationDrop";
 import FriendsDropDown from "./item/FriendsDropDown";
 import MessageDropDown from "./item/MessageDropDown";
+import { NameDoc } from "@/interfaces/auth.interface";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -38,7 +39,7 @@ const Navbar = () => {
               <NavbarItem>
                 <UserAvater
                   src={user?.profilePicture}
-                  name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+                  name={user?.name as NameDoc}
                   avatarColor={user?.avatarColor}
                 />
               </NavbarItem>
@@ -60,7 +61,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-2 cursor-pointer">
               <UserAvater
                 src={user?.profilePicture}
-                name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+                name={user?.name as NameDoc}
                 avatarColor={user?.avatarColor}
               />
               <img src={Dropdown} alt="drop" />

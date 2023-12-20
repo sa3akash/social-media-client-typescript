@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
-import { Utils } from "@/services/utils/utils";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -22,7 +21,7 @@ const PostHeader: React.FC<Props> = ({ user }) => {
       <div className="flex items-center gap-2">
         <UserAvater
           src={user.profilePicture}
-          name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+          name={user.name}
           className="min-w-[36px] min-h-[36px]"
           avatarColor={user?.avatarColor}
         />

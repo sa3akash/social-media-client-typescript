@@ -1,6 +1,5 @@
 import { INotification } from "@/interfaces/notificaton.interface";
 import React from "react";
-import { Utils } from "@/services/utils/utils";
 import { Link } from "react-router-dom";
 import MoreIcon from "@/assets/images/ic_More_3_dot.svg";
 
@@ -30,10 +29,7 @@ const SingleNotificaton: React.FC<Props> = ({ item }) => {
       <div className="flex flex-col items-center justify-start gap-2">
         <UserAvater
           src={item.creator?.profilePicture}
-          name={Utils.getAvaterName(
-            item.creator!.name.first,
-            item.creator!.name.last
-          )}
+          name={item.creator.name}
           className="w-[36px] h-[36px]"
           avatarColor={item.creator?.avatarColor}
         />

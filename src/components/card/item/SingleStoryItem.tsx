@@ -1,5 +1,5 @@
 import UserAvater from "@/components/common/UserAvater";
-import { IUserDoc } from "@/data/AddStoryData";
+import { IUserDoc } from "@/interfaces/auth.interface";
 
 const SingleStoryItem = ({ item }: { item: IUserDoc }) => {
   return (
@@ -11,7 +11,7 @@ const SingleStoryItem = ({ item }: { item: IUserDoc }) => {
       >
         <UserAvater
           src={item.profilePicture}
-          name={item.name.first}
+          name={item.name}
           className="w-full h-full md:w-full md:h-full"
           avatarColor={item.avatarColor}
         />

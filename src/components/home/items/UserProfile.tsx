@@ -1,7 +1,7 @@
 import UserAvater from "@/components/common/UserAvater";
 import useAuth from "@/hooks/useAuth";
+import { NameDoc } from "@/interfaces/auth.interface";
 import { PageURL } from "@/services/utils/pageUrl";
-import { Utils } from "@/services/utils/utils";
 import { Link } from "react-router-dom";
 
 const UserProfile = () => {
@@ -15,7 +15,7 @@ const UserProfile = () => {
       <div className="dark:bg-[#292932] lg:borderWrapper py-3 px-4 lg:rounded-xl flex items-center lg:gap-2 select-none cursor-pointer">
         <UserAvater
           src={user?.profilePicture}
-          name={Utils.getAvaterName(user!.name?.first, user!.name?.last)}
+          name={user?.name as NameDoc}
           avatarColor={user?.avatarColor}
         />
         <div className="hidden lg:block">

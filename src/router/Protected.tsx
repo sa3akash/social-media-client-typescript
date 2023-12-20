@@ -3,6 +3,8 @@ import { PageURL } from "@/services/utils/pageUrl";
 import HomeSkeleton from "@/components/home/skeleton/HomeSkeleton";
 import PhotoSkeleton from "@/components/photos/Skeleton/PhotoSkeleton";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
+import NotificationSkeleton from "@/components/notificaton/skeleton/NotificationSkeleton";
+import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
 
 // lazy loading
 const Home = lazy(() => import("@/pages/Home"));
@@ -27,7 +29,7 @@ const Protected = [
   {
     path: PageURL.Friends,
     element: (
-      <Suspense fallback={"Loading..."}>
+      <Suspense fallback={<FriendsSkeleton />}>
         <Friends />
       </Suspense>
     ),
@@ -83,7 +85,7 @@ const Protected = [
   {
     path: `${PageURL.Notification}`,
     element: (
-      <Suspense fallback={"loading..."}>
+      <Suspense fallback={<NotificationSkeleton />}>
         <Notification />
       </Suspense>
     ),

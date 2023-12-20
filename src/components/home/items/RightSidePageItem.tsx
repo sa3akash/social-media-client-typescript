@@ -1,5 +1,5 @@
 import UserAvater from "@/components/common/UserAvater";
-import { IUserDoc } from "@/data/AddStoryData";
+import { IUserDoc } from "@/interfaces/auth.interface";
 import React from "react";
 
 interface Props {
@@ -11,7 +11,7 @@ const RightSidePageItem: React.FC<Props> = ({ item, active }) => {
   return (
     <div className="flex items-center justify-between gap-2 cursor-pointer select-none">
       <div className="flex items-center gap-4">
-        <UserAvater src={item.profilePicture} name={item.name.first} avatarColor={item.avatarColor}/>
+        <UserAvater src={item.profilePicture} name={item.name} avatarColor={item.avatarColor}/>
         <h3 className="capitalize text-[14px] tracking-[0.2px]">{`${item.name.first} ${item.name.last}`}</h3>
       </div>
       <div>

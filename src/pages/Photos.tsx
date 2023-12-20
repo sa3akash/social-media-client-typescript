@@ -3,9 +3,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Photos = () => {
   return (
-    <div className="max-w-[1200px] h-full w-full">
-      <ScrollArea className="h-[95%] w-full">
-        <div className="h-[calc(100%-224px)] w-full md:w-[95%] xl:w-full md:mx-auto mt-0 mb-12">
+    <div className="max-w-[1200px] h-[calc(100%-140px)] md:h-[calc(100%-80px)] w-full">
+      <ScrollArea className="h-full w-full">
+        <div className="h-full w-full md:w-[95%] xl:w-full md:mx-auto mt-0">
          <PhotoPage />
         </div>
       </ScrollArea>

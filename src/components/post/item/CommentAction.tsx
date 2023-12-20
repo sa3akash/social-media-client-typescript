@@ -3,7 +3,7 @@ import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
 import ImageIcon from "@/assets/images/ic_Image.svg";
 import EmojiPicker from "@/components/common/EmojiPicker";
 import UserAvater from "@/components/common/UserAvater";
-import { Utils } from "@/services/utils/utils";
+import { NameDoc } from "@/interfaces/auth.interface";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 
@@ -17,7 +17,7 @@ const CommentAction: React.FC<Props> = ({ commentInputRef }) => {
     <div className="px-4 py-4 flex items-center gap-4 w-full">
       <UserAvater
         src={user?.profilePicture}
-        name={Utils.getAvaterName(user!.name.first, user!.name.last)}
+        name={user?.name as NameDoc}
         className="min-w-[36px] min-h-[36px]"
         avatarColor={user?.avatarColor}
       />

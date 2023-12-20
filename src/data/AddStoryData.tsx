@@ -1,3 +1,4 @@
+import { IUserDoc } from "@/interfaces/auth.interface";
 
 export interface NameDoc {
     first: string;
@@ -5,17 +6,7 @@ export interface NameDoc {
     nick: string;
   }
 
-export interface IUserDoc{
-    _id: string;
-    uId: string;
-    coverPicture: string;
-    profilePicture: string;
-    name: NameDoc;
-    username: string;
-    email: string;
-    quote: string;
-    avatarColor: string;
-}
+
 
 export const userData: IUserDoc[] = [
     {
@@ -29,9 +20,9 @@ export const userData: IUserDoc[] = [
         nick: 'avro'  
         },
         profilePicture: 'https://images.unsplash.com/photo-1594361487118-f4e2b2288aea?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGxhZHl8ZW58MHx8MHx8fDA%3D',
-        quote: '',
+        quote: 'Interaction Designer | Coffe Addict | Part time Traveller | Full time Mom of Baby and Bayi.',
         uId: '123',
-        username: 'shakil_ahmed'
+        username: 'shakil_ahmed',
     },
     {
         _id: '123',
@@ -44,7 +35,7 @@ export const userData: IUserDoc[] = [
         nick: ''  
         },
         profilePicture: 'https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bGFkeXxlbnwwfHwwfHx8MA%3D%3D',
-        quote: '',
+        quote: 'Interaction Designer | Coffe Addict | Part time Traveller | Full time Mom of Baby and Bayi.',
         uId: '123',
         username: 'Kamren'
     },
@@ -59,25 +50,25 @@ export const userData: IUserDoc[] = [
         nick: ''  
         },
         profilePicture: 'https://images.unsplash.com/photo-1529911194209-8578109840df?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bGFkeXxlbnwwfHwwfHx8MA%3D%3D',
-        quote: '',
+        quote: 'Interaction Designer | Coffe Addict | Part time Traveller | Full time Mom of Baby and Bayi.',
         uId: '123',
         username: 'Karianne'
     },
-    // {
-    //     _id: '123',
-    //     avatarColor: '#F4CE14',
-    //     coverPicture: '',
-    //     email: 'Nathan@yesenia.net',
-    //     name: {
-    //     first: 'Clementine',
-    //     last: 'Bauch',
-    //     nick: ''  
-    //     },
-    //     profilePicture: '',
-    //     quote: '',
-    //     uId: '123',
-    //     username: 'Samantha'
-    // },
+    {
+        _id: '123',
+        avatarColor: '#F4CE14',
+        coverPicture: '',
+        email: 'Nathan@yesenia.net',
+        name: {
+        first: 'Clementine',
+        last: 'Bauch',
+        nick: ''  
+        },
+        profilePicture: '',
+        quote: 'Interaction Designer | Coffe Addict | Part time Traveller | Full time Mom of Baby and Bayi.',
+        uId: '123',
+        username: 'Samantha'
+    },
     // {
     //     _id: '123',
     //     avatarColor: '#F4CE14',
