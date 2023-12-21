@@ -1,6 +1,7 @@
 import CardAreaProfile from "@/components/profile/CardAreaProfile";
 import ProfileBar from "@/components/profile/ProfileBar";
 import ProfilePost from "@/components/profile/ProfilePost";
+import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useEffectOnce from "@/hooks/useEffectOnece";
 import { IFullUserDoc } from "@/interfaces/auth.interface";
@@ -25,7 +26,9 @@ const Profile = () => {
 
   console.log(user, loading);
 
-  return (
+  return loading ? (
+    <ProfileSkeleton />
+  ) : (
     <div className="max-w-[1200px] h-[calc(100%-140px)] md:h-[calc(100%-80px)] w-full">
       <ScrollArea className="h-full w-full">
         <div className="h-full w-full md:w-[95%] xl:w-full md:mx-auto mt-0 md:mt-6">
