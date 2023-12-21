@@ -14,7 +14,7 @@ const SinglePost: React.FC<Props> = ({ item }) => {
   const commentInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
-    <div className="cardBG md:rounded-xl">
+    <div className="cardBG md:rounded-xl relative">
       <PostHeader user={item.creator} createAt={item.createdAt} />
       <div className="text-[14px] tracking-[0.1px] leading-6 px-4 pb-4">
         One of the perks of working in an international company is sharing
@@ -24,7 +24,7 @@ const SinglePost: React.FC<Props> = ({ item }) => {
       {item.files?.length > 0 && <ImagesShow images={item.files} />}
 
       {/* actions */}
-      <PostReactions />
+      <PostReactions post={item}/>
       <PostActions commentInputRef={commentInputRef} />
       <CommentAction commentInputRef={commentInputRef} />
     </div>

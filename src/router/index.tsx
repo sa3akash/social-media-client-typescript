@@ -5,6 +5,7 @@ import { PageURL } from "@/services/utils/pageUrl";
 import LayoutSkeleton from "@/pages/skeleton/LayoutSkeleton";
 import { ProtectedRoute, PublicRoute } from "@/router/ProtectedHandler";
 import CommonCardSkeleton from "@/components/common/skeleton/CommonCardSkeleton";
+import Test from "@/components/models/test/Test";
 
 // lazy loading
 const Layout = lazy(() => import("@/pages/Layout"));
@@ -71,6 +72,14 @@ const Router = createBrowserRouter([
     element: (
       <Suspense fallback={"Loading..."}>
         <NotFound />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/test',
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <Test />
       </Suspense>
     ),
   },

@@ -1,10 +1,5 @@
-
 const ModelProviders = () => {
-  return (
-    <>
-  
-    </>
-  )
-}
+  return <></>;
+};
 
-export default ModelProviders
+export default ModelProviders;
