@@ -11,13 +11,12 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState<IFullUserDoc>();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const param = useParams();
   const navigate = useNavigate();
 
   useEffectOnce(async () => {
-    setLoading(true);
     const userResponse = await api.currentUser(param.authId as string);
     if (!userResponse) return navigate("/404");
     setUser(userResponse);
