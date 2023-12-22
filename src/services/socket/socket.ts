@@ -1,7 +1,10 @@
 import { config } from "@/config";
 import { INotification } from "@/interfaces/notificaton.interface";
 import { store } from "@/store";
-import { addNotification } from "@/store/reducers/NotificationReducer";
+import {
+  addNotification,
+  updateAsReadNotification,
+} from "@/store/reducers/NotificationReducer";
 import { Socket, io } from "socket.io-client";
 
 class SocketService {
@@ -29,17 +32,21 @@ class SocketService {
       this.socket.connect();
     });
 
-    this.socket.on("connect_error", (error:Error) => {
+    this.socket.on("connect_error", (error: Error) => {
       console.log(`Error: ${error!.message}`);
       this.socket.connect();
     });
-    
   }
 
   // reactions
-  private reactionSocket(){
-    this.socket.on("reaction-notification", (data:INotification) => {
+  private reactionSocket() {
+    this.socket.on("reaction-notification", (data: INotification) => {
       store.dispatch(addNotification(data));
+    });
+
+    this.socket.on("update-notification", (notificationId: string) => {
+      store.dispatch(updateAsReadNotification(notificationId));
+      // console.log(notificationId)
     });
   }
 }

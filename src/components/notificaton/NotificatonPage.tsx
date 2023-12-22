@@ -2,7 +2,7 @@ import { INotification } from "@/interfaces/notificaton.interface";
 import SingleNotificaton from "@/components/notificaton/SingleNotificaton";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
-import NotificationSkeleton from "./skeleton/NotificationSkeleton";
+import NotificationSkeleton from "@/components/notificaton/skeleton/NotificationSkeleton";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { Loader2 } from "lucide-react";
 

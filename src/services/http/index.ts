@@ -27,7 +27,7 @@ export const suggestedFriendFn = () => api.get("/users/random");
 export const followUserFn = (userId: string) =>
   api.put(`user/follow/${userId}`);
 export const currentUser = (authId:string) => api.get(`/current-user?authId=${authId}`);
-export const getNotification = (page:number) => api.get(`/notifications?page=${page}`);
+export const markAsReadNotification = (notificationId:string) => api.put(`/notification/${notificationId}`);
 // export const activate = (data) => api.post("/api/activate", data);
 // export const logout = () => api.post("/api/logout");
 // export const createRoom = (data) => api.post("/api/rooms", data);

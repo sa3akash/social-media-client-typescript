@@ -6,18 +6,24 @@ import MoreIcon from "@/assets/images/ic_More_3_dot.svg";
 import { cn } from "@/lib/utils";
 import { notificationIconMap } from "@/data/NotificatonData";
 import UserAvater from "@/components/common/UserAvater";
+import { markAsReadNotification } from "@/services/http";
 
 interface Props {
   item: INotification;
 }
 
 const SingleNotificaton: React.FC<Props> = ({ item }) => {
+  const handleNotification = () => {
+    markAsReadNotification(item._id);
+  };
+
   return (
     <div
       className={cn(
         "relative flex justify-between border gap-2 p-4 rounded-none w-full cursor-pointer hover:bg-[#3d3d4a]",
         item.read ? "cardBG" : "bg-[#292932]"
       )}
+      onClick={handleNotification}
     >
       <div
         className={cn(

@@ -6,23 +6,33 @@ import MoreIcon from "@/assets/images/ic_More_3_dot.svg";
 
 import { cn } from "@/lib/utils";
 import { notificationIconMap } from "@/data/NotificatonData";
+import { markAsReadNotification } from "@/services/http";
 
 interface Props {
   item: INotification;
   ref?: React.RefObject<HTMLDivElement> | undefined;
 }
 
-const SingleNotificaton: React.FC<Props> = ({ item,ref }) => {
+const SingleNotificaton: React.FC<Props> = ({ item, ref }) => {
+  const handleNotification = () => {
+    markAsReadNotification(item._id);
+  };
+
   return (
     <div
       className={cn(
         "relative flex justify-between gap-2 p-4 rounded-none md:rounded-lg w-full cursor-pointer hover:bg-[#292932]",
-        item.read ? "bg-[#292932]" :"bg-[#1C1C24]"
+        item.read ? "bg-[#292932]" : "bg-[#1C1C24]"
       )}
       ref={ref}
+      onClick={handleNotification}
     >
-      <div className={cn("hidden w-1 h-full bg-green-400 absolute top-0 left-0",
-      !item.read && 'block')}/>
+      <div
+        className={cn(
+          "hidden w-2 h-2 rounded-full bottom-0 my-auto md:h-full md:w-1 md:rounded-none bg-green-400 absolute top-0 left-1 md:left-0",
+          !item.read && "block"
+        )}
+      />
       <div className="flex flex-col items-center justify-start gap-2">
         <UserAvater
           src={item.creator?.profilePicture}

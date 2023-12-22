@@ -13,6 +13,7 @@ import {
   resetFn,
   suggestedFriendFn,
   currentUser,
+  markAsReadNotification,
 } from ".";
 import { store } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
@@ -78,7 +79,13 @@ class Api {
     }
   }
 
-
+  public async markReadNotification(notificationId: string): Promise<void> {
+    try {
+      await markAsReadNotification(notificationId);
+    } catch (err) {
+      this.responseError(err);
+    }
+  }
 
   private responseError(err: unknown) {
     const { message } = axiosError(err as AxiosError);

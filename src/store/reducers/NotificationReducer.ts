@@ -35,10 +35,22 @@ export const NotificationSlice = createSlice({
     addNotification: (state, action: PayloadAction<INotification>) => {
       state.notifications = [action.payload, ...state.notifications];
     },
+
+    updateAsReadNotification: (state, action: PayloadAction<string>) => {
+      const findIndex = state.notifications.findIndex(
+        (n) => n._id === action.payload
+      );
+      if (findIndex !== -1) {
+        state.notifications[findIndex] = {
+          ...state.notifications[findIndex],
+          read: true,
+        };
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setNotification, addNotification } = NotificationSlice.actions;
+export const { setNotification, addNotification,updateAsReadNotification } = NotificationSlice.actions;
 
 export default NotificationSlice.reducer;
