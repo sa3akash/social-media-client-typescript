@@ -13,14 +13,12 @@ import {
   resetFn,
   suggestedFriendFn,
   currentUser,
-  getNotification,
 } from ".";
 import { store } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
 import { setTost } from "@/store/reducers/TostReducer";
 import { axiosError } from "../utils/serializeError";
 import { AxiosError } from "axios";
-import { INotification } from "@/interfaces/notificaton.interface";
 
 class Api {
   public async loginCall(data: ILogin): Promise<void> {
@@ -80,25 +78,7 @@ class Api {
     }
   }
 
-  public async getNotifications(pageNumber: number): Promise<
-    | {
-        notifications: INotification[];
-        currentPage: number;
-        numberOfPages: number;
-      }
-    | undefined
-  > {
-    try {
-      const response = await getNotification(pageNumber);
-      return {
-        notifications: response.data?.notifications as INotification[],
-        currentPage: response.data?.currentPage as number,
-        numberOfPages: response.data?.numberOfPages as number,
-      };
-    } catch (err) {
-      this.responseError(err);
-    }
-  }
+
 
   private responseError(err: unknown) {
     const { message } = axiosError(err as AxiosError);

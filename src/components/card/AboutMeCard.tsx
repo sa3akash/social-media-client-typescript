@@ -29,7 +29,7 @@ const AboutMeCard = () => {
         </div>
       </div>
       <Separator />
-      <div className="px-4 py-4 w-full roboto text-[14px] tracking-[0.1px]">
+      <div className="hidden md:block px-4 py-4 w-full roboto text-[14px] tracking-[0.1px]">
         “Pushing pixels and experiences in digital products for Sebostudio”
       </div>
       <Separator />

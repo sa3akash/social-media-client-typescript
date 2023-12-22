@@ -1,22 +1,20 @@
 import AppProvider from "@/AppProvider";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-// import { AuthProvider } from "@/context/AuthContextApi";
 import { NetworkProvider } from "@/context/NetworkContext";
 import { socketService } from "@/services/socket/socket";
-import useEffectOnce from "@/hooks/useEffectOnece";
+import { useEffect } from "react";
 
 function App() {
-  useEffectOnce(() => {
+
+  useEffect(() => {
     socketService.setupSocketConnection();
-  });
+  },[]);
 
   return (
     <Provider store={store}>
       <NetworkProvider>
-        {/* <AuthProvider> */}
-          <AppProvider />
-        {/* </AuthProvider> */}
+        <AppProvider />
       </NetworkProvider>
     </Provider>
   );

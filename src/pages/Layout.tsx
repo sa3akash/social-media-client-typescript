@@ -5,6 +5,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ModelProviders from "@/components/providers/ModelProviders";
 
+
 const Layout = () => {
   const pathname = useLocation().pathname.split("/")[1];
   const navigate = useNavigate();

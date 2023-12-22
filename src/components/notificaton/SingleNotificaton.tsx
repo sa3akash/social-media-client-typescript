@@ -9,15 +9,17 @@ import { notificationIconMap } from "@/data/NotificatonData";
 
 interface Props {
   item: INotification;
+  ref?: React.RefObject<HTMLDivElement> | undefined;
 }
 
-const SingleNotificaton: React.FC<Props> = ({ item }) => {
+const SingleNotificaton: React.FC<Props> = ({ item,ref }) => {
   return (
     <div
       className={cn(
         "relative flex justify-between gap-2 p-4 rounded-none md:rounded-lg w-full cursor-pointer hover:bg-[#292932]",
         item.read ? "bg-[#292932]" :"bg-[#1C1C24]"
       )}
+      ref={ref}
     >
       <div className={cn("hidden w-1 h-full bg-green-400 absolute top-0 left-0",
       !item.read && 'block')}/>

@@ -1,5 +1,7 @@
 import { config } from "@/config";
 import { INotification } from "@/interfaces/notificaton.interface";
+import { store } from "@/store";
+import { addNotification } from "@/store/reducers/NotificationReducer";
 import { Socket, io } from "socket.io-client";
 
 class SocketService {
@@ -36,8 +38,8 @@ class SocketService {
 
   // reactions
   private reactionSocket(){
-    this.socket.on("add-reaction", (data:INotification) => {
-      console.log(data);
+    this.socket.on("reaction-notification", (data:INotification) => {
+      store.dispatch(addNotification(data));
     });
   }
 }

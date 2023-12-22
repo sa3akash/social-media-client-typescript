@@ -11,7 +11,7 @@ const CoverImageAndProfileImage = () => {
   return (
     <div className="w-full h-full">
       <div
-        className="h-[50%] md:h-full bg-background relative overflow-hidden z-0 rounded-lg"
+        className="h-[50%] md:h-full bg-background relative overflow-hidden z-0 rounded-lg md:rounded-none"
         style={{
           backgroundImage: `url(${CoverImage})`,
           backgroundPosition: "center",

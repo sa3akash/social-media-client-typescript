@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import AuthSlice from "@/store/reducers/AuthReducer";
 import TostSlice from "@/store/reducers/TostReducer";
+import NotificationSlice from "@/store/reducers/NotificationReducer";
 
 export const store = configureStore({
   reducer: {
     auth: AuthSlice,
     tost: TostSlice,
+    notification: NotificationSlice,
   },
 });
 

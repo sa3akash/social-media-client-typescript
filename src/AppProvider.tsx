@@ -28,14 +28,14 @@ const AppProvider = () => {
       });
     } else if (tost.type === "worning") {
       toast({
-        title: "Uh oh! Something went wrong.",
-        description: tost.message,
+        // title: "Uh oh! Something went wrong.",
+        description: tost.message || "Uh oh! Something went wrong.",
       });
     } else if (tost.type === "error") {
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: tost.message,
+        // title: "Uh oh! Something went wrong.",
+        description: tost.message || "Uh oh! Something went wrong.",
       });
     }
   }, [toast, tost.message, tost.type]);
