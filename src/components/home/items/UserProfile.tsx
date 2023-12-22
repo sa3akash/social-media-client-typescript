@@ -1,11 +1,12 @@
 import UserAvater from "@/components/common/UserAvater";
-import useAuth from "@/hooks/useAuth";
 import { NameDoc } from "@/interfaces/auth.interface";
 import { PageURL } from "@/services/utils/pageUrl";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const UserProfile = () => {
-  const { user } = useAuth();
+  const { user } = useSelector((store:RootState)=>store.auth)
 
   return (
     <Link

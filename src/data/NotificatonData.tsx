@@ -8,6 +8,7 @@ import WowIcon from '@/assets/reactions/wow.svg'
 import HappyIcon from '@/assets/reactions/haha.svg'
 import SadIcon from '@/assets/reactions/sad.svg'
 import AngryIcon from '@/assets/reactions/angry.svg'
+import UserIcon from '@/assets/images/userCheck.svg'
 
 export const notificationIconMap = {
   love: LoveIcon,
@@ -18,7 +19,7 @@ export const notificationIconMap = {
   sad: SadIcon,
   angry: AngryIcon,
   community: CommunityIcon,
-  follow: "",
+  follow: UserIcon,
 };
 
 export const notificatonData: INotification[] = [

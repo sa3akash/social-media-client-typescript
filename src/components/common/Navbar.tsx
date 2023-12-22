@@ -8,21 +8,21 @@ import Notification from "@/assets/images/Notification.svg";
 import { cn } from "@/lib/utils";
 import { PageURL } from "@/services/utils/pageUrl";
 import UserAvater from "@/components/common/UserAvater";
-import useAuth from "@/hooks/useAuth";
 // import ChatOff from '@/assets/images/ic_Chat_off.svg'
 // import Notification_off from '@/assets/images/ic_Notification_off.svg'
 
 import NavbarItem from "@/components/common/item/NavbarItem";
-import { Utils } from "@/services/utils/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import { useRef } from "react";
 import NotificationDrop from "./item/NotificationDrop";
 import FriendsDropDown from "./item/FriendsDropDown";
 import MessageDropDown from "./item/MessageDropDown";
 import { NameDoc } from "@/interfaces/auth.interface";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user } = useSelector((store:RootState)=>store.auth)
   return (
     <>
       <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">

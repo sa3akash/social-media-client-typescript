@@ -1,4 +1,5 @@
 import { config } from "@/config";
+import { INotification } from "@/interfaces/notificaton.interface";
 import { Socket, io } from "socket.io-client";
 
 class SocketService {
@@ -13,6 +14,7 @@ class SocketService {
   // start connection
   public setupSocketConnection() {
     this.socketConnectionEvents();
+    this.reactionSocket();
   }
 
   // listen for events
@@ -28,6 +30,14 @@ class SocketService {
     this.socket.on("connect_error", (error:Error) => {
       console.log(`Error: ${error!.message}`);
       this.socket.connect();
+    });
+    
+  }
+
+  // reactions
+  private reactionSocket(){
+    this.socket.on("add-reaction", (data:INotification) => {
+      console.log(data);
     });
   }
 }
