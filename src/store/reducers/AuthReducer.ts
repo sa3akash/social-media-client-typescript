@@ -12,7 +12,7 @@ const initialState: AuthState = {
 };
 
 export const AuthSlice = createSlice({
-  name: "counter",
+  name: "auth",
   initialState,
   reducers: {
     setAuth: (state, action: PayloadAction<IUserDoc | null>) => {

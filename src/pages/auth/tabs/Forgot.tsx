@@ -16,7 +16,6 @@ import { Input } from "@/components/ui/input";
 import { forgotSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import CommonAlert from "@/components/common/CommonAlert";
 import { api } from "@/services/http/api";
 
 const Forgot = () => {
@@ -27,7 +26,7 @@ const Forgot = () => {
     },
   });
 
-  const onLogin = async (values: z.infer<typeof forgotSchema>) => {
+  const onForgot = async (values: z.infer<typeof forgotSchema>) => {
     await api.forgotCall(values);
   };
 
@@ -40,7 +39,7 @@ const Forgot = () => {
       >
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onLogin)}
+            onSubmit={form.handleSubmit(onForgot)}
             className="text-left space-y-4"
           >
             <FormField
@@ -67,7 +66,7 @@ const Forgot = () => {
                 "Submit"
               )}
             </Button>
-            {form.formState.isSubmitSuccessful && <CommonAlert type="email" />}
+            {/* {form.formState.isSubmitSuccessful && <CommonAlert type="email" />} */}
           </form>
         </Form>
       </CommonCard>

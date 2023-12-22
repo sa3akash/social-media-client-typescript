@@ -23,7 +23,7 @@ const UserAvater: React.FC<Props> = ({
         className={`bg-primary text-primary-foreground font-semibold`}
         style={{background: `${avatarColor}`, color: `${avatarColor && "white"}`}}
       >
-        {Utils.getAvaterName(name.first,name.last)}
+        {Utils.getAvaterName(name?.first,name?.last)}
       </AvatarFallback>
     </Avatar>
   );
