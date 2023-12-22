@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/services/utils/pageUrl";
 import { api } from "@/services/http/api";
 
+
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -36,6 +37,7 @@ const Login = () => {
 
   const onLogin = async (values: z.infer<typeof loginSchema>) => {
     await api.loginCall(values)
+    // socketService.socket.connect();
   };
 
   return (

@@ -39,6 +39,11 @@ const NotificatonPage = () => {
             <Loader2 className="animate-spin w-6 h-6" />
           </p>
         )}
+         {notifications.length === 0 && (
+          <p className="p-4 flex items-center justify-center">
+            Not found!
+          </p>
+        )}
       </div>
     </>
   );

@@ -26,6 +26,7 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
   const logout = () => {
     dispatch(setAuth(null))
     dispatch(resetNotifications())
+    // socketService.socket.disconnect();
   }
 
   return (
