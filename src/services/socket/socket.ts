@@ -6,6 +6,7 @@ import {
   deleteNotification,
   updateAsReadNotification,
 } from "@/store/reducers/NotificationReducer";
+import { setTost } from "@/store/reducers/TostReducer";
 import { Socket, io } from "socket.io-client";
 
 class SocketService {
@@ -20,7 +21,7 @@ class SocketService {
   // start connection
   public setupSocketConnection() {
     this.socketConnectionEvents();
-    this.reactionSocket();
+    this.notificationSocket();
   }
 
   // listen for events
@@ -40,7 +41,7 @@ class SocketService {
   }
 
   // reactions
-  private reactionSocket() {
+  private notificationSocket() {
     this.socket.on("reaction-notification", (data: INotification) => {
       store.dispatch(addNotification(data));
     });
@@ -52,6 +53,12 @@ class SocketService {
     this.socket.on("delete-notification", (notificationId: string) => {
       store.dispatch(deleteNotification(notificationId));
       // console.log(notificationId)
+      store.dispatch(
+        setTost({
+          type: "success",
+          message: 'Notification deleted successfully.',
+        }),
+      );
     });
   }
 }

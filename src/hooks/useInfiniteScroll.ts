@@ -38,7 +38,7 @@ export default function useInfiniteScroll(url: string) {
   // Inside your component
   const lastElementRef = useCallback(
     (node: HTMLDivElement) => {
-      if (pageNumber > totalPages) return;
+      if (pageNumber >= totalPages) return;
       if (loading) return;
 
       if (observer.current) {
