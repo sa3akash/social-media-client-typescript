@@ -44,6 +44,7 @@ class SocketService {
   private notificationSocket() {
     this.socket.on("reaction-notification", (data: INotification) => {
       store.dispatch(addNotification(data));
+      console.log(data)
     });
 
     this.socket.on("update-notification", (notificationId: string) => {
