@@ -22,7 +22,7 @@ export const NotificationSlice = createSlice({
       const uniqueArray = Array.from(new Set(data.map((obj) => obj._id))).map(
         (id) => {
           return data.find((obj) => obj._id === id);
-        },
+        }
       ) as INotification[];
 
       // const uniqueArray = data.reduce((unique:INotification[], obj:INotification) => {
@@ -38,7 +38,7 @@ export const NotificationSlice = createSlice({
 
     updateAsReadNotification: (state, action: PayloadAction<string>) => {
       const findIndex = state.notifications.findIndex(
-        (n) => n._id === action.payload,
+        (n) => n._id === action.payload
       );
       if (findIndex !== -1) {
         state.notifications[findIndex] = {
@@ -47,11 +47,17 @@ export const NotificationSlice = createSlice({
         };
       }
     },
+
+    deleteNotification: (state, action: PayloadAction<string>) => {
+      state.notifications = state.notifications.filter(
+        (n) => n._id !== action.payload
+      );
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setNotification, addNotification, updateAsReadNotification } =
+export const { setNotification, addNotification, updateAsReadNotification,deleteNotification } =
   NotificationSlice.actions;
 
 export default NotificationSlice.reducer;

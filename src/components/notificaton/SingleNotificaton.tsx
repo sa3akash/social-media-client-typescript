@@ -7,6 +7,7 @@ import MoreIcon from "@/assets/images/ic_More_3_dot.svg";
 import { cn } from "@/lib/utils";
 import { notificationIconMap } from "@/data/NotificatonData";
 import { markAsReadNotification } from "@/services/http";
+import NotificationModel from "./NotificationModel";
 
 interface Props {
   item: INotification;
@@ -90,13 +91,15 @@ const SingleNotificaton: React.FC<Props> = ({ item, ref }) => {
         </div>
         <span className="text-[14px] text-[#92929D]">12 Minutes ago</span>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
         <img
           src={notificationIconMap[item.notificationType]}
           alt="icon"
           className="w-6 h-6 object-contain hidden md:block"
         />
-        <img src={MoreIcon} alt="icon" />
+        <NotificationModel id={item?._id}>
+          <img src={MoreIcon} alt="icon" />
+        </NotificationModel>
       </div>
     </div>
   );

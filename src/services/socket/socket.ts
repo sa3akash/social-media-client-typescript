@@ -3,6 +3,7 @@ import { INotification } from "@/interfaces/notificaton.interface";
 import { store } from "@/store";
 import {
   addNotification,
+  deleteNotification,
   updateAsReadNotification,
 } from "@/store/reducers/NotificationReducer";
 import { Socket, io } from "socket.io-client";
@@ -46,6 +47,10 @@ class SocketService {
 
     this.socket.on("update-notification", (notificationId: string) => {
       store.dispatch(updateAsReadNotification(notificationId));
+      // console.log(notificationId)
+    });
+    this.socket.on("delete-notification", (notificationId: string) => {
+      store.dispatch(deleteNotification(notificationId));
       // console.log(notificationId)
     });
   }
