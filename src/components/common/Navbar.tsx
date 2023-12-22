@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Logo from "@/assets/images/Logo.svg";
 import Search from "@/assets/images/ic_Search.svg";
 import Chat from "@/assets/images/Chat.svg";
 import Dropdown from "@/assets/images/ic_Dropdown.svg";
@@ -20,6 +19,7 @@ import MessageDropDown from "./item/MessageDropDown";
 import { NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import Logo from "@/assets/images/Logo.svg";
 
 const Navbar = () => {
   const { user } = useSelector((store:RootState)=>store.auth)
@@ -27,7 +27,7 @@ const Navbar = () => {
     <>
       <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
         <div className="flex items-center gap-6 lg:gap-24 flex-1">
-          <Link to={PageURL.Feed} className="hidden md:block">
+          <Link to={PageURL.Feed} className="hidden md:block select-none">
             <img
               src={Logo}
               alt="Logo"

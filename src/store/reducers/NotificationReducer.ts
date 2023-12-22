@@ -53,11 +53,20 @@ export const NotificationSlice = createSlice({
         (n) => n._id !== action.payload
       );
     },
+    resetNotifications: (state) => {
+      state.loading = initialState.loading;
+      state.notifications = initialState.notifications;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setNotification, addNotification, updateAsReadNotification,deleteNotification } =
-  NotificationSlice.actions;
+export const {
+  setNotification,
+  addNotification,
+  updateAsReadNotification,
+  deleteNotification,
+  resetNotifications
+} = NotificationSlice.actions;
 
 export default NotificationSlice.reducer;

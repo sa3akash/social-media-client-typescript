@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
+import { resetNotifications } from "@/store/reducers/NotificationReducer";
 
 interface Props {
   children: React.ReactNode;
@@ -22,6 +23,11 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate();
   const {user} = useSelector((store:RootState)=>store.auth)
 
+  const logout = () => {
+    dispatch(setAuth(null))
+    dispatch(resetNotifications())
+  }
+
   return (
     <Menubar className="bg-transparent border-none focus:bg-transparent">
       <MenubarMenu>
@@ -31,7 +37,7 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
             Profile
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem onClick={() => dispatch(setAuth(null))}>Logout</MenubarItem>
+          <MenubarItem onClick={logout}>Logout</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>

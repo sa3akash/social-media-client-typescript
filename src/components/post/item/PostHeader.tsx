@@ -6,13 +6,14 @@ import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
 import { Link } from "react-router-dom";
+import { timeAgo } from "@/services/utils/timeAgo";
 
 interface Props {
   user: ICreator;
-  createAt: string | Date;
+  createAt: string;
 }
 
-const PostHeader: React.FC<Props> = ({ user }) => {
+const PostHeader: React.FC<Props> = ({ user,createAt }) => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
 
@@ -27,7 +28,7 @@ const PostHeader: React.FC<Props> = ({ user }) => {
         />
         <div className="flex flex-col">
           <Link to={`/u/${user._id}`} className="capitalize font-semibold text-[14px] tracking-[0.1px]">{`${user.name.first} ${user.name.last}`}</Link>
-          <span className="text-[12px] roboto text-[#696974]">20/02/2003</span>
+          <span className="text-[12px] roboto text-[#696974]">{timeAgo.transform(createAt)}</span>
         </div>
       </div>
       <div

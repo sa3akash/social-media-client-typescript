@@ -33,7 +33,7 @@ class TimeAgo {
     return format(date, "HH:mm a");
   }
 
-  timeDifference(current: Date, date: Date) {
+  private timeDifference(current: Date, date: Date) {
     const msPerMinute = 60 * 1000;
     const msPerHour = msPerMinute * 60;
     const msPerDay = msPerHour * 24;
@@ -57,7 +57,7 @@ class TimeAgo {
     }
   }
 
-  secondsAgo(elapsed: number) {
+  private secondsAgo(elapsed: number) {
     if (Math.round(elapsed / 1000) <= 1) {
       return "a second ago";
     } else {
@@ -65,7 +65,7 @@ class TimeAgo {
     }
   }
 
-  minutesAgo(elapsed: number, msPerMinute: number) {
+  private minutesAgo(elapsed: number, msPerMinute: number) {
     if (Math.round(elapsed / msPerMinute) <= 1) {
       return "a minute ago";
     } else {
@@ -73,7 +73,7 @@ class TimeAgo {
     }
   }
 
-  hoursAgo(elapsed: number, msPerHour: number) {
+  private hoursAgo(elapsed: number, msPerHour: number) {
     if (Math.round(elapsed / msPerHour) <= 1) {
       return "an hour ago";
     } else {
@@ -81,7 +81,7 @@ class TimeAgo {
     }
   }
 
-  monthsAgo(date: Date, elapsed: number, msPerDay: number) {
+  private monthsAgo(date: Date, elapsed: number, msPerDay: number) {
     if (Math.round(elapsed / msPerDay) <= 7) {
       return format(date, "eeee");
     } else {

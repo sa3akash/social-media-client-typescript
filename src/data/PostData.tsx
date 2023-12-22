@@ -45,7 +45,7 @@ export interface IPostDoc {
   gifUrl?: string;
   privacy: "Public" | "Private" | "Only me";
   reactions: IReactions;
-  createdAt: Date | string;
+  createdAt: string;
 }
 
 // ================ main data ==================== //
