@@ -19,6 +19,5 @@ export interface INotification {
   entityId: string;
   createdItemId: string;
   createdAt: string;
-  read: boolean
+  read: boolean;
 }
-

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
-  type: 'success' | 'error' | 'worning' | null;
+  type: "success" | "error" | "worning" | null;
   message: string | null;
 }
 

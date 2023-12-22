@@ -94,7 +94,7 @@ class Api {
       setTost({
         type: "error",
         message: message,
-      })
+      }),
     );
   }
 
@@ -103,7 +103,7 @@ class Api {
       setTost({
         type: "success",
         message: message,
-      })
+      }),
     );
   }
 }

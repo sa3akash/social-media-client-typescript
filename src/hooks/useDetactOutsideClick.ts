@@ -8,7 +8,10 @@ const useDetectOutsideClick = (
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
-      if (ref.current !== null && !ref.current?.contains(event.target as Node)) {
+      if (
+        ref.current !== null &&
+        !ref.current?.contains(event.target as Node)
+      ) {
         setIsActive(!isActive);
       }
     };

@@ -20,7 +20,7 @@ export default function useInfiniteScroll(url: string) {
         dispatch(
           setNotification({
             notifications: data.data?.notifications as INotification[],
-          })
+          }),
         );
         setTotalPages(data.data?.numberOfPages);
       })
@@ -56,7 +56,7 @@ export default function useInfiniteScroll(url: string) {
       }
     },
 
-    [loading, pageNumber, totalPages]
+    [loading, pageNumber, totalPages],
   );
 
   return { loading, lastElementRef };

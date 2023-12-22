@@ -1,11 +1,9 @@
 import { create } from "zustand";
 
-export type ModalType =
-  | "notificationDropdown"
-
+export type ModalType = "notificationDropdown";
 
 interface ModalData {
-    array?: [];
+  array?: [];
 }
 
 interface ModelStore {
