@@ -14,12 +14,14 @@ import {
   suggestedFriendFn,
   currentUser,
   markAsReadNotification,
+  getNotificaitons,
 } from ".";
 import { store } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
 import { setTost } from "@/store/reducers/TostReducer";
 import { axiosError } from "../utils/serializeError";
 import { AxiosError } from "axios";
+import { setNotification } from "@/store/reducers/NotificationReducer";
 
 class Api {
   public async loginCall(data: ILogin): Promise<void> {
@@ -87,6 +89,19 @@ class Api {
     }
   }
 
+  public async getNotification(): Promise<void> {
+    try {
+      const { data } = await getNotificaitons(1);
+      store.dispatch(
+        setNotification({
+          notifications: data?.notifications,
+        })
+      );
+    } catch (err) {
+      this.responseError(err);
+    }
+  }
+
   private responseError(err: unknown) {
     const { message } = axiosError(err as AxiosError);
     console.log(err);
@@ -94,7 +109,7 @@ class Api {
       setTost({
         type: "error",
         message: message,
-      }),
+      })
     );
   }
 
@@ -103,7 +118,7 @@ class Api {
       setTost({
         type: "success",
         message: message,
-      }),
+      })
     );
   }
 }

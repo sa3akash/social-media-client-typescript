@@ -30,6 +30,7 @@ export const currentUser = (authId: string) =>
   api.get(`/current-user?authId=${authId}`);
 export const markAsReadNotification = (notificationId: string) => api.put(`/notification/${notificationId}`);
 export const deleteNotification = (notificationId: string) => api.delete(`/notification/${notificationId}`);
+export const getNotificaitons = (pageNumber:number) => api.get(`/notifications?page=${pageNumber}`);
 // export const activate = (data) => api.post("/api/activate", data);
 // export const logout = () => api.post("/api/logout");
 // export const createRoom = (data) => api.post("/api/rooms", data);

@@ -42,9 +42,12 @@ class SocketService {
 
   // reactions
   private notificationSocket() {
-    this.socket.on("reaction-notification", (data: INotification) => {
-      store.dispatch(addNotification(data));
-      // console.log(data)
+    this.socket.on("reaction-notification", (data: INotification,{userTo}) => {
+      const {user} = store.getState().auth;
+      if(user?._id === userTo){
+        store.dispatch(addNotification(data));
+      }
+      console.log(data)
     });
 
     this.socket.on("update-notification", (notificationId: string) => {

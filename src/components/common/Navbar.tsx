@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { PageURL } from "@/services/utils/pageUrl";
 import UserAvater from "@/components/common/UserAvater";
 // import ChatOff from '@/assets/images/ic_Chat_off.svg'
-// import Notification_off from '@/assets/images/ic_Notification_off.svg'
+import Notification_off from "@/assets/images/ic_Notification_off.svg";
 
 import NavbarItem from "@/components/common/item/NavbarItem";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
@@ -22,7 +22,11 @@ import { RootState } from "@/store";
 import Logo from "@/assets/images/Logo.svg";
 
 const Navbar = () => {
-  const { user } = useSelector((store:RootState)=>store.auth)
+  const { user } = useSelector((store: RootState) => store.auth);
+  const { notifications } = useSelector(
+    (store: RootState) => store.notification
+  );
+
   return (
     <>
       <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
@@ -56,7 +60,14 @@ const Navbar = () => {
         <div className="flex items-center gap-0 md:gap-4 select-none">
           <NavItem imageSrc={Friends} DropNode={<FriendsDropDown />} />
           <NavItem imageSrc={Chat} DropNode={<MessageDropDown />} text="chat" />
-          <NavItem imageSrc={Notification} DropNode={<NotificationDrop />} />
+          <NavItem
+            imageSrc={
+              notifications.some((n) => !n.read)
+                ? Notification
+                : Notification_off
+            }
+            DropNode={<NotificationDrop />}
+          />
           <NavbarItem>
             <div className="hidden md:flex items-center gap-2 cursor-pointer">
               <UserAvater
@@ -81,7 +92,7 @@ interface NavItemProps {
   text?: string;
 }
 
-const NavItem = ({ imageSrc, DropNode,text }: NavItemProps) => {
+const NavItem = ({ imageSrc, DropNode, text }: NavItemProps) => {
   const detactRef = useRef<HTMLDivElement | null>(null);
 
   const [notficationOpen, setNotificationOpen] = useDetectOutsideClick(
@@ -95,7 +106,7 @@ const NavItem = ({ imageSrc, DropNode,text }: NavItemProps) => {
         className={cn(
           "hidden md:block cursor-pointer p-2 rounded-full transition-all",
           notficationOpen && "bg-muted",
-          text === 'chat' && "block md:block"
+          text === "chat" && "block md:block"
         )}
         onClick={() => setNotificationOpen((prev) => !prev)}
       >
