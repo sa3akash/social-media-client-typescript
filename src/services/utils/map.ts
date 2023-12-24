@@ -46,3 +46,20 @@ export const PrivacyIconMap = {
   'Only Me': OnlyMe,
 
 };
+
+
+export const bgColors = [
+  '#ffffff',
+  '#f44336',
+  '#e91e63',
+  '#2196f3',
+  '#9c27b0',
+  '#3f51b5',
+  // '#00bcd4',
+  '#4caf50',
+  '#ff9800',
+  // '#8bc34a',
+  '#009688',
+  '#03a9f4',
+  // '#cddc39'
+];

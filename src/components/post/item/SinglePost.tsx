@@ -1,10 +1,10 @@
-import { IPostDoc } from "@/data/PostData";
 import React, { useRef } from "react";
 import PostHeader from "@/components/post/item/PostHeader";
 import PostActions from "@/components/post/item/PostActions";
 import CommentAction from "@/components/post/item/CommentAction";
 import ImagesShow from "@/components/post/item/ImagesShow";
 import PostReactions from "@/components/post/item/PostReactions";
+import { IPostDoc } from "@/interfaces/post.interface";
 
 interface Props {
   item: IPostDoc;

@@ -117,3 +117,8 @@ div[contentEditable="true"]:empty:before {
 div[contentEditable="true"]::-webkit-scrollbar {
   display: none;
 }
+
+em-emoji-picker {
+  height: 350px;
+}
+

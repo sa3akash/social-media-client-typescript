@@ -28,7 +28,7 @@ const CommentAction: React.FC<Props> = ({ commentInputRef }) => {
           placeholder="Write your comment…"
           ref={commentInputRef}
         />
-        <img src={AtachmentIcon} alt="" className="w-5 icon" />
+        <img src={AtachmentIcon} alt="atachIcon" className="w-5 icon" />
         <EmojiPicker onChange={(value: string) => console.log(value)}>
           <img src={ImojiIcon} alt="" className="w-5 icon" />
         </EmojiPicker>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ColorPickerIcon from "@/assets/icons/colorPicker.png";
 import EmojiPicker from "@/components/common/EmojiPicker";
 import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
 import { cn } from "@/lib/utils";
+import { bgColors } from "@/services/utils/map";
 
 const SelectBgAndEmoji = () => {
   const [colorPicker, setColorPicker] = useState(false);
@@ -13,25 +14,24 @@ const SelectBgAndEmoji = () => {
         src={ColorPickerIcon}
         alt="picker"
         className="w-[38px] cursor-pointer select-none"
-        onClick={()=>setColorPicker(prev=>!prev)}
+        onClick={() => setColorPicker((prev) => !prev)}
       />
-      <div className="flex-1 ">
+      <div className="flex-1 overflow-hidden ">
         <div
           className={cn(
             "items-center gap-1 justify-around transition-all",
             colorPicker ? "flex" : "hidden"
           )}
         >
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
-          <div className="w-[32px] h-[32px] bg-rose-400"></div>
+         
+        
+          {
+            bgColors.map((item:string,index:number)=>(
+              <div className={cn('min-w-[32px] min-h-[32px] border rounded-md cursor-pointer', index > 5 ? 'hidden sm:block':'block')}
+              style={{backgroundColor: `${item}`}} key={index}/>
+            ))
+          }
+          
         </div>
       </div>
       <EmojiPicker onChange={(value: string) => console.log(value)}>

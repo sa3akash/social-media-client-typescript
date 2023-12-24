@@ -3,6 +3,7 @@ import AuthSlice from "@/store/reducers/AuthReducer";
 import TostSlice from "@/store/reducers/TostReducer";
 import NotificationSlice from "@/store/reducers/NotificationReducer";
 import ModelSlice from "@/store/reducers/ModelReducer";
+import SinglePost from "@/store/reducers/SinglePostReducer";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     tost: TostSlice,
     notification: NotificationSlice,
     model: ModelSlice,
+    SinglePost: SinglePost,
   },
 });
 

@@ -11,9 +11,10 @@ import data from "@emoji-mart/data";
 interface EmojiPickerProps {
   onChange: (value: string) => void;
   children: React.ReactNode;
+  side?: 'left' | 'right' | 'top' | 'bottom';
 }
 
-const EmojiPicker: React.FC<EmojiPickerProps> = ({ onChange,children }) => {
+const EmojiPicker: React.FC<EmojiPickerProps> = ({ onChange,children,side='top' }) => {
   const theme = "dark";
 
   return (
@@ -23,7 +24,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ onChange,children }) => {
         {children}
       </PopoverTrigger>
       <PopoverContent
-        side="bottom"
+        side={side}
         sideOffset={40}
         className="bg-transparent border-none shadow-none drop-shadow-none w-full"
       >
