@@ -2,12 +2,15 @@
 import { Separator } from "@/components/ui/separator";
 import PostImage from "@/assets/images/post_image.svg";
 import UserAvater from "@/components/common/UserAvater";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 import { NameDoc } from "@/interfaces/auth.interface";
+import { openModel } from "@/store/reducers/ModelReducer";
 
 const AddPost = () => {
-  const { user } = useSelector((store:RootState)=>store.auth);
+  const { user } = useSelector((store: RootState) => store.auth);
+
+  const dispatch: AppDispatch = useDispatch();
 
   return (
     <div className="cardBG md:mt-6 md:rounded-xl md:borderWrapper">
@@ -23,9 +26,14 @@ const AddPost = () => {
             name={user?.name as NameDoc}
             className="min-w-[36px] min-h-[36px]"
             avatarColor={user?.avatarColor}
-            />
-          <div className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer select-none">
-            <span className="text-[#696974] flex-1 tracking-[0.1px] text-[16px] cursor-text">
+          />
+          <div
+            className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer select-none"
+            onClick={() =>
+              dispatch(openModel({ data: [], type: "createPost" }))
+            }
+          >
+            <span className="text-[#696974] flex-1 text-start tracking-[0.1px] text-[16px]">
               What&apos;s on your mind?
             </span>
             <div className="cursor-pointer">

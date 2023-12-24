@@ -6,12 +6,10 @@ interface Props {
   modelContent: React.ReactNode;
 }
 
-const DrawerModelProvider: React.FC<Props> = ({ children,modelContent }) => {
+const DrawerModelProvider: React.FC<Props> = ({ children, modelContent }) => {
   return (
     <Drawer.Root shouldScaleBackground>
-      <Drawer.Trigger asChild>
-        {children}
-      </Drawer.Trigger>
+      <Drawer.Trigger asChild>{children}</Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/80" />
         <Drawer.Content className="flex flex-col rounded-t-[20px] h-[70%] mt-24 fixed bottom-0 left-0 right-0 focus-visible:outline-none ">

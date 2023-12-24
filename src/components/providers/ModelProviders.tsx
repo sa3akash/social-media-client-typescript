@@ -1,5 +1,11 @@
+import CreatePostModel from "@/components/post/postForm/CreatePostModel";
+
 const ModelProviders = () => {
-  return <></>;
+  return (
+    <>
+      <CreatePostModel />
+    </>
+  );
 };
 
 export default ModelProviders;

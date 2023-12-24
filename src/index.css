@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -99,8 +99,21 @@
   font-family: "Poppins", sans-serif;
 }
 
-.roboto{
-  font-family: 'Roboto', sans-serif;
+.roboto {
+  font-family: "Roboto", sans-serif;
 }
 
-
+div[contentEditable="true"]:empty:before {
+  content: attr(data-placeholder);
+  color: #696974; /* Placeholder text color */
+  font-weight: 400; /* Placeholder text font weight */
+  letter-spacing: 0.1px;
+  font-size: 24px;
+  text-align: start;
+  text-transform: capitalize;
+  line-height: 28px;
+  cursor: text;
+}
+div[contentEditable="true"]::-webkit-scrollbar {
+  display: none;
+}
