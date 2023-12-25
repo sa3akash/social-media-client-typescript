@@ -20,6 +20,7 @@ import { NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Logo from "@/assets/images/Logo.svg";
+import { ModeToggle } from "@/components/common/ThemeToggle";
 
 const Navbar = () => {
   const { user } = useSelector((store: RootState) => store.auth);
@@ -79,6 +80,7 @@ const Navbar = () => {
             </div>
           </NavbarItem>
         </div>
+        <ModeToggle />
       </div>
     </>
   );

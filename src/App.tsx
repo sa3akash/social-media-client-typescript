@@ -7,6 +7,7 @@ import { RouterProvider } from "react-router-dom";
 import Router from "@/router";
 import { Toaster } from "@/components/ui/toaster";
 import OnlineOffline from "@/components/common/OnlineOffline";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 function App() {
   useEffect(() => {
@@ -14,22 +15,23 @@ function App() {
   }, []);
 
   return (
-    <div className="dark bg-background text-foreground h-full">
-      <div className="max-w-[2160px] mx-auto h-full w-full">
-        <Provider store={store}>
-          <NetworkProvider>
-            <RouterProvider router={Router} />
-            <Toaster />
-            <OnlineOffline />
-          </NetworkProvider>
-        </Provider>
+    <ThemeProvider>
+      <div className="bg-background text-foreground h-full">
+        <div className="max-w-[2160px] mx-auto h-full w-full">
+          <Provider store={store}>
+            <NetworkProvider>
+              <RouterProvider router={Router} />
+              <Toaster />
+              <OnlineOffline />
+            </NetworkProvider>
+          </Provider>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
 export default App;
-
 
 // const { user } = useSelector((state: RootState) => state.auth);
 // const tost = useSelector((state: RootState) => state.tost);

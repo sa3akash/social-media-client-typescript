@@ -20,10 +20,9 @@ const PostInput: React.FC<Props> = ({ bgColor, post }) => {
 
   const postInputEditable = (e: React.FormEvent<HTMLDivElement>) => {
     const text = (e.target as HTMLDivElement).textContent;
-
-    const currentTextLength = text?.length || 0;
-    const counter = maxNumberOfCharacters - currentTextLength;
-    console.log(counter, text);
+    // const currentTextLength = text?.length || 0;
+    // const counter = maxNumberOfCharacters - currentTextLength;
+    // console.log(counter, text);
     dispatch(updatePostItem({ post: text as string }));
   };
 

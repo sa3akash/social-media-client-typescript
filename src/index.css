@@ -118,7 +118,7 @@
 
 #bgColor[contentEditable="true"]:empty:before {
   content: attr(data-placeholder);
-  color: white; /* Placeholder text color */
+  color: #d9d9dd; /* Placeholder text color */
   font-weight: 400; /* Placeholder text font weight */
   letter-spacing: 0.1px;
   font-size: 24px;

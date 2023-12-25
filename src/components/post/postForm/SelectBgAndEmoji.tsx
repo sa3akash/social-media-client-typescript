@@ -4,12 +4,13 @@ import EmojiPicker from "@/components/common/EmojiPicker";
 import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
 import { cn } from "@/lib/utils";
 import { bgColors } from "@/services/utils/map";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 import { updatePostItem } from "@/store/reducers/SinglePostReducer";
 
 const SelectBgAndEmoji = () => {
   const [colorPicker, setColorPicker] = useState(false);
+  const {post} = useSelector((state:RootState)=>state.SinglePost)
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -43,7 +44,7 @@ const SelectBgAndEmoji = () => {
           ))}
         </div>
       </div>
-      <EmojiPicker onChange={(value: string) => console.log(value)}>
+      <EmojiPicker onChange={(value: string) => dispatch(updatePostItem({post: post+value}))}>
         <img src={ImojiIcon} alt="" className="w-6 icon" />
       </EmojiPicker>
     </div>
