@@ -103,7 +103,7 @@
   font-family: "Roboto", sans-serif;
 }
 
-div[contentEditable="true"]:empty:before {
+#bgNone[contentEditable="true"]:empty:before {
   content: attr(data-placeholder);
   color: #696974; /* Placeholder text color */
   font-weight: 400; /* Placeholder text font weight */
@@ -113,6 +113,20 @@ div[contentEditable="true"]:empty:before {
   text-transform: capitalize;
   line-height: 28px;
   cursor: text;
+  font-weight: bold;
+}
+
+#bgColor[contentEditable="true"]:empty:before {
+  content: attr(data-placeholder);
+  color: white; /* Placeholder text color */
+  font-weight: 400; /* Placeholder text font weight */
+  letter-spacing: 0.1px;
+  font-size: 24px;
+  text-align: start;
+  text-transform: capitalize;
+  line-height: 28px;
+  cursor: text;
+  font-weight: bold;
 }
 div[contentEditable="true"]::-webkit-scrollbar {
   display: none;

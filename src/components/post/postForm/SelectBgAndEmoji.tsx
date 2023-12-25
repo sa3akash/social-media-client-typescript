@@ -4,12 +4,17 @@ import EmojiPicker from "@/components/common/EmojiPicker";
 import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
 import { cn } from "@/lib/utils";
 import { bgColors } from "@/services/utils/map";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { updatePostItem } from "@/store/reducers/SinglePostReducer";
 
 const SelectBgAndEmoji = () => {
   const [colorPicker, setColorPicker] = useState(false);
 
+  const dispatch: AppDispatch = useDispatch();
+
   return (
-    <div className="flex items-center gap-1 my-4">
+    <div className="flex items-center gap-1 my-4 px-4">
       <img
         src={ColorPickerIcon}
         alt="picker"
@@ -23,15 +28,19 @@ const SelectBgAndEmoji = () => {
             colorPicker ? "flex" : "hidden"
           )}
         >
-         
-        
-          {
-            bgColors.map((item:string,index:number)=>(
-              <div className={cn('min-w-[32px] min-h-[32px] border rounded-md cursor-pointer', index > 5 ? 'hidden sm:block':'block')}
-              style={{backgroundColor: `${item}`}} key={index}/>
-            ))
-          }
-          
+          {bgColors.map((item: string, index: number) => (
+            <div
+              className={cn(
+                "min-w-[32px] min-h-[32px] border rounded-md cursor-pointer",
+                index > 5 ? "hidden sm:block" : "block"
+              )}
+              style={{ backgroundColor: `${item}` }}
+              key={index}
+              onClick={() =>
+                dispatch(updatePostItem({ bgColor: index === 0 ? "" : item }))
+              }
+            />
+          ))}
         </div>
       </div>
       <EmojiPicker onChange={(value: string) => console.log(value)}>

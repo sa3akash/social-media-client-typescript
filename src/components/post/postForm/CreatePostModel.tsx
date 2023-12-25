@@ -28,9 +28,9 @@ const CreatePostModel = () => {
       open={type === "createPost" && isOpen}
       onOpenChange={() => dispatch(closeModel())}
     >
-      <DialogContent className="max-w-[500px]">
+      <DialogContent className="max-w-[500px] p-0">
         <DialogHeader>
-          <DialogTitle className="text-center">Create post</DialogTitle>
+          <DialogTitle className="text-center mt-4">Create post</DialogTitle>
         </DialogHeader>
         <Separator />
         <div className="">
@@ -39,7 +39,7 @@ const CreatePostModel = () => {
           <SelectBgAndEmoji/>
           <AddToUserPost />
         </div>
-        <DialogFooter>
+        <DialogFooter className="px-4 pb-4">
           <Button type="submit" className="w-full">
             Post
           </Button>

@@ -6,9 +6,6 @@ type ModelType = "createPost";
 export interface ModelState {
   type: ModelType | null;
   isOpen: boolean;
-  feeling: string;
-  image: string;
-  data: [] | null;
   feelingsIsOpen: boolean;
   openFileDialog: boolean;
   openVideoDialog: boolean;
@@ -21,9 +18,6 @@ export interface ModelState {
 const initialState: ModelState = {
   type: null,
   isOpen: false,
-  feeling: "",
-  image: "",
-  data: null,
   feelingsIsOpen: false,
   openFileDialog: false,
   openVideoDialog: false,
@@ -37,20 +31,13 @@ export const ModelSlice = createSlice({
   name: "model",
   initialState,
   reducers: {
-    openModel: (
-      state,
-      action: PayloadAction<{ type: ModelType; data: [] }>
-    ) => {
+    openModel: (state, action: PayloadAction<{ type: ModelType }>) => {
       state.isOpen = true;
       state.type = action.payload.type;
-      state.data = action.payload.data;
     },
     closeModel: (state) => {
       (state.type = null),
         (state.isOpen = false),
-        (state.feeling = ""),
-        (state.image = ""),
-        (state.data = null),
         (state.feelingsIsOpen = false),
         (state.openFileDialog = false),
         (state.openVideoDialog = false),
@@ -59,9 +46,7 @@ export const ModelSlice = createSlice({
         (state.commentsModalIsOpen = false),
         (state.deleteDialogIsOpen = false);
     },
-    addPostFeeling: (state, action: PayloadAction<string>) => {
-      state.feeling = action.payload;
-    },
+
     toggleImageModal: (state, action: PayloadAction<boolean>) => {
       state.openFileDialog = action.payload;
     },
@@ -80,13 +65,9 @@ export const ModelSlice = createSlice({
     toggleCommentsModal: (state, action: PayloadAction<boolean>) => {
       state.commentsModalIsOpen = action.payload;
     },
-    toggleDeleteDialog: (
-      state,
-      action: PayloadAction<{ toggle: boolean; data: [] }>
-    ) => {
-      const { toggle, data } = action.payload;
+    toggleDeleteDialog: (state, action: PayloadAction<{ toggle: boolean }>) => {
+      const { toggle } = action.payload;
       state.deleteDialogIsOpen = toggle;
-      state.data = data;
     },
   },
 });
@@ -95,7 +76,6 @@ export const ModelSlice = createSlice({
 export const {
   openModel,
   closeModel,
-  addPostFeeling,
   toggleImageModal,
   toggleVideoModal,
   toggleFeelingModal,

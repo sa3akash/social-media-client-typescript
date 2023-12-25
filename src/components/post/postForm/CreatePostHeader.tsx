@@ -11,7 +11,7 @@ interface Props {
 
 const CreatePostHeader: React.FC<Props> = ({ user, privacy }) => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center px-4">
       <UserAvater
         src={user?.profilePicture}
         name={user?.name as NameDoc}
