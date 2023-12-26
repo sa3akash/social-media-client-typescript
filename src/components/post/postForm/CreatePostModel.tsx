@@ -17,12 +17,12 @@ import { IUserDoc } from "@/interfaces/auth.interface";
 import CreateInput from "./CreateInput";
 import SelectBgAndEmoji from "./SelectBgAndEmoji";
 import AddToUserPost from "./AddToUserPost";
-import { IPrivacy } from "@/interfaces/post.interface";
+import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { type, isOpen } = useSelector((store: RootState) => store.model);
-  const { privacy } = useSelector((store: RootState) => store.SinglePost);
+  const { privacy,feelings } = useSelector((store: RootState) => store.SinglePost);
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -36,7 +36,7 @@ const CreatePostModel = () => {
         </DialogHeader>
         <Separator />
         <div className="">
-          <CreatePostHeader user={user as IUserDoc} privacy={privacy as IPrivacy}/>
+          <CreatePostHeader user={user as IUserDoc} privacy={privacy as IPrivacy} feelings={feelings as  IFeelings}/>
           <CreateInput />
           <SelectBgAndEmoji/>
           <AddToUserPost />

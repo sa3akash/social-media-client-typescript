@@ -1,11 +1,11 @@
-import { IPrivacy } from "@/interfaces/post.interface";
+import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface SinglePostDoc {
   post?: string;
   bgColor?: string;
   files?: [];
-  feelings?: string;
+  feelings?: IFeelings | null;
   gifUrl?: string;
   privacy?: IPrivacy;
 }
@@ -15,7 +15,7 @@ const initialState: SinglePostDoc = {
   post: "",
   privacy: "Public",
   bgColor: "",
-  feelings: "",
+  feelings: 'happy',
   gifUrl: "",
 };
 
@@ -33,7 +33,7 @@ const SinglePost = createSlice({
         (state.post = ""),
         (state.privacy = "Public"),
         (state.bgColor = ""),
-        (state.feelings = ""),
+        (state.feelings = null),
         (state.gifUrl = "");
     },
   },

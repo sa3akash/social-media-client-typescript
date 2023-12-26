@@ -19,6 +19,29 @@ import PublicIcon from "@/assets/icons/publicBig.png";
 import PrivateIcon from "@/assets/icons/PrivateIcon.png";
 import OnlyMe from "@/assets/icons/onlyMeBig.png";
 
+// feeling
+import HappyFeelingIcon from "@/assets/feelings/happy.png";
+import ExcitedFeelingIcon from "@/assets/feelings/excited.png";
+import BlessedFeelingIcon from "@/assets/feelings/blessed.png";
+import LovedFeelingIcon from "@/assets/feelings/loved.png";
+import RelaxedFeelingIcon from "@/assets/feelings/relaxed.png";
+import SadFeelingIcon from "@/assets/feelings/sad.png";
+import CrazyFeelingIcon from "@/assets/feelings/crazy.png";
+import BlissfulFeelingIcon from "@/assets/feelings/blissful.png";
+import inloveFeelingIcon from "@/assets/feelings/inlove.png";
+import lovelyFeelingIcon from "@/assets/feelings/lovely.png";
+import coolFeelingIcon from "@/assets/feelings/cool.png";
+import gratefulFeelingIcon from "@/assets/feelings/grateful.png";
+import lazyFeelingIcon from "@/assets/feelings/lazy.png";
+import amusedFeelingIcon from "@/assets/feelings/amused.png";
+import fantasticFeelingIcon from "@/assets/feelings/fantastic.png";
+import festiveFeelingIcon from "@/assets/feelings/festive.png";
+import prettyFeelingIcon from "@/assets/feelings/pretty.png";
+import secureFeelingIcon from "@/assets/feelings/secure.png";
+import sillyFeelingIcon from "@/assets/feelings/silly.png";
+import stupidFeelingIcon from "@/assets/feelings/stupid.png";
+import thankfulFeelingIcon from "@/assets/feelings/thankful.png";
+import wonderfulFeelingIcon from "@/assets/feelings/wonderful.png";
 
 export const ReactionIconMap = {
   love: LoveReaction,
@@ -43,23 +66,46 @@ export const ReactionIconMapGif = {
 export const PrivacyIconMap = {
   Public: PublicIcon,
   Private: PrivateIcon,
-  'Only me': OnlyMe,
-
+  "Only me": OnlyMe,
 };
 
+export const feelingIconMap = {
+  happy: HappyFeelingIcon,
+  excited: ExcitedFeelingIcon,
+  blessed: BlessedFeelingIcon,
+  loved: LovedFeelingIcon,
+  relaxed: RelaxedFeelingIcon,
+  sad: SadFeelingIcon,
+  crazy: CrazyFeelingIcon,
+  blissful: BlissfulFeelingIcon,
+  "in love": inloveFeelingIcon,
+  lovely: lovelyFeelingIcon,
+  cool: coolFeelingIcon,
+  grateful: gratefulFeelingIcon,
+  lazy: lazyFeelingIcon,
+  amused: amusedFeelingIcon,
+  fantastic: fantasticFeelingIcon,
+  festive: festiveFeelingIcon,
+  pretty: prettyFeelingIcon,
+  secure: secureFeelingIcon,
+  silly: sillyFeelingIcon,
+  stupid: stupidFeelingIcon,
+  thankful: thankfulFeelingIcon,
+  wonderful: wonderfulFeelingIcon,
+};
 
 export const bgColors = [
-  '#ffffff',
-  '#f44336',
-  '#e91e63',
-  '#2196f3',
-  '#9c27b0',
-  '#3f51b5',
+  "#ffffff",
+  "#f44336",
+  "#e91e63",
+  "#2196f3",
+  "#9c27b0",
+  "#3f51b5",
   // '#00bcd4',
-  '#4caf50',
-  '#ff9800',
+  "#4caf50",
+  "#ff9800",
   // '#8bc34a',
-  '#009688',
-  '#03a9f4',
+  "#009688",
+  "#03a9f4",
   // '#cddc39'
 ];

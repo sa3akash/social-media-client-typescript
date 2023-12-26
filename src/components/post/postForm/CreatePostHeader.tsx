@@ -2,8 +2,8 @@ import UserAvater from "@/components/common/UserAvater";
 import { IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import { ChevronDown } from "lucide-react";
 import React from "react";
-import { PrivacyIconMap } from "@/services/utils/map";
-import { IPrivacy } from "@/interfaces/post.interface";
+import { PrivacyIconMap, feelingIconMap } from "@/services/utils/map";
+import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,9 +18,10 @@ import { Separator } from "@/components/ui/separator";
 interface Props {
   user: IUserDoc;
   privacy: IPrivacy;
+  feelings?: IFeelings;
 }
 
-const CreatePostHeader: React.FC<Props> = ({ user, privacy }) => {
+const CreatePostHeader: React.FC<Props> = ({ user, privacy, feelings }) => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -32,13 +33,19 @@ const CreatePostHeader: React.FC<Props> = ({ user, privacy }) => {
         avatarColor={user?.avatarColor}
       />
       <div className="capitalize">
-        <h4 className="font-semibold text-[15px]">
+        <h4 className="font-semibold text-[15px] flex items-center gap-2">
           {user?.name.first} {user?.name.last}
+          {feelings && (
+            <span className="lowercase text-[16px] font-normal flex items-center gap-1">
+              is feeling <img src={feelingIconMap[feelings]} alt={feelings} className="w-6"/>
+              {feelings}
+            </span>
+          )}
         </h4>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="bg-muted rounded-md roboto text-[12px] font-semibold flex items-center gap-1 justify-center select-none cursor-pointer">
+            <div className="bg-muted rounded-md roboto text-[12px] font-semibold flex items-center gap-1 justify-center select-none cursor-pointer w-max px-3">
               <img
                 src={PrivacyIconMap[privacy]}
                 alt="public"
