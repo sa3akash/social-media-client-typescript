@@ -23,8 +23,8 @@ const SingleNotificaton: React.FC<Props> = ({ item, ref }) => {
   return (
     <div
       className={cn(
-        "relative flex justify-between gap-2 p-4 rounded-none md:rounded-lg w-full cursor-pointer hover:bg-[#292932]",
-        item.read ? "bg-[#292932]" : "bg-[#1C1C24]"
+        "cardBG relative flex justify-between gap-2 p-4 rounded-none md:rounded-lg w-full cursor-pointer dark:hover:bg-[#292932] hover:bg-[#dedede]",
+        item.read ? " dark:bg-[#292932]" : "bg-[#e8e8e8] dark:bg-[#1C1C24]"
       )}
       ref={ref}
       onClick={handleNotification}

@@ -19,7 +19,7 @@ const NotificatonPage = () => {
     <>
       <div className="md:text-[18px] mb-2 px-4 md:px-0 font-semibold xl:text-[24px] leading-9 tracking-[0.1px] flex items-center justify-between">
         <div>Notifications</div>
-        <button className="bg-[#292932] hover:bg-[#292932b9] px-8 py-1 rounded-md flex items-center gap-2 text-[14px] transition-all select-none"><ListChecks /> Mark all read</button>
+        <button className="cardBG dark:hover:bg-[#292932] hover:bg-[#dedede] px-8 py-1 rounded-md flex items-center gap-2 text-[14px] transition-all select-none"><ListChecks /> Mark all read</button>
       </div>
 
       <div className="flex flex-col gap-2 pb-2">

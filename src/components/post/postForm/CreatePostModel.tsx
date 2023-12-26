@@ -28,7 +28,7 @@ const CreatePostModel = () => {
       open={type === "createPost" && isOpen}
       onOpenChange={() => dispatch(closeModel())}
     >
-      <DialogContent className="max-w-[500px] p-0">
+      <DialogContent className="max-w-[500px] p-0 cardBG">
         <DialogHeader>
           <DialogTitle className="text-center mt-4">Create post</DialogTitle>
         </DialogHeader>

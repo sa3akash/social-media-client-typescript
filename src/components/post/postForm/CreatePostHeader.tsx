@@ -23,7 +23,7 @@ const CreatePostHeader: React.FC<Props> = ({ user, privacy }) => {
           {user?.name.first} {user?.name.last}
         </h4>
         <div className="bg-muted rounded-md roboto text-[12px] font-semibold flex items-center gap-1 justify-center select-none cursor-pointer">
-          <img src={PrivacyIconMap[privacy]} alt="public" className="w-3 filter brightness-0 dark:brightness-150" />
+          <img src={PrivacyIconMap[privacy]} alt="public" className="w-3 filter dark:invert" />
           <span>public</span>
           <ChevronDown className="w-5" />
         </div>
