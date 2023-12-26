@@ -43,7 +43,7 @@ export const ReactionIconMapGif = {
 export const PrivacyIconMap = {
   Public: PublicIcon,
   Private: PrivateIcon,
-  'Only Me': OnlyMe,
+  'Only me': OnlyMe,
 
 };
 

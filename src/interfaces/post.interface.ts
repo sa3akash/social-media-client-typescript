@@ -32,6 +32,8 @@ export interface IReactions {
     email: string;
     avatarColor: string;
   }
+
+  export type IPrivacy = "Public" | "Private" | "Only me";
   
   export interface IPostDoc {
     _id: string;
@@ -44,7 +46,7 @@ export interface IReactions {
     files: IFiles[];
     feelings?: string;
     gifUrl?: string;
-    privacy: "Public" | "Private" | "Only me";
+    privacy: IPrivacy
     reactions: IReactions;
     createdAt: string;
   }

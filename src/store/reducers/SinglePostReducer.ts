@@ -1,3 +1,4 @@
+import { IPrivacy } from "@/interfaces/post.interface";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface SinglePostDoc {
@@ -6,7 +7,7 @@ interface SinglePostDoc {
   files?: [];
   feelings?: string;
   gifUrl?: string;
-  privacy?: "Public" | "Private" | "Only me";
+  privacy?: IPrivacy;
 }
 
 const initialState: SinglePostDoc = {
