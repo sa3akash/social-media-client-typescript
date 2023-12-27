@@ -1,3 +1,5 @@
+import { NameDoc } from "@/interfaces/auth.interface";
+
 export interface IReactions {
   like: number;
   love: number;
@@ -7,12 +9,30 @@ export interface IReactions {
   angry: number;
   care: number;
 }
-
-export interface NameDoc {
-  first: string;
-  last: string;
-  nick: string;
-}
+export const feelingData = [
+  "happy",
+  "excited",
+  "blessed",
+  "loved",
+  "relaxed",
+  "sad",
+  "crazy",
+  "blissful",
+  "in love",
+  "lovely",
+  "cool",
+  "grateful",
+  "lazy",
+  "amused",
+  "fantastic",
+  "festive",
+  "pretty",
+  "secure",
+  "silly",
+  "stupid",
+  "thankful",
+  "wonderful",
+];
 export interface IFiles {
   fieldname: string;
   originalname: string;

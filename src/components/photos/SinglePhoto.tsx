@@ -1,6 +1,6 @@
-import { IPostDoc } from "@/data/PostData";
 import React from "react";
 import SinglePostItem from "@/components/photos/SinglePostItem";
+import { IPostDoc } from "@/interfaces/post.interface";
 
 interface Props {
   post: IPostDoc;

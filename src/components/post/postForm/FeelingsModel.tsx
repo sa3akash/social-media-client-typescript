@@ -1,6 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { feelingData } from "@/data/PostData";
-import { IFeelings } from "@/interfaces/post.interface";
+import { IFeelings, feelingData } from "@/interfaces/post.interface";
 import { feelingIconMap } from "@/services/utils/map";
 import { AppDispatch } from "@/store";
 import { updatePostItem } from "@/store/reducers/SinglePostReducer";

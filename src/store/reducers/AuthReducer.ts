@@ -16,7 +16,7 @@ export const AuthSlice = createSlice({
   initialState,
   reducers: {
     setAuth: (state, action: PayloadAction<IUserDoc | null>) => {
-      localStorage.setItem('user', JSON.stringify(action.payload));
+      localStorage.setItem("user", JSON.stringify(action.payload));
       state.user = action.payload;
     },
   },

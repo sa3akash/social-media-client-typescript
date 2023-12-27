@@ -1,4 +1,4 @@
-import { IPostDoc } from "@/data/PostData";
+import { IPostDoc } from "@/interfaces/post.interface";
 import React from "react";
 
 interface Props {

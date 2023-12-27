@@ -1,9 +1,8 @@
-import React from 'react'
 
-const Skel = () => {
+const Skeleton = () => {
   return (
-    <div>Skel</div>
+    <div>Skeleton</div>
   )
 }
 
-export default Skel
+export default Skeleton

@@ -2,31 +2,6 @@
 
 import { IPostDoc } from "@/interfaces/post.interface";
 
-export const feelingData = [
-  "happy",
-  "excited",
-  "blessed",
-  "loved",
-  "relaxed",
-  "sad",
-  "crazy",
-  "blissful",
-  "in love",
-  "lovely",
-  "cool",
-  "grateful",
-  "lazy",
-  "amused",
-  "fantastic",
-  "festive",
-  "pretty",
-  "secure",
-  "silly",
-  "stupid",
-  "thankful",
-  "wonderful",
-];
-
 export const postData: IPostDoc[] = [
   {
     _id: "123456",

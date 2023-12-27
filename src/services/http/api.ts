@@ -95,7 +95,7 @@ class Api {
       store.dispatch(
         setNotification({
           notifications: data?.notifications,
-        })
+        }),
       );
     } catch (err) {
       this.responseError(err);
@@ -109,7 +109,7 @@ class Api {
       setTost({
         type: "error",
         message: message,
-      })
+      }),
     );
   }
 
@@ -118,7 +118,7 @@ class Api {
       setTost({
         type: "success",
         message: message,
-      })
+      }),
     );
   }
 }

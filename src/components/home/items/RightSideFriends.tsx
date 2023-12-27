@@ -1,5 +1,5 @@
-import { IUserDoc } from "@/data/AddStoryData";
 import RightSidePageItem from "@/components/home/items/RightSidePageItem";
+import { IUserDoc } from "@/interfaces/auth.interface";
 import React from "react";
 
 interface Props {

@@ -1,10 +1,10 @@
-import { IPostDoc } from "@/data/PostData";
 import React, { useState } from "react";
 import { IReactionDoc, ReactionName } from "@/interfaces/reaction.interface";
 import SingleReactionItem from "@/components/models/item/SingleReactionItem";
 import { NumberOfReaction, reactionData } from "@/data/ReactionData";
 import SingleReactionData from "@/components/models/item/SingleReactionData";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { IPostDoc } from "@/interfaces/post.interface";
 
 interface Props {
   reactionType: ReactionName;

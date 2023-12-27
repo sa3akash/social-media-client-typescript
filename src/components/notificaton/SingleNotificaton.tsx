@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import MoreIcon from "@/assets/images/ic_More_3_dot.svg";
 
 import { cn } from "@/lib/utils";
-import { notificationIconMap } from "@/data/NotificatonData";
 import { markAsReadNotification } from "@/services/http";
 import NotificationModel from "./NotificationModel";
 import { timeAgo } from "@/services/utils/timeAgo";
+import { notificationIconMap } from "@/services/utils/map";
 
 interface Props {
   item: INotification;
