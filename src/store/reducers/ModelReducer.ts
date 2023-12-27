@@ -46,43 +46,10 @@ export const ModelSlice = createSlice({
         (state.commentsModalIsOpen = false),
         (state.deleteDialogIsOpen = false);
     },
-
-    toggleImageModal: (state, action: PayloadAction<boolean>) => {
-      state.openFileDialog = action.payload;
-    },
-    toggleVideoModal: (state, action: PayloadAction<boolean>) => {
-      state.openVideoDialog = action.payload;
-    },
-    toggleFeelingModal: (state, action: PayloadAction<boolean>) => {
-      state.feelingsIsOpen = action.payload;
-    },
-    toggleGifModal: (state, action: PayloadAction<boolean>) => {
-      state.gifModalIsOpen = action.payload;
-    },
-    toggleReactionsModal: (state, action: PayloadAction<boolean>) => {
-      state.reactionsModalIsOpen = action.payload;
-    },
-    toggleCommentsModal: (state, action: PayloadAction<boolean>) => {
-      state.commentsModalIsOpen = action.payload;
-    },
-    toggleDeleteDialog: (state, action: PayloadAction<{ toggle: boolean }>) => {
-      const { toggle } = action.payload;
-      state.deleteDialogIsOpen = toggle;
-    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  openModel,
-  closeModel,
-  toggleImageModal,
-  toggleVideoModal,
-  toggleFeelingModal,
-  toggleGifModal,
-  toggleReactionsModal,
-  toggleCommentsModal,
-  toggleDeleteDialog,
-} = ModelSlice.actions;
+export const { openModel, closeModel } = ModelSlice.actions;
 
 export default ModelSlice.reducer;

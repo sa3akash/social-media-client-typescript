@@ -35,7 +35,7 @@ const CreatePostModel = () => {
           <DialogTitle className="text-center mt-4">Create post</DialogTitle>
         </DialogHeader>
         <Separator />
-        <div className="">
+        <div className="relative">
           <CreatePostHeader user={user as IUserDoc} privacy={privacy as IPrivacy} feelings={feelings as  IFeelings}/>
           <CreateInput />
           <SelectBgAndEmoji/>

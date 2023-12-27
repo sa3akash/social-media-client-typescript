@@ -15,7 +15,7 @@ const initialState: SinglePostDoc = {
   post: "",
   privacy: "Public",
   bgColor: "",
-  feelings: 'happy',
+  feelings: null,
   gifUrl: "",
 };
 

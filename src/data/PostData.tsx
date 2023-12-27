@@ -1,8 +1,31 @@
-
-
 // ================ main data ==================== //
 
 import { IPostDoc } from "@/interfaces/post.interface";
+
+export const feelingData = [
+  "happy",
+  "excited",
+  "blessed",
+  "loved",
+  "relaxed",
+  "sad",
+  "crazy",
+  "blissful",
+  "in love",
+  "lovely",
+  "cool",
+  "grateful",
+  "lazy",
+  "amused",
+  "fantastic",
+  "festive",
+  "pretty",
+  "secure",
+  "silly",
+  "stupid",
+  "thankful",
+  "wonderful",
+];
 
 export const postData: IPostDoc[] = [
   {
@@ -19,7 +42,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -51,6 +75,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -73,7 +98,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -96,6 +122,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -118,7 +145,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -131,6 +159,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -153,7 +182,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -176,6 +206,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -198,7 +229,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -211,6 +243,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -233,7 +266,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -274,6 +308,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -296,7 +331,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -328,6 +364,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -350,7 +387,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -373,6 +411,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -395,7 +434,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -408,6 +448,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -430,7 +471,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -443,6 +485,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -465,7 +508,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -478,6 +522,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -500,7 +545,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -513,6 +559,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -535,7 +582,8 @@ export const postData: IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -594,6 +642,7 @@ export const postData: IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -604,7 +653,7 @@ export const postData: IPostDoc[] = [
   },
 ];
 
-export const photoPost:IPostDoc[] = [
+export const photoPost: IPostDoc[] = [
   {
     _id: "123456",
     authId: "789654",
@@ -619,7 +668,8 @@ export const photoPost:IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -651,6 +701,7 @@ export const photoPost:IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -673,7 +724,8 @@ export const photoPost:IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -705,6 +757,7 @@ export const photoPost:IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -727,7 +780,8 @@ export const photoPost:IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -743,13 +797,14 @@ export const photoPost:IPostDoc[] = [
         mimetype: "",
         path: "https://images.unsplash.com/photo-1539698103494-a76dd0436fbc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGxhZHl8ZW58MHx8MHx8fDA%3D",
         size: 123654,
-      }
+      },
     ],
     feelings: "happy",
     gifUrl: "",
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -772,7 +827,8 @@ export const photoPost:IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -804,6 +860,7 @@ export const photoPost:IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -826,7 +883,8 @@ export const photoPost:IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -858,6 +916,7 @@ export const photoPost:IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -880,7 +939,8 @@ export const photoPost:IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -921,6 +981,7 @@ export const photoPost:IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -943,7 +1004,8 @@ export const photoPost:IPostDoc[] = [
         last: "ahmed",
         nick: "avro",
       },
-      profilePicture: "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      profilePicture:
+        "https://images.unsplash.com/photo-1482361046637-0226fdcfa3b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       uId: "123",
       username: "shakil_ahmed",
     },
@@ -984,6 +1046,7 @@ export const photoPost:IPostDoc[] = [
     privacy: "Public",
     reactions: {
       like: 55,
+      care: 50,
       love: 64,
       happy: 20,
       wow: 10,
@@ -992,4 +1055,4 @@ export const photoPost:IPostDoc[] = [
     },
     createdAt: `${new Date()}`,
   },
-]
+];
