@@ -8,8 +8,8 @@ import SaveIcon from "@/assets/images/ic_Saved2.svg";
 import DrawerModelProvider from "@/components/providers/DrawerModelProvider";
 import ReactionModel from "@/components/models/ReactionModel";
 import CommentsModel from "@/components/models/CommentsModel";
-import { IPostDoc } from "@/data/PostData";
 import React from "react";
+import { IPostDoc } from "@/interfaces/post.interface";
 
 
 interface Props {

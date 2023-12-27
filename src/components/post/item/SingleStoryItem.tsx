@@ -1,5 +1,5 @@
 import Image from "@/components/common/Image";
-import { IUserDoc } from "@/data/AddStoryData";
+import { IUserDoc } from "@/interfaces/auth.interface";
 import { cn } from "@/lib/utils";
 import React from "react";
 

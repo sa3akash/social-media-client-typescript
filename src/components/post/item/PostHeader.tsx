@@ -1,4 +1,3 @@
-import { ICreator } from "@/data/PostData";
 import React, { useRef } from "react";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
 import { cn } from "@/lib/utils";
@@ -7,6 +6,7 @@ import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
 import { Link } from "react-router-dom";
 import { timeAgo } from "@/services/utils/timeAgo";
+import { ICreator } from "@/interfaces/post.interface";
 
 interface Props {
   user: ICreator;

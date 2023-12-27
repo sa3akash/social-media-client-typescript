@@ -1,5 +1,5 @@
 import Image from "@/components/common/Image";
-import { IFiles } from "@/data/PostData";
+import { IFiles } from "@/interfaces/post.interface";
 import { cn } from "@/lib/utils";
 import React from "react";
 
