@@ -34,13 +34,13 @@ export const feelingData = [
   "wonderful",
 ];
 export interface IFiles {
-  fieldname: string;
-  originalname: string;
-  filename: string;
-  encoding: string;
+  fieldname?: string;
+  originalname?: string;
+  filename?: string;
+  encoding?: string;
   mimetype: string;
   path: string;
-  size: number;
+  size?: number;
 }
 export interface ICreator {
   _id: string; // authId

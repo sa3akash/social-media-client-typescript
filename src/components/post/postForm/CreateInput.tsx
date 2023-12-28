@@ -1,15 +1,37 @@
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import PostInput from "@/components/post/postForm/PostInput";
+import { FC } from "react";
+import CreateImageShow from "./CreateImageShow";
 
-const CreateInput = () => {
+interface Props {
+  files: File[];
+}
+
+const CreateInput: FC<Props> = ({ files }) => {
   const { post, bgColor } = useSelector((state: RootState) => state.SinglePost);
- 
+
   // handle functions
 
   return (
-    <div className="mt-4 flex items-center justify-center">
-      <PostInput post={post as string} bgColor={bgColor as string} />
+    <div className="mt-4 flex items-center justify-center flex-col">
+      {!files.length && (
+        <PostInput
+          post={post as string}
+          bgColor={bgColor as string}
+          className="h-![60px]"
+        />
+      )}
+      {files.length > 0 && (
+        <>
+          <PostInput
+            post={post as string}
+            bgColor={""}
+            className2="text-[16px]"
+          />
+          <CreateImageShow images={files} />
+        </>
+      )}
     </div>
   );
 };

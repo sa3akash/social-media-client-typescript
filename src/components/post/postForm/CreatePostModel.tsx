@@ -1,4 +1,3 @@
-
 import {
   Dialog,
   DialogContent,
@@ -17,12 +16,19 @@ import CreateInput from "./CreateInput";
 import SelectBgAndEmoji from "./SelectBgAndEmoji";
 import AddToUserPost from "./AddToUserPost";
 import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
+import { useState } from "react";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { type, isOpen } = useSelector((store: RootState) => store.model);
-  const { privacy,feelings } = useSelector((store: RootState) => store.SinglePost);
+  const { privacy, feelings } = useSelector(
+    (store: RootState) => store.SinglePost
+  );
   const dispatch: AppDispatch = useDispatch();
+
+  const [files, setFiles] = useState<File[]>([]);
+
+  console.log(files);
 
   return (
     <Dialog
@@ -35,10 +41,14 @@ const CreatePostModel = () => {
         </DialogHeader>
         <Separator />
         <div className="relative">
-          <CreatePostHeader user={user as IUserDoc} privacy={privacy as IPrivacy} feelings={feelings as  IFeelings}/>
-          <CreateInput />
-          <SelectBgAndEmoji/>
-          <AddToUserPost />
+          <CreatePostHeader
+            user={user as IUserDoc}
+            privacy={privacy as IPrivacy}
+            feelings={feelings as IFeelings}
+          />
+          <CreateInput files={files} />
+          <SelectBgAndEmoji />
+          <AddToUserPost setFiles={setFiles} />
         </div>
         <DialogFooter className="px-4 pb-4">
           <Button type="submit" className="w-full">
