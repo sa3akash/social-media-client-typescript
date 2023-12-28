@@ -14,7 +14,7 @@ const CreateImageShow: React.FC<Props> = ({ images, setFiles }) => {
     <div className="h-[300px] w-full">
       <div
         className={cn(
-          "grid gap-1 h-full",
+          "grid gap-1 h-full ",
           images.length === 1 && "grid-cols-1 [repeat(1, 1fr)] grid-rows-1",
           images.length === 2 && "grid-cols-2 [repeat(1, 1fr)] grid-rows-1",
           images.length === 3 && "grid-cols-2 [repeat(2, 1fr)] grid-rows-2",
@@ -58,15 +58,14 @@ const SingleImage = ({
   });
 
   return (
-    <div className="relative group">
-      <img
-        src={url}
-        className={cn(
-          "w-full h-full object-cover",
-          index === 0 && images.length === 3 && "row-span-2 col-span-1",
-          index === 0 && images.length === 5 && "row-span-2 col-span-1"
-        )}
-      />
+    <div
+      className={cn(
+        "w-full h-full object-cover relative group",
+        index === 0 && images.length === 3 && "row-span-2 col-span-1",
+        index === 0 && images.length === 5 && "row-span-2 col-span-1"
+      )}
+    >
+      <img src={url} className="w-full h-full object-cover" />
       <div className="absolute top-0 left-0 w-full ml-auto h-14 hidden group-hover:block p-2">
         <Button
           onClick={() => setFiles((prev) => prev.filter((f) => f !== file))}
