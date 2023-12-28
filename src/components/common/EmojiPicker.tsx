@@ -7,15 +7,20 @@ import {
 // import { Smile } from "lucide-react";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { useTheme } from "@/hooks/useTheme";
 
 interface EmojiPickerProps {
   onChange: (value: string) => void;
   children: React.ReactNode;
-  side?: 'left' | 'right' | 'top' | 'bottom';
+  side?: "left" | "right" | "top" | "bottom";
 }
 
-const EmojiPicker: React.FC<EmojiPickerProps> = ({ onChange,children,side='top' }) => {
-  const theme = "dark";
+const EmojiPicker: React.FC<EmojiPickerProps> = ({
+  onChange,
+  children,
+  side = "top",
+}) => {
+  const { theme } = useTheme();
 
   return (
     <Popover>
