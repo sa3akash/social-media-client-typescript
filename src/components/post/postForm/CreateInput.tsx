@@ -1,14 +1,15 @@
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import PostInput from "@/components/post/postForm/PostInput";
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import CreateImageShow from "./CreateImageShow";
 
 interface Props {
   files: File[];
+  setFiles: Dispatch<SetStateAction<File[]>>;
 }
 
-const CreateInput: FC<Props> = ({ files }) => {
+const CreateInput: FC<Props> = ({ files,setFiles }) => {
   const { post, bgColor } = useSelector((state: RootState) => state.SinglePost);
 
   // handle functions
@@ -29,7 +30,7 @@ const CreateInput: FC<Props> = ({ files }) => {
             bgColor={""}
             className2="text-[16px]"
           />
-          <CreateImageShow images={files} />
+          <CreateImageShow images={files} setFiles={setFiles}/>
         </>
       )}
     </div>

@@ -1,12 +1,15 @@
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ImageUtils } from "@/services/utils/imageUtils";
-import React, { useEffect, useState } from "react";
+import { Trash } from "lucide-react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface Props {
   images: File[];
+  setFiles: Dispatch<SetStateAction<File[]>>;
 }
 
-const CreateImageShow: React.FC<Props> = ({ images }) => {
+const CreateImageShow: React.FC<Props> = ({ images, setFiles }) => {
   return (
     <div className="h-[300px] w-full">
       <div
@@ -20,7 +23,13 @@ const CreateImageShow: React.FC<Props> = ({ images }) => {
         )}
       >
         {images.map((url, i) => (
-          <SingleImage images={images} file={url} index={i} key={i} />
+          <SingleImage
+            images={images}
+            file={url}
+            index={i}
+            key={i}
+            setFiles={setFiles}
+          />
         ))}
       </div>
     </div>
@@ -33,10 +42,12 @@ const SingleImage = ({
   images,
   file,
   index,
+  setFiles,
 }: {
   images: File[];
   file: File;
   index: number;
+  setFiles: Dispatch<SetStateAction<File[]>>;
 }) => {
   const [url, setUrl] = useState<string>();
 
@@ -47,13 +58,22 @@ const SingleImage = ({
   });
 
   return (
-    <img
-      src={url}
-      className={cn(
-        "w-full h-full object-cover",
-        index === 0 && images.length === 3 && "row-span-2 col-span-1",
-        index === 0 && images.length === 5 && "row-span-2 col-span-1"
-      )}
-    />
+    <div className="relative group">
+      <img
+        src={url}
+        className={cn(
+          "w-full h-full object-cover",
+          index === 0 && images.length === 3 && "row-span-2 col-span-1",
+          index === 0 && images.length === 5 && "row-span-2 col-span-1"
+        )}
+      />
+      <div className="absolute top-0 left-0 w-full ml-auto h-14 hidden group-hover:block p-2">
+        <Button
+          onClick={() => setFiles((prev) => prev.filter((f) => f !== file))}
+        >
+          <Trash className="w-5" />
+        </Button>
+      </div>
+    </div>
   );
 };
