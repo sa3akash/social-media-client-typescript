@@ -5,18 +5,24 @@ import LocationsIcon from "@/assets/icons/locationIcon.png";
 import GifIcon from "@/assets/icons/gifIcon.png";
 import FeelingsModel from "./FeelingsModel";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
-import React, { Dispatch, FC, SetStateAction, useRef } from "react";
+import React, { Dispatch, FC, SetStateAction, useRef, useState } from "react";
 import { ImageUtils } from "@/services/utils/imageUtils";
 import { useToast } from "@/components/ui/use-toast";
+import Giphy from "./Giphy";
 
 interface Props {
   setFiles: Dispatch<SetStateAction<File[]>>;
 }
 
 const AddToUserPost: FC<Props> = ({ setFiles }) => {
-  const divRef = useRef(null);
+  const feelingModelRef = useRef(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
-  const [modelOpen, setModelOpen] = useDetectOutsideClick(divRef, false);
+  const [modelOpen, setModelOpen] = useDetectOutsideClick(
+    feelingModelRef,
+    false
+  );
+
+  const [giphyModel, setGiphyModel] = useState(false);
 
   const { toast } = useToast();
 
@@ -59,7 +65,7 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
           </div>
           <div
             className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none"
-            ref={divRef}
+            ref={feelingModelRef}
             onClick={() => setModelOpen((prev) => !prev)}
           >
             <img src={FeelingsIcon} alt="image" />
@@ -68,9 +74,13 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
           <div className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none">
             <img src={LocationsIcon} alt="image" />
           </div>
-          <div className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none">
+          <div
+            className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none"
+            onClick={() => setGiphyModel(true)}
+          >
             <img src={GifIcon} alt="image" />
           </div>
+          <Giphy setGiphyModel={setGiphyModel} giphyModel={giphyModel} />
         </div>
       </div>
     </div>

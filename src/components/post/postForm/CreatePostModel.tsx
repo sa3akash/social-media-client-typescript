@@ -46,7 +46,7 @@ const CreatePostModel = () => {
             privacy={privacy as IPrivacy}
             feelings={feelings as IFeelings}
           />
-          <CreateInput files={files} setFiles={setFiles}/>
+          <CreateInput files={files} setFiles={setFiles} />
           <SelectBgAndEmoji />
           <AddToUserPost setFiles={setFiles} />
         </div>
