@@ -33,7 +33,6 @@ const Giphy: FC<Props> = ({ setGiphyModel, giphyModel }) => {
     dispatch(updatePostItem({ gifUrl: url }));
     setGiphyModel(false);
   };
-
   useEffect(() => {
     // Make API call when debouncedValue changes
     if (debouncedValue) {
