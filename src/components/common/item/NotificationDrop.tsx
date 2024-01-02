@@ -34,17 +34,13 @@ const NotificationDrop = () => {
         <h3 className="p-4 cardBG text-[#92929D] font-semibold text-[14px] tracking-[1px]">
           Notifications
         </h3>
-        {notifications?.map((item: INotification, index: number) => {
-          if (notifications.length === index + 1) {
-            return (
-              <div ref={lastElementRef} id="ref" key={index}>
-                <SingleNotificaton key={index} item={item} />
-              </div>
-            );
-          } else {
-            return <SingleNotificaton key={index} item={item} />;
-          }
-        })}
+        {notifications?.map((item: INotification, index: number) =>
+          notifications.length === index + 1 ? (
+            <SingleNotificaton key={index} item={item} ref={lastElementRef} />
+          ) : (
+            <SingleNotificaton key={index} item={item} />
+          )
+        )}
         {loading && (
           <p className="p-4 flex items-center justify-center">
             <Loader2 className="animate-spin w-6 h-6" />
