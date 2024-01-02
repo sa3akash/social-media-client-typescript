@@ -19,6 +19,7 @@ import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
 import { useState } from "react";
 import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -42,7 +43,7 @@ const CreatePostModel = () => {
     formData.append("feelings", `${feelings}`);
     formData.append("gifUrl", `${gifUrl}`);
     formData.append("bgColor", `${bgColor}`);
-    api.createPost(formData, toast, setLoading);
+    api.createPost(formData, toast, setFiles, setLoading);
   };
 
   return (
@@ -72,7 +73,14 @@ const CreatePostModel = () => {
             onClick={createPost}
             disabled={loading}
           >
-            Post
+              {loading ? (
+                <span className="flex text-center gap-2">
+                  Post...
+                  <Loader2 className="animate-spin" size={20} />
+                </span>
+              ) : (
+                "Post"
+              )}
           </Button>
         </DialogFooter>
       </DialogContent>
