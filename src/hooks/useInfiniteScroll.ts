@@ -1,27 +1,21 @@
-import { INotification } from "@/interfaces/notificaton.interface";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "@/services/http";
-import { AppDispatch } from "@/store";
-import { setNotification } from "@/store/reducers/NotificationReducer";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 
-export default function useInfiniteScroll(url: string) {
+export default function useInfiniteScroll(
+  url: string,
+  fn: (data: any) => void
+) {
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [totalPages, setTotalPages] = useState<number>(1);
-
-  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
     api
       .get(`${url}?page=${pageNumber}`)
       .then((data) => {
-        dispatch(
-          setNotification({
-            notifications: data.data?.notifications as INotification[],
-          }),
-        );
+        fn(data.data);
         setTotalPages(data.data?.numberOfPages);
       })
       .catch((error) => {
@@ -30,7 +24,8 @@ export default function useInfiniteScroll(url: string) {
       .finally(() => {
         setLoading(false);
       });
-  }, [dispatch, pageNumber, url]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber]);
 
   // Create the IntersectionObserver outside the component
   const observer = useRef<IntersectionObserver | null>(null);
@@ -45,23 +40,26 @@ export default function useInfiniteScroll(url: string) {
         observer.current.disconnect();
       }
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      observer.current = new IntersectionObserver(
+        (entries: IntersectionObserverEntry[]) => {
+          if (entries[0].isIntersecting) {
+            setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          }
+        },
+        {
+          root: null,
+          rootMargin: "0px",
+          threshold: 1.0,
         }
-      });
+      );
 
       if (node) {
         observer.current.observe(node); // Start observing the new node
       }
     },
 
-    [loading, pageNumber, totalPages],
+    [loading, pageNumber, totalPages]
   );
 
   return { loading, lastElementRef };
 }
-
-// how to use
-
-// const { data, loading, error, lastElementRef } = useInfiniteScroll("https://jsonplaceholder.typicode.com/posts");

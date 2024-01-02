@@ -2,18 +2,28 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import SingleNotificaton from "@/components/common/item/SingleNotificaton";
 import { cn } from "@/lib/utils";
 import { INotification } from "@/interfaces/notificaton.interface";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import { RootState } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import { Loader2 } from "lucide-react";
+import { setNotification } from "@/store/reducers/NotificationReducer";
 
 const NotificationDrop = () => {
   const { notifications } = useSelector(
     (store: RootState) => store.notification
   );
+  const dispatch: AppDispatch = useDispatch();
 
-  const { lastElementRef, loading } = useInfiniteScroll("/notifications");
-
+  const { lastElementRef, loading } = useInfiniteScroll(
+    "/notifications",
+    (data: { notifications: INotification[] }) => {
+      dispatch(
+        setNotification({
+          notifications: data?.notifications as INotification[],
+        })
+      );
+    }
+  );
   return (
     <div
       className={cn(
@@ -41,9 +51,7 @@ const NotificationDrop = () => {
           </p>
         )}
         {notifications.length === 0 && (
-          <p className="p-4 flex items-center justify-center">
-            Not found!
-          </p>
+          <p className="p-4 flex items-center justify-center">Not found!</p>
         )}
       </ScrollArea>
     </div>
