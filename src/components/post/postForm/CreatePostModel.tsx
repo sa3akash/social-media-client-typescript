@@ -28,6 +28,7 @@ const CreatePostModel = () => {
   );
   const dispatch: AppDispatch = useDispatch();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
 
@@ -41,7 +42,7 @@ const CreatePostModel = () => {
     formData.append("feelings", `${feelings}`);
     formData.append("gifUrl", `${gifUrl}`);
     formData.append("bgColor", `${bgColor}`);
-    api.createPost(formData, toast);
+    api.createPost(formData, toast, setLoading);
   };
 
   return (
@@ -65,7 +66,12 @@ const CreatePostModel = () => {
           <AddToUserPost setFiles={setFiles} />
         </div>
         <DialogFooter className="px-4 pb-4">
-          <Button type="submit" className="w-full" onClick={createPost}>
+          <Button
+            type="submit"
+            className="w-full disabled:cursor-not-allowed"
+            onClick={createPost}
+            disabled={loading}
+          >
             Post
           </Button>
         </DialogFooter>

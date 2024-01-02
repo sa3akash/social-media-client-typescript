@@ -23,6 +23,7 @@ import { setAuth } from "@/store/reducers/AuthReducer";
 import { axiosError } from "../utils/serializeError";
 import { AxiosError } from "axios";
 import { setNotification } from "@/store/reducers/NotificationReducer";
+import { clearPost } from "@/store/reducers/SinglePostReducer";
 
 class Api {
   public async loginCall(data: ILogin, toast: any): Promise<void> {
@@ -102,11 +103,16 @@ class Api {
     }
   }
 
-  public async createPost(formData: FormData, toast: any): Promise<void> {
+  public async createPost(formData: FormData, toast: any,setLoading:any): Promise<void> {
+    setLoading(true)
     try {
+      
       const data = await createPost(formData);
       console.log(data);
+      store.dispatch(clearPost())
+      setLoading(false)
     } catch (err) {
+      setLoading(false)
       this.responseError(err, toast);
     }
   }
