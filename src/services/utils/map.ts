@@ -46,13 +46,13 @@ import wonderfulFeelingIcon from "@/assets/feelings/wonderful.png";
 // notifications
 import CommentIcon from "@/assets/images/ic_commentGreen.svg";
 import CommunityIcon from "@/assets/images/ic_friendsBlue.svg";
-import LikeIcon from '@/assets/reactions/like.svg'
-import LoveIcon from '@/assets/reactions/love.svg'
-import WowIcon from '@/assets/reactions/wow.svg'
-import HappyIcon from '@/assets/reactions/haha.svg'
-import SadIcon from '@/assets/reactions/sad.svg'
-import AngryIcon from '@/assets/reactions/angry.svg'
-import UserIcon from '@/assets/images/userCheck.svg'
+import LikeIcon from "@/assets/reactions/like.svg";
+import LoveIcon from "@/assets/reactions/love.svg";
+import WowIcon from "@/assets/reactions/wow.svg";
+import HappyIcon from "@/assets/reactions/haha.svg";
+import SadIcon from "@/assets/reactions/sad.svg";
+import AngryIcon from "@/assets/reactions/angry.svg";
+import UserIcon from "@/assets/images/userCheck.svg";
 
 export const ReactionIconMap = {
   love: LoveReaction,
@@ -120,8 +120,6 @@ export const bgColors = [
   "#03a9f4",
   // '#cddc39'
 ];
-
-
 
 export const notificationIconMap = {
   love: LoveIcon,

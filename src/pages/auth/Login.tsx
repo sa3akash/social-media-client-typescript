@@ -18,7 +18,7 @@ import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/services/utils/pageUrl";
 import { api } from "@/services/http/api";
-
+import { useToast } from "@/components/ui/use-toast";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -30,13 +30,11 @@ const Login = () => {
     },
   });
 
-  
   // const [, setKeepLogin] = useLocalStorage(storeKey.KeepLogin);
-
-
+  const { toast } = useToast();
 
   const onLogin = async (values: z.infer<typeof loginSchema>) => {
-    await api.loginCall(values)
+    await api.loginCall(values, toast);
     // socketService.socket.connect();
   };
 

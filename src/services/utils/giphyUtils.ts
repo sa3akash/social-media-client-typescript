@@ -4,7 +4,7 @@ import { giphyService } from "../http/giphy";
 export class GiphyUtils {
   static async getTrendingGifs(
     setGifs: any,
-    setLoading: (arg: boolean) => void
+    setLoading: (arg: boolean) => void,
   ) {
     try {
       const response = await giphyService.trending();
@@ -18,7 +18,7 @@ export class GiphyUtils {
   static async searchGifs(
     q: string,
     setGifs: any,
-    setLoading: (arg: boolean) => void
+    setLoading: (arg: boolean) => void,
   ) {
     if (q.length <= 1) {
       GiphyUtils.getTrendingGifs(setGifs, setLoading);

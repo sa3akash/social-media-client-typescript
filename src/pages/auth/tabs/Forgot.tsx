@@ -17,6 +17,7 @@ import { forgotSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { api } from "@/services/http/api";
+import { useToast } from "@/components/ui/use-toast";
 
 const Forgot = () => {
   const form = useForm<z.infer<typeof forgotSchema>>({
@@ -25,9 +26,10 @@ const Forgot = () => {
       email: "",
     },
   });
+  const { toast } = useToast();
 
   const onForgot = async (values: z.infer<typeof forgotSchema>) => {
-    await api.forgotCall(values);
+    await api.forgotCall(values, toast);
   };
 
   return (

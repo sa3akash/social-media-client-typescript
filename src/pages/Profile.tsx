@@ -3,6 +3,7 @@ import ProfileBar from "@/components/profile/ProfileBar";
 import ProfilePost from "@/components/profile/ProfilePost";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/components/ui/use-toast";
 import useEffectOnce from "@/hooks/useEffectOnece";
 import { IFullUserDoc } from "@/interfaces/auth.interface";
 import { api } from "@/services/http/api";
@@ -16,8 +17,10 @@ const Profile = () => {
   const param = useParams();
   const navigate = useNavigate();
 
+  const { toast } = useToast();
+
   useEffectOnce(async () => {
-    const userResponse = await api.currentUser(param.authId as string);
+    const userResponse = await api.currentUser(param.authId as string, toast);
     if (!userResponse) return navigate("/404");
     setUser(userResponse);
     setLoading(false);

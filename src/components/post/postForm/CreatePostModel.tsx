@@ -17,18 +17,32 @@ import SelectBgAndEmoji from "./SelectBgAndEmoji";
 import AddToUserPost from "./AddToUserPost";
 import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
 import { useState } from "react";
+import { api } from "@/services/http/api";
+import { useToast } from "@/components/ui/use-toast";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { type, isOpen } = useSelector((store: RootState) => store.model);
-  const { privacy, feelings } = useSelector(
+  const { privacy, feelings, post, gifUrl, bgColor } = useSelector(
     (store: RootState) => store.SinglePost
   );
   const dispatch: AppDispatch = useDispatch();
+  const { toast } = useToast();
 
   const [files, setFiles] = useState<File[]>([]);
 
-  console.log(files);
+  const createPost = () => {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("file", files[i]);
+    }
+    formData.append("privacy", `${privacy}`);
+    formData.append("post", `${post}`);
+    formData.append("feelings", `${feelings}`);
+    formData.append("gifUrl", `${gifUrl}`);
+    formData.append("bgColor", `${bgColor}`);
+    api.createPost(formData, toast);
+  };
 
   return (
     <Dialog
@@ -51,7 +65,7 @@ const CreatePostModel = () => {
           <AddToUserPost setFiles={setFiles} />
         </div>
         <DialogFooter className="px-4 pb-4">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" onClick={createPost}>
             Post
           </Button>
         </DialogFooter>

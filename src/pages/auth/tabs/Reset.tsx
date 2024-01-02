@@ -18,6 +18,7 @@ import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "@/services/http/api";
+import { useToast } from "@/components/ui/use-toast";
 
 const Reset = () => {
   const form = useForm<z.infer<typeof resetSchema>>({
@@ -32,8 +33,10 @@ const Reset = () => {
 
   const token = searchParams.get("token") as string;
 
+  const { toast } = useToast();
+
   const onLogin = async (values: z.infer<typeof resetSchema>) => {
-    await api.resetCall(token, values);
+    await api.resetCall(token, values, toast);
     navigate("/feed");
   };
 

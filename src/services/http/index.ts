@@ -34,6 +34,14 @@ export const deleteNotification = (notificationId: string) =>
   api.delete(`/notification/${notificationId}`);
 export const getNotificaitons = (pageNumber: number) =>
   api.get(`/notifications?page=${pageNumber}`);
+
+export const createPost = (data: FormData) =>
+  api.post("/post", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
 // export const activate = (data) => api.post("/api/activate", data);
 // export const logout = () => api.post("/api/logout");
 // export const createRoom = (data) => api.post("/api/rooms", data);

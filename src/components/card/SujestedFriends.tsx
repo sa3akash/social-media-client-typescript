@@ -3,21 +3,23 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
-import CardSkeleton from "./skeleton/CardSkeleton";
+import CardSkeleton from "@/components/card/skeleton/CardSkeleton";
 import SingleSuggestedFriend from "@/components/card/item/SingleSuggestedFriend";
 import { api } from "@/services/http/api";
 import { IUserDoc } from "@/interfaces/auth.interface";
 import useEffectOnce from "@/hooks/useEffectOnece";
+import { useToast } from "@/components/ui/use-toast";
 
 const SujestedFriends = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
   const [data, setData] = useState<IUserDoc[] | undefined>();
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   useEffectOnce(async () => {
     setLoading(true);
-    setData(await api.suggestedFriendCall());
+    setData(await api.suggestedFriendCall(toast));
     setLoading(false);
   });
 
