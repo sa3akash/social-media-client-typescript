@@ -1,12 +1,12 @@
 import { INotification } from "@/interfaces/notificaton.interface";
 import { forwardRef } from "react";
-import UserAvater from "../common/UserAvater";
+import UserAvater from "@/components/common/UserAvater";
 import { Link } from "react-router-dom";
 import MoreIcon from "@/assets/images/ic_More_3_dot.svg";
 
 import { cn } from "@/lib/utils";
 import { markAsReadNotification } from "@/services/http";
-import NotificationModel from "./NotificationModel";
+import NotificationModel from "@/components/notificaton/NotificationModel";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { notificationIconMap } from "@/services/utils/map";
 

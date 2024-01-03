@@ -1,8 +1,8 @@
-import UserProfile from "./items/UserProfile";
+import UserProfile from "@/components/home/items/UserProfile";
 import { sidebarLeft, sidebarLeftPage } from "@/data/SidebarLeftData";
-import { SingleLeftItem } from "./items/SingleLeftItem";
+import { SingleLeftItem } from "@/components/home/items/SingleLeftItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import SingleLeftPageItem from "./items/SingleLeftPageItem";
+import SingleLeftPageItem from "@/components/home/items/SingleLeftPageItem";
 import { useLocation } from "react-router-dom";
 import { PageURL } from "@/services/utils/pageUrl";
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { giphyService } from "../http/giphy";
+import { giphyService } from "@/services/http/giphy";
 
 export class GiphyUtils {
   static async getTrendingGifs(

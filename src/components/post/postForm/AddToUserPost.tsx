@@ -3,12 +3,12 @@ import TagFriendsIcon from "@/assets/icons/tagFriendIcon.png";
 import FeelingsIcon from "@/assets/icons/feelingsICon.png";
 import LocationsIcon from "@/assets/icons/locationIcon.png";
 import GifIcon from "@/assets/icons/gifIcon.png";
-import FeelingsModel from "./FeelingsModel";
+import FeelingsModel from "@/components/post/postForm/FeelingsModel";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import React, { Dispatch, FC, SetStateAction, useRef, useState } from "react";
 import { ImageUtils } from "@/services/utils/imageUtils";
 import { useToast } from "@/components/ui/use-toast";
-import Giphy from "./Giphy";
+import Giphy from "@/components/post/postForm/Giphy";
 
 interface Props {
   setFiles: Dispatch<SetStateAction<File[]>>;

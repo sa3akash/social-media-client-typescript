@@ -1,11 +1,11 @@
-import FilterButton from "../common/FilterButton";
+import FilterButton from "@/components/common/FilterButton";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 import SearchIcon from "@/assets/images/ic_Search.svg";
 import FilterIcon from "@/assets/images/btn_Filter.svg";
 

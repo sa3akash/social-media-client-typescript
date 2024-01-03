@@ -20,7 +20,7 @@ import {
 } from ".";
 import { store } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
-import { axiosError } from "../utils/serializeError";
+import { axiosError } from "@/services/utils/serializeError";
 import { AxiosError } from "axios";
 import { setNotification } from "@/store/reducers/NotificationReducer";
 import { clearPost } from "@/store/reducers/SinglePostReducer";

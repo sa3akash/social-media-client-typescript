@@ -1,6 +1,6 @@
 import PhotosHeader from '@/components/photos/PhotosHeader'
 import { photoPost } from '@/data/PostData'
-import SinglePhoto from './SinglePhoto'
+import SinglePhoto from '@/components/photos/SinglePhoto'
 
 const PhotoPage = () => {
   return (

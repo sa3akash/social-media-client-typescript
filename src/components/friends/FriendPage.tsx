@@ -1,6 +1,6 @@
 import FriendHeader from "@/components/friends/FriendHeader"
 import { userData } from "@/data/AddStoryData"
-import SingleFriendItem from "./item/SingleFriendItem"
+import SingleFriendItem from "@/components/friends/item/SingleFriendItem"
 import { IUserDoc } from "@/interfaces/auth.interface"
 
 const FriendPage = () => {

@@ -5,7 +5,7 @@ import CommentAction from "@/components/post/item/CommentAction";
 import ImagesShow from "@/components/post/item/ImagesShow";
 import PostReactions from "@/components/post/item/PostReactions";
 import { IPostDoc } from "@/interfaces/post.interface";
-import PostText from "./PostText";
+import PostText from "@/components/post/item/PostText";
 
 interface Props {
   item: IPostDoc;

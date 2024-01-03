@@ -12,7 +12,6 @@ const AllPost = () => {
   const { lastElementRef, loading } = useInfiniteScroll(
     "/posts",
     (data: { posts: IPostDoc[] }) => {
-      console.log(data.posts);
       dispatch(setPosts({ posts: data.posts }));
     }
   );

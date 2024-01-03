@@ -2,7 +2,7 @@ import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import PostInput from "@/components/post/postForm/PostInput";
 import { Dispatch, FC, SetStateAction } from "react";
-import CreateImageShow from "./CreateImageShow";
+import CreateImageShow from "@/components/post/postForm/CreateImageShow";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { updatePostItem } from "@/store/reducers/SinglePostReducer";
