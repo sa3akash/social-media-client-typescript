@@ -18,7 +18,11 @@ const SinglePost = forwardRef(
 
     return (
       <div className="cardBG md:rounded-xl relative" ref={ref}>
-        <PostHeader user={item.creator} createAt={item.createdAt} />
+        <PostHeader
+          user={item.creator}
+          createAt={item.createdAt}
+          feelings={item.feelings}
+        />
         <PostText item={item} />
         {/* image preview */}
         {item.files?.length > 0 && !item.gifUrl && (

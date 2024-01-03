@@ -65,7 +65,16 @@ const SingleImage = ({
         index === 0 && images.length === 5 && "row-span-2 col-span-1"
       )}
     >
-      <img src={url} className="w-full h-full object-cover" />
+      {file.type === "video/mp4" ? (
+        <video
+          src={url}
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+        ></video>
+      ) : (
+        <img src={url} className="w-full h-full object-cover" />
+      )}
       <div className="absolute top-0 left-0 w-full ml-auto h-14 hidden group-hover:block p-2">
         <Button
           onClick={() => setFiles((prev) => prev.filter((f) => f !== file))}

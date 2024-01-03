@@ -6,14 +6,16 @@ import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
 import { Link } from "react-router-dom";
 import { timeAgo } from "@/services/utils/timeAgo";
-import { ICreator } from "@/interfaces/post.interface";
+import { ICreator, IFeelings } from "@/interfaces/post.interface";
+import { feelingIconMap } from "@/services/utils/map";
 
 interface Props {
   user: ICreator;
   createAt: string;
+  feelings?: string;
 }
 
-const PostHeader: React.FC<Props> = ({ user,createAt }) => {
+const PostHeader: React.FC<Props> = ({ user, createAt, feelings }) => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
 
@@ -27,8 +29,26 @@ const PostHeader: React.FC<Props> = ({ user,createAt }) => {
           avatarColor={user?.avatarColor}
         />
         <div className="flex flex-col">
-          <Link to={`/u/${user._id}`} className="capitalize font-semibold text-[14px] tracking-[0.1px]">{`${user.name.first} ${user.name.last}`}</Link>
-          <span className="text-[12px] roboto text-[#696974]">{timeAgo.transform(createAt)}</span>
+          <div className="flex items-center gap-2">
+            <Link
+              to={`/u/${user._id}`}
+              className="capitalize font-semibold text-[14px] tracking-[0.1px]"
+            >{`${user.name.first} ${user.name.last}`}</Link>
+            {feelings && (
+              <span className="lowercase text-[14px] font-normal flex items-center gap-1">
+                is feeling
+                <img
+                  src={feelingIconMap[feelings as IFeelings]}
+                  alt={feelings}
+                  className="w-6"
+                />
+                {feelings}
+              </span>
+            )}
+          </div>
+          <span className="text-[12px] roboto text-[#696974]">
+            {timeAgo.transform(createAt)}
+          </span>
         </div>
       </div>
       <div

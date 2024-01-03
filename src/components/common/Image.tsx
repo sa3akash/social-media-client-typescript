@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { ImageUtils } from "@/services/utils/imageUtils";
+// import { ImageUtils } from "@/services/utils/imageUtils";
 
 interface Props {
   src: string;
@@ -12,6 +12,7 @@ const Image: React.FC<Props> = ({ src, className }) => {
   const [loadedImg, setLoadedImg] = useState(false);
   const [url, setUrl] = useState("");
   const imageRef = useRef(null);
+  // const [backgroundImageColor, setBackgroundImageColor] = useState<string>("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,20 +30,19 @@ const Image: React.FC<Props> = ({ src, className }) => {
     }
   }, [src]);
 
-  const [backgroundImageColor, setBackgroundImageColor] = useState<string>("");
 
-  const getBackgroundImageColor = async (url: string) => {
-    try {
-      const bgColor = await ImageUtils.getBackgroundImageColor(url);
-      setBackgroundImageColor(`${bgColor}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getBackgroundImageColor = async (url: string) => {
+  //   try {
+  //     const bgColor = await ImageUtils.getBackgroundImageColor(url);
+  //     setBackgroundImageColor(`${bgColor}`);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getBackgroundImageColor(url);
-  }, [url]);
+  // useEffect(() => {
+  //   getBackgroundImageColor(url);
+  // }, [url]);
 
   return (
     <div className={cn("w-full h-full object-cover", className)} ref={imageRef}>
@@ -52,7 +52,7 @@ const Image: React.FC<Props> = ({ src, className }) => {
         alt="image"
         className="w-full h-full object-cover "
         onLoad={() => setLoadedImg(true)}
-        style={{ backgroundColor: backgroundImageColor }}
+        // style={{ backgroundColor: backgroundImageColor }}
       />
     </div>
   );
