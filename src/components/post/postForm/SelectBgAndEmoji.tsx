@@ -10,7 +10,7 @@ import { updatePostItem } from "@/store/reducers/SinglePostReducer";
 
 const SelectBgAndEmoji = () => {
   const [colorPicker, setColorPicker] = useState(false);
-  const {post} = useSelector((state:RootState)=>state.SinglePost)
+  const { post } = useSelector((state: RootState) => state.SinglePost);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -44,7 +44,11 @@ const SelectBgAndEmoji = () => {
           ))}
         </div>
       </div>
-      <EmojiPicker onChange={(value: string) => dispatch(updatePostItem({post: post+value}))}>
+      <EmojiPicker
+        onChange={(value: string) =>
+          dispatch(updatePostItem({ post: post + value }))
+        }
+      >
         <img src={ImojiIcon} alt="" className="w-6 icon" />
       </EmojiPicker>
     </div>

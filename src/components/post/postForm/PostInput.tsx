@@ -57,7 +57,8 @@ const PostInput: React.FC<Props> = ({
           contentEditable={true}
           data-placeholder="What's on your mind?"
           className={cn(
-            "w-full text-[20px] border-none outline-none overflow-y-scroll overflow-x-hidden break-all font-bold px-4",
+            "w-full border-none outline-none overflow-y-scroll overflow-x-hidden break-all font-bold px-4",
+            bgColor ? "text-[24px]" : "text-[18px]",
             className2
           )}
           onInput={postInputEditable}

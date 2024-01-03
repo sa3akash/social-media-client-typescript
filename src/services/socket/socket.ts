@@ -32,7 +32,6 @@ class SocketService {
       console.log(`Reason: ${reason}`);
       this.socket.connect();
     });
-
     this.socket.on("connect_error", (error: Error) => {
       console.log(`Error: ${error!.message}`);
       this.socket.connect();
@@ -48,17 +47,13 @@ class SocketService {
         if (user?._id === userTo) {
           store.dispatch(addNotification(data));
         }
-        console.log(data);
-      },
+      }
     );
-
     this.socket.on("update-notification", (notificationId: string) => {
       store.dispatch(updateAsReadNotification(notificationId));
-      // console.log(notificationId)
     });
     this.socket.on("delete-notification", (notificationId: string) => {
       store.dispatch(deleteNotification(notificationId));
-      // console.log(notificationId)
     });
   }
 }

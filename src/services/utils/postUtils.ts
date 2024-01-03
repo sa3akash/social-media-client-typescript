@@ -17,4 +17,15 @@ export class PostUtils {
 
     return isPublic || isPrivate || isOnlyMe;
   }
+
+  static positionCursor(elementId: string) {
+    const element: HTMLElement | null = document.getElementById(`${elementId}`);
+    const selection = window.getSelection();
+    const range = document.createRange();
+    selection!.removeAllRanges();
+    element && range.selectNodeContents(element);
+    range.collapse(false);
+    selection?.addRange(range);
+    element?.focus();
+  }
 }
