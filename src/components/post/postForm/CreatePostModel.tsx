@@ -34,6 +34,11 @@ const CreatePostModel = () => {
   const [files, setFiles] = useState<File[]>([]);
 
   const createPost = () => {
+    if (!post)
+      return toast({
+        title: "Post title is required.",
+        variant: "destructive",
+      });
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append("file", files[i]);
@@ -73,14 +78,14 @@ const CreatePostModel = () => {
             onClick={createPost}
             disabled={loading}
           >
-              {loading ? (
-                <span className="flex text-center gap-2">
-                  Post...
-                  <Loader2 className="animate-spin" size={20} />
-                </span>
-              ) : (
-                "Post"
-              )}
+            {loading ? (
+              <span className="flex text-center gap-2">
+                Post...
+                <Loader2 className="animate-spin" size={20} />
+              </span>
+            ) : (
+              "Post"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

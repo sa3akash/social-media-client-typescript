@@ -8,6 +8,8 @@ interface Props {
 }
 
 const ImagesShow: React.FC<Props> = ({ images }) => {
+  const videoMineType = "video/mp4";
+
   return (
     <div className="w-full">
       <div
@@ -25,17 +27,27 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
             "grid-cols-2 [repeat(2, 1fr)] grid-rows-3 h-[320px] md:h-[500px]"
         )}
       >
-        {images.map((url, i) => (
-          <Image
-            src={url.path}
-            key={i}
-            className={cn(
-              "",
-              i === 0 && images.length === 3 && "row-span-2 col-span-1",
-              i === 0 && images.length === 5 && "row-span-2 col-span-1"
-            )}
-          />
-        ))}
+        {images.map((url, i) =>
+          url.mimetype === videoMineType ? (
+            <video
+              src={url.path}
+              controls
+              key={i}
+              className="w-full h-full"
+              controlsList="nodownload"
+            ></video>
+          ) : (
+            <Image
+              src={url.path}
+              key={i}
+              className={cn(
+                "",
+                i === 0 && images.length === 3 && "row-span-2 col-span-1",
+                i === 0 && images.length === 5 && "row-span-2 col-span-1"
+              )}
+            />
+          )
+        )}
       </div>
     </div>
   );
