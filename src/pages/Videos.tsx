@@ -1,33 +1,23 @@
-import { useEffect, useRef } from "react";
+import VideoPlayer from "@/components/common/VideoPlayer";
+import { VideoUtils } from "@/services/utils/videoUtils";
+import { useEffect, useState } from "react";
+
+const videoUrl =
+  "https://res.cloudinary.com/dkj7w978g/video/upload/v1704278561/zx1oh09d2ujirn8npnvl.mp4";
 
 const Videos = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.autoplay = true;
-      videoRef.current.load();
-    }
+    VideoUtils.getVideoThumbnail(videoUrl, (image: string | null) => {
+      if (image) setImage(image);
+    });
   }, []);
 
   return (
-    <div>
-      <video
-        width="200"
-        height="200"
-        controls
-        autoPlay
-        controlsList="nodownload"
-        onContextMenu={() => false}
-        loop
-        ref={videoRef}
-      >
-        <source
-          src="https://res.cloudinary.com/dkj7w978g/video/upload/v1704278561/zx1oh09d2ujirn8npnvl.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+    <div className="w-[200px]">
+      <VideoPlayer videoUrl={videoUrl}/>
+      <img width={800} height={500} src={image} alt="" />
     </div>
   );
 };

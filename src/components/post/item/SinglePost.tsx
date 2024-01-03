@@ -6,6 +6,7 @@ import ImagesShow from "@/components/post/item/ImagesShow";
 import PostReactions from "@/components/post/item/PostReactions";
 import { IPostDoc } from "@/interfaces/post.interface";
 import PostText from "@/components/post/item/PostText";
+import GifPreview from "@/components/common/GifPreview";
 
 interface Props {
   item: IPostDoc;
@@ -24,10 +25,7 @@ const SinglePost = forwardRef(
           <ImagesShow images={item.files} />
         )}
         {item.gifUrl && item.files?.length === 0 && (
-          <img
-            src={item.gifUrl}
-            className="w-full h-full max-h-[500px] object-contain bg-rose-400"
-          />
+          <GifPreview gifUrl={item.gifUrl} />
         )}
         {/* actions */}
         <PostReactions post={item} />

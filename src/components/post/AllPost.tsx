@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/store/reducers/PostsReducer";
 import { Loader2 } from "lucide-react";
+import PostSkeleton from "@/components/home/skeleton/PostSkeleton";
 
 const AllPost = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -16,9 +17,13 @@ const AllPost = () => {
     }
   );
 
-  const { posts } = useSelector((state: RootState) => state.posts);
+  const { posts, loading: fLoad } = useSelector(
+    (state: RootState) => state.posts
+  );
 
-  return (
+  return fLoad ? (
+    <PostSkeleton />
+  ) : (
     <div className="mt-2 md:mt-4 flex flex-col gap-4">
       {posts.map((item: IPostDoc, i: number) =>
         posts.length === i + 1 ? (

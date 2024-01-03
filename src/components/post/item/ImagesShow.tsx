@@ -1,4 +1,5 @@
 import Image from "@/components/common/Image";
+import VideoPreview from "@/components/common/VideoPreview";
 import { IFiles } from "@/interfaces/post.interface";
 import { cn } from "@/lib/utils";
 import React from "react";
@@ -8,8 +9,6 @@ interface Props {
 }
 
 const ImagesShow: React.FC<Props> = ({ images }) => {
-  const videoMineType = "video/mp4";
-
   return (
     <div className="w-full">
       <div
@@ -28,14 +27,8 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
         )}
       >
         {images.map((url, i) =>
-          url.mimetype === videoMineType ? (
-            <video
-              src={url.path}
-              controls
-              key={i}
-              className="w-full h-full"
-              controlsList="nodownload"
-            ></video>
+          url.mimetype === "video/mp4" ? (
+            <VideoPreview videoUrl={url.path} key={i} />
           ) : (
             <Image
               src={url.path}
