@@ -22,13 +22,22 @@ export const PostsSlice = createSlice({
       const uniqueArray = Array.from(new Set(data.map((obj) => obj._id))).map(
         (id) => {
           return data.find((obj) => obj._id === id);
-        }
+        },
       ) as IPostDoc[];
       state.posts = uniqueArray;
       state.loading = false;
     },
     addPost: (state, action: PayloadAction<IPostDoc>) => {
       state.posts = [action.payload, ...state.posts];
+    },
+
+    updatePost: (state, action: PayloadAction<IPostDoc>) => {
+      const postIndex = state.posts.findIndex(
+        (post) => post._id === action.payload._id,
+      );
+      if (postIndex > -1) {
+        state.posts[postIndex] = action.payload;
+      }
     },
 
     deletePost: (state, action: PayloadAction<string>) => {
@@ -38,6 +47,6 @@ export const PostsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setPosts, addPost, deletePost } = PostsSlice.actions;
+export const { setPosts, addPost, updatePost, deletePost } = PostsSlice.actions;
 
 export default PostsSlice.reducer;

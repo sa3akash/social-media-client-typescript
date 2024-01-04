@@ -13,7 +13,7 @@ export class VideoUtils {
           0,
           0,
           canvas.width,
-          canvas.height
+          canvas.height,
         );
         const pixels = imageData.data;
         const red = pixels[0];
@@ -33,7 +33,7 @@ export class VideoUtils {
   static convertRGBToHex(
     red: string | number | [],
     green: string | number | [],
-    blue: string | number | []
+    blue: string | number | [],
   ) {
     red = red.toString(16);
     green = green.toString(16);
@@ -45,59 +45,65 @@ export class VideoUtils {
     return `#${red}${green}${blue}`;
   }
 
-  static getVideoThumbnail(videoUrl: string,callback:(url:string | null)=>void) {
-    const video = document.createElement('video');
+  static getVideoThumbnail(
+    videoUrl: string,
+    callback: (url: string | null) => void,
+  ) {
+    const video = document.createElement("video");
     video.src = videoUrl;
     video.muted = true;
-    video.setAttribute('crossOrigin', 'anonymous');
-  
-    video.addEventListener('loadedmetadata', () => {
+    video.setAttribute("crossOrigin", "anonymous");
+
+    video.addEventListener("loadedmetadata", () => {
       const middleTime = video.duration / 2;
       video.currentTime = middleTime;
     });
-  
-    video.addEventListener('timeupdate', () => {
-      const canvas = document.createElement('canvas');
+
+    video.addEventListener("timeupdate", () => {
+      const canvas = document.createElement("canvas");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-  
-      const context = canvas.getContext('2d');
+
+      const context = canvas.getContext("2d");
       context!.drawImage(video, 0, 0, canvas.width, canvas.height);
-  
-      const thumbnailUrl = canvas.toDataURL('image/jpeg');
+
+      const thumbnailUrl = canvas.toDataURL("image/jpeg");
       callback(thumbnailUrl);
     });
-  
-    video.addEventListener('error', () => {
-      console.error('Failed to load the video');
+
+    video.addEventListener("error", () => {
+      console.error("Failed to load the video");
       callback(null);
     });
-  
+
     video.load();
   }
 
-  static getVideoThumbnailTwo(videoUrl: string, callback: (thumbnailUrl: string | null) => void) {
-    const video = document.createElement('video');
+  static getVideoThumbnailTwo(
+    videoUrl: string,
+    callback: (thumbnailUrl: string | null) => void,
+  ) {
+    const video = document.createElement("video");
     video.src = videoUrl;
     video.muted = true;
-    video.setAttribute('crossOrigin', 'anonymous');
-    video.setAttribute('playsinline', '');
-  
-    video.addEventListener('loadedmetadata', () => {
+    video.setAttribute("crossOrigin", "anonymous");
+    video.setAttribute("playsinline", "");
+
+    video.addEventListener("loadedmetadata", () => {
       const middleTime = video.duration / 2;
       video.currentTime = middleTime;
     });
-  
-    video.addEventListener('timeupdate', () => {
-      const canvas = document.createElement('canvas');
+
+    video.addEventListener("timeupdate", () => {
+      const canvas = document.createElement("canvas");
       const aspectRatio = 800 / 500;
       const videoRatio = video.videoWidth / video.videoHeight;
-  
+
       let drawWidth = video.videoWidth;
       let drawHeight = video.videoHeight;
       let startX = 0;
       let startY = 0;
-  
+
       if (videoRatio > aspectRatio) {
         drawWidth = video.videoHeight * aspectRatio;
         startX = (video.videoWidth - drawWidth) / 2;
@@ -105,11 +111,11 @@ export class VideoUtils {
         drawHeight = video.videoWidth / aspectRatio;
         startY = (video.videoHeight - drawHeight) / 2;
       }
-  
+
       canvas.width = 800;
       canvas.height = 500;
-  
-      const context = canvas.getContext('2d');
+
+      const context = canvas.getContext("2d");
       context!.drawImage(
         video,
         startX,
@@ -119,18 +125,18 @@ export class VideoUtils {
         0,
         0,
         canvas.width,
-        canvas.height
+        canvas.height,
       );
-  
-      const thumbnailUrl = canvas.toDataURL('image/jpeg');
+
+      const thumbnailUrl = canvas.toDataURL("image/jpeg");
       callback(thumbnailUrl);
     });
-  
-    video.addEventListener('error', () => {
-      console.error('Failed to load the video');
+
+    video.addEventListener("error", () => {
+      console.error("Failed to load the video");
       callback(null);
     });
-  
+
     video.load();
   }
 }

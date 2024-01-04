@@ -11,7 +11,7 @@ export type ReactionName =
   | "all"
   | "more";
 
-  export type OnlyReactionName =
+export type OnlyReactionName =
   | "like"
   | "love"
   | "happy"

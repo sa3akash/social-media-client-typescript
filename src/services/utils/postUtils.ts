@@ -6,7 +6,7 @@ export class PostUtils {
   static checkPrivacy(
     post: IPostDoc,
     profileId: string,
-    following: IUserDoc[]
+    following: IUserDoc[],
   ): boolean {
     const isPublic = post?.privacy === "Public";
     const isPrivate =
@@ -51,14 +51,17 @@ export class PostUtils {
     return postReactions;
   }
 
-  static filterReactions(reactions: IReactions,count:number):[string, number][] {
+  static filterReactions(
+    reactions: IReactions,
+    count: number,
+  ): [string, number][] {
     // const sortedReactions = Object.entries(reactions).sort(
     //   ([, countA], [, countB]) => countB - countA
     // );
     const sortedReactions = Object.entries(reactions)
-    .sort(([, countA], [, countB]) => countB - countA)
-    .filter(([, count]) => count !== 0)
-    .slice(0, count);
+      .sort(([, countA], [, countB]) => countB - countA)
+      .filter(([, count]) => count !== 0)
+      .slice(0, count);
 
     return sortedReactions;
   }

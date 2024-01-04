@@ -71,7 +71,7 @@ export class ImageUtils {
           0,
           0,
           canvas.width,
-          canvas.height
+          canvas.height,
         );
         const params = imageData?.data;
         const bgColor =
@@ -89,7 +89,7 @@ export class ImageUtils {
   static convertRGBToHex(
     red: string | number | [],
     green: string | number | [],
-    blue: string | number | []
+    blue: string | number | [],
   ) {
     red = red.toString(16);
     green = green.toString(16);

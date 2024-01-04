@@ -2,15 +2,16 @@ import LoveIcon from "@/assets/images/ic_like.svg";
 import CommentIcon from "@/assets/images/ic_comment.svg";
 import ShareIcon from "@/assets/images/ic_Share.svg";
 import SaveIcon from "@/assets/images/ic_Saved2.svg";
-import { ReactionIconMapGif } from "@/services/utils/map";
+import { ReactionIconMapGif, ReactionsList } from "@/services/utils/map";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 interface Props {
   commentInputRef: React.MutableRefObject<null | HTMLInputElement>;
+  postId: string;
 }
 
-const PostActions: React.FC<Props> = ({ commentInputRef }) => {
+const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
   const [openReaction, setOpenReaction] = useState(false);
 
   return (
@@ -31,13 +32,9 @@ const PostActions: React.FC<Props> = ({ commentInputRef }) => {
               openReaction ? "flex" : "hidden"
             )}
           >
-            <SingleReaciton type="like" />
-            <SingleReaciton type="love" />
-            <SingleReaciton type="care" />
-            <SingleReaciton type="happy" />
-            <SingleReaciton type="wow" />
-            <SingleReaciton type="sad" />
-            <SingleReaciton type="angry" />
+            {ReactionsList.map((type, index) => (
+              <SingleReaciton type={type} key={index} postId={postId} />
+            ))}
           </div>
         </div>
 
@@ -70,13 +67,21 @@ const PostActions: React.FC<Props> = ({ commentInputRef }) => {
 
 export default PostActions;
 
-const SingleReaciton = ({ type }: { type: string }) => {
+const SingleReaciton = ({ type, postId }: { type: string; postId: string }) => {
   const reactionIcon = ReactionIconMapGif[
     type as keyof typeof ReactionIconMapGif
   ] as string;
 
+  const handleReactionClick = () => {
+    console.log(type, postId);
+  };
+
   return (
-    <div className="hover:scale-125 z-20 transition-none w-10 h-10 object-cover rounded-full flex items-center justify-center">
+    <div
+      className="hover:scale-125 z-20 transition-none w-10 h-10 object-cover rounded-full flex items-center justify-center"
+      onClick={handleReactionClick}
+      onTouchStart={handleReactionClick}
+    >
       <img
         src={reactionIcon}
         alt={type}

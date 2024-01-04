@@ -5,7 +5,7 @@ interface SinglePostDoc {
   post?: string;
   bgColor?: string;
   files?: [];
-  feelings?: IFeelings | '';
+  feelings?: IFeelings | "";
   gifUrl?: string;
   privacy?: IPrivacy;
 }
@@ -15,7 +15,7 @@ const initialState: SinglePostDoc = {
   post: "",
   privacy: "Public",
   bgColor: "",
-  feelings: '',
+  feelings: "",
   gifUrl: "",
 };
 
@@ -33,7 +33,7 @@ const SinglePost = createSlice({
         (state.post = ""),
         (state.privacy = "Public"),
         (state.bgColor = ""),
-        (state.feelings = ''),
+        (state.feelings = ""),
         (state.gifUrl = "");
     },
   },

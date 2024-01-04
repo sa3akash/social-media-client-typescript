@@ -1,12 +1,8 @@
 import { config } from "@/config";
-import { INotification } from "@/interfaces/notificaton.interface";
-import { store } from "@/store";
-import {
-  addNotification,
-  deleteNotification,
-  updateAsReadNotification,
-} from "@/store/reducers/NotificationReducer";
 import { Socket, io } from "socket.io-client";
+import { PostSocket } from "@/services/socket/postSocket";
+import { ReactionSocket } from "@/services/socket/reactionSocket";
+import { NotificationSocket } from "@/services/socket/notificationSocket";
 
 class SocketService {
   socket: Socket;
@@ -20,7 +16,9 @@ class SocketService {
   // start connection
   public setupSocketConnection() {
     this.socketConnectionEvents();
-    this.notificationSocket();
+    PostSocket.start();
+    ReactionSocket.start();
+    NotificationSocket.start();
   }
 
   // listen for events
@@ -35,25 +33,6 @@ class SocketService {
     this.socket.on("connect_error", (error: Error) => {
       console.log(`Error: ${error!.message}`);
       this.socket.connect();
-    });
-  }
-
-  // reactions
-  private notificationSocket() {
-    this.socket.on(
-      "reaction-notification",
-      (data: INotification, { userTo }) => {
-        const { user } = store.getState().auth;
-        if (user?._id === userTo) {
-          store.dispatch(addNotification(data));
-        }
-      }
-    );
-    this.socket.on("update-notification", (notificationId: string) => {
-      store.dispatch(updateAsReadNotification(notificationId));
-    });
-    this.socket.on("delete-notification", (notificationId: string) => {
-      store.dispatch(deleteNotification(notificationId));
     });
   }
 }

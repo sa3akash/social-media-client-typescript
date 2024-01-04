@@ -15,7 +15,6 @@ interface Props {
 const SinglePost = forwardRef(
   ({ item }: Props, ref: LegacyRef<HTMLDivElement>) => {
     const commentInputRef = useRef<HTMLInputElement | null>(null);
-
     return (
       <div className="cardBG md:rounded-xl relative" ref={ref}>
         <PostHeader
@@ -33,7 +32,7 @@ const SinglePost = forwardRef(
         )}
         {/* actions */}
         <PostReactions post={item} />
-        <PostActions commentInputRef={commentInputRef} />
+        <PostActions commentInputRef={commentInputRef} postId={item._id} />
         <CommentAction commentInputRef={commentInputRef} />
       </div>
     );

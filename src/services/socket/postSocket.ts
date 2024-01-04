@@ -5,6 +5,10 @@ import { addPost } from "@/store/reducers/PostsReducer";
 
 // post
 export class PostSocket {
+  static start() {
+    PostSocket.addPostSocket();
+  }
+
   static addPostSocket() {
     socketService.socket.on("add-post", (data: IPostDoc) => {
       store.dispatch(addPost(data));

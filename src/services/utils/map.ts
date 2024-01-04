@@ -46,23 +46,27 @@ import wonderfulFeelingIcon from "@/assets/feelings/wonderful.png";
 // notifications
 import CommentIcon from "@/assets/images/ic_commentGreen.svg";
 import CommunityIcon from "@/assets/images/ic_friendsBlue.svg";
-import LikeIcon from "@/assets/reactions/like.svg";
-import LoveIcon from "@/assets/reactions/love.svg";
-import WowIcon from "@/assets/reactions/wow.svg";
-import HappyIcon from "@/assets/reactions/haha.svg";
-import SadIcon from "@/assets/reactions/sad.svg";
-import AngryIcon from "@/assets/reactions/angry.svg";
 import UserIcon from "@/assets/images/userCheck.svg";
 
 export const ReactionIconMap = {
-  love: LoveReaction,
   like: LikeReaction,
-  sad: SadReaction,
-  wow: WowReaction,
-  angry: AngryReaction,
-  happy: HappyReaction,
+  love: LoveReaction,
   care: CareReaction,
+  happy: HappyReaction,
+  wow: WowReaction,
+  sad: SadReaction,
+  angry: AngryReaction,
 };
+
+export const ReactionsList = [
+  "like",
+  "love",
+  "care",
+  "happy",
+  "wow",
+  "sad",
+  "angry",
+];
 
 export const ReactionIconMapGif = {
   love: LoveReactionGif,
@@ -122,13 +126,14 @@ export const bgColors = [
 ];
 
 export const notificationIconMap = {
-  love: LoveIcon,
   comment: CommentIcon,
-  like: LikeIcon,
-  happy: HappyIcon,
-  wow: WowIcon,
-  sad: SadIcon,
-  angry: AngryIcon,
   community: CommunityIcon,
   follow: UserIcon,
+  love: LoveReaction,
+  like: LikeReaction,
+  sad: SadReaction,
+  wow: WowReaction,
+  angry: AngryReaction,
+  happy: HappyReaction,
+  care: CareReaction,
 };
