@@ -8,7 +8,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -64,7 +64,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -111,7 +111,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -148,7 +148,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -195,7 +195,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -232,7 +232,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -297,7 +297,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -353,7 +353,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -400,7 +400,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -437,7 +437,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -474,7 +474,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -511,7 +511,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -548,7 +548,7 @@ export const postData: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -634,7 +634,7 @@ export const photoPost: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -690,7 +690,7 @@ export const photoPost: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -746,7 +746,7 @@ export const photoPost: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -793,7 +793,7 @@ export const photoPost: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -849,7 +849,7 @@ export const photoPost: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -905,7 +905,7 @@ export const photoPost: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -970,7 +970,7 @@ export const photoPost: IPostDoc[] = [
     authId: "789654",
     uId: "963258",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",

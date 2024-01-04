@@ -43,7 +43,7 @@ export interface IFiles {
   size?: number;
 }
 export interface ICreator {
-  _id: string; // authId
+  authId: string; // authId
   uId: string;
   coverPicture: string;
   profilePicture: string;

@@ -11,6 +11,15 @@ export type ReactionName =
   | "all"
   | "more";
 
+  export type OnlyReactionName =
+  | "like"
+  | "love"
+  | "happy"
+  | "wow"
+  | "sad"
+  | "angry"
+  | "care";
+
 export interface IReactionDoc {
   _id: string;
   authId: string;

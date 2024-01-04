@@ -31,7 +31,7 @@ const PostHeader: React.FC<Props> = ({ user, createAt, feelings }) => {
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <Link
-              to={`/u/${user._id}`}
+              to={`/u/${user.authId}`}
               className="capitalize font-semibold text-[14px] tracking-[0.1px]"
             >{`${user.name.first} ${user.name.last}`}</Link>
             {feelings && (
