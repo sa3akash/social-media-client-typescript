@@ -17,14 +17,17 @@ import {
   markAsReadNotification,
   getNotificaitons,
   createPost,
+  updateReaction,
+  getUserReaction,
 } from ".";
 import { store } from "@/store";
-import { setAuth } from "@/store/reducers/AuthReducer";
+import { setAuth, setUserReactions } from "@/store/reducers/AuthReducer";
 import { axiosError } from "@/services/utils/serializeError";
 import { AxiosError } from "axios";
 import { setNotification } from "@/store/reducers/NotificationReducer";
 import { clearPost } from "@/store/reducers/SinglePostReducer";
 import { closeModel } from "@/store/reducers/ModelReducer";
+import { ApiReactionInterface } from "@/interfaces/http.interface";
 
 class Api {
   public async loginCall(data: ILogin, toast: any): Promise<void> {
@@ -131,6 +134,26 @@ class Api {
           notifications: data?.notifications,
         }),
       );
+    } catch (err) {
+      this.responseError(err, toast);
+    }
+  }
+
+  public async updateReactionCall(
+    body: ApiReactionInterface,
+    toast: any,
+  ): Promise<void> {
+    try {
+      await updateReaction(body);
+    } catch (err) {
+      this.responseError(err, toast);
+    }
+  }
+
+  public async getUserReactions(toast: any): Promise<void> {
+    try {
+      const { data } = await getUserReaction();
+      store.dispatch(setUserReactions(data.reactions));
     } catch (err) {
       this.responseError(err, toast);
     }

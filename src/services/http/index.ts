@@ -5,6 +5,7 @@ import {
   IRegister,
   IResetPassword,
 } from "@/interfaces/auth.interface";
+import { ApiReactionInterface } from "@/interfaces/http.interface";
 import axios, { AxiosInstance } from "axios";
 
 const api: AxiosInstance = axios.create({
@@ -35,6 +36,12 @@ export const deleteNotification = (notificationId: string) =>
 export const getNotificaitons = (pageNumber: number) =>
   api.get(`/notifications?page=${pageNumber}`);
 
+export const updateReaction = (body: ApiReactionInterface) =>
+  api.post("/post/reaction", body);
+
+export const getUserReaction = () => api.get("/post/reactions/user");
+
+// form data
 export const createPost = (data: FormData) =>
   api.post("/post", data, {
     headers: {

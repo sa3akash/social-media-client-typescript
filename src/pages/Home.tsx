@@ -9,6 +9,7 @@ const Home = () => {
 
   useEffect(() => {
     api.getNotification(toast);
+    api.getUserReactions(toast);
   }, [toast]);
   
   return (

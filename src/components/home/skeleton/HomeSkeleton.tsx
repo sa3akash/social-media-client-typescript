@@ -4,7 +4,7 @@ import CardSkeleton from "@/components/home/skeleton/CardSkeleton";
 const HomeSkeleton = () => {
   return (
     <div className="max-w-[1200px] h-full w-full">
-      <div className="w-full mx-auto flex gap-8">
+      <div className="w-full md:w-[95%] xl:w-full mx-auto flex gap-8">
         <PostSkeleton />
         <CardSkeleton />
       </div>

@@ -125,6 +125,16 @@ export const bgColors = [
   // '#cddc39'
 ];
 
+export const reactionColorMap = {
+  like: "#50b5ff",
+  love: "#f33e58",
+  care: "#f7b125",
+  happy: "#f7b125",
+  wow: "#f7b124",
+  sad: "#f7b124",
+  angry: "#e9710f",
+};
+
 export const notificationIconMap = {
   comment: CommentIcon,
   community: CommunityIcon,

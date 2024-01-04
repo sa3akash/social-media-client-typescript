@@ -19,8 +19,8 @@ const PostReactions: React.FC<Props> = ({ post }) => {
   const filersReactions = PostUtils.filterReactions(post.reactions, 3);
 
   return (
-    <div className="px-4 py-2 flex items-center justify-between select-none">
-      <div className="flex items-center py-2 gap-2">
+    <div className="px-4 h-[55px] flex items-center justify-between select-none">
+      <div className="flex items-center gap-2">
         <div className="flex items-center">
           {filersReactions.map((r, i) => (
             <DrawerModelProvider
@@ -73,15 +73,3 @@ const PostReactions: React.FC<Props> = ({ post }) => {
 };
 
 export default PostReactions;
-
-{
-  /* <DrawerModelProvider modelContent={<ReactionModel post={post} reactionType="like"/>}>
-            <img src={LikeIcon} alt="like" className="w-5 cursor-pointer" />
-          </DrawerModelProvider>
-          <DrawerModelProvider modelContent={<ReactionModel post={post} reactionType="love"/>}>
-            <img src={LoveIcon} alt="love" className="w-5 cursor-pointer" />
-          </DrawerModelProvider>
-          <DrawerModelProvider modelContent={<ReactionModel post={post} reactionType="care"/>}>
-            <img src={CareIcon} alt="care" className="w-5 cursor-pointer" />
-          </DrawerModelProvider> */
-}

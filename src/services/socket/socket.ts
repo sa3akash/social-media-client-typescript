@@ -1,7 +1,6 @@
 import { config } from "@/config";
 import { Socket, io } from "socket.io-client";
 import { PostSocket } from "@/services/socket/postSocket";
-import { ReactionSocket } from "@/services/socket/reactionSocket";
 import { NotificationSocket } from "@/services/socket/notificationSocket";
 
 class SocketService {
@@ -17,7 +16,6 @@ class SocketService {
   public setupSocketConnection() {
     this.socketConnectionEvents();
     PostSocket.start();
-    ReactionSocket.start();
     NotificationSocket.start();
   }
 

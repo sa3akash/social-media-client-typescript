@@ -1,4 +1,4 @@
-import { IUserDoc } from "@/interfaces/auth.interface";
+import { IUserDoc, IUserReactionDoc } from "@/interfaces/auth.interface";
 import { IPostDoc, IReactions } from "@/interfaces/post.interface";
 import { UserUtils } from "@/services/utils/userUtils";
 
@@ -64,5 +64,12 @@ export class PostUtils {
       .slice(0, count);
 
     return sortedReactions;
+  }
+
+  static userReactionExists(
+    userReaction: IUserReactionDoc[],
+    postId: string,
+  ): IUserReactionDoc | undefined {
+    return userReaction.find((reaction) => reaction.postId === postId);
   }
 }
