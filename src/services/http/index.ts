@@ -7,6 +7,7 @@ import {
 } from "@/interfaces/auth.interface";
 import { ApiReactionInterface } from "@/interfaces/http.interface";
 import axios, { AxiosInstance } from "axios";
+import { PageURL } from "@/services/utils/pageUrl";
 
 const api: AxiosInstance = axios.create({
   baseURL: config.apiUrl,
@@ -49,13 +50,29 @@ export const createPost = (data: FormData) =>
     },
   });
 
-// export const activate = (data) => api.post("/api/activate", data);
-// export const logout = () => api.post("/api/logout");
-// export const createRoom = (data) => api.post("/api/rooms", data);
-// export const getAllRooms = () => api.get("/api/rooms");
-// export const getRoom = (roomId) => api.get(`/api/rooms/${roomId}`);
+
 
 // Interceptors
+let isRetry = false;
+api.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && originalRequest && !isRetry) {
+      isRetry = true;
+      localStorage.clear();
+      window.location.replace(PageURL.Login);
+    }
+    throw error;
+  }
+);
+
+export default api;
+
+// ******** API ****************
+
 // let isRetry = false;
 // api.interceptors.response.use(
 //   (config) => {
@@ -78,4 +95,4 @@ export const createPost = (data: FormData) =>
 //   }
 // );
 
-export default api;
+// export default api;

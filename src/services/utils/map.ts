@@ -4,7 +4,7 @@ import LikeReaction from "@/assets/reactions/like.svg";
 import SadReaction from "@/assets/reactions/sad.svg";
 import WowReaction from "@/assets/reactions/wow.svg";
 import AngryReaction from "@/assets/reactions/angry.svg";
-import HappyReaction from "@/assets/reactions/haha.svg";
+import HappyReaction from "@/assets/reactions/happy.svg";
 import CareReaction from "@/assets/reactions/care.svg";
 // gif
 import LoveReactionGif from "@/assets/reactions/love.gif";

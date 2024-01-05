@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "./Image";
+import Image from "@/components/common/Image";
 
 interface Props {
   gifUrl: string;

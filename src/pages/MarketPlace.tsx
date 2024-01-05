@@ -1,8 +1,5 @@
-
 const MarketPlace = () => {
-  return (
-    <div>MarketPlace</div>
-  )
-}
+  return <div>MarketPlace</div>;
+};
 
-export default MarketPlace
+export default MarketPlace;

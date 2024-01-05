@@ -4,7 +4,10 @@ import RightSide from "@/components/home/RightSide";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ModelProviders from "@/components/providers/ModelProviders";
-
+import { api } from "@/services/http/api";
+import { useToast } from "@/components/ui/use-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 const Layout = () => {
   const pathname = useLocation().pathname.split("/")[1];
   const navigate = useNavigate();
@@ -14,6 +17,16 @@ const Layout = () => {
       navigate("/feed");
     }
   }, [navigate, pathname]);
+
+  const { toast } = useToast();
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      api.getUserReactions(toast);
+      api.getNotification(toast);
+    }
+  }, [toast, user]);
 
   return (
     <div className="h-full">

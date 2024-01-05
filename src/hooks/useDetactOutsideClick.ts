@@ -1,13 +1,13 @@
-import { MutableRefObject, useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 
-const useDetectOutsideClick = (
-  ref: MutableRefObject<HTMLDivElement | null>,
+const useDetectOutsideClick = <T extends HTMLElement = HTMLElement>(
+  ref: RefObject<T>,
   initialState: boolean,
 ) => {
   const [isActive, setIsActive] = useState<boolean>(initialState);
 
   useEffect(() => {
-    const onClick = (event: MouseEvent) => {
+    const onClick = (event: Event) => {
       if (
         ref.current !== null &&
         !ref.current?.contains(event.target as Node)
@@ -17,9 +17,11 @@ const useDetectOutsideClick = (
     };
     if (isActive) {
       document.addEventListener("mousedown", onClick);
+      document.addEventListener("touchstart", onClick);
     }
     return () => {
       document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("touchstart", onClick);
     };
   }, [isActive, ref]);
 

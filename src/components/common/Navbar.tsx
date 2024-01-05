@@ -19,8 +19,10 @@ import MessageDropDown from "@/components/common/item/MessageDropDown";
 import { NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import Logo from "@/assets/images/Logo.svg";
 import { ModeToggle } from "@/components/common/ThemeToggle";
+// import { LogoSvg } from "@/assets/svg";
+import Logo from '@/assets/images/Logo.svg';
+
 
 const Navbar = () => {
   const { user } = useSelector((store: RootState) => store.auth);
@@ -32,12 +34,13 @@ const Navbar = () => {
     <>
       <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
         <div className="flex items-center gap-6 lg:gap-24 flex-1">
-          <Link to={PageURL.Feed} className="hidden md:block select-none">
+          <Link to={PageURL.Feed} className="hidden md:block select-none min-w-[180px]">
             <img
               src={Logo}
               alt="Logo"
               className="filter brightness-0 dark:brightness-100"
             />
+            {/* <LogoSvg className="filter brightness-0 dark:brightness-100"/> */}
           </Link>
           <div className="flex select-none h-10 max-w-[500px] w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
             <div className="block md:hidden w-8 h-8 object-cover rounded-full overflow-hidden">
