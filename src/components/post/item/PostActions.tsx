@@ -56,9 +56,9 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
             <div
               className="hidden sm:block roboto text-[14px] tracking-[0.1px] cursor-pointer capitalize"
               style={{
-                color: `${
-                  reactionType ? reactionColorMap[reactionType.type as OnlyReactionName] : ''
-                }`,
+                color: reactionType
+                  ? reactionColorMap[reactionType.type as OnlyReactionName]
+                  : "",
               }}
             >
               {reactionType?.type || "Likes"}

@@ -41,6 +41,9 @@ export const updateReaction = (body: ApiReactionInterface) =>
   api.post("/post/reaction", body);
 
 export const getUserReaction = () => api.get("/post/reactions/user");
+export const getPostReaction = (url:string) => api.get(url);
+
+
 
 // form data
 export const createPost = (data: FormData) =>

@@ -19,6 +19,7 @@ import {
   createPost,
   updateReaction,
   getUserReaction,
+  getPostReaction,
 } from ".";
 import { store } from "@/store";
 import { setAuth, setUserReactions } from "@/store/reducers/AuthReducer";
@@ -63,7 +64,7 @@ class Api {
   public async resetCall(
     token: string,
     data: IResetPassword,
-    toast: any,
+    toast: any
   ): Promise<void> {
     try {
       const response = await resetFn(token, data);
@@ -74,7 +75,7 @@ class Api {
   }
 
   public async suggestedFriendCall(
-    toast: any,
+    toast: any
   ): Promise<IUserDoc[] | undefined> {
     try {
       const response = await suggestedFriendFn();
@@ -86,7 +87,7 @@ class Api {
 
   public async currentUser(
     authId: string,
-    toast: any,
+    toast: any
   ): Promise<IFullUserDoc | undefined> {
     try {
       const response = await currentUser(authId);
@@ -98,7 +99,7 @@ class Api {
 
   public async markReadNotification(
     notificationId: string,
-    toast: any,
+    toast: any
   ): Promise<void> {
     try {
       await markAsReadNotification(notificationId);
@@ -111,7 +112,7 @@ class Api {
     formData: FormData,
     toast: any,
     setFiles: any,
-    setLoading: any,
+    setLoading: any
   ): Promise<void> {
     setLoading(true);
     try {
@@ -132,7 +133,7 @@ class Api {
       store.dispatch(
         setNotification({
           notifications: data?.notifications,
-        }),
+        })
       );
     } catch (err) {
       this.responseError(err, toast);
@@ -141,7 +142,7 @@ class Api {
 
   public async updateReactionCall(
     body: ApiReactionInterface,
-    toast: any,
+    toast: any
   ): Promise<void> {
     try {
       await updateReaction(body);
@@ -154,6 +155,17 @@ class Api {
     try {
       const { data } = await getUserReaction();
       store.dispatch(setUserReactions(data.reactions));
+    } catch (err) {
+      this.responseError(err, toast);
+    }
+  }
+
+  public async getPostReactions(url: string, toast: any, setLoading: any) {
+    try {
+      setLoading(true);
+      const { data } = await getPostReaction(url);
+      setLoading(false);
+      return data;
     } catch (err) {
       this.responseError(err, toast);
     }

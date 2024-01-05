@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function useInfiniteScroll(
   url: string,
-  fn: (data: any) => void,
+  fn: (data: any) => void
 ) {
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,7 +50,7 @@ export default function useInfiniteScroll(
           root: null,
           rootMargin: "0px",
           threshold: 1.0,
-        },
+        }
       );
 
       if (node) {
@@ -58,7 +58,7 @@ export default function useInfiniteScroll(
       }
     },
 
-    [loading, pageNumber, totalPages],
+    [loading, pageNumber, totalPages]
   );
 
   return { loading, lastElementRef };
