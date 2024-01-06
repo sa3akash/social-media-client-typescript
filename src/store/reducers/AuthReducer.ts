@@ -33,13 +33,12 @@ export const AuthSlice = createSlice({
 
     deleteUserReactions: (state, action: PayloadAction<string>) => {
       state.userReaction = state.userReaction.filter(
-        (r) => r._id === action.payload,
+        (p) => p.postId !== action.payload
       );
     },
   },
 });
 
-// Action creators are generated for each case reducer function
 export const {
   setAuth,
   setUserReactions,

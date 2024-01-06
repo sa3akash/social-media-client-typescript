@@ -20,7 +20,6 @@ import { NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { ModeToggle } from "@/components/common/ThemeToggle";
-// import { LogoSvg } from "@/assets/svg";
 import Logo from '@/assets/images/Logo.svg';
 
 
@@ -38,9 +37,8 @@ const Navbar = () => {
             <img
               src={Logo}
               alt="Logo"
-              className="filter brightness-0 dark:brightness-100"
+              className="filter brightness-0 dark:brightness-100 pointer-events-none"
             />
-            {/* <LogoSvg className="filter brightness-0 dark:brightness-100"/> */}
           </Link>
           <div className="flex select-none h-10 max-w-[500px] w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
             <div className="block md:hidden w-8 h-8 object-cover rounded-full overflow-hidden">
@@ -57,7 +55,7 @@ const Navbar = () => {
               type="search"
               placeholder="Search"
             />
-            <img src={Search} alt="search" className="pr-2 md:pr-0" />
+            <img src={Search} alt="search" className="pr-2 md:pr-0 pointer-events-none" />
           </div>
         </div>
 
@@ -79,7 +77,7 @@ const Navbar = () => {
                 name={user?.name as NameDoc}
                 avatarColor={user?.avatarColor}
               />
-              <img src={Dropdown} alt="drop" />
+              <img src={Dropdown} alt="drop" className="pointer-events-none"/>
             </div>
           </NavbarItem>
         </div>
@@ -115,7 +113,7 @@ const NavItem = ({ imageSrc, DropNode, text }: NavItemProps) => {
         )}
         onClick={() => setNotificationOpen((prev) => !prev)}
       >
-        <img src={imageSrc} alt="Notification" />
+        <img src={imageSrc} alt="Notification" className="pointer-events-none"/>
       </div>
       {notficationOpen && <>{DropNode}</>}
     </div>

@@ -31,17 +31,31 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
 
   const reactionType = PostUtils.userReactionExists(userReaction, postId);
 
+  let timeout: string | number | NodeJS.Timeout | undefined;
+  const handleMouseEnter = () => {
+    timeout = setTimeout(() => {
+      setOpenReaction(true);
+    }, 500);
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(timeout);
+    setOpenReaction(false);
+  };
+
   return (
     <div className="px-4 py-1 border-t border-b">
       <div className="flex items-center justify-around gap-2 select-none">
         <div
           className="flex-1 flex items-center justify-center w-full gap-2 py-2 px-2 rounded-sm dark:hover:bg-[#292932] cursor-pointer"
-          onMouseEnter={() => setTimeout(() => setOpenReaction(true), 500)}
-          onMouseLeave={() => setTimeout(() => setOpenReaction(false), 500)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleMouseEnter}
+          onTouchEnd={handleMouseLeave}
           onClick={(e) => {
             e.stopPropagation();
             api.updateReactionCall({ postId, type: "love" }, toast);
-            setOpenReaction(false);
+            handleMouseLeave();
           }}
         >
           <>
@@ -51,7 +65,10 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
                 LoveIcon
               }
               alt="love"
-              className={cn("cursor-pointer", reactionType ? "w-6" : "")}
+              className={cn(
+                "cursor-pointer pointer-events-none",
+                reactionType ? "w-6" : ""
+              )}
             />
             <div
               className="hidden sm:block roboto text-[14px] tracking-[0.1px] cursor-pointer capitalize"
@@ -86,20 +103,32 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
           className="flex-1 flex items-center justify-center gap-2 py-2 px-2 rounded-sm dark:hover:bg-[#292932] cursor-pointer"
           onClick={() => commentInputRef.current?.focus()}
         >
-          <img src={CommentIcon} alt="comment" />
+          <img
+            src={CommentIcon}
+            alt="comment"
+            className="pointer-events-none"
+          />
           <div className="hidden sm:block roboto text-[14px] tracking-[0.1px] cursor-pointer">
             Comments
           </div>
         </div>
 
         <div className="flex-1 flex items-center justify-center gap-2 py-2 px-2 rounded-sm dark:hover:bg-[#292932] cursor-pointer">
-          <img src={ShareIcon} alt="share" className="cursor-pointer" />
+          <img
+            src={ShareIcon}
+            alt="share"
+            className="cursor-pointer pointer-events-none"
+          />
           <div className="hidden sm:block roboto text-[14px] tracking-[0.1px] cursor-pointer">
             Share
           </div>
         </div>
         <div className="flex-1 flex items-center justify-center gap-2 py-2 px-2 rounded-sm dark:hover:bg-[#292932] cursor-pointer">
-          <img src={SaveIcon} alt="saved" className="cursor-pointer" />
+          <img
+            src={SaveIcon}
+            alt="saved"
+            className="cursor-pointer pointer-events-none"
+          />
           <div className="hidden sm:block roboto text-[14px] tracking-[0.1px] cursor-pointer">
             Saved
           </div>
@@ -141,7 +170,7 @@ const SingleReaciton = ({
         <img
           src={reactionIcon}
           alt={type}
-          className="w-full h-full object-cover bg-white"
+          className="w-full h-full object-cover bg-white pointer-events-none"
         />
       </div>
     </ActionTolltip>

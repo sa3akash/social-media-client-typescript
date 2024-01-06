@@ -26,7 +26,7 @@ export const SingleLeftItem: React.FC<Props> = ({ item, pathname, hidden,inNotif
         src={ inNotificaton ? NotificatonIcon : item.imageUrl}
         alt={item.name}
         className={cn(
-          "",
+          "pointer-events-none",
           active && "filter brightness-50 dark:brightness-150"
         )}
       />

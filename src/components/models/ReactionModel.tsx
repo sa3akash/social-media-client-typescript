@@ -35,13 +35,15 @@ const ReactionModel: React.FC<Props> = ({ post, reactionType }) => {
               resetAll={() => {}}
             />
           ))}
-          <SingleReactionItem
-            type="more"
-            active={"more" === activeType}
-            setActiveType={setActiveType}
-            postCount={0}
-            resetAll={() => {}}
-          />
+          {filersReactions.length > 3 && (
+            <SingleReactionItem
+              type="more"
+              active={"more" === activeType}
+              setActiveType={setActiveType}
+              postCount={0}
+              resetAll={() => {}}
+            />
+          )}
         </div>
         <ReactionShow
           activeType={activeType}

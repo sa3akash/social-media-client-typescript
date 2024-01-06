@@ -6,7 +6,7 @@ export class PostUtils {
   static checkPrivacy(
     post: IPostDoc,
     profileId: string,
-    following: IUserDoc[],
+    following: IUserDoc[]
   ): boolean {
     const isPublic = post?.privacy === "Public";
     const isPrivate =
@@ -53,7 +53,7 @@ export class PostUtils {
 
   static filterReactions(
     reactions: IReactions,
-    count: number,
+    count: number
   ): [string, number][] {
     // const sortedReactions = Object.entries(reactions).sort(
     //   ([, countA], [, countB]) => countB - countA
