@@ -160,11 +160,9 @@ class Api {
     }
   }
 
-  public async getPostReactions(url: string, toast: any, setLoading: any) {
+  public async getPostReactions(url: string, toast: any) {
     try {
-      setLoading(true);
       const { data } = await getPostReaction(url);
-      setLoading(false);
       return data;
     } catch (err) {
       this.responseError(err, toast);

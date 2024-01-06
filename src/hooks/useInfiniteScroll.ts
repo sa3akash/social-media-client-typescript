@@ -26,7 +26,6 @@ export default function useInfiniteScroll(
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber]);
-
   // Create the IntersectionObserver outside the component
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -54,12 +53,14 @@ export default function useInfiniteScroll(
       );
 
       if (node) {
-        observer.current.observe(node); // Start observing the new node
+        observer.current.observe(node);
       }
     },
 
     [loading, pageNumber, totalPages]
   );
+
+
 
   return { loading, lastElementRef };
 }
