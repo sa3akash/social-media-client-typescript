@@ -41,8 +41,8 @@ const Image: React.FC<Props> = ({ src, className, classNameTwo }) => {
   };
 
   useEffect(() => {
-    getBackgroundImageColor(src);
-  }, [src]);
+    getBackgroundImageColor(url);
+  }, [url]);
 
   return (
     <div className={cn("w-full h-full", className)} ref={imageRef}>

@@ -26,14 +26,14 @@ export class PostSocket {
       "update-reaction",
       ({ type, updatedPost, reactionDoc }) => {
         const { user } = store.getState().auth;
-
         store.dispatch(updatePost(updatedPost));
+
         if (reactionDoc?.authId === user?._id) {
           type === "add"
             ? store.dispatch(addUserReactions(reactionDoc))
             : store.dispatch(deleteUserReactions(reactionDoc.postId));
         }
-      },
+      }
     );
   }
 

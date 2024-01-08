@@ -1,4 +1,3 @@
-import { INotification } from "@/interfaces/notificaton.interface";
 import { socketService } from "./socket";
 import { store } from "@/store";
 import {
@@ -14,15 +13,12 @@ export class NotificationSocket {
   }
 
   static addNotificationSocket() {
-    socketService.socket.on(
-      "reaction-notification",
-      (data: INotification, { userTo }) => {
-        const { user } = store.getState().auth;
-        if (user?._id === userTo) {
-          store.dispatch(addNotification(data));
-        }
-      },
-    );
+    socketService.socket.on("reaction-notification", (data, { userTo }) => {
+      const { user } = store.getState().auth;
+      if (user?._id === userTo && data?.creator?.authId !== user?._id) {
+        store.dispatch(addNotification(data));
+      }
+    });
 
     socketService.socket.on(
       "insert-notification",
@@ -32,7 +28,7 @@ export class NotificationSocket {
         if (user?._id === userTo) {
           console.log(notificationData);
         }
-      },
+      }
     );
 
     socketService.socket.on("update-notification", (notificationId: string) => {

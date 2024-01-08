@@ -1,4 +1,3 @@
-import { config } from "@/config";
 import { Socket, io } from "socket.io-client";
 import { PostSocket } from "@/services/socket/postSocket";
 import { NotificationSocket } from "@/services/socket/notificationSocket";
@@ -7,7 +6,8 @@ class SocketService {
   socket: Socket;
 
   constructor() {
-    this.socket = io(config.baseUrl, {
+    this.socket = io('/', {
+      path: "/socket.io",
       transports: ["websocket"],
       secure: true,
     });
