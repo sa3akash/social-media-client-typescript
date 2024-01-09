@@ -60,7 +60,6 @@ export default function useInfiniteScroll(
     [loading, pageNumber, totalPages]
   );
 
-
-
   return { loading, lastElementRef };
 }
+

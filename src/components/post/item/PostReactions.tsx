@@ -10,6 +10,8 @@ import { IPostDoc } from "@/interfaces/post.interface";
 import { PostUtils } from "@/services/utils/postUtils";
 import { OnlyReactionName } from "@/interfaces/reaction.interface";
 import { ReactionIconMap } from "@/services/utils/map";
+import ActionTolltip from "@/components/common/ActionTolltip";
+import CommentAndReactionHover from "./CommentAndReactionHover";
 
 interface Props {
   post: IPostDoc;
@@ -32,11 +34,24 @@ const PostReactions: React.FC<Props> = ({ post }) => {
               }
               key={i}
             >
-              <img
-                src={ReactionIconMap[r[0] as OnlyReactionName]}
-                alt="like"
-                className="w-5 cursor-pointer"
-              />
+              <div>
+                <ActionTolltip
+                  label={r[0]}
+                  content={
+                    <CommentAndReactionHover
+                      numberOfPost={PostUtils.sumAllReactions(post.reactions)}
+                      reactionType={r[0] as OnlyReactionName}
+                      postId={post._id}
+                    />
+                  }
+                >
+                  <img
+                    src={ReactionIconMap[r[0] as OnlyReactionName]}
+                    alt="like"
+                    className="w-5 cursor-pointer"
+                  />
+                </ActionTolltip>
+              </div>
             </DrawerModelProvider>
           ))}
         </div>

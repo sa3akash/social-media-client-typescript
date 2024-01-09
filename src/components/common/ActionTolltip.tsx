@@ -9,17 +9,25 @@ import {
 interface Props {
   label: string;
   children: React.ReactNode;
+  content?: React.ReactNode;
   side?: "left" | "right" | "top" | "bottom";
   align?: "start" | "center" | "end";
 }
 
-const ActionTolltip: FC<Props> = ({ label, children, side, align }) => {
+const ActionTolltip: FC<Props> = ({
+  label,
+  children,
+  side,
+  align,
+  content,
+}) => {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={50}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent side={side} align={align}>
           <p className="font-semibold text-sm capitalize">{label}</p>
+          {content}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

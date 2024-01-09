@@ -22,11 +22,11 @@ export class NotificationSocket {
 
     socketService.socket.on(
       "insert-notification",
-      (notificationData: string, { userTo }) => {
+      (notificationData, { userTo }) => {
         // store.dispatch(updateAsReadNotification(notificationId));
         const { user } = store.getState().auth;
         if (user?._id === userTo) {
-          console.log(notificationData);
+          store.dispatch(addNotification(notificationData));
         }
       }
     );
