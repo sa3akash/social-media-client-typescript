@@ -39,6 +39,7 @@ export class PostSocket {
 
   static updateCommentSocket() {
     socketService.socket.on("update-comment", (data: IPostDoc) => {
+      // console.log(data)
       store.dispatch(updatePost(data));
     });
   }

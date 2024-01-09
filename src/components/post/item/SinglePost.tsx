@@ -33,7 +33,7 @@ const SinglePost = forwardRef(
         {/* actions */}
         <PostReactions post={item} />
         <PostActions commentInputRef={commentInputRef} postId={item._id} />
-        <CommentAction commentInputRef={commentInputRef} />
+        <CommentAction commentInputRef={commentInputRef} postId={item._id}/>
       </div>
     );
   }

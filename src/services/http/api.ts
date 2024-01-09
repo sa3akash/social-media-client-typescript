@@ -20,6 +20,7 @@ import {
   updateReaction,
   getUserReaction,
   getPostReaction,
+  addComment,
 } from ".";
 import { store } from "@/store";
 import { setAuth, setUserReactions } from "@/store/reducers/AuthReducer";
@@ -164,6 +165,17 @@ class Api {
     try {
       const { data } = await getPostReaction(url);
       return data;
+    } catch (err) {
+      this.responseError(err, toast);
+    }
+  }
+
+  public async addCommentCall(
+    value: { postId: string; comment: string },
+    toast: any
+  ) {
+    try {
+      await addComment(value);
     } catch (err) {
       this.responseError(err, toast);
     }

@@ -11,7 +11,7 @@ import { PostUtils } from "@/services/utils/postUtils";
 import { OnlyReactionName } from "@/interfaces/reaction.interface";
 import { ReactionIconMap } from "@/services/utils/map";
 import ActionTolltip from "@/components/common/ActionTolltip";
-import CommentAndReactionHover from "./CommentAndReactionHover";
+import ReactionHover from "@/components/post/item/ReactionHover";
 
 interface Props {
   post: IPostDoc;
@@ -38,7 +38,7 @@ const PostReactions: React.FC<Props> = ({ post }) => {
                 <ActionTolltip
                   label={r[0]}
                   content={
-                    <CommentAndReactionHover
+                    <ReactionHover
                       numberOfPost={PostUtils.sumAllReactions(post.reactions)}
                       reactionType={r[0] as OnlyReactionName}
                       postId={post._id}
@@ -67,9 +67,26 @@ const PostReactions: React.FC<Props> = ({ post }) => {
       <div className="flex items-center gap-3 sm:gap-4">
         <DrawerModelProvider modelContent={<CommentsModel post={post} />}>
           <div className="reactText flex items-center gap-1">
-            <span>{millify(post.commentsCount)}</span>
-            <span className="hidden sm:block">Comments</span>
-            <img src={CommentIcon} alt="comment" className="sm:hidden w-5" />
+            <ActionTolltip
+              label="Comments"
+              content={
+                <ReactionHover
+                  numberOfPost={PostUtils.sumAllReactions(post.reactions)}
+                  postId={post._id}
+                  comment={true}
+                />
+              }
+            >
+              <div className="flex items-center gap-1">
+                <span>{millify(post.commentsCount)}</span>
+                <span className="hidden sm:block">Comments</span>
+                <img
+                  src={CommentIcon}
+                  alt="comment"
+                  className="sm:hidden w-5"
+                />
+              </div>
+            </ActionTolltip>
           </div>
         </DrawerModelProvider>
         <div className="reactText flex items-center gap-1">
@@ -88,3 +105,23 @@ const PostReactions: React.FC<Props> = ({ post }) => {
 };
 
 export default PostReactions;
+{
+  /* <div>
+                <ActionTolltip
+                  label={r[0]}
+                  content={
+                    <CommentAndReactionHover
+                      numberOfPost={PostUtils.sumAllReactions(post.reactions)}
+                      reactionType={r[0] as OnlyReactionName}
+                      postId={post._id}
+                    />
+                  }
+                >
+                  <img
+                    src={ReactionIconMap[r[0] as OnlyReactionName]}
+                    alt="like"
+                    className="w-5 cursor-pointer"
+                  />
+                </ActionTolltip>
+              </div> */
+}

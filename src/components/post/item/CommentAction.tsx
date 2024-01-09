@@ -3,16 +3,38 @@ import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
 import ImageIcon from "@/assets/images/ic_Image.svg";
 import EmojiPicker from "@/components/common/EmojiPicker";
 import UserAvater from "@/components/common/UserAvater";
+import { useToast } from "@/components/ui/use-toast";
 import { NameDoc } from "@/interfaces/auth.interface";
+import { api } from "@/services/http/api";
 import { RootState } from "@/store";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 interface Props {
   commentInputRef: React.MutableRefObject<null | HTMLInputElement>;
+  postId: string;
 }
 
-const CommentAction: React.FC<Props> = ({ commentInputRef }) => {
+const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
   const { user } = useSelector((store: RootState) => store.auth);
+
+  const { toast } = useToast();
+
+  const [commentValue, setCommentValue] = useState<string>("");
+
+  const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && commentValue.length > 1) {
+       api.addCommentCall(
+        {
+          comment: commentValue,
+          postId: postId,
+        },
+        toast
+      );
+      setCommentValue('')
+    }
+  };
+
   return (
     <div className="px-4 py-4 flex items-center gap-4 w-full">
       <UserAvater
@@ -27,12 +49,17 @@ const CommentAction: React.FC<Props> = ({ commentInputRef }) => {
           className="w-full focus:outline-none bg-transparent placeholder:roboto placeholder:text-[#92929D]"
           placeholder="Write your comment…"
           ref={commentInputRef}
+          onChange={(e) => setCommentValue(e.target.value as string)}
+          value={commentValue}
+          onKeyDown={handlekeydown}
         />
         <img src={AtachmentIcon} alt="atachIcon" className="w-5 icon" />
-        <EmojiPicker onChange={(value: string) => console.log(value)}>
-          <img src={ImojiIcon} alt="" className="w-5 icon" />
+        <EmojiPicker
+          onChange={(value: string) => setCommentValue((prev) => prev + value)}
+        >
+          <img src={ImojiIcon} alt="emojiIcon" className="w-5 icon" />
         </EmojiPicker>
-        <img src={ImageIcon} alt="" className="w-5 icon" />
+        <img src={ImageIcon} alt="commentIcon" className="w-5 icon" />
       </div>
     </div>
   );

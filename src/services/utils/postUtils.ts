@@ -68,8 +68,24 @@ export class PostUtils {
 
   static userReactionExists(
     userReaction: IUserReactionDoc[],
-    postId: string,
+    postId: string
   ): IUserReactionDoc | undefined {
     return userReaction.find((reaction) => reaction.postId === postId);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static getNameForComment(value: any[]): any[] {
+    const uniqueArray = Array.from(
+      new Set(
+        value.map(
+          (item: { creator: { authId: string } }) => item?.creator?.authId
+        )
+      )
+    ).map((id) =>
+      value.find(
+        (item: { creator: { authId: string } }) => item?.creator?.authId === id
+      )
+    );
+    return uniqueArray;
   }
 }

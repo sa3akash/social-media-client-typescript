@@ -42,6 +42,7 @@ export const updateReaction = (body: ApiReactionInterface) =>
 
 export const getUserReaction = () => api.get("/post/reactions/user");
 export const getPostReaction = (url:string) => api.get(url);
+export const addComment = (data:{postId:string,comment:string}) => api.post('/add-comment', data);
 
 
 
