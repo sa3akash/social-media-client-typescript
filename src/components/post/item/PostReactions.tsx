@@ -65,7 +65,9 @@ const PostReactions: React.FC<Props> = ({ post }) => {
         </DrawerModelProvider>
       </div>
       <div className="flex items-center gap-3 sm:gap-4">
-        <DrawerModelProvider modelContent={<CommentsModel post={post} />}>
+        <DrawerModelProvider
+          modelContent={<CommentsModel postId={post?._id} />}
+        >
           <div className="reactText flex items-center gap-1">
             <ActionTolltip
               label="Comments"
