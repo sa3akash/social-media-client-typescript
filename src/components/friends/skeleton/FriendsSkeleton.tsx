@@ -6,7 +6,7 @@ const FriendsSkeleton = () => {
       <div className="flex flex-col gap-4">
         <Skeleton className="w-full md:w-[95%] xl:w-full mx-auto h-[56px] rounded-md dark:bg-[#1C1C24]" />
         <div className="h-full grid grid-cols-1 2xl:grid-cols-2 gap-2 md:gap-4">
-          {[1, 2, 3, 4, 5].map((_item, index) => (
+          {[1, 2, 3, 4, 5, 6, 7].map((_item, index) => (
             <Skeleton
               className="w-full md:w-[95%] xl:w-full mx-auto h-[120px] md:h-[258px] rounded-md dark:bg-[#1C1C24]"
               key={index}
