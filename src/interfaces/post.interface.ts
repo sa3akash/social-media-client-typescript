@@ -94,3 +94,6 @@ export interface IPostDoc {
   reactions: IReactions;
   createdAt: string;
 }
+
+
+export type PostModelType = 'saveLink' | 'hidePost' | 'hideAllPost' | 'unFollow' | 'edit' | 'delete' | 'pin' | 'report';

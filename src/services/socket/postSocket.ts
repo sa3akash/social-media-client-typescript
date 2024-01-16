@@ -5,7 +5,7 @@ import {
   addUserReactions,
   deleteUserReactions,
 } from "@/store/reducers/AuthReducer";
-import { addPost, updatePost } from "@/store/reducers/PostsReducer";
+import { addPost, deletePost, updatePost } from "@/store/reducers/PostsReducer";
 
 // post
 export class PostSocket {
@@ -13,6 +13,7 @@ export class PostSocket {
     PostSocket.addPostSocket();
     PostSocket.updateReactionSocket();
     PostSocket.updateCommentSocket();
+    PostSocket.updatePostSocket();
   }
 
   static addPostSocket() {
@@ -41,6 +42,16 @@ export class PostSocket {
     socketService.socket.on("update-comment", (data: IPostDoc) => {
       // console.log(data)
       store.dispatch(updatePost(data));
+    });
+  }
+
+  static updatePostSocket() {
+    socketService.socket.on("update-post", (data: IPostDoc) => {
+      store.dispatch(updatePost(data));
+    });
+
+    socketService.socket.on("delete-post", (postId: string) => {
+      store.dispatch(deletePost(postId));
     });
   }
 }

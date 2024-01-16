@@ -24,7 +24,7 @@ import { Loader2 } from "lucide-react";
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { type, isOpen } = useSelector((store: RootState) => store.model);
-  const { privacy, feelings, post, gifUrl, bgColor } = useSelector(
+  const { _id, privacy, feelings, post, gifUrl, bgColor } = useSelector(
     (store: RootState) => store.SinglePost
   );
   const dispatch: AppDispatch = useDispatch();
@@ -48,17 +48,20 @@ const CreatePostModel = () => {
     formData.append("feelings", `${feelings}`);
     formData.append("gifUrl", `${gifUrl}`);
     formData.append("bgColor", `${bgColor}`);
-    api.createPost(formData, toast, setFiles, setLoading);
+    if (type === "createPost") {
+      api.createPost(formData, toast, setFiles, setLoading);
+    } else {
+      api.updatePost(_id!, formData, toast, setFiles, setLoading);
+    }
   };
 
   return (
-    <Dialog
-      open={type === "createPost" && isOpen}
-      onOpenChange={() => dispatch(closeModel())}
-    >
+    <Dialog open={isOpen} onOpenChange={() => dispatch(closeModel())}>
       <DialogContent className="max-w-[500px] p-0 cardBG">
         <DialogHeader>
-          <DialogTitle className="text-center mt-4">Create post</DialogTitle>
+          <DialogTitle className="text-center mt-4">
+            {type === "createPost" ? "Create post" : "Update Post"}
+          </DialogTitle>
         </DialogHeader>
         <Separator />
         <div className="relative">
@@ -80,11 +83,13 @@ const CreatePostModel = () => {
           >
             {loading ? (
               <span className="flex text-center gap-2">
-                Post...
+                {type === "createPost" ? "Post..." : "Updating..."}
                 <Loader2 className="animate-spin" size={20} />
               </span>
-            ) : (
+            ) : type === "createPost" ? (
               "Post"
+            ) : (
+              "Update"
             )}
           </Button>
         </DialogFooter>

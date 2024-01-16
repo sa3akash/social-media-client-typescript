@@ -6,16 +6,17 @@ import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
 import { Link } from "react-router-dom";
 import { timeAgo } from "@/services/utils/timeAgo";
-import { ICreator, IFeelings } from "@/interfaces/post.interface";
+import { ICreator, IFeelings, IPostDoc } from "@/interfaces/post.interface";
 import { feelingIconMap } from "@/services/utils/map";
 
 interface Props {
   user: ICreator;
   createAt: string;
   feelings?: string;
+  post: IPostDoc;
 }
 
-const PostHeader: React.FC<Props> = ({ user, createAt, feelings }) => {
+const PostHeader: React.FC<Props> = ({ user, createAt, feelings, post }) => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
 
@@ -51,16 +52,17 @@ const PostHeader: React.FC<Props> = ({ user, createAt, feelings }) => {
           </span>
         </div>
       </div>
-      <div
-        className={cn(
-          "w-7 h-4 rounded-full grid place-items-center cursor-pointer select-none",
-          openModel && "borderColor"
-        )}
-        onClick={() => setOpenModel((prev) => !prev)}
-        ref={docRef}
-      >
-        <img src={MoreDot} alt="dot" />
-        {openModel && <PostHeaderModel />}
+      <div ref={docRef}>
+        <img
+          src={MoreDot}
+          alt="dot"
+          className={cn(
+            "rounded-full grid place-items-center cursor-pointer select-none p-2",
+            openModel && "borderColor"
+          )}
+          onClick={() => setOpenModel((prev) => !prev)}
+        />
+        {openModel && <PostHeaderModel post={post} setOpenModel={setOpenModel}/>}
       </div>
     </div>
   );

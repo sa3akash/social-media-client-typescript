@@ -1,16 +1,18 @@
-import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
+import { IFeelings, IFiles, IPrivacy } from "@/interfaces/post.interface";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface SinglePostDoc {
+  _id?: string;
   post?: string;
   bgColor?: string;
-  files?: [];
+  files?: [] | IFiles[];
   feelings?: IFeelings | "";
   gifUrl?: string;
   privacy?: IPrivacy;
 }
 
 const initialState: SinglePostDoc = {
+  _id: '',
   files: [],
   post: "",
   privacy: "Public",

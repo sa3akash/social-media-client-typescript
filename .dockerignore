@@ -6,3 +6,11 @@ node_modules
 
 
 .env.example
+Dockerfile
+Dockerfile.dev
+README.md
+.env.example
+.git
+.gitignore
+.dockerignore
+

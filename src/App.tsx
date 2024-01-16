@@ -1,17 +1,20 @@
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import { NetworkProvider } from "@/context/NetworkContext";
-import { socketService } from "@/services/socket/socket";
-import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import Router from "@/router";
 import { Toaster } from "@/components/ui/toaster";
 import OnlineOffline from "@/components/common/OnlineOffline";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { useEffect } from "react";
+import { socketService } from "@/services/socket/socket";
 
 function App() {
   useEffect(() => {
     socketService.setupSocketConnection();
+    return () => {
+      socketService.disconnect();
+    };
   }, []);
 
   return (

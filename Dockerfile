@@ -15,7 +15,7 @@ RUN yarn build
 
 # nginx
 FROM nginx:mainline-alpine3.18-perl
-EXPOSE 8080
+EXPOSE 3000
 COPY ./nginx /etc/nginx/conf.d
 COPY --from=build /usr/src/client/dist /usr/share/nginx/html
 EXPOSE 80

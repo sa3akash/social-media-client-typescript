@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-type ModelType = "createPost";
+type ModelType = "createPost" | "editPost";
 
 export interface ModelState {
   type: ModelType | null;

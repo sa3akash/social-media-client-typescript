@@ -6,7 +6,7 @@ class SocketService {
   socket: Socket;
 
   constructor() {
-    this.socket = io('/', {
+    this.socket = io('http://localhost:5500', {
       path: "/socket.io",
       transports: ["websocket"],
       secure: true,
@@ -17,6 +17,12 @@ class SocketService {
     this.socketConnectionEvents();
     PostSocket.start();
     NotificationSocket.start();
+  }
+  
+  // disconnect connection
+  public disconnect() {
+    this.socket.disconnect();
+    console.log('socket disconnected');
   }
 
   // listen for events

@@ -48,6 +48,17 @@ import CommentIcon from "@/assets/images/ic_commentGreen.svg";
 import CommunityIcon from "@/assets/images/ic_friendsBlue.svg";
 import UserIcon from "@/assets/images/userCheck.svg";
 
+// post model
+import SaveLink from "@/assets/images/post-model/bookmark.svg"
+import HidePost from "@/assets/images/post-model/x-circle.svg"
+import HidePostAll from "@/assets/images/post-model/x-square.svg"
+import User from "@/assets/images/post-model/user.svg"
+import EditIcon from "@/assets/images/post-model/square-pen.svg"
+import DeleteIcon from "@/assets/images/post-model/trash.svg"
+import PinIcon from "@/assets/images/post-model/pin.svg"
+import ReportIcon from "@/assets/images/post-model/report.svg"
+
+
 export const ReactionIconMap = {
   like: LikeReaction,
   love: LoveReaction,
@@ -147,3 +158,16 @@ export const notificationIconMap = {
   happy: HappyReaction,
   care: CareReaction,
 };
+
+
+
+export const postModelIconMap = {
+  saveLink: SaveLink,
+  hidePost: HidePost,
+  hideAllPost: HidePostAll,
+  unFollow: User,
+  edit: EditIcon,
+  delete: DeleteIcon,
+  pin: PinIcon,
+  report: ReportIcon
+}

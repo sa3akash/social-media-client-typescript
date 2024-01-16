@@ -21,6 +21,8 @@ import {
   getUserReaction,
   getPostReaction,
   addComment,
+  updatePost,
+  deletePost,
 } from ".";
 import { store } from "@/store";
 import { setAuth, setUserReactions } from "@/store/reducers/AuthReducer";
@@ -128,6 +130,26 @@ class Api {
     }
   }
 
+  public async updatePost(
+    _id: string,
+    formData: FormData,
+    toast: any,
+    setFiles: any,
+    setLoading: any
+  ): Promise<void> {
+    setLoading(true);
+    try {
+      await updatePost(_id, formData);
+      setFiles([]);
+      store.dispatch(closeModel());
+      store.dispatch(clearPost());
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      this.responseError(err, toast);
+    }
+  }
+
   public async getNotification(toast: any): Promise<void> {
     try {
       const { data } = await getNotificaitons(1);
@@ -165,6 +187,14 @@ class Api {
     try {
       const { data } = await getPostReaction(url);
       return data;
+    } catch (err) {
+      this.responseError(err, toast);
+    }
+  }
+
+  public async deletePost(postId: string, toast: any) {
+    try {
+      await deletePost(postId);
     } catch (err) {
       this.responseError(err, toast);
     }

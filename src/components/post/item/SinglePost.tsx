@@ -21,6 +21,7 @@ const SinglePost = forwardRef(
           user={item.creator}
           createAt={item.createdAt}
           feelings={item.feelings}
+          post={item}
         />
         <PostText item={item} />
         {/* image preview */}
