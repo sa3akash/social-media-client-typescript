@@ -15,7 +15,7 @@ import { IUserDoc } from "@/interfaces/auth.interface";
 import CreateInput from "@/components/post/postForm/CreateInput";
 import SelectBgAndEmoji from "@/components/post/postForm/SelectBgAndEmoji";
 import AddToUserPost from "@/components/post/postForm/AddToUserPost";
-import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
+import { IFeelings, IFiles, IPrivacy } from "@/interfaces/post.interface";
 import { useEffect, useState } from "react";
 import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
@@ -65,10 +65,9 @@ const CreatePostModel = () => {
 
   useEffect(() => {
     if (type === "editPost" && oldFiles) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      oldFiles.map((fi) => {
+      oldFiles.map((fi: IFiles) => {
         ImageUtils.imageUrlToBlob(fi.path).then((blob) => {
-          const imaFile = ImageUtils.imageBlobToFile(blob);
+          const imaFile = ImageUtils.imageBlobToFile(blob, fi.mimetype);
           setFiles([...files, imaFile]);
         });
       });
@@ -82,6 +81,7 @@ const CreatePostModel = () => {
       onOpenChange={() => {
         dispatch(closeModel());
         dispatch(clearPost());
+        setFiles([])
       }}
     >
       <DialogContent className="max-w-[500px] p-0 cardBG">

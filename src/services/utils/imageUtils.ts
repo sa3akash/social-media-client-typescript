@@ -101,15 +101,15 @@ export class ImageUtils {
     return `#${red}${green}${blue}`;
   }
 
-  static async imageUrlToBlob(url:string): Promise<Blob> {
+  static async imageUrlToBlob(url: string): Promise<Blob> {
     const response = await fetch(url);
     const blob = await response.blob();
     return blob;
   }
 
-  static  imageBlobToFile(blob:Blob):File{
+  static imageBlobToFile(blob: Blob, type: string): File {
     const file = new File([blob], Date.now().toString(), {
-      type: "image/jpeg",
+      type: type,
     });
     return file;
   }
