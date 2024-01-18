@@ -16,17 +16,25 @@ import CreateInput from "@/components/post/postForm/CreateInput";
 import SelectBgAndEmoji from "@/components/post/postForm/SelectBgAndEmoji";
 import AddToUserPost from "@/components/post/postForm/AddToUserPost";
 import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { clearPost } from "@/store/reducers/SinglePostReducer";
+import { ImageUtils } from "@/services/utils/imageUtils";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { type, isOpen } = useSelector((store: RootState) => store.model);
-  const { _id, privacy, feelings, post, gifUrl, bgColor } = useSelector(
-    (store: RootState) => store.SinglePost
-  );
+  const {
+    _id,
+    privacy,
+    feelings,
+    post,
+    gifUrl,
+    bgColor,
+    files: oldFiles,
+  } = useSelector((store: RootState) => store.SinglePost);
   const dispatch: AppDispatch = useDispatch();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -55,8 +63,27 @@ const CreatePostModel = () => {
     }
   };
 
+  useEffect(() => {
+    if (type === "editPost" && oldFiles) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      oldFiles.map((fi) => {
+        ImageUtils.imageUrlToBlob(fi.path).then((blob) => {
+          const imaFile = ImageUtils.imageBlobToFile(blob);
+          setFiles([...files, imaFile]);
+        });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [oldFiles]);
+
   return (
-    <Dialog open={isOpen} onOpenChange={() => dispatch(closeModel())}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {
+        dispatch(closeModel());
+        dispatch(clearPost());
+      }}
+    >
       <DialogContent className="max-w-[500px] p-0 cardBG">
         <DialogHeader>
           <DialogTitle className="text-center mt-4">

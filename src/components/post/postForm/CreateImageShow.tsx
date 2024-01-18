@@ -10,6 +10,7 @@ interface Props {
 }
 
 const CreateImageShow: React.FC<Props> = ({ images, setFiles }) => {
+
   return (
     <div className="h-[300px] w-full">
       <div
@@ -55,7 +56,7 @@ const SingleImage = ({
     (async () => {
       setUrl((await ImageUtils.readAsBase64(file)) as string);
     })();
-  });
+  }, [file]);
 
   return (
     <div

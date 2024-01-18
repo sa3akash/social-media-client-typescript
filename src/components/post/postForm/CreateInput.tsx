@@ -51,7 +51,7 @@ const CreateInput: FC<Props> = ({ files, setFiles }) => {
             bgColor={""}
             className2="text-[16px]"
           />
-          <CreateImageShow images={files} setFiles={setFiles} />
+          <CreateImageShow images={files} setFiles={setFiles}/>
         </>
       )}
     </div>

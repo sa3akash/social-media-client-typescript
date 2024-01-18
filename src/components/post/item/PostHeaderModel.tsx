@@ -19,7 +19,7 @@ interface Props {
 const PostHeaderModel: FC<Props> = ({ post, setOpenModel }) => {
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const wonPost = post?.authId === user?._id;
+  const wonPost = post?.creator?.authId === user?._id;
   const isFollowing = post?.authId === "123";
 
   const dispatch: AppDispatch = useDispatch();

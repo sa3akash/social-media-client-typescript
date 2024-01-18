@@ -100,4 +100,17 @@ export class ImageUtils {
     blue = blue.length === 1 ? "0" + blue : blue;
     return `#${red}${green}${blue}`;
   }
+
+  static async imageUrlToBlob(url:string): Promise<Blob> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return blob;
+  }
+
+  static  imageBlobToFile(blob:Blob):File{
+    const file = new File([blob], Date.now().toString(), {
+      type: "image/jpeg",
+    });
+    return file;
+  }
 }
