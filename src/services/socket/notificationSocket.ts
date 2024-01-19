@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { socketService } from "./socket";
 import { store } from "@/store";
 import {
@@ -8,16 +9,20 @@ import {
 
 // notifications
 export class NotificationSocket {
-  static start() {
-    NotificationSocket.addNotificationSocket();
+  static start(toast:any) {
+    NotificationSocket.addNotificationSocket(toast);
   }
 
-  static addNotificationSocket() {
+  static addNotificationSocket(toast:any) {
     socketService.socket.on("reaction-notification", (data, { userTo }) => {
       const { user } = store.getState().auth;
-      if (user?._id === userTo && data?.creator?.authId !== user?._id) {
+      if (user?.authId === userTo && data?.creator?.authId !== user?.authId) {
         store.dispatch(addNotification(data));
-      }
+        toast({
+          title: `${data?.creator?.name.first} ${data?.creator?.name.last} react your post: ${data.notificationType}`,
+          description: `${data.message}`,
+        });
+      }     
     });
 
     socketService.socket.on(
@@ -25,7 +30,7 @@ export class NotificationSocket {
       (notificationData, { userTo }) => {
         // store.dispatch(updateAsReadNotification(notificationId));
         const { user } = store.getState().auth;
-        if (user?._id === userTo) {
+        if (user?.authId === userTo) {
           store.dispatch(addNotification(notificationData));
         }
       }

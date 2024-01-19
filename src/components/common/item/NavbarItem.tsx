@@ -33,7 +33,7 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
       <MenubarMenu>
         <MenubarTrigger>{children}</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem onClick={() => navigate(`/u/${user?._id}`)}>
+          <MenubarItem onClick={() => navigate(`/u/${user?.authId}`)}>
             Profile
           </MenubarItem>
           <MenubarSeparator />

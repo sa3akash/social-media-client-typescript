@@ -31,7 +31,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -53,7 +53,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -75,7 +75,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -97,7 +97,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -119,7 +119,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -141,7 +141,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -163,7 +163,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -185,7 +185,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -207,7 +207,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',
@@ -229,7 +229,7 @@ export const reactionData:IReactionDoc[] = [
         createdAt: '20/10/2015',
         postId: '123456',
         creator: {
-            _id: '123',
+            authId: '123',
             avatarColor: '#F4CE14',
             coverPicture: '',
             email: 'Nathan@yesenia.net',

@@ -6,6 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 const Home = () => {
   const { toast } = useToast();
+  
   useEffect(() => {
     api.getUserReactions(toast);
     api.getNotification(toast);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Socket, io } from "socket.io-client";
 import { PostSocket } from "@/services/socket/postSocket";
 import { NotificationSocket } from "@/services/socket/notificationSocket";
@@ -13,10 +14,10 @@ class SocketService {
     });
   }
   // start connection
-  public setupSocketConnection() {
+  public setupSocketConnection(toast:any) {
     this.socketConnectionEvents();
     PostSocket.start();
-    NotificationSocket.start();
+    NotificationSocket.start(toast);
   }
   
   // disconnect connection

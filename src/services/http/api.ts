@@ -40,7 +40,10 @@ class Api {
         email: data.email,
         password: data.password,
       });
-      store.dispatch(setAuth(response.data?.user));
+      store.dispatch(setAuth({
+        authId: response.data?.user._id,
+        ...response.data?.user
+      }));
     } catch (err) {
       this.responseError(err, toast);
     }
@@ -49,7 +52,10 @@ class Api {
   public async registerCall(data: IRegister, toast: any): Promise<void> {
     try {
       const response = await registerFn(data);
-      store.dispatch(setAuth(response.data?.user));
+      store.dispatch(setAuth({
+        authId: response.data?.user._id,
+        ...response.data?.user
+      }));
     } catch (err) {
       this.responseError(err, toast);
     }

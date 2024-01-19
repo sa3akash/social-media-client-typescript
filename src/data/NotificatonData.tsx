@@ -7,7 +7,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -37,7 +37,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -66,7 +66,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -95,7 +95,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -124,7 +124,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -153,7 +153,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -182,7 +182,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -211,7 +211,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -240,7 +240,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -269,7 +269,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -298,7 +298,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -327,7 +327,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -356,7 +356,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -385,7 +385,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",
@@ -414,7 +414,7 @@ export const notificatonData: INotification[] = [
     createdAt: "04/10/2023",
     createdItemId: "35465ddddd54541515",
     creator: {
-      _id: "123",
+      authId: "123",
       avatarColor: "#ac9898",
       coverPicture: "",
       email: "shakil@gmail.com",

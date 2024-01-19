@@ -3,7 +3,7 @@ import { IUserDoc } from "@/interfaces/auth.interface";
 
 export const userData: IUserDoc[] = [
   {
-    _id: "123",
+    authId: "123",
     avatarColor: "#ac9898",
     coverPicture: "",
     email: "shakil@gmail.com",
@@ -20,7 +20,7 @@ export const userData: IUserDoc[] = [
     username: "shakil_ahmed",
   },
   {
-    _id: "123",
+    authId: "123",
     avatarColor: "#F4CE14",
     coverPicture: "",
     email: "Lucio_Hettinger@annie.ca",
@@ -37,7 +37,7 @@ export const userData: IUserDoc[] = [
     username: "Kamren",
   },
   {
-    _id: "123",
+    authId: "123",
     avatarColor: "#00A9FF",
     coverPicture: "",
     email: "shakil@gmail.com",
@@ -54,7 +54,7 @@ export const userData: IUserDoc[] = [
     username: "Karianne",
   },
   {
-    _id: "123",
+    authId: "123",
     avatarColor: "#F4CE14",
     coverPicture: "",
     email: "Nathan@yesenia.net",
@@ -70,7 +70,7 @@ export const userData: IUserDoc[] = [
     username: "Samantha",
   },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#F4CE14',
   //     coverPicture: '',
   //     email: 'Shanna@melissa.tv',
@@ -85,7 +85,7 @@ export const userData: IUserDoc[] = [
   //     username: 'Antonette'
   // },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#ac9898',
   //     coverPicture: '',
   //     email: 'Sincere@april.biz',
@@ -100,7 +100,7 @@ export const userData: IUserDoc[] = [
   //     username: 'Bret'
   // },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#ac9898',
   //     coverPicture: '',
   //     email: 'shakil@gmail.com',
@@ -115,7 +115,7 @@ export const userData: IUserDoc[] = [
   //     username: 'shakil_ahmed'
   // },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#ac9898',
   //     coverPicture: '',
   //     email: 'Lucio_Hettinger@annie.ca',
@@ -130,7 +130,7 @@ export const userData: IUserDoc[] = [
   //     username: 'Kamren'
   // },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#00A9FF',
   //     coverPicture: '',
   //     email: 'shakil@gmail.com',
@@ -145,7 +145,7 @@ export const userData: IUserDoc[] = [
   //     username: 'Karianne'
   // },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#ac9898',
   //     coverPicture: '',
   //     email: 'Nathan@yesenia.net',
@@ -160,7 +160,7 @@ export const userData: IUserDoc[] = [
   //     username: 'Samantha'
   // },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#00A9FF',
   //     coverPicture: '',
   //     email: 'Shanna@melissa.tv',
@@ -175,7 +175,7 @@ export const userData: IUserDoc[] = [
   //     username: 'Antonette'
   // },
   // {
-  //     _id: '123',
+  //     authId: '123',
   //     avatarColor: '#00A9FF',
   //     coverPicture: '',
   //     email: 'Sincere@april.biz',

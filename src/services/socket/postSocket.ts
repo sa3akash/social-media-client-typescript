@@ -29,7 +29,7 @@ export class PostSocket {
         const { user } = store.getState().auth;
         store.dispatch(updatePost(updatedPost));
 
-        if (reactionDoc?.authId === user?._id) {
+        if (reactionDoc?.authId === user?.authId) {
           type === "add"
             ? store.dispatch(addUserReactions(reactionDoc))
             : store.dispatch(deleteUserReactions(reactionDoc.postId));

@@ -8,13 +8,18 @@ import OnlineOffline from "@/components/common/OnlineOffline";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { useEffect } from "react";
 import { socketService } from "@/services/socket/socket";
+import { useToast } from "@/components/ui/use-toast";
 
 function App() {
+
+  const {toast} = useToast();
+
   useEffect(() => {
-    socketService.setupSocketConnection();
+    socketService.setupSocketConnection(toast);
     return () => {
       socketService.disconnect();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

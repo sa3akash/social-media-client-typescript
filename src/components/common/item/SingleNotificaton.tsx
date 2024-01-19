@@ -55,7 +55,7 @@ const SingleNotificaton = forwardRef(
             {item.notificationType === "comment" ? (
               <span>
                 <Link
-                  to={`/u/${item?.creator?._id}`}
+                  to={`/u/${item?.creator?.authId}`}
                   className="capitalize font-semibold mr-1"
                 >{`${item.creator!.name!.first} ${
                   item.creator!.name!.last
@@ -65,14 +65,14 @@ const SingleNotificaton = forwardRef(
             ) : item.notificationType === "community" ? (
               <span>
                 <Link
-                  to={`/u/${item?.creator?._id}`}
+                  to={`/u/${item?.creator?.authId}`}
                   className="capitalize font-semibold mr-1"
                 >{`${item.creator!.name!.first} ${
                   item.creator!.name!.last
                 }`}</Link>
                 posted in
                 <Link
-                  to={`/group/${item?.creator?._id}`}
+                  to={`/group/${item?.creator?.authId}`}
                   className="capitalize font-semibold mr-1 ml-1"
                 >
                   {item!.communityName}
@@ -82,7 +82,7 @@ const SingleNotificaton = forwardRef(
             ) : (
               <span>
                 <Link
-                  to={`/u/${item?.creator?._id}`}
+                  to={`/u/${item?.creator?.authId}`}
                   className="capitalize font-semibold mr-1"
                 >{`${item.creator!.name!.first} ${
                   item.creator!.name!.last

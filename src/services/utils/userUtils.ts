@@ -11,7 +11,7 @@ export class UserUtils {
     userId: string,
   ): boolean {
     return userFollowes.some(
-      (user) => user._id === postCreatorId || postCreatorId === userId,
+      (user) => user.authId === postCreatorId || postCreatorId === userId,
     );
   }
 }

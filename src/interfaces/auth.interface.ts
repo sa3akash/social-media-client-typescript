@@ -26,7 +26,7 @@ export interface NameDoc {
 }
 
 export interface IUserDoc {
-  _id: string;
+  authId: string;
   uId: string;
   coverPicture: string;
   profilePicture: string;
