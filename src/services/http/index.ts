@@ -41,11 +41,10 @@ export const updateReaction = (body: ApiReactionInterface) =>
   api.post("/post/reaction", body);
 
 export const getUserReaction = () => api.get("/post/reactions/user");
-export const getPostReaction = (url:string) => api.get(url);
-export const addComment = (data:{postId:string,comment:string}) => api.post('/add-comment', data);
-export const deletePost = (postId:string) => api.delete(`/post/${postId}`);
-
-
+export const getPostReaction = (url: string) => api.get(url);
+export const addComment = (data: { postId: string; comment: string }) =>
+  api.post("/add-comment", data);
+export const deletePost = (postId: string) => api.delete(`/post/${postId}`);
 
 // form data
 export const createPost = (data: FormData) =>
@@ -55,14 +54,12 @@ export const createPost = (data: FormData) =>
     },
   });
 // form data
-export const updatePost = (postId:string,data: FormData) =>
+export const updatePost = (postId: string, data: FormData) =>
   api.put(`/post/${postId}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
-
-
 
 // Interceptors
 let isRetry = false;
@@ -78,7 +75,7 @@ api.interceptors.response.use(
       window.location.replace(PageURL.Login);
     }
     throw error;
-  }
+  },
 );
 
 export default api;

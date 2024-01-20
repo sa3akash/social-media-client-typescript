@@ -50,7 +50,7 @@ const Image: React.FC<Props> = ({ src, className, classNameTwo }) => {
       <img
         src={url}
         alt="image"
-        className={cn("w-full h-full object-cover", classNameTwo)}
+        className={cn("w-full h-full object-cover pointer-events-none", classNameTwo)}
         onLoad={() => setLoadedImg(true)}
         style={{ backgroundColor: backgroundImageColor }}
       />

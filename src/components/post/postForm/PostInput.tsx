@@ -3,6 +3,7 @@ import { AppDispatch } from "@/store";
 import { useDispatch } from "react-redux";
 import { cn } from "@/lib/utils";
 import { updatePostItem } from "@/store/reducers/SinglePostReducer";
+import { PostUtils } from "@/services/utils/postUtils";
 
 const maxNumberOfCharacters = 100;
 
@@ -66,6 +67,7 @@ const PostInput: React.FC<Props> = ({
           ref={(el) => {
             if (el) el.textContent = post as string;
             el?.focus();
+            PostUtils.positionCursor(el);
           }}
         />
       </div>

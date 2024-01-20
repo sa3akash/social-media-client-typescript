@@ -12,7 +12,7 @@ interface SinglePostDoc {
 }
 
 const initialState: SinglePostDoc = {
-  _id: '',
+  _id: "",
   files: [],
   post: "",
   privacy: "Public",

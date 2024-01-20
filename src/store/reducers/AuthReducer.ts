@@ -33,7 +33,7 @@ export const AuthSlice = createSlice({
 
     deleteUserReactions: (state, action: PayloadAction<string>) => {
       state.userReaction = state.userReaction.filter(
-        (p) => p.postId !== action.payload
+        (p) => p.postId !== action.payload,
       );
     },
   },

@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
-import { Link } from "react-router-dom";
 import { timeAgo } from "@/services/utils/timeAgo";
-import { ICreator, IFeelings, IPostDoc } from "@/interfaces/post.interface";
+import { IFeelings, IPostDoc } from "@/interfaces/post.interface";
 import { feelingIconMap } from "@/services/utils/map";
+import UserHoverCard from "@/components/common/UserHoverCard";
+import { IUserDoc } from "@/interfaces/auth.interface";
 
 interface Props {
-  user: ICreator;
+  user: IUserDoc;
   createAt: string;
   feelings?: string;
   post: IPostDoc;
@@ -31,10 +32,11 @@ const PostHeader: React.FC<Props> = ({ user, createAt, feelings, post }) => {
         />
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <Link
-              to={`/u/${user.authId}`}
-              className="capitalize font-semibold text-[14px] tracking-[0.1px]"
-            >{`${user.name.first} ${user.name.last}`}</Link>
+          <UserHoverCard
+                item={{_id: user.authId, ...user}}
+                className="capitalize font-semibold text-[14px] tracking-[0.1px] h-max"
+              />
+
             {feelings && (
               <span className="lowercase text-[14px] font-normal flex items-center gap-1">
                 is feeling
@@ -62,7 +64,9 @@ const PostHeader: React.FC<Props> = ({ user, createAt, feelings, post }) => {
           )}
           onClick={() => setOpenModel((prev) => !prev)}
         />
-        {openModel && <PostHeaderModel post={post} setOpenModel={setOpenModel}/>}
+        {openModel && (
+          <PostHeaderModel post={post} setOpenModel={setOpenModel} />
+        )}
       </div>
     </div>
   );

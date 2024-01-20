@@ -6,6 +6,14 @@ class TimeAgo {
     return this.timeDifference(new Date(), new Date(date));
   }
 
+  monthAndYear(value: string | undefined){
+    if(value){
+      const date = typeof value === "string" ? new Date(value) : value;
+      return format(date, 'MMMM yyyy');
+    }
+
+  }
+
   chatMessageTransform(value: string) {
     const date = typeof value === "string" ? new Date(value) : value;
     const yesterday = subDays(new Date(), 1);

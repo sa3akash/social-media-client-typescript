@@ -1,4 +1,4 @@
-import { NameDoc } from "@/interfaces/auth.interface";
+import { IUserDoc } from "@/interfaces/auth.interface";
 
 export interface IReactions {
   like: number;
@@ -42,16 +42,6 @@ export interface IFiles {
   path: string;
   size?: number;
 }
-export interface ICreator {
-  authId: string; // authId
-  uId: string;
-  coverPicture: string;
-  profilePicture: string;
-  name: NameDoc;
-  username: string;
-  email: string;
-  avatarColor: string;
-}
 
 export type IPrivacy = "Public" | "Private" | "Only me";
 export type IFeelings =
@@ -83,7 +73,7 @@ export interface IPostDoc {
   _id: string;
   authId: string;
   uId: string;
-  creator: ICreator;
+  creator: IUserDoc;
   post: string;
   bgColor?: string;
   commentsCount: number;
@@ -95,5 +85,12 @@ export interface IPostDoc {
   createdAt: string;
 }
 
-
-export type PostModelType = 'saveLink' | 'hidePost' | 'hideAllPost' | 'unFollow' | 'edit' | 'delete' | 'pin' | 'report';
+export type PostModelType =
+  | "saveLink"
+  | "hidePost"
+  | "hideAllPost"
+  | "unFollow"
+  | "edit"
+  | "delete"
+  | "pin"
+  | "report";

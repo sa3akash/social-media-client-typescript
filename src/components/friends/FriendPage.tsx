@@ -1,47 +1,43 @@
-import FriendHeader from "@/components/friends/FriendHeader"
-import { userData } from "@/data/AddStoryData"
-import SingleFriendItem from "@/components/friends/item/SingleFriendItem"
-import { IUserDoc } from "@/interfaces/auth.interface"
+import FriendHeader from "@/components/friends/FriendHeader";
+import SingleFriendItem from "@/components/friends/item/SingleFriendItem";
+import { IFollowerDoc } from "@/interfaces/auth.interface";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { useState } from "react";
+import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
 
 const FriendPage = () => {
-  return (
-    <div className='w-full h-full flex flex-col gap-2 md:gap-4 mt-2 md:mt-8'>
-        <FriendHeader />
-        <div className='grid grid-cols-1 2xl:grid-cols-2 gap-2 md:gap-4'>
-            {
-              userData.map((item:IUserDoc,index:number)=>(
-                <SingleFriendItem key={index} item={item} active={index === 0}/>
-              ))
-            }
-            {
-              userData.map((item:IUserDoc,index:number)=>(
-                <SingleFriendItem key={index} item={item} active={index === 0}/>
-              ))
-            }
-            {
-              userData.map((item:IUserDoc,index:number)=>(
-                <SingleFriendItem key={index} item={item} active={index === 0}/>
-              ))
-            }
-            {
-              userData.map((item:IUserDoc,index:number)=>(
-                <SingleFriendItem key={index} item={item} active={index === 0}/>
-              ))
-            }
-            {
-              userData.map((item:IUserDoc,index:number)=>(
-                <SingleFriendItem key={index} item={item} active={index === 0}/>
-              ))
-            }
-            {
-              userData.map((item:IUserDoc,index:number)=>(
-                <SingleFriendItem key={index} item={item} active={index === 0}/>
-              ))
-            }
-           
-        </div>
-    </div>
-  )
-}
+  const [userData, setUserData] = useState<IFollowerDoc[]>([]);
 
-export default FriendPage
+  const { lastElementRef, loading } = useInfiniteScroll(
+    "/users",
+    (data: { users: IFollowerDoc[] }) => {
+      setUserData(data.users);
+    }
+  );
+
+  if (loading) return <FriendsSkeleton />;
+
+  return (
+    <div className="w-full h-full flex flex-col gap-2 md:gap-4 mt-2 md:mt-8">
+      <FriendHeader />
+      <div className="grid grid-cols-1 2xl:grid-cols-2 gap-2 md:gap-4">
+        {userData.map((item: IFollowerDoc, index: number) => {
+          if (userData.length === index + 1) {
+            return (
+              <SingleFriendItem
+                key={index}
+                item={item}
+                active={false}
+                ref={lastElementRef}
+              />
+            );
+          } else {
+            return <SingleFriendItem key={index} item={item} active={false} />;
+          }
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default FriendPage;

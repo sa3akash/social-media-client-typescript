@@ -37,6 +37,18 @@ export interface IUserDoc {
   avatarColor: string;
   createdAt?: string | Date;
 }
+export interface IFollowerDoc {
+  _id: string;
+  uId: string;
+  coverPicture: string;
+  profilePicture: string;
+  name: NameDoc;
+  username: string;
+  email: string;
+  quote: string;
+  avatarColor: string;
+  createdAt?: string | Date;
+}
 
 export interface RelationShipDoc {
   type: "Single" | "In a relationship" | "Married" | "Divorced";

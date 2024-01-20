@@ -9,11 +9,11 @@ import {
 
 // notifications
 export class NotificationSocket {
-  static start(toast:any) {
+  static start(toast: any) {
     NotificationSocket.addNotificationSocket(toast);
   }
 
-  static addNotificationSocket(toast:any) {
+  static addNotificationSocket(toast: any) {
     socketService.socket.on("reaction-notification", (data, { userTo }) => {
       const { user } = store.getState().auth;
       if (user?.authId === userTo && data?.creator?.authId !== user?.authId) {
@@ -22,7 +22,7 @@ export class NotificationSocket {
           title: `${data?.creator?.name.first} ${data?.creator?.name.last} react your post: ${data.notificationType}`,
           description: `${data.message}`,
         });
-      }     
+      }
     });
 
     socketService.socket.on(
@@ -33,7 +33,7 @@ export class NotificationSocket {
         if (user?.authId === userTo) {
           store.dispatch(addNotification(notificationData));
         }
-      }
+      },
     );
 
     socketService.socket.on("update-notification", (notificationId: string) => {

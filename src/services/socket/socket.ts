@@ -7,23 +7,23 @@ class SocketService {
   socket: Socket;
 
   constructor() {
-    this.socket = io('http://localhost:5500', {
+    this.socket = io("http://localhost:5500", {
       path: "/socket.io",
       transports: ["websocket"],
       secure: true,
     });
   }
   // start connection
-  public setupSocketConnection(toast:any) {
+  public setupSocketConnection(toast: any) {
     this.socketConnectionEvents();
     PostSocket.start();
     NotificationSocket.start(toast);
   }
-  
+
   // disconnect connection
   public disconnect() {
     this.socket.disconnect();
-    console.log('socket disconnected');
+    console.log("socket disconnected");
   }
 
   // listen for events

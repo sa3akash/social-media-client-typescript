@@ -3,7 +3,7 @@ import UserAvater from "@/components/common/UserAvater";
 import { IReactionDoc } from "@/interfaces/reaction.interface";
 import { LegacyRef, forwardRef } from "react";
 import { ReactionIconMap } from "@/services/utils/map";
-import { Link } from "react-router-dom";
+import UserHoverCard from "@/components/common/UserHoverCard";
 
 interface Props {
   reaction: IReactionDoc;
@@ -34,14 +34,20 @@ const SingleReactionData = forwardRef(
           </div>
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex items-center justify-between gap-2">
-              <Link to={`/u/${reaction.authId}`} className="cursor-pointer">
-                <h4 className="font-semibold text-[18px] capitalize">
-                  {reaction.creator.name.first} {reaction.creator.name.last}
-                </h4>
+              <div className="cursor-pointer">
+                <div>
+                  <UserHoverCard
+                    item={{
+                      _id: reaction?.creator.authId,
+                      ...reaction?.creator,
+                    }}
+                    className="capitalize font-semibold text-[14px] tracking-[0.1px] h-max"
+                  />
+                </div>
                 <span className="roboto text-[14px] tracking-[0.1px] text-[#696974]">
                   @{reaction.creator.username}
                 </span>
-              </Link>
+              </div>
               {active ? (
                 <FollowButton active={true} text="Following" />
               ) : (
