@@ -45,98 +45,44 @@ export class VideoUtils {
     return `#${red}${green}${blue}`;
   }
 
-  static getVideoThumbnail(
-    videoUrl: string,
-    callback: (url: string | null) => void,
-  ) {
-    const video = document.createElement("video");
-    video.src = videoUrl;
-    video.muted = true;
-    video.setAttribute("crossOrigin", "anonymous");
-
-    video.addEventListener("loadedmetadata", () => {
-      const middleTime = video.duration / 2;
-      video.currentTime = middleTime;
+  static async getThumbnail(
+    url: string,
+    timeInSeconds: number,
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      video.crossOrigin = "anonymous"; // Set the crossOrigin attribute
+      video.src = url;
+      video.muted = true; // Mute the video to prevent audio playback
+      video.currentTime = timeInSeconds; // Seek to the specified time
+      video.onloadeddata = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas
+          .getContext("2d")!
+          .drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageUrl = canvas.toDataURL("image/png");
+        resolve(imageUrl);
+      };
+      video.onerror = (error) => {
+        reject(error);
+      };
+      video.load();
     });
-
-    video.addEventListener("timeupdate", () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const context = canvas.getContext("2d");
-      context!.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const thumbnailUrl = canvas.toDataURL("image/jpeg");
-      callback(thumbnailUrl);
-    });
-
-    video.addEventListener("error", () => {
-      console.error("Failed to load the video");
-      callback(null);
-    });
-
-    video.load();
   }
 
-  static getVideoThumbnailTwo(
-    videoUrl: string,
-    callback: (thumbnailUrl: string | null) => void,
-  ) {
+  static checkVideoHorizontalOrVertical(url: string) {
     const video = document.createElement("video");
-    video.src = videoUrl;
-    video.muted = true;
-    video.setAttribute("crossOrigin", "anonymous");
-    video.setAttribute("playsinline", "");
-
+    video.src = url;
     video.addEventListener("loadedmetadata", () => {
-      const middleTime = video.duration / 2;
-      video.currentTime = middleTime;
-    });
-
-    video.addEventListener("timeupdate", () => {
-      const canvas = document.createElement("canvas");
-      const aspectRatio = 800 / 500;
-      const videoRatio = video.videoWidth / video.videoHeight;
-
-      let drawWidth = video.videoWidth;
-      let drawHeight = video.videoHeight;
-      let startX = 0;
-      let startY = 0;
-
-      if (videoRatio > aspectRatio) {
-        drawWidth = video.videoHeight * aspectRatio;
-        startX = (video.videoWidth - drawWidth) / 2;
+      const width = video.videoWidth;
+      const height = video.videoHeight;
+      if (width > height) {
+        console.log("Horizontal video");
       } else {
-        drawHeight = video.videoWidth / aspectRatio;
-        startY = (video.videoHeight - drawHeight) / 2;
+        console.log("Vertical video");
       }
-
-      canvas.width = 800;
-      canvas.height = 500;
-
-      const context = canvas.getContext("2d");
-      context!.drawImage(
-        video,
-        startX,
-        startY,
-        drawWidth,
-        drawHeight,
-        0,
-        0,
-        canvas.width,
-        canvas.height,
-      );
-
-      const thumbnailUrl = canvas.toDataURL("image/jpeg");
-      callback(thumbnailUrl);
     });
-
-    video.addEventListener("error", () => {
-      console.error("Failed to load the video");
-      callback(null);
-    });
-
-    video.load();
   }
 }

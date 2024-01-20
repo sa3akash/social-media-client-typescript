@@ -31,26 +31,26 @@ const Image: React.FC<Props> = ({ src, className, classNameTwo }) => {
     }
   }, [src]);
 
-  const getBackgroundImageColor = async (url: string) => {
-    try {
-      const bgColor = await ImageUtils.getBackgroundImageColor(url);
-      setBackgroundImageColor(`${bgColor}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    getBackgroundImageColor(url);
+    ImageUtils.getBackgroundImageColor(url)
+      .then((getColor) => {
+        setBackgroundImageColor(getColor);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [url]);
 
   return (
-    <div className={cn("w-full h-full", className)} ref={imageRef}>
-      {!loadedImg && <Skeleton className="w-full h-[500px]" />}
+    <div className={cn("w-full h-full select-none", className)} ref={imageRef}>
+      {!loadedImg && <Skeleton className="w-full h-[320px] md:h-[500px]" />}
       <img
         src={url}
         alt="image"
-        className={cn("w-full h-full object-cover pointer-events-none", classNameTwo)}
+        className={cn(
+          "w-full h-full object-contain pointer-events-none",
+          classNameTwo
+        )}
         onLoad={() => setLoadedImg(true)}
         style={{ backgroundColor: backgroundImageColor }}
       />

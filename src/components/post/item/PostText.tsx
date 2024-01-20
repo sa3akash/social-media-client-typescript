@@ -14,7 +14,8 @@ const PostText: React.FC<Props> = ({ item }) => {
         item.files.length === 0 && !item.gifUrl && "text-[24px]",
         !item.bgColor && item.files.length === 0 && !item.gifUrl && "h-[100px]",
         item.bgColor &&
-          "h-[500px] flex items-center justify-center text-center my-auto text-white font-bold px-4"
+          "h-[320px] md:h-[500px] flex text-[30px] items-center justify-center text-center my-auto text-white font-bold px-4",
+        
       )}
       style={{ backgroundColor: item.bgColor ? item.bgColor : "" }}
     >

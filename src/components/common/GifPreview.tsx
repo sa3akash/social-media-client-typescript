@@ -10,7 +10,7 @@ const GifPreview: React.FC<Props> = ({ gifUrl }) => {
   return (
     <Image
       src={gifUrl}
-      className="h-[500px]"
+      className="h-[320px] md:h-[500px]"
       classNameTwo="w-full h-full !object-contain"
     />
   );

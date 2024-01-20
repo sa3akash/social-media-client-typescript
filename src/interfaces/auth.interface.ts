@@ -1,5 +1,3 @@
-import { ICreator } from "@/interfaces/post.interface";
-
 export interface ILogin {
   email: string;
   password: string;
@@ -110,7 +108,7 @@ export interface IFullUserDoc {
 export interface IUserReactionDoc {
   _id: string;
   authId: string;
-  creator: ICreator;
+  creator: IUserDoc;
   type: string;
   postId: string;
   createdAt: string;

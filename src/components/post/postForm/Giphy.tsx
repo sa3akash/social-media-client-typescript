@@ -80,6 +80,7 @@ const Giphy: FC<Props> = ({ setGiphyModel, giphyModel }) => {
                     <Image
                       src={item.images.original.url as string}
                       className="w-full h-full object-cover"
+                      classNameTwo="object-cover"
                     />
                   </div>
                 )

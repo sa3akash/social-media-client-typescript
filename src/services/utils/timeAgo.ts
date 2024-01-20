@@ -6,12 +6,11 @@ class TimeAgo {
     return this.timeDifference(new Date(), new Date(date));
   }
 
-  monthAndYear(value: string | undefined){
-    if(value){
+  monthAndYear(value: string | undefined) {
+    if (value) {
       const date = typeof value === "string" ? new Date(value) : value;
-      return format(date, 'MMMM yyyy');
+      return format(date, "MMMM yyyy");
     }
-
   }
 
   chatMessageTransform(value: string) {
