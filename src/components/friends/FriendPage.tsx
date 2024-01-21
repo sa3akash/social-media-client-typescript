@@ -24,15 +24,10 @@ const FriendPage = () => {
         {userData.map((item: IFollowerDoc, index: number) => {
           if (userData.length === index + 1) {
             return (
-              <SingleFriendItem
-                key={index}
-                item={item}
-                active={false}
-                ref={lastElementRef}
-              />
+              <SingleFriendItem key={index} item={item} ref={lastElementRef} />
             );
           } else {
-            return <SingleFriendItem key={index} item={item} active={false} />;
+            return <SingleFriendItem key={index} item={item} />;
           }
         })}
       </div>

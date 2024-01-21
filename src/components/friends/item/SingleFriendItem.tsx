@@ -5,14 +5,24 @@ import { IFollowerDoc } from "@/interfaces/auth.interface";
 import React, { LegacyRef } from "react";
 import DefaultCover from "@/assets/defaultCover.jpg";
 import UserHoverCard from "@/components/common/UserHoverCard";
+import { api } from "@/services/http/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 interface Props {
   item: IFollowerDoc;
-  active: boolean;
 }
 
 const SingleFriendItem = React.forwardRef(
-  ({ item, active }: Props, ref: LegacyRef<HTMLDivElement>) => {
+  ({ item }: Props, ref: LegacyRef<HTMLDivElement>) => {
+    const { following } = useSelector((state: RootState) => state.auth);
+
+    const active = following.some((id) => id === item._id);
+
+    const handleFollowUnFollow = () => {
+      api.followUserApi(item._id);
+    };
+
     return (
       <div className="cardBG relative md:rounded-lg h-full" ref={ref}>
         <div className="hidden md:block select-none">
@@ -38,7 +48,11 @@ const SingleFriendItem = React.forwardRef(
                   @{item.username}
                 </span>
               </div>
-              <FollowButton active={active} text="Following" />
+              <FollowButton
+                active={active}
+                text={active ? "Following" : "Follow"}
+                fn={handleFollowUnFollow}
+              />
             </div>
             <p className="roboto text-[16px] leading-7 tracking-[0.1px] text-[#92929D]">
               {item.quote.length > 70

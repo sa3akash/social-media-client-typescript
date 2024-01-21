@@ -6,6 +6,7 @@ import {
   deleteUserReactions,
 } from "@/store/reducers/AuthReducer";
 import { addPost, deletePost, updatePost } from "@/store/reducers/PostsReducer";
+import { UserUtils } from "@/services/utils/userUtils";
 
 // post
 export class PostSocket {
@@ -18,7 +19,9 @@ export class PostSocket {
 
   static addPostSocket() {
     socketService.socket.on("add-post", (data: IPostDoc) => {
-      store.dispatch(addPost(data));
+      if (UserUtils.checkPrivacyPost(data)) {
+        store.dispatch(addPost(data));
+      }
     });
   }
 
@@ -34,7 +37,7 @@ export class PostSocket {
             ? store.dispatch(addUserReactions(reactionDoc))
             : store.dispatch(deleteUserReactions(reactionDoc.postId));
         }
-      },
+      }
     );
   }
 

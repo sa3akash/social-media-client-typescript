@@ -20,7 +20,7 @@ const PhotoAndVideo = () => {
       <div className="px-4 py-4 flex-col w-full grid grid-cols-3 grid-rows-3 gap-2">
         {profileImage.slice(0, 9).map((image, index) => (
           <div key={index} className="w-full h-[120px] md:h-[200px] 2xl:h-[97px] rounded-lg object-cover">
-            <Image src={image} />
+            <Image src={image} classNameTwo="object-cover"/>
           </div>
         ))}
       </div>

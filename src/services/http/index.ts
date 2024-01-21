@@ -45,6 +45,8 @@ export const getPostReaction = (url: string) => api.get(url);
 export const addComment = (data: { postId: string; comment: string }) =>
   api.post("/add-comment", data);
 export const deletePost = (postId: string) => api.delete(`/post/${postId}`);
+export const getLoginData = () => api.get("/login-user-data");
+export const followUser = (authId:string) => api.put(`/user/follow/${authId}`);
 
 // form data
 export const createPost = (data: FormData) =>

@@ -1,4 +1,6 @@
-import { IUserDoc } from "@/interfaces/auth.interface";
+import { IPostDoc } from "@/interfaces/post.interface";
+import { store } from "@/store";
+import { PostUtils } from "@/services/utils/postUtils";
 
 export class UserUtils {
   static checkIfUserBlocked(blocked: string[], userId: string): boolean {
@@ -6,12 +8,26 @@ export class UserUtils {
   }
 
   static checkIfUserFollowed(
-    userFollowes: IUserDoc[],
+    userFollowes: string[],
     postCreatorId: string,
-    userId: string,
+    profileId: string
   ): boolean {
-    return userFollowes.some(
-      (user) => user.authId === postCreatorId || postCreatorId === userId,
+    return (
+      userFollowes.some((user) => user === postCreatorId) ||
+      postCreatorId === profileId
     );
+  }
+
+  static checkPrivacyPost(post: IPostDoc) {
+    const { blocked, user, following } = store.getState().auth;
+
+    if (
+      !UserUtils.checkIfUserBlocked(blocked, post.authId) &&
+      PostUtils.checkPrivacy(post, `${user?.authId}`, following)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

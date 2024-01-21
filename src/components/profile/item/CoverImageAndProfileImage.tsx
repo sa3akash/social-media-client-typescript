@@ -29,7 +29,7 @@ const CoverImageAndProfileImage = () => {
       <div className="absolute left-0 w-full top-[80px] md:top-[50px] md:left-4 xl:bottom-6 xl:left-6 2xl:top-[100px] flex justify-center">
         <div className="flex items-center flex-col w-full md:flex-row gap-2">
           <div className="w-[160px] cardBG h-[160px] rounded-full border-[6px] border-primary overflow-hidden select-none">
-            <Image src={ImgUrl} />
+            <Image src={ImgUrl} classNameTwo="object-cover"/>
           </div>
           <div className="flex flex-col md:gap-4 md:h-full md:justify-end xl:justify-center items-center justify-center px-4">
             <div className="text-[#FAFAFB] flex md:flex-col gap-4 md:gap-0 items-center">

@@ -6,14 +6,14 @@ import MoreDot from "@/assets/images/ic_More_3_dot.svg";
 import CardSkeleton from "@/components/card/skeleton/CardSkeleton";
 import SingleSuggestedFriend from "@/components/card/item/SingleSuggestedFriend";
 import { api } from "@/services/http/api";
-import { IUserDoc } from "@/interfaces/auth.interface";
+import { IFollowerDoc } from "@/interfaces/auth.interface";
 import useEffectOnce from "@/hooks/useEffectOnece";
 import { useToast } from "@/components/ui/use-toast";
 
 const SujestedFriends = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
-  const [data, setData] = useState<IUserDoc[] | undefined>();
+  const [data, setData] = useState<IFollowerDoc[] | undefined>();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -51,7 +51,7 @@ const SujestedFriends = () => {
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full items-center gap-4">
-        {data?.map((u, i) => <SingleSuggestedFriend key={i} item={u} />)}
+        {data?.map((u, i) => <SingleSuggestedFriend key={i} item={u} setData={setData}/>)}
       </div>
     </div>
   );

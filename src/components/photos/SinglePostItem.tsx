@@ -13,7 +13,7 @@ const SinglePostItem: React.FC<Props> = ({ imageUrl, post }) => {
 
   return (
     <div className="group w-full h-[250px] md:h-[250px] rounded-lg relative cursor-pointer">
-      <Image src={imageUrl} />
+      <Image src={imageUrl} classNameTwo="object-cover" />
       <div className="hidden group-hover:block bg-gradient-to-t from-[#000000ea] absolute bottom-0 w-full left-0 h-20">
         <div className="w-full h-full flex items-center justify-between px-4 py-4">
           <div className="flex-1">
@@ -23,9 +23,7 @@ const SinglePostItem: React.FC<Props> = ({ imageUrl, post }) => {
               <div className="w-1 h-1 bg-primary rounded-full"></div>
               <div className="cursor-pointer hover:underline">Comment</div>
               <div className="w-1 h-1 bg-primary rounded-full"></div>
-              <div className="cursor-pointer hover:underline">
-                Share
-              </div>
+              <div className="cursor-pointer hover:underline">Share</div>
             </div>
           </div>
           <div

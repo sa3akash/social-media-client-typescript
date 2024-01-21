@@ -35,7 +35,6 @@ const Login = () => {
 
   const onLogin = async (values: z.infer<typeof loginSchema>) => {
     await api.loginCall(values, toast);
-    // socketService.socket.connect();
   };
 
   return (

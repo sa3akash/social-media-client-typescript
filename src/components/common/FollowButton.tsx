@@ -18,7 +18,9 @@ export const FollowButton: React.FC<Props> = ({
     <button
       className={cn(
         "px-4 py-1 border-[2px] rounded-full font-semibold text-[12px] select-none transition-all bg-gray-500 hover:bg-gray-500 border-gray-500",
-        active === true && "bg-[#1E75FF] hover:bg-[#1e80ff] border-[#1E75FF]",
+        active
+          ? "bg-[#1E75FF] hover:bg-[#1e80ff] border-[#1E75FF]"
+          : "bg-transparent",
         className
       )}
       onClick={fn}

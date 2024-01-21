@@ -14,6 +14,9 @@ import { timeAgo } from "@/services/utils/timeAgo";
 import { FollowButton } from "@/components/common/FollowButton";
 import { cn } from "@/lib/utils";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
+import { api } from "@/services/http/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 interface Props {
   item: IFollowerDoc;
@@ -21,9 +24,7 @@ interface Props {
 }
 
 const UserHoverCard: React.FC<Props> = ({ item, className }) => {
-
-
-
+  const { following, user } = useSelector((state: RootState) => state.auth);
   return (
     <HoverCard>
       <HoverCardTrigger>
@@ -84,8 +85,22 @@ const UserHoverCard: React.FC<Props> = ({ item, className }) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mt-4">
-          <FollowButton active={true} text="Follow" className="w-full" />
+        <div
+          className={cn(
+            "flex items-center justify-center gap-2 mt-4",
+            user?.authId === item._id ? "hidden" : "flex"
+          )}
+        >
+          <FollowButton
+            active={true}
+            text={
+              following.some((id) => id === item._id) ? "Following" : "Follow"
+            }
+            className="w-full"
+            fn={() => {
+              api.followUserApi(item._id);
+            }}
+          />
           <FollowButton
             active={false}
             text="Message"

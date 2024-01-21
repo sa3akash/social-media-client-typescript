@@ -12,7 +12,7 @@ import Notification_off from "@/assets/images/ic_Notification_off.svg";
 
 import NavbarItem from "@/components/common/item/NavbarItem";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import NotificationDrop from "@/components/common/item/NotificationDrop";
 import FriendsDropDown from "@/components/common/item/FriendsDropDown";
 import MessageDropDown from "@/components/common/item/MessageDropDown";
@@ -21,13 +21,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { ModeToggle } from "@/components/common/ThemeToggle";
 import Logo from '@/assets/images/Logo.svg';
-
+import { api } from "@/services/http/api";
 
 const Navbar = () => {
   const { user } = useSelector((store: RootState) => store.auth);
   const { notifications } = useSelector(
     (store: RootState) => store.notification
   );
+
+  useEffect(()=>{
+    api.getUserLoginData()
+  },[])
 
   return (
     <>

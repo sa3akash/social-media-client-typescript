@@ -18,15 +18,14 @@ interface Props {
 }
 
 const NavbarItem: React.FC<Props> = ({ children }) => {
-
-  const dispatch:AppDispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const {user} = useSelector((store:RootState)=>store.auth)
+  const { user } = useSelector((store: RootState) => store.auth);
 
   const logout = () => {
-    dispatch(setAuth(null))
-    dispatch(resetNotifications())
-  }
+    dispatch(setAuth(null));
+    dispatch(resetNotifications());
+  };
 
   return (
     <Menubar className="bg-transparent border-none focus:bg-transparent">

@@ -23,6 +23,8 @@ const SingleLeftPageItem: React.FC<Props> = ({ item }) => {
               "w-full h-full object-cover",
               active && "filter brightness-50 dark:brightness-150"
             )}
+            
+            classNameTwo="object-cover"
           />
         </div>
       ) : (

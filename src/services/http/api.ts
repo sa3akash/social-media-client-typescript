@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  IFollowerDoc,
   IForgotPassword,
   IFullUserDoc,
   ILogin,
   IRegister,
   IResetPassword,
-  IUserDoc,
 } from "@/interfaces/auth.interface";
 import {
   forgotFn,
@@ -23,9 +23,15 @@ import {
   addComment,
   updatePost,
   deletePost,
+  getLoginData,
+  followUser,
 } from ".";
 import { store } from "@/store";
-import { setAuth, setUserReactions } from "@/store/reducers/AuthReducer";
+import {
+  setAuth,
+  setLoginUserData,
+  setUserReactions,
+} from "@/store/reducers/AuthReducer";
 import { axiosError } from "@/services/utils/serializeError";
 import { AxiosError } from "axios";
 import { setNotification } from "@/store/reducers/NotificationReducer";
@@ -44,7 +50,7 @@ class Api {
         setAuth({
           authId: response.data?.user._id,
           ...response.data?.user,
-        }),
+        })
       );
     } catch (err) {
       this.responseError(err, toast);
@@ -58,7 +64,7 @@ class Api {
         setAuth({
           authId: response.data?.user._id,
           ...response.data?.user,
-        }),
+        })
       );
     } catch (err) {
       this.responseError(err, toast);
@@ -77,7 +83,7 @@ class Api {
   public async resetCall(
     token: string,
     data: IResetPassword,
-    toast: any,
+    toast: any
   ): Promise<void> {
     try {
       const response = await resetFn(token, data);
@@ -88,11 +94,11 @@ class Api {
   }
 
   public async suggestedFriendCall(
-    toast: any,
-  ): Promise<IUserDoc[] | undefined> {
+    toast: any
+  ): Promise<IFollowerDoc[] | undefined> {
     try {
       const response = await suggestedFriendFn();
-      return response.data?.users as IUserDoc[];
+      return response.data?.users as IFollowerDoc[];
     } catch (err) {
       this.responseError(err, toast);
     }
@@ -100,7 +106,7 @@ class Api {
 
   public async currentUser(
     authId: string,
-    toast: any,
+    toast: any
   ): Promise<IFullUserDoc | undefined> {
     try {
       const response = await currentUser(authId);
@@ -112,7 +118,7 @@ class Api {
 
   public async markReadNotification(
     notificationId: string,
-    toast: any,
+    toast: any
   ): Promise<void> {
     try {
       await markAsReadNotification(notificationId);
@@ -125,7 +131,7 @@ class Api {
     formData: FormData,
     toast: any,
     setFiles: any,
-    setLoading: any,
+    setLoading: any
   ): Promise<void> {
     setLoading(true);
     try {
@@ -145,7 +151,7 @@ class Api {
     formData: FormData,
     toast: any,
     setFiles: any,
-    setLoading: any,
+    setLoading: any
   ): Promise<void> {
     setLoading(true);
     try {
@@ -166,7 +172,7 @@ class Api {
       store.dispatch(
         setNotification({
           notifications: data?.notifications,
-        }),
+        })
       );
     } catch (err) {
       this.responseError(err, toast);
@@ -175,7 +181,7 @@ class Api {
 
   public async updateReactionCall(
     body: ApiReactionInterface,
-    toast: any,
+    toast: any
   ): Promise<void> {
     try {
       await updateReaction(body);
@@ -184,12 +190,28 @@ class Api {
     }
   }
 
-  public async getUserReactions(toast: any): Promise<void> {
+  public async getUserReactions(): Promise<void> {
     try {
       const { data } = await getUserReaction();
       store.dispatch(setUserReactions(data.reactions));
     } catch (err) {
-      this.responseError(err, toast);
+      console.log(err);
+    }
+  }
+
+  public async getUserLoginData(): Promise<void> {
+    try {
+      const { data } = await getLoginData();
+      store.dispatch(setLoginUserData(data));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  public async followUserApi(authId:string): Promise<void> {
+    try {
+      await followUser(authId);
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -212,7 +234,7 @@ class Api {
 
   public async addCommentCall(
     value: { postId: string; comment: string },
-    toast: any,
+    toast: any
   ) {
     try {
       await addComment(value);

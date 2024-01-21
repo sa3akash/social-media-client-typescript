@@ -8,7 +8,7 @@ const Home = () => {
   const { toast } = useToast();
   
   useEffect(() => {
-    api.getUserReactions(toast);
+    api.getUserReactions();
     api.getNotification(toast);
   }, [toast]);
 
