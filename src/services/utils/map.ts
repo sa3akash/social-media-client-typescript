@@ -58,6 +58,18 @@ import DeleteIcon from "@/assets/images/post-model/trash.svg";
 import PinIcon from "@/assets/images/post-model/pin.svg";
 import ReportIcon from "@/assets/images/post-model/report.svg";
 
+// sidebar
+import Feed from "@/assets/images/feed-off.svg";
+import Friends from "@/assets/images/friends.svg";
+import Events from "@/assets/images/evant.svg";
+import Videos from "@/assets/images/videos.svg";
+import Images from "@/assets/images/images.svg";
+import MarketPlace from "@/assets/images/marketPlase.svg";
+import NotificatonsOff from "@/assets/images/ic_Notification_off.svg";
+import Notificatons from "@/assets/images/Notification.svg";
+import ChatIcon from '@/assets/images/Chat.svg'
+import ChatOffIcon from '@/assets/images/Chat_Off.svg'
+
 export const ReactionIconMap = {
   like: LikeReaction,
   love: LoveReaction,
@@ -167,4 +179,18 @@ export const postModelIconMap = {
   delete: DeleteIcon,
   pin: PinIcon,
   report: ReportIcon,
+};
+
+
+export const leftSidebarIconMap = {
+  feed:Feed,
+  friends:Friends,
+  events:Events,
+  videos: Videos,
+  notificationOff: NotificatonsOff,
+  notifications: Notificatons,
+  photos: Images,
+  marketplace: MarketPlace,
+  Messanger: ChatIcon,
+  MessangerOff: ChatOffIcon,
 };

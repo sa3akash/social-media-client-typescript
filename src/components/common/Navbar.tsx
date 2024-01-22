@@ -31,6 +31,8 @@ const Navbar = () => {
 
   useEffect(()=>{
     api.getUserLoginData()
+    api.getUserReactions();
+    api.getNotification();
   },[])
 
   return (

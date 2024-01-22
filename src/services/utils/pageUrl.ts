@@ -10,7 +10,7 @@ export const PageURL = {
   Notification: "notifications",
   Photos: "photos",
   FRIENDS: "friends",
-  Files: "files",
+  Messanger: "messanger",
   Marketplace: "marketplace",
   Profile: "u",
   NotFound: "*",

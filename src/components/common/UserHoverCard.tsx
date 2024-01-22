@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, LucideIcon } from "lucide-react";
 import { Utils } from "@/services/utils/utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { FollowButton } from "@/components/common/FollowButton";
 import { cn } from "@/lib/utils";
@@ -25,12 +25,14 @@ interface Props {
 
 const UserHoverCard: React.FC<Props> = ({ item, className }) => {
   const { following, user } = useSelector((state: RootState) => state.auth);
+  const navigate= useNavigate()
   return (
     <HoverCard>
       <HoverCardTrigger>
         <Button
           variant="link"
           className={cn("font-semibold text-[18px] capitalize p-0", className)}
+          onClick={()=>navigate(`/u/${item._id}`)}
         >
           {item?.name.first} {item?.name.last}
         </Button>

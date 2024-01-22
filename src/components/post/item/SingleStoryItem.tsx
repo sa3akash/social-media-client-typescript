@@ -8,8 +8,10 @@ interface Props {
 }
 
 const SingleStoryItem: React.FC<Props> = ({ item }) => {
-
-    const name = item.username?.length > 8 ? item.username.slice(0, 8) + "..." : item.username;
+  const name =
+    item.username?.length > 8
+      ? item.username.slice(0, 8) + "..."
+      : item.username;
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -19,7 +21,7 @@ const SingleStoryItem: React.FC<Props> = ({ item }) => {
           item.avatarColor && `border-[${item.avatarColor}]`
         )}
       >
-        <Image src={item.profilePicture} />
+        <Image src={item.profilePicture} classNameTwo="object-cover" />
       </div>
       <span className="font-[500] text-[12px]">{name}</span>
     </div>

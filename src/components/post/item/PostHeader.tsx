@@ -6,9 +6,10 @@ import PostHeaderModel from "@/components/post/item/PostHeaderModel";
 import UserAvater from "@/components/common/UserAvater";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { IFeelings, IPostDoc } from "@/interfaces/post.interface";
-import { feelingIconMap } from "@/services/utils/map";
+import { PrivacyIconMap, feelingIconMap } from "@/services/utils/map";
 import UserHoverCard from "@/components/common/UserHoverCard";
 import { IUserDoc } from "@/interfaces/auth.interface";
+import ActionTolltip from "@/components/common/ActionTolltip";
 
 interface Props {
   user: IUserDoc;
@@ -32,10 +33,10 @@ const PostHeader: React.FC<Props> = ({ user, createAt, feelings, post }) => {
         />
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-          <UserHoverCard
-                item={{_id: user.authId, ...user}}
-                className="capitalize font-semibold text-[14px] tracking-[0.1px] h-max"
-              />
+            <UserHoverCard
+              item={{ _id: user.authId, ...user }}
+              className="capitalize font-semibold text-[14px] tracking-[0.1px] h-max"
+            />
 
             {feelings && (
               <span className="lowercase text-[14px] font-normal flex items-center gap-1">
@@ -49,8 +50,16 @@ const PostHeader: React.FC<Props> = ({ user, createAt, feelings, post }) => {
               </span>
             )}
           </div>
-          <span className="text-[12px] roboto text-[#696974]">
+          <span className="text-[12px] roboto text-[#696974] flex items-center gap-2">
             {timeAgo.transform(createAt)}
+            <div className="w-[3px] h-[3px] bg-gray-400 rounded-full" />
+            <ActionTolltip label={post.privacy}>
+              <img
+                src={PrivacyIconMap[post.privacy]}
+                alt="public"
+                className="w-3 filter dark:invert"
+              />
+            </ActionTolltip>
           </span>
         </div>
       </div>

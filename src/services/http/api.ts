@@ -166,7 +166,7 @@ class Api {
     }
   }
 
-  public async getNotification(toast: any): Promise<void> {
+  public async getNotification(): Promise<void> {
     try {
       const { data } = await getNotificaitons(1);
       store.dispatch(
@@ -175,7 +175,7 @@ class Api {
         }),
       );
     } catch (err) {
-      this.responseError(err, toast);
+      console.log(err);
     }
   }
 
