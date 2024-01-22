@@ -31,7 +31,7 @@ export const PostsSlice = createSlice({
 
     updatePost: (state, action: PayloadAction<IPostDoc>) => {
       const postIndex = state.posts.findIndex(
-        (post) => post._id === action.payload._id
+        (post) => post._id === action.payload._id,
       );
       if (postIndex > -1) {
         state.posts[postIndex] = action.payload;

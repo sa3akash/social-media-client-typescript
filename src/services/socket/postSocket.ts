@@ -37,7 +37,7 @@ export class PostSocket {
             ? store.dispatch(addUserReactions(reactionDoc))
             : store.dispatch(deleteUserReactions(reactionDoc.postId));
         }
-      }
+      },
     );
   }
 

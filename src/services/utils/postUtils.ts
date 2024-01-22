@@ -6,7 +6,7 @@ export class PostUtils {
   static checkPrivacy(
     post: IPostDoc,
     profileId: string,
-    following: string[]
+    following: string[],
   ): boolean {
     const isPublic = post?.privacy === "Public";
 
@@ -55,7 +55,7 @@ export class PostUtils {
 
   static filterReactions(
     reactions: IReactions,
-    count: number
+    count: number,
   ): [string, number][] {
     // const sortedReactions = Object.entries(reactions).sort(
     //   ([, countA], [, countB]) => countB - countA
@@ -70,7 +70,7 @@ export class PostUtils {
 
   static userReactionExists(
     userReaction: IUserReactionDoc[],
-    postId: string
+    postId: string,
   ): IUserReactionDoc | undefined {
     return userReaction.find((reaction) => reaction.postId === postId);
   }
@@ -80,13 +80,13 @@ export class PostUtils {
     const uniqueArray = Array.from(
       new Set(
         value.map(
-          (item: { creator: { authId: string } }) => item?.creator?.authId
-        )
-      )
+          (item: { creator: { authId: string } }) => item?.creator?.authId,
+        ),
+      ),
     ).map((id) =>
       value.find(
-        (item: { creator: { authId: string } }) => item?.creator?.authId === id
-      )
+        (item: { creator: { authId: string } }) => item?.creator?.authId === id,
+      ),
     );
     return uniqueArray;
   }

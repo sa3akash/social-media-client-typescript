@@ -10,7 +10,7 @@ export class UserUtils {
   static checkIfUserFollowed(
     userFollowes: string[],
     postCreatorId: string,
-    profileId: string
+    profileId: string,
   ): boolean {
     return (
       userFollowes.some((user) => user === postCreatorId) ||

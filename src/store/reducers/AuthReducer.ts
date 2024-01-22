@@ -37,7 +37,7 @@ export const AuthSlice = createSlice({
         following: string[];
         followers: string[];
         blocked: string[];
-      }>
+      }>,
     ) => {
       state.blocked = action.payload.blocked;
       state.followers = action.payload.followers;
@@ -50,19 +50,19 @@ export const AuthSlice = createSlice({
       ];
     },
 
-    addFollowing: (state, action: PayloadAction<{id:string}>) => {
-      state.following = [
-        ...new Set([action.payload.id, ...state.following]),
-      ];
+    addFollowing: (state, action: PayloadAction<{ id: string }>) => {
+      state.following = [...new Set([action.payload.id, ...state.following])];
     },
 
-    removeFollowing: (state, action: PayloadAction<{id:string}>) => {
-      state.following = state.following.filter(id=>id !== action.payload.id);
+    removeFollowing: (state, action: PayloadAction<{ id: string }>) => {
+      state.following = state.following.filter(
+        (id) => id !== action.payload.id,
+      );
     },
 
     deleteUserReactions: (state, action: PayloadAction<string>) => {
       state.userReaction = state.userReaction.filter(
-        (p) => p.postId !== action.payload
+        (p) => p.postId !== action.payload,
       );
     },
   },
