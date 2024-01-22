@@ -27,7 +27,7 @@ const PostHeaderModel: FC<Props> = ({ post, setOpenModel }) => {
 
   return (
     <>
-      <div className="absolute z-20 top-14 right-4 w-[350px] rounded-xl bg-muted dark:bg-[#292932] borderWrapper p-2">
+      <div className="absolute z-20 top-14 right-4 w-[300px] rounded-xl bg-muted dark:bg-[#292932] borderWrapper p-2">
         {wonPost ? (
           <>
             <SingleItem

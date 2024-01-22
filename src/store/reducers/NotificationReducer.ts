@@ -1,4 +1,5 @@
 import { INotification } from "@/interfaces/notificaton.interface";
+import { Utils } from "@/services/utils/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -17,18 +18,14 @@ export const NotificationSlice = createSlice({
   initialState,
   reducers: {
     setNotification: (state, action: PayloadAction<NotificationState>) => {
-      const data = [...state.notifications, ...action.payload.notifications];
-
-      const uniqueArray = Array.from(new Set(data.map((obj) => obj._id))).map(
-        (id) => {
-          return data.find((obj) => obj._id === id);
-        },
-      ) as INotification[];
-
       // const uniqueArray = data.reduce((unique:INotification[], obj:INotification) => {
       //   return unique.some((item:INotification) => item._id === obj._id) ? unique : [...unique, obj];
       // }, []) as INotification[];
 
+      const uniqueArray = Utils.uniqueArray([
+        ...state.notifications,
+        ...action.payload.notifications,
+      ]);
       state.notifications = uniqueArray;
       state.loading = false;
     },
@@ -38,7 +35,7 @@ export const NotificationSlice = createSlice({
 
     updateAsReadNotification: (state, action: PayloadAction<string>) => {
       const findIndex = state.notifications.findIndex(
-        (n) => n._id === action.payload,
+        (n) => n._id === action.payload
       );
       if (findIndex !== -1) {
         state.notifications[findIndex] = {
@@ -50,7 +47,7 @@ export const NotificationSlice = createSlice({
 
     deleteNotification: (state, action: PayloadAction<string>) => {
       state.notifications = state.notifications.filter(
-        (n) => n._id !== action.payload,
+        (n) => n._id !== action.payload
       );
     },
     resetNotifications: (state) => {

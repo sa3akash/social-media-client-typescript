@@ -25,7 +25,7 @@ export default function useInfiniteScroll(
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNumber]);
+  }, [pageNumber,url]);
   // Create the IntersectionObserver outside the component
   const observer = useRef<IntersectionObserver | null>(null);
 

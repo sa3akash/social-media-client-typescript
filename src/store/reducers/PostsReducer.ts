@@ -1,4 +1,5 @@
 import { IPostDoc } from "@/interfaces/post.interface";
+import { Utils } from "@/services/utils/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -17,13 +18,10 @@ export const PostsSlice = createSlice({
   initialState,
   reducers: {
     setPosts: (state, action: PayloadAction<PostsState>) => {
-      const data = [...state.posts, ...action.payload.posts];
-
-      const uniqueArray = Array.from(new Set(data.map((obj) => obj._id))).map(
-        (id) => {
-          return data.find((obj) => obj._id === id);
-        },
-      ) as IPostDoc[];
+      const uniqueArray = Utils.uniqueArray([
+        ...state.posts,
+        ...action.payload.posts,
+      ]);
       state.posts = uniqueArray;
       state.loading = false;
     },
@@ -33,7 +31,7 @@ export const PostsSlice = createSlice({
 
     updatePost: (state, action: PayloadAction<IPostDoc>) => {
       const postIndex = state.posts.findIndex(
-        (post) => post._id === action.payload._id,
+        (post) => post._id === action.payload._id
       );
       if (postIndex > -1) {
         state.posts[postIndex] = action.payload;
