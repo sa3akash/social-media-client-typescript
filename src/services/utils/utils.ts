@@ -11,4 +11,15 @@ export class Utils {
       return data.find((obj) => obj._id === id);
     });
   }
+
+  static checkDateSame(prevDate: string, nextDate: string) {
+    const date1 = new Date(prevDate);
+    const date2 = new Date(nextDate);
+
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
 }

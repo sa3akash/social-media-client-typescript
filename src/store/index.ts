@@ -4,6 +4,7 @@ import NotificationSlice from "@/store/reducers/NotificationReducer";
 import ModelSlice from "@/store/reducers/ModelReducer";
 import SinglePost from "@/store/reducers/SinglePostReducer";
 import PostsSlice from "@/store/reducers/PostsReducer";
+import MessangerSlice from "@/store/reducers/MessangerReducer";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     model: ModelSlice,
     SinglePost: SinglePost,
     posts: PostsSlice,
+    messanger: MessangerSlice,
   },
 });
 

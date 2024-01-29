@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ColorPickerIcon from "@/assets/icons/colorPicker.png";
 import EmojiPicker from "@/components/common/EmojiPicker";
-import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
+import ImojiIcon from "@/assets/images/ic_emoji.svg";
 import { cn } from "@/lib/utils";
 import { bgColors } from "@/services/utils/map";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +49,7 @@ const SelectBgAndEmoji = () => {
           dispatch(updatePostItem({ post: post + value }))
         }
       >
-        <img src={ImojiIcon} alt="" className="w-6 icon" />
+        <img src={ImojiIcon} alt="emoji" className="w-6 icon" />
       </EmojiPicker>
     </div>
   );

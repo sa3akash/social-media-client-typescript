@@ -1,20 +1,28 @@
 import UserAvater from "@/components/common/UserAvater";
-import { IMessageData } from "@/data/MessageData";
 import { NameDoc } from "@/interfaces/auth.interface";
-// import { IMessageData } from "@/interfaces/chat.interface";
+import { IMessageData } from "@/interfaces/chat.interface";
 import { cn } from "@/lib/utils";
 import { timeAgo } from "@/services/utils/timeAgo";
+import { RootState } from "@/store";
 import { FC } from "react";
+import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   item: IMessageData;
 }
 
-const SingleMessangerItem: FC<Props> = ({ item }) => {
-  //   const { user } = useSelector((state: RootState) => state.auth);
+const SingleConversationItem: FC<Props> = ({ item }) => {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const [, setSearchParams] = useSearchParams();
 
   const active = false;
-  const won = true;
+  const won = user?.authId === item.senderId;
+
+  const userFriend =
+    user?.authId !== item.senderObject._id
+      ? item.senderObject
+      : item.receiverObject;
 
   return (
     <div
@@ -22,17 +30,18 @@ const SingleMessangerItem: FC<Props> = ({ item }) => {
         "flex items-center px-4 gap-2 rounded-md w-full h-[74px] cursor-pointer",
         active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : ""
       )}
+      onClick={() => setSearchParams({ conversation: item.conversationId })}
     >
       <UserAvater
-        src={item?.receiverObject.profilePicture}
-        name={item?.receiverObject.name as NameDoc}
-        className="min-w-[36px] min-h-[36px]"
-        avatarColor={item?.receiverObject.avatarColor}
+        src={userFriend?.profilePicture}
+        name={userFriend?.name as NameDoc}
+        className="w-[36px] h-[36px] md:w-[36px] md:h-[36px]"
+        avatarColor={userFriend?.avatarColor}
       />
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <h4 className="font-semibold text-[14px] tracking-[0.1px] capitalize">
-            {item?.receiverObject.name.first} {item?.receiverObject.name.last}
+            {userFriend?.name.first} {userFriend?.name.last}
           </h4>
           <span
             className={cn(
@@ -40,7 +49,7 @@ const SingleMessangerItem: FC<Props> = ({ item }) => {
               active ? "text-primary" : "text-[#92929D]"
             )}
           >
-            {timeAgo.chatMessageTransform(item.createdAt)}
+            {timeAgo.chatMessageTransform(`${item.createdAt}`)}
           </span>
         </div>
         <div>
@@ -58,4 +67,4 @@ const SingleMessangerItem: FC<Props> = ({ item }) => {
   );
 };
 
-export default SingleMessangerItem;
+export default SingleConversationItem;

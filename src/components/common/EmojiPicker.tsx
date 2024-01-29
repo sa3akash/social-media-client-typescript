@@ -25,7 +25,6 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({
   return (
     <Popover>
       <PopoverTrigger>
-        {/* <Smile className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300" /> */}
         {children}
       </PopoverTrigger>
       <PopoverContent

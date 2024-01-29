@@ -1,5 +1,5 @@
 import AtachmentIcon from "@/assets/images/ic_attachment.svg";
-import ImojiIcon from "@/assets/images/ic_Emoticon.svg";
+import ImojiIcon from "@/assets/images/ic_emoji.svg";
 import ImageIcon from "@/assets/images/ic_Image.svg";
 import EmojiPicker from "@/components/common/EmojiPicker";
 import UserAvater from "@/components/common/UserAvater";
@@ -24,14 +24,14 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
 
   const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && commentValue.length > 1) {
-       api.addCommentCall(
+      api.addCommentCall(
         {
           comment: commentValue,
           postId: postId,
         },
         toast
       );
-      setCommentValue('')
+      setCommentValue("");
     }
   };
 
@@ -53,13 +53,25 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
           value={commentValue}
           onKeyDown={handlekeydown}
         />
-        <img src={AtachmentIcon} alt="atachIcon" className="w-5 icon" />
+        <img
+          src={AtachmentIcon}
+          alt="atachIcon"
+          className="w-5 icon"
+        />
         <EmojiPicker
           onChange={(value: string) => setCommentValue((prev) => prev + value)}
         >
-          <img src={ImojiIcon} alt="emojiIcon" className="w-5 icon" />
+          <img
+            src={ImojiIcon}
+            alt="emojiIcon"
+            className="w-5 icon"
+          />
         </EmojiPicker>
-        <img src={ImageIcon} alt="commentIcon" className="w-5 icon" />
+          <img
+            src={ImageIcon}
+            alt="commentIcon"
+            className="w-5 icon"
+          />
       </div>
     </div>
   );

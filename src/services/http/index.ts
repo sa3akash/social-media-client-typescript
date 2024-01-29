@@ -8,6 +8,7 @@ import {
 import { ApiReactionInterface } from "@/interfaces/http.interface";
 import axios, { AxiosInstance } from "axios";
 import { PageURL } from "@/services/utils/pageUrl";
+import { ISendMessageDataJson } from "@/interfaces/chat.interface";
 
 const api: AxiosInstance = axios.create({
   baseURL: config.apiUrl,
@@ -47,6 +48,8 @@ export const addComment = (data: { postId: string; comment: string }) =>
 export const deletePost = (postId: string) => api.delete(`/post/${postId}`);
 export const getLoginData = () => api.get("/login-user-data");
 export const followUser = (authId: string) => api.put(`/user/follow/${authId}`);
+export const sendMessageJson = (data:ISendMessageDataJson) => api.post('/chat/message',data);
+export const getConversations = () => api.get('/chat/conversations');
 
 // form data
 export const createPost = (data: FormData) =>
@@ -71,7 +74,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && originalRequest && !isRetry) {
+    if (error.response.status === 503 && originalRequest && !isRetry) {
       isRetry = true;
       localStorage.clear();
       window.location.replace(PageURL.Login);

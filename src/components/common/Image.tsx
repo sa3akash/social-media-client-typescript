@@ -43,7 +43,9 @@ const Image: React.FC<Props> = ({ src, className, classNameTwo }) => {
 
   return (
     <div className={cn("w-full h-full select-none", className)} ref={imageRef}>
-      {!loadedImg && <Skeleton className="w-full h-[320px] md:h-[500px]" />}
+      {!loadedImg && (
+        <Skeleton className="w-full h-full max-h-[320px] md:max-h-[500px]" />
+      )}
       <img
         src={url}
         alt="image"

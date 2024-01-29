@@ -16,7 +16,7 @@ const Layout = () => {
   }, [navigate, pathname]);
 
   return (
-    <div className="h-full">
+    <div className="h-full w-full">
       <div className="h-[70px] md:h-[80px] cardBG border-b">
         <Navbar />
       </div>

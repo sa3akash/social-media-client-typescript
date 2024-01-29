@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "../ui/scroll-area";
-import SingleMessangerItem from "./item/SingleMessangerItem";
-import { messageData } from "@/data/MessageData";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import SingleConversationItem from "@/components/messanger/item/SingleConversationItem";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const MessangerSidebar = () => {
+
+  const {conversations} = useSelector((state:RootState)=>state.messanger);
+
   return (
     <div className="w-full h-full ">
       <ScrollArea className="w-full h-[calc(100%-80px)]">
@@ -12,8 +16,8 @@ const MessangerSidebar = () => {
         <Button className="">New</Button>
       </div>
       <div className="flex flex-col gap-2 px-2 py-2">
-        {messageData.map((item,index)=>(
-          <SingleMessangerItem key={index} item={item}/>
+        {conversations?.map((item,index)=>(
+          <SingleConversationItem key={index} item={item} />
         ))}
       </div>
       </ScrollArea>
