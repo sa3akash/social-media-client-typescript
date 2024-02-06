@@ -3,6 +3,7 @@ import { Socket, io } from "socket.io-client";
 import { PostSocket } from "@/services/socket/postSocket";
 import { NotificationSocket } from "@/services/socket/notificationSocket";
 import { FollowSocket } from "@/services/socket/followSocket";
+import { ChatSocket } from "@/services/socket/chatSocket";
 
 class SocketService {
   socket: Socket;
@@ -20,6 +21,7 @@ class SocketService {
     PostSocket.start();
     NotificationSocket.start(toast);
     FollowSocket.start();
+    ChatSocket.init()
   }
 
   // disconnect connection

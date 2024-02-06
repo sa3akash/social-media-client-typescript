@@ -30,13 +30,11 @@ const AllPost = () => {
       {posts.map(
         (item: IPostDoc, i: number) =>
           UserUtils.checkPrivacyPost(item) && (
-            <React.Fragment key={i}>
-              {posts.length === i + 1 ? (
-                <SinglePost item={item} ref={lastElementRef} />
-              ) : (
-                <SinglePost item={item} />
-              )}
-            </React.Fragment>
+            <SinglePost
+              item={item}
+              ref={posts.length === i + 1 ? lastElementRef : null}
+              key={i}
+            />
           )
       )}
       {loading && (

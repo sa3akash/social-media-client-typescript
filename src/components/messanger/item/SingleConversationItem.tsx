@@ -10,13 +10,13 @@ import { useSearchParams } from "react-router-dom";
 
 interface Props {
   item: IMessageData;
+  active: boolean;
 }
 
-const SingleConversationItem: FC<Props> = ({ item }) => {
+const SingleConversationItem: FC<Props> = ({ item,active }) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [, setSearchParams] = useSearchParams();
+  const [,setSearchParams] = useSearchParams();
 
-  const active = false;
   const won = user?.authId === item.senderId;
 
   const userFriend =
@@ -30,7 +30,7 @@ const SingleConversationItem: FC<Props> = ({ item }) => {
         "flex items-center px-4 gap-2 rounded-md w-full h-[74px] cursor-pointer",
         active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : ""
       )}
-      onClick={() => setSearchParams({ conversation: item.conversationId })}
+      onClick={() => setSearchParams({ conversationId: item.conversationId })}
     >
       <UserAvater
         src={userFriend?.profilePicture}
@@ -59,7 +59,7 @@ const SingleConversationItem: FC<Props> = ({ item }) => {
               active ? "text-primary" : "text-[#92929D]"
             )}
           >
-            {item?.body}
+            {item?.body.length > 35 ? item.body.substring(0, 35) + '...' : item.body}
           </span>
         </div>
       </div>

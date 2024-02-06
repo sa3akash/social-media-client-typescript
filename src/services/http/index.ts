@@ -50,6 +50,7 @@ export const getLoginData = () => api.get("/login-user-data");
 export const followUser = (authId: string) => api.put(`/user/follow/${authId}`);
 export const sendMessageJson = (data:ISendMessageDataJson) => api.post('/chat/message',data);
 export const getConversations = () => api.get('/chat/conversations');
+export const getMessages = () => api.get('/chat/conversations');
 
 // form data
 export const createPost = (data: FormData) =>
@@ -74,7 +75,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 503 && originalRequest && !isRetry) {
+    if (error.response.status === (401 || 503) && originalRequest && !isRetry) {
       isRetry = true;
       localStorage.clear();
       window.location.replace(PageURL.Login);
