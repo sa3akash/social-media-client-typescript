@@ -25,7 +25,7 @@ const SingleMessage = React.forwardRef(
     const { user } = useSelector((state: RootState) => state.auth);
 
     const userFriend =
-    user?.authId !== item.senderObject._id
+    user?.authId !== item.senderId
       ? item.senderObject
       : item.receiverObject;
 

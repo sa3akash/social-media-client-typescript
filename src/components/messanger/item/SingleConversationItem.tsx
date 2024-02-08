@@ -20,9 +20,11 @@ const SingleConversationItem: FC<Props> = ({ item,active }) => {
   const won = user?.authId === item.senderId;
 
   const userFriend =
-    user?.authId !== item.senderObject._id
+    user?.authId !== item.senderId
       ? item.senderObject
       : item.receiverObject;
+
+      console.log(item)
 
   return (
     <div

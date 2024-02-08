@@ -100,11 +100,15 @@ export default AddConversationDialog;
 
 
 const SingleUser = ({user}:{user:IFollowerDoc}) => {
-  const [,setSearchParams] = useSearchParams()
+
+  const handleSelectUser = () => {
+    console.log(user);
+  }
+
   return (
     <div
       className="flex items-center px-4 gap-2 rounded-md w-full h-[54px] cursor-pointer hover:bg-secondary transition-all"
-      onClick={() => setSearchParams({ friendId: user._id })}
+      onClick={handleSelectUser}
     >
       <UserAvater
         src={user?.profilePicture}
