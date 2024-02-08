@@ -21,6 +21,9 @@ export const MessangerSlice = createSlice({
       state.conversations = action.payload;
     },
     setMessages: (state, action: PayloadAction<IMessageData[]>) => {
+      state.messages = action.payload;
+    },
+    addMessages: (state, action: PayloadAction<IMessageData[]>) => {
       const uniqueArray = Utils.uniqueArray([
         ...action.payload,
         ...state.messages,
@@ -30,6 +33,6 @@ export const MessangerSlice = createSlice({
   },
 });
 
-export const { setConversation, setMessages } = MessangerSlice.actions;
+export const { setConversation, setMessages,addMessages } = MessangerSlice.actions;
 
 export default MessangerSlice.reducer;
