@@ -1,7 +1,14 @@
+import SingleConversationItem from "@/components/messanger/item/SingleConversationItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 const MessageDropDown = () => {
+  const { conversations } = useSelector((state: RootState) => state.messanger);
+  const [seatchParams] = useSearchParams();
+  const conversationId = seatchParams.get("conversationId");
   return (
     <div
       className={cn(
@@ -12,7 +19,15 @@ const MessageDropDown = () => {
         <h3 className="p-4 cardBG text-[#92929D] font-semibold text-[14px] tracking-[1px]">
           Messages
         </h3>
-        <div>this new message</div>
+        <div className="flex flex-col gap-2 px-2 py-2">
+          {conversations?.map((item, index) => (
+            <SingleConversationItem
+              key={index}
+              item={item}
+              active={conversationId === item.conversationId}
+            />
+          ))}
+        </div>
       </ScrollArea>
     </div>
   );

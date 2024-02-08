@@ -57,10 +57,11 @@ const SingleMessage = React.forwardRef(
                 )}
               >
                 <UserAvater
-                  name={userFriend?.name as NameDoc}
-                  src={userFriend.profilePicture}
+                  name={wonMessage ? user?.name as NameDoc : userFriend?.name as NameDoc}
+                  src={ wonMessage ? user?.profilePicture : userFriend.profilePicture}
                   className="!w-[32px] !h-[32px]"
                   fallbackClassName="text-[12px]"
+                  avatarColor={wonMessage ? user?.avatarColor : userFriend.avatarColor}
                 />
               </div>
               <p className="roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">

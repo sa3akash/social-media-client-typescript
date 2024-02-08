@@ -13,24 +13,20 @@ interface Props {
   active: boolean;
 }
 
-const SingleConversationItem: FC<Props> = ({ item,active }) => {
+const SingleConversationItem: FC<Props> = ({ item, active }) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [,setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const won = user?.authId === item.senderId;
 
   const userFriend =
-    user?.authId !== item.senderId
-      ? item.senderObject
-      : item.receiverObject;
-
-      console.log(item)
+    user?.authId !== item.senderId ? item.senderObject : item.receiverObject;
 
   return (
     <div
       className={cn(
         "flex items-center px-4 gap-2 rounded-md w-full h-[74px] cursor-pointer",
-        active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : ""
+        active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : "hover:bg-[#292932]"
       )}
       onClick={() => setSearchParams({ conversationId: item.conversationId })}
     >
@@ -61,7 +57,9 @@ const SingleConversationItem: FC<Props> = ({ item,active }) => {
               active ? "text-primary" : "text-[#92929D]"
             )}
           >
-            {item?.body.length > 35 ? item.body.substring(0, 35) + '...' : item.body}
+            {item?.body.length > 35
+              ? item.body.substring(0, 35) + "..."
+              : item.body}
           </span>
         </div>
       </div>
