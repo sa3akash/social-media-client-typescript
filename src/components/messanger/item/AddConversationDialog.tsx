@@ -14,8 +14,7 @@ import { buttonVariants } from "@/components/ui/button";
 import useDebounce from "@/hooks/useDebounce";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { Loader2 } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
-import { X } from "lucide-react"
+import { X } from "lucide-react";
 
 interface Props {
   children: React.ReactNode;
@@ -55,6 +54,7 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
               src={user?.profilePicture}
               className="!w-[32px] !h-[32px]"
               fallbackClassName="text-[12px]"
+              avatarColor={user?.avatarColor}
             />
             <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background select-none items-center gap-2">
               <img
@@ -69,10 +69,15 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
                 placeholder="Search user"
                 value={searchName}
               />
-              {searchUsers.length > 0 && <X className="cursor-pointer w-4 h-4" onClick={()=>{
-                setSearchName("")
-                setSearchUsers([])
-              }}/>}
+              {searchUsers.length > 0 && (
+                <X
+                  className="cursor-pointer w-4 h-4"
+                  onClick={() => {
+                    setSearchName("");
+                    setSearchUsers([]);
+                  }}
+                />
+              )}
             </div>
           </div>
         </DialogHeader>
@@ -83,11 +88,13 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
             </div>
           )}
 
-          {!loading && searchUsers.length > 0 && <div>
-            {searchUsers.map((user,index)=>(
-              <SingleUser user={user} key={index}/>
-            ))}
-            </div>}
+          {!loading && searchUsers.length > 0 && (
+            <div>
+              {searchUsers.map((user, index) => (
+                <SingleUser user={user} key={index} />
+              ))}
+            </div>
+          )}
           {!loading && searchUsers.length === 0 && <div>No User Found.</div>}
         </div>
       </DialogContent>
@@ -97,13 +104,10 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
 
 export default AddConversationDialog;
 
-
-
-const SingleUser = ({user}:{user:IFollowerDoc}) => {
-
+const SingleUser = ({ user }: { user: IFollowerDoc }) => {
   const handleSelectUser = () => {
     console.log(user);
-  }
+  };
 
   return (
     <div
@@ -124,5 +128,5 @@ const SingleUser = ({user}:{user:IFollowerDoc}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
