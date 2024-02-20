@@ -43,7 +43,8 @@ const SingleMessage = React.forwardRef(
         <div
           className={cn(
             "relative flex px-8 gap-2",
-            wonMessage ? "flex-row-reverse" : "flex-row"
+            wonMessage ? "flex-row-reverse" : "flex-row",
+            multipleMessage ? "-mt-3" : ""
           )}
           ref={ref}
         >
@@ -62,6 +63,8 @@ const SingleMessage = React.forwardRef(
                   className="!w-[32px] !h-[32px]"
                   fallbackClassName="text-[12px]"
                   avatarColor={wonMessage ? user?.avatarColor : userFriend.avatarColor}
+                  authId={userFriend?.authId}
+
                 />
               </div>
               <p className="roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">

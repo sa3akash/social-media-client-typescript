@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Socket, io } from "socket.io-client";
 import { PostSocket } from "@/services/socket/postSocket";
-import { NotificationSocket } from "@/services/socket/notificationSocket";
 import { FollowSocket } from "@/services/socket/followSocket";
 import { ChatSocket } from "@/services/socket/chatSocket";
+import { store } from "@/store";
+import { setOnlineUsers } from "@/store/reducers/AuthReducer";
 
 class SocketService {
   socket: Socket;
@@ -13,15 +14,17 @@ class SocketService {
       path: "/socket.io",
       transports: ["websocket"],
       secure: true,
+      query: {
+        authId: store.getState().auth.user?.authId,
+      },
     });
   }
   // start connection
-  public setupSocketConnection(toast: any) {
+  public setupSocketConnection() {
     this.socketConnectionEvents();
     PostSocket.start();
-    NotificationSocket.start(toast);
     FollowSocket.start();
-    ChatSocket.init()
+    ChatSocket.init();
   }
 
   // disconnect connection
@@ -35,6 +38,11 @@ class SocketService {
     this.socket.on("connect", () => {
       console.log("connected = ", this.socket.id);
     });
+
+    this.socket.on("user-online", (users) => {
+      store.dispatch(setOnlineUsers(users));
+    });
+
     this.socket.on("disconnect", (reason: Socket.DisconnectReason) => {
       console.log(`Reason: ${reason}`);
       this.socket.connect();

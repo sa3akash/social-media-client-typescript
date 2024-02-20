@@ -9,6 +9,7 @@ export interface AuthState {
   blocked: string[];
   following: string[];
   followers: string[];
+  onlineUsers: string[];
 }
 
 const initialState: AuthState = {
@@ -17,6 +18,7 @@ const initialState: AuthState = {
   blocked: [],
   followers: [],
   following: [],
+  onlineUsers: [],
 };
 
 export const AuthSlice = createSlice({
@@ -29,6 +31,9 @@ export const AuthSlice = createSlice({
     },
     setUserReactions: (state, action: PayloadAction<IUserReactionDoc[]>) => {
       state.userReaction = action.payload;
+    },
+    setOnlineUsers: (state, action: PayloadAction<string[]>) => {
+      state.onlineUsers = action.payload;
     },
 
     setLoginUserData: (
@@ -76,6 +81,7 @@ export const {
   setLoginUserData,
   addFollowing,
   removeFollowing,
+  setOnlineUsers,
 } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

@@ -2,15 +2,16 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import SingleConversationItem from "@/components/messanger/item/SingleConversationItem";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { FC } from "react";
+import { FC, useState } from "react";
 import AddConversationDialog from "@/components/messanger/item/AddConversationDialog";
+import { Button } from "@/components/ui/button";
 
 interface Props {
-  conversationId: string | null;
 }
 
-const MessangerSidebar: FC<Props> = ({ conversationId }) => {
-  const { conversations } = useSelector((state: RootState) => state.messanger);
+const MessangerSidebar: FC<Props> = () => {
+  const { conversations,selectedConversation } = useSelector((state: RootState) => state.messanger);
+  const [openSearchModel, setOpenSearchModel] = useState(false);
 
   return (
     <div className="w-full h-full ">
@@ -19,18 +20,19 @@ const MessangerSidebar: FC<Props> = ({ conversationId }) => {
           <h4 className="text-[18px] font-semibold leading-6 tracking-[0.1px]">
             Message
           </h4>
-          <AddConversationDialog>New</AddConversationDialog>
+          <Button onClick={()=>setOpenSearchModel(true)}>New</Button>
         </div>
         <div className="flex flex-col gap-2 px-2 py-2">
           {conversations?.map((item, index) => (
             <SingleConversationItem
               key={index}
               item={item}
-              active={conversationId === item.conversationId}
+              active={selectedConversation?.conversationId === item.conversationId} 
             />
           ))}
         </div>
       </ScrollArea>
+      <AddConversationDialog openSearchModel={openSearchModel} setOpenSearchModel={setOpenSearchModel}/>
     </div>
   );
 };

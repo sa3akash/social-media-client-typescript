@@ -3,24 +3,27 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { RootState } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SearchIcon from "@/assets/images/ic_Search.svg";
-import { IFollowerDoc, NameDoc } from "@/interfaces/auth.interface";
-import { buttonVariants } from "@/components/ui/button";
+import { IFollowerDoc, IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import useDebounce from "@/hooks/useDebounce";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { Loader2 } from "lucide-react";
 import { X } from "lucide-react";
+import { setSelectedConversation } from "@/store/reducers/MessangerReducer";
 
 interface Props {
-  children: React.ReactNode;
+  openSearchModel: boolean;
+  setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddConversationDialog: React.FC<Props> = ({ children }) => {
+const AddConversationDialog: React.FC<Props> = ({
+  openSearchModel,
+  setOpenSearchModel,
+}) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const [searchUsers, setSearchUsers] = useState<IFollowerDoc[]>([]);
 
@@ -31,7 +34,7 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
   //   console.log(searchValue);
   // }, [searchValue]);
 
-  const { lastElementRef, loading } = useInfiniteScroll(
+  const { loading } = useInfiniteScroll(
     `/users/${searchValue}`,
     (data) => {
       setSearchUsers(data.search || []);
@@ -39,13 +42,10 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
   );
 
   return (
-    <Dialog>
-      <DialogTrigger
-        className={buttonVariants({ variant: "outline", size: "sm" })}
-      >
-        {children}
-      </DialogTrigger>
-
+    <Dialog
+      open={openSearchModel}
+      onOpenChange={() => setOpenSearchModel(false)}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <div className="flex items-center gap-4 mt-4">
@@ -55,6 +55,9 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
               className="!w-[32px] !h-[32px]"
               fallbackClassName="text-[12px]"
               avatarColor={user?.avatarColor}
+              authId={user?.authId}
+              indicator='hidden'
+
             />
             <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background select-none items-center gap-2">
               <img
@@ -88,10 +91,18 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
             </div>
           )}
 
-          {!loading && searchUsers.length > 0 && (
+          {!loading && user?.authId && searchUsers.length > 0 && (
             <div>
-              {searchUsers.map((user, index) => (
-                <SingleUser user={user} key={index} />
+              {searchUsers.map((fUser, index) => (
+                <SingleUser
+                  fUser={{
+                    authId: fUser._id,
+                    ...fUser
+                  }}
+                  user={user}
+                  key={index}
+                  setOpenSearchModel={setOpenSearchModel}
+                />
               ))}
             </div>
           )}
@@ -104,9 +115,51 @@ const AddConversationDialog: React.FC<Props> = ({ children }) => {
 
 export default AddConversationDialog;
 
-const SingleUser = ({ user }: { user: IFollowerDoc }) => {
+const SingleUser = ({
+  user,
+  fUser,
+
+  setOpenSearchModel,
+}: {
+  fUser: IUserDoc;
+  user: IUserDoc;
+  setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const dispatch: AppDispatch = useDispatch();
+  const {conversations} = useSelector((state:RootState)=>state.messanger)
+
   const handleSelectUser = () => {
-    console.log(user);
+    const find = conversations.find(con=>con.senderId === fUser.authId || con.receiverId === fUser.authId)
+
+    const data = {
+      _id: "",
+      body: "",
+      conversationId: "",
+      createdAt: `${new Date()}`,
+      isRead: false,
+      receiverId: fUser.authId,
+      senderId: user.authId,
+      senderObject: {
+        authId: user.authId,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        avatarColor: user.avatarColor,
+        coverPicture: user.coverPicture,
+        uId: user.uId,
+        username: user.username,
+        email: user.email,
+        quote: user.quote,
+        createdAt: user.createdAt,
+      },
+      deleteForEveryone: false,
+      deleteForMe: false,
+      files: [],
+      gifUrl: "",
+      reaction: [],
+      receiverObject: fUser,
+    }
+    dispatch(setSelectedConversation(find || data));
+    setOpenSearchModel(false);
   };
 
   return (
@@ -115,15 +168,18 @@ const SingleUser = ({ user }: { user: IFollowerDoc }) => {
       onClick={handleSelectUser}
     >
       <UserAvater
-        src={user?.profilePicture}
-        name={user?.name as NameDoc}
+        src={fUser?.profilePicture}
+        name={fUser?.name as NameDoc}
         className="w-[36px] h-[36px] md:w-[36px] md:h-[36px]"
-        avatarColor={user?.avatarColor}
+        avatarColor={fUser?.avatarColor}
+        authId={fUser?.authId}
+        indicator='bottom-3'
+
       />
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <h4 className="font-semibold text-[14px] tracking-[0.1px] capitalize">
-            {user?.name.first} {user?.name.last}
+            {fUser?.name.first} {fUser?.name.last}
           </h4>
         </div>
       </div>

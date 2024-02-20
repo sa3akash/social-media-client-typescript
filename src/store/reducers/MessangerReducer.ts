@@ -6,11 +6,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface MessangerState {
   conversations: IMessageData[] | [];
   messages: IMessageData[] | [];
+  selectedConversation: IMessageData | null;
 }
 
 const initialState: MessangerState = {
   conversations: [],
   messages: [],
+  selectedConversation: null,
 };
 
 export const MessangerSlice = createSlice({
@@ -20,8 +22,14 @@ export const MessangerSlice = createSlice({
     setConversation: (state, action: PayloadAction<IMessageData[]>) => {
       state.conversations = action.payload;
     },
+    addConversation: (state, action: PayloadAction<IMessageData>) => {
+      state.conversations = [action.payload, ...state.conversations];
+    },
     setMessages: (state, action: PayloadAction<IMessageData[]>) => {
       state.messages = action.payload;
+    },
+    setSelectedConversation: (state, action: PayloadAction<IMessageData>) => {
+      state.selectedConversation = action.payload;
     },
     addMessages: (state, action: PayloadAction<IMessageData[]>) => {
       const uniqueArray = Utils.uniqueArray([
@@ -33,6 +41,12 @@ export const MessangerSlice = createSlice({
   },
 });
 
-export const { setConversation, setMessages,addMessages } = MessangerSlice.actions;
+export const {
+  setConversation,
+  addConversation,
+  setMessages,
+  addMessages,
+  setSelectedConversation,
+} = MessangerSlice.actions;
 
 export default MessangerSlice.reducer;

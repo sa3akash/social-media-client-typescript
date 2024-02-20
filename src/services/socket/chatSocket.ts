@@ -1,7 +1,10 @@
+import { IMessageData } from "@/interfaces/chat.interface";
 import { socketService } from "@/services/socket/socket";
 import { store } from "@/store";
-import { setConversation } from "@/store/reducers/MessangerReducer";
-
+import {
+  setConversation,
+  setMessages,
+} from "@/store/reducers/MessangerReducer";
 
 // post
 export class ChatSocket {
@@ -10,17 +13,25 @@ export class ChatSocket {
   }
 
   static init() {
-    socketService.socket.on("message-received", (data) => {
+    socketService.socket.on("message-received", (data: IMessageData) => {
+      const user = store.getState().auth.user;
+      const messages = store.getState().messanger.messages;
 
       // console.log('message data',data)
+      if (user?.authId === data.senderId || user?.authId === data.receiverId) {
+        store.dispatch(setMessages([...messages, data]));
+      }
     });
-    socketService.socket.on("chat-list", (data) => {
+    socketService.socket.on("chat-list", (data: IMessageData) => {
+      // const user = store.getState().auth.user;
       const conversation = store.getState().messanger.conversations;
 
-      if(conversation.some(c=>c.conversationId === data.conversationId)){
-        const filterConversation = conversation.filter(c=>c.conversationId !== data.conversationId);
-        store.dispatch(setConversation([data,...filterConversation]))
-      }
+      // if (user?.authId === data.senderId || user?.authId === data.receiverId) {
+      const filterData = conversation.filter(
+        (c) => c.conversationId !== data.conversationId,
+      );
+      store.dispatch(setConversation([data, ...filterData]));
+      // }
     });
   }
 }

@@ -48,9 +48,10 @@ export const addComment = (data: { postId: string; comment: string }) =>
 export const deletePost = (postId: string) => api.delete(`/post/${postId}`);
 export const getLoginData = () => api.get("/login-user-data");
 export const followUser = (authId: string) => api.put(`/user/follow/${authId}`);
-export const sendMessageJson = (data:ISendMessageDataJson) => api.post('/chat/message',data);
-export const getConversations = () => api.get('/chat/conversations');
-export const getMessages = () => api.get('/chat/conversations');
+export const sendMessageJson = (data: ISendMessageDataJson) =>
+  api.post("/chat/message", data);
+export const getConversations = () => api.get("/chat/conversations");
+export const getMessages = () => api.get("/chat/conversations");
 
 // form data
 export const createPost = (data: FormData) =>

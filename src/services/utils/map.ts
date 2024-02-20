@@ -67,8 +67,8 @@ import Images from "@/assets/images/images.svg";
 import MarketPlace from "@/assets/images/marketPlase.svg";
 import NotificatonsOff from "@/assets/images/ic_Notification_off.svg";
 import Notificatons from "@/assets/images/Notification.svg";
-import ChatIcon from '@/assets/images/Chat.svg'
-import ChatOffIcon from '@/assets/images/Chat_Off.svg'
+import ChatIcon from "@/assets/images/Chat.svg";
+import ChatOffIcon from "@/assets/images/Chat_Off.svg";
 
 export const ReactionIconMap = {
   like: LikeReaction,
@@ -181,11 +181,10 @@ export const postModelIconMap = {
   report: ReportIcon,
 };
 
-
 export const leftSidebarIconMap = {
-  feed:Feed,
-  friends:Friends,
-  events:Events,
+  feed: Feed,
+  friends: Friends,
+  events: Events,
   videos: Videos,
   notificationOff: NotificatonsOff,
   notifications: Notificatons,

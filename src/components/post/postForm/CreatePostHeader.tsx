@@ -31,6 +31,8 @@ const CreatePostHeader: React.FC<Props> = ({ user, privacy, feelings }) => {
         name={user?.name as NameDoc}
         className="min-w-[36px] min-h-[36px]"
         avatarColor={user?.avatarColor}
+        authId={user?.authId}
+
       />
       <div className="capitalize">
         <h4 className="font-semibold text-[15px] flex items-center gap-2">

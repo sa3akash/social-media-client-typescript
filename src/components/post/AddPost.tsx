@@ -26,6 +26,8 @@ const AddPost = () => {
             name={user?.name as NameDoc}
             className="min-w-[36px] min-h-[36px]"
             avatarColor={user?.avatarColor}
+            authId={user?.authId}
+
           />
           <div
             className="flex flex-1 gap-2 items-center p-2 border md:border-none rounded-lg cursor-pointer select-none"

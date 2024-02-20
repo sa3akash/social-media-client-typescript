@@ -18,6 +18,7 @@ const UserProfile = () => {
           src={user?.profilePicture}
           name={user?.name as NameDoc}
           avatarColor={user?.avatarColor}
+          authId={user?.authId}
         />
         <div className="hidden lg:block">
           <h3 className="font-semibold text-[14px] tracking-[0.1px] capitalize">

@@ -42,6 +42,7 @@ const SingleNotificaton = forwardRef(
             name={item.creator.name}
             className="w-[36px] h-[36px]"
             avatarColor={item.creator?.avatarColor}
+            authId={item?._id}
           />
 
           <img

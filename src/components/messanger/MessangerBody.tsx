@@ -5,20 +5,20 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { AppDispatch, RootState } from "@/store";
 import { setMessages } from "@/store/reducers/MessangerReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
 import SingleMessage from "@/components/messanger/item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { messages } = useSelector((state: RootState) => state.messanger);
-  const [seatchParams] = useSearchParams();
-  const conversationId = seatchParams.get("conversationId");
+
+  const {selectedConversation} = useSelector((state:RootState)=>state.messanger)
+
 
   const dispatch: AppDispatch = useDispatch();
 
-  const { lastElementRef, loading } = useInfiniteScroll(
-    `/chat/messagess/${conversationId}`,
+  const {loading } = useInfiniteScroll(
+    `/chat/messagess/${selectedConversation?.conversationId}`,
     (data) => {
       dispatch(setMessages(data.messages));
     }
@@ -47,12 +47,12 @@ const MessangerBody = () => {
                   )
                 }
                 key={index}
-                ref={messages.length === index + 1 ? lastElementRef : null}
+                // ref={messages.length === index + 1 ? lastElementRef : null}
               />
             ))}
           </div>
         </ScrollArea>
-        <MessangerInput conversationId={conversationId}/>
+        <MessangerInput />
       </div>
     </div>
   );

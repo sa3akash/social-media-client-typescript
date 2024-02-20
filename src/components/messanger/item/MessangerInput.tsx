@@ -11,12 +11,11 @@ import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
-  conversationId: string | null;
 }
 
-const MessangerInput: FC<Props> = ({ conversationId }) => {
+const MessangerInput: FC<Props> = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { conversations } = useSelector((state: RootState) => state.messanger);
+  const { selectedConversation } = useSelector((state: RootState) => state.messanger);
 
   const [messageValue, setMessageValue] = useState<string>("");
 
@@ -26,14 +25,6 @@ const MessangerInput: FC<Props> = ({ conversationId }) => {
     }
   };
 
-  const conversationObject = conversations.find(
-    (c) => c.conversationId === conversationId
-  );
-
-  const friendId =
-    conversationObject?.senderId === user?.authId
-      ? conversationObject?.receiverId
-      : conversationObject?.senderId;
 
   const { toast } = useToast();
 
@@ -42,8 +33,8 @@ const MessangerInput: FC<Props> = ({ conversationId }) => {
       api.sendMessageJsonCall(
         {
           body: messageValue,
-          receiverId: friendId as string,
-          conversationId: conversationId!,
+          receiverId: selectedConversation?.receiverId as string,
+          conversationId: selectedConversation?.conversationId,
         },
         toast
       );
@@ -59,6 +50,8 @@ const MessangerInput: FC<Props> = ({ conversationId }) => {
           name={user?.name as NameDoc}
           className="min-w-[36px] min-h-[36px]"
           avatarColor={user?.avatarColor}
+          authId={user?.authId}
+          indicator='hidden'
         />
         <div className="cardBG flex-1 flex items-center justify-between px-4 py-2 rounded-md">
           <input

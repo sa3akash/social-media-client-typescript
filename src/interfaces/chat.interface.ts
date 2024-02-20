@@ -1,12 +1,12 @@
-import { IFollowerDoc } from "@/interfaces/auth.interface";
+import { IUserDoc } from "@/interfaces/auth.interface";
 import { IFiles } from "@/interfaces/post.interface";
 import { IReactionDoc } from "@/interfaces/reaction.interface";
 
 export interface IMessageData {
   _id: string;
   conversationId: string;
-  senderObject: IFollowerDoc;
-  receiverObject: IFollowerDoc;
+  senderObject: IUserDoc;
+  receiverObject: IUserDoc;
   receiverId: string;
   senderId: string;
   body: string;

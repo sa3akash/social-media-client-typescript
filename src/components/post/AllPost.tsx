@@ -1,4 +1,3 @@
-import React from "react";
 import SinglePost from "@/components/post/item/SinglePost";
 import NoPost from "@/components/post/NoPost";
 import { IPostDoc } from "@/interfaces/post.interface";

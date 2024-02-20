@@ -54,6 +54,8 @@ const SingleCommentUser = ({ item }: { item: any }) => {
           name={item?.creator?.name as NameDoc}
           className="min-w-[36px] min-h-[36px]"
           avatarColor={item?.creator?.avatarColor}
+          authId={item?._id}
+
         />
       </div>
       <div>

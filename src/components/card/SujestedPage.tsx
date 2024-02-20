@@ -24,7 +24,7 @@ const SujestedPage = () => {
             className="w-14 h-14 rounded-full overflow-hidden border-[2px]"
             style={{borderColor: `${userData[0].avatarColor}`}}
           >
-        <UserAvater src={userData[0].profilePicture} name={userData[0].name} className="w-full h-full md:w-full md:h-full" avatarColor={userData[0].avatarColor}/>
+        <UserAvater src={userData[0].profilePicture} name={userData[0].name} className="w-full h-full md:w-full md:h-full" avatarColor={userData[0].avatarColor} authId={userData[0].authId}/>
             
           </div>
           <div className="flex flex-col">

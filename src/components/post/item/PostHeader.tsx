@@ -30,6 +30,8 @@ const PostHeader: React.FC<Props> = ({ user, createAt, feelings, post }) => {
           name={user.name}
           className="min-w-[36px] min-h-[36px]"
           avatarColor={user?.avatarColor}
+          authId={user?.authId}
+
         />
         <div className="flex flex-col">
           <div className="flex items-center gap-2">

@@ -14,6 +14,7 @@ const SingleStoryItem = ({ item }: { item: IUserDoc }) => {
           name={item.name}
           className="w-full h-full md:w-full md:h-full"
           avatarColor={item.avatarColor}
+          authId={item.authId}
         />
       </div>
       <div className="flex flex-col">

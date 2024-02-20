@@ -9,13 +9,15 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { useEffect } from "react";
 import { socketService } from "@/services/socket/socket";
 import { useToast } from "@/components/ui/use-toast";
+import { NotificationSocket } from "@/services/socket/notificationSocket";
 
 function App() {
 
   const {toast} = useToast();
 
   useEffect(() => {
-    socketService.setupSocketConnection(toast);
+    socketService.setupSocketConnection();
+    NotificationSocket.start(toast);
     return () => {
       socketService.disconnect();
     };
