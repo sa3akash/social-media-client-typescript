@@ -6,11 +6,12 @@ import { FC, useState } from "react";
 import AddConversationDialog from "@/components/messanger/item/AddConversationDialog";
 import { Button } from "@/components/ui/button";
 
-interface Props {
-}
+interface Props {}
 
 const MessangerSidebar: FC<Props> = () => {
-  const { conversations,selectedConversation } = useSelector((state: RootState) => state.messanger);
+  const { conversations, selectedConversation } = useSelector(
+    (state: RootState) => state.messanger
+  );
   const [openSearchModel, setOpenSearchModel] = useState(false);
 
   return (
@@ -20,19 +21,24 @@ const MessangerSidebar: FC<Props> = () => {
           <h4 className="text-[18px] font-semibold leading-6 tracking-[0.1px]">
             Message
           </h4>
-          <Button onClick={()=>setOpenSearchModel(true)}>New</Button>
+          <Button onClick={() => setOpenSearchModel(true)}>New</Button>
         </div>
         <div className="flex flex-col gap-2 px-2 py-2">
           {conversations?.map((item, index) => (
             <SingleConversationItem
               key={index}
               item={item}
-              active={selectedConversation?.conversationId === item.conversationId} 
+              active={
+                selectedConversation?.conversationId === item.conversationId
+              }
             />
           ))}
         </div>
       </ScrollArea>
-      <AddConversationDialog openSearchModel={openSearchModel} setOpenSearchModel={setOpenSearchModel}/>
+      <AddConversationDialog
+        openSearchModel={openSearchModel}
+        setOpenSearchModel={setOpenSearchModel}
+      />
     </div>
   );
 };

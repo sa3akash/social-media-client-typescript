@@ -17,21 +17,29 @@ export class ChatSocket {
       const user = store.getState().auth.user;
       const messages = store.getState().messanger.messages;
 
-      // console.log('message data',data)
       if (user?.authId === data.senderId || user?.authId === data.receiverId) {
         store.dispatch(setMessages([...messages, data]));
       }
     });
     socketService.socket.on("chat-list", (data: IMessageData) => {
-      // const user = store.getState().auth.user;
+      const user = store.getState().auth.user;
       const conversation = store.getState().messanger.conversations;
 
-      // if (user?.authId === data.senderId || user?.authId === data.receiverId) {
+      if (user?.authId === data.senderId || user?.authId === data.receiverId) {
       const filterData = conversation.filter(
         (c) => c.conversationId !== data.conversationId,
       );
       store.dispatch(setConversation([data, ...filterData]));
-      // }
+      }
     });
+
+  }
+
+  static JoinRoomEmit(senderId:string,receiverId:string){
+    socketService.socket.emit('join-room',{senderId,receiverId})
+  }
+
+  static JoinRoomOff(){
+    socketService.socket.off('join-room')
   }
 }
