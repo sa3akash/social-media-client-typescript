@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import SingleMessage from "@/components/messanger/item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 import { useEffect, useRef, useState } from "react";
-import mainApi, { markReadMessages } from "@/services/http";
+import mainApi from "@/services/http";
 import { setMessages } from "@/store/reducers/MessangerReducer";
+import { useSocket } from "@/hooks/useSocket";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -18,7 +19,7 @@ const MessangerBody = () => {
   const [loading, setLoading] = useState(false);
 
   const simpleRef = useRef<HTMLDivElement>(null);
-
+  const { socket } = useSocket();
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -41,8 +42,23 @@ const MessangerBody = () => {
   }, [messages]);
 
   useEffect(() => {
-    markReadMessages(`${selectedConversation?.conversationId}`);
-  }, [selectedConversation?.conversationId]);
+    const otherMessage =
+      messages.length &&
+      messages[messages.length - 1].senderId !== user?.authId;
+    if (otherMessage) {
+      socket?.emit("markAsMessage", {
+        conversationId: selectedConversation?.conversationId,
+        messageSenderId: selectedConversation?.user.authId,
+        messageSeenId: user?.authId,
+      });
+    }
+  }, [
+    messages,
+    selectedConversation?.conversationId,
+    selectedConversation?.user.authId,
+    socket,
+    user?.authId,
+  ]);
 
   return (
     <div className="flex flex-col w-full h-full">

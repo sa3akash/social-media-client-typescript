@@ -35,32 +35,22 @@ export class ChatSocket {
       store.dispatch(setConversation([data, ...filterData]));
     });
 
-    socket.on("chat-list-mark", (data: IMessageData) => {
-      const conversation = store.getState().messanger.conversations;
-      const index = conversation.findIndex(
-        (c) => c.conversationId === data.conversationId
+    socket.on("chat-mark", (data) => {
+      const { conversations, selectedConversation, messages } =
+        store.getState().messanger;
+
+      const updatedConversations = conversations.map((c) =>
+        c.conversationId === data.conversationId ? { ...c, isRead: true } : c
       );
-      if (index !== -1) {
-        const updatedConversation = {
-          ...conversation[index],
-          ...data,
-        };
 
-        const updatedConversations = [
-          ...conversation.slice(0, index),
-          updatedConversation,
-          ...conversation.slice(index + 1),
-        ];
+      store.dispatch(setConversation(updatedConversations));
 
-        store.dispatch(setConversation(updatedConversations));
+      if (data.conversationId === selectedConversation?.conversationId) {
+        const updatedMessges = messages.map((m) =>
+          !m.isRead ? { ...m, isRead: true } : m
+        );
+        store.dispatch(setMessages(updatedMessges));
       }
     });
-
-    // socket.on("message-mark", (data: IMessageData) => {
-    //   const messages = store.getState().messanger.messages;
-    //   const updated = messages.filter((c) => c._id !== data._id);
-
-    //   store.dispatch(setMessages([...updated, data]));
-    // });
   }
 }

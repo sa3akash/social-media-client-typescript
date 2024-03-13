@@ -26,8 +26,7 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
     <div
       className={cn(
         "flex items-center px-4 gap-2 rounded-md w-full h-[74px] cursor-pointer",
-        active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : "hover:bg-[#292932]",
-
+        active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : "hover:bg-[#292932]"
       )}
       onClick={() => {
         // setSearchParams({ conversationId: item.conversationId })
@@ -70,22 +69,40 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
           <span
             className={cn(
               "roboto text-[14px] tracking-[0.1px] text-[#92929D]",
-              !item.isRead && !active && item.senderId !== user?.authId ? "text-[#1E75FF] font-bold" : "text-[#92929D]",
-              active && "text-primary!",
+              !item.isRead && !active && item.senderId !== user?.authId
+                ? "text-[#1E75FF] font-bold"
+                : "text-[#92929D]",
+              active && "text-primary!"
             )}
           >
             {item?.body.length > 20
               ? item.body.substring(0, 20) + " ..."
               : item.body}
           </span>
-          {item.isRead ? (
-            <CheckCheck className={cn("w-5",
-            !item.isRead && !active && item.senderId !== user?.authId && "text-[#1E75FF]")} 
-            />
-          ) : (
-            <Check className={cn("w-5",
-            !item.isRead && !active && item.senderId !== user?.authId && "text-[#1E75FF]")}
-            />
+          {item.senderId === user?.authId && (
+            <>
+              {item.isRead ? (
+                <CheckCheck
+                  className={cn(
+                    "w-5",
+                    !item.isRead &&
+                      !active &&
+                      item.senderId !== user?.authId &&
+                      "text-[#1E75FF]"
+                  )}
+                />
+              ) : (
+                <Check
+                  className={cn(
+                    "w-5",
+                    !item.isRead &&
+                      !active &&
+                      item.senderId !== user?.authId &&
+                      "text-[#1E75FF]"
+                  )}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

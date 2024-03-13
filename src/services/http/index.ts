@@ -52,7 +52,6 @@ export const sendMessageJson = (data: ISendMessageDataJson) =>
   api.post("/chat/message", data);
 export const getConversations = () => api.get("/chat/conversations");
 export const getMessages = () => api.get("/chat/conversations");
-export const markReadMessages = (conversationId:string) => api.put(`/chat/messages/mark-read/${conversationId}`,{});
 
 // form data
 export const createPost = (data: FormData) =>
