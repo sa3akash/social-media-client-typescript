@@ -39,7 +39,7 @@ const SingleFriendItem = React.forwardRef(
               className="!w-[60px] !h-[60px] md:!w-[90px] md:!h-[90px] object-cover rounded-full border-[4px] border-white"
               avatarColor={item.avatarColor}
               authId={item._id}
-              indicator="md:right-3 md:w-3 md:h-3"
+              indicator="md:right-2 w-4 h-4 md:w-5 md:h-5 border-[3px]"
             />
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">

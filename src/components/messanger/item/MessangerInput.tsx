@@ -33,16 +33,17 @@ const MessangerInput: FC<Props> = () => {
   const { toast } = useToast();
 
   const sendMessage = () => {
-    if (messageValue.length > 0) {
-      api.sendMessageJsonCall(
-        {
-          body: messageValue,
-          receiverId: selectedConversation?.receiverId as string,
-          conversationId: selectedConversation?.conversationId,
-          gifUrl: selectedConversation?.gifUrl,
-        },
-        toast
-      );
+    if (messageValue.length > 0 && user) {
+
+      const data = {
+        body: messageValue,
+        receiverId: user?.authId === selectedConversation?.senderId ? selectedConversation?.receiverId : selectedConversation?.senderId as string,
+        conversationId: selectedConversation?.conversationId,
+        gifUrl: selectedConversation?.gifUrl,
+      }
+
+
+      api.sendMessageJsonCall(data,toast);
     }
     setMessageValue("");
     setGiphyUrl("");

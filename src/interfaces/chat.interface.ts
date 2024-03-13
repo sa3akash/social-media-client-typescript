@@ -5,8 +5,7 @@ import { IReactionDoc } from "@/interfaces/reaction.interface";
 export interface IMessageData {
   _id: string;
   conversationId: string;
-  senderObject: IUserDoc;
-  receiverObject: IUserDoc;
+  user: IUserDoc;
   receiverId: string;
   senderId: string;
   body: string;

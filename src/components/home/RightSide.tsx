@@ -5,7 +5,7 @@ import SearchIcon from "@/assets/images/ic_Search.svg";
 
 const RightSide = () => {
   return (
-    <div className="h-[calc(100%-80px)] flex flex-col justify-between">
+    <div className="h-full flex flex-col justify-between">
       <ScrollArea className="flex-1 w-full">
         <div className="w-full h-full mt-0 mb-4">
           <RightSideFriends type="page" data={userData} title="Your Pages" />

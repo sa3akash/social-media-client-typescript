@@ -1,35 +1,27 @@
- 
-import { Socket, io } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { PostSocket } from "@/services/socket/postSocket";
 import { FollowSocket } from "@/services/socket/followSocket";
 import { ChatSocket } from "@/services/socket/chatSocket";
 import { store } from "@/store";
 import { setOnlineUsers } from "@/store/reducers/AuthReducer";
 
-class SocketService {
+export class SocketService {
   socket: Socket;
 
-  constructor() {
-    this.socket = io("http://localhost:5500", {
-      path: "/socket.io",
-      transports: ["websocket"],
-      secure: true,
-      query: {
-        authId: store.getState().auth.user?.authId,
-      },
-    });
+  constructor(socket: Socket) {
+    this.socket = socket;
   }
   // start connection
   public setupSocketConnection() {
     this.socketConnectionEvents();
-    PostSocket.start();
-    FollowSocket.start();
-    ChatSocket.init();
+    PostSocket.start(this.socket);
+    FollowSocket.start(this.socket);
+    ChatSocket.init(this.socket);
   }
 
   // disconnect connection
   public disconnect() {
-    this.socket.disconnect();
+    this.socket.close();
     console.log("socket disconnected");
   }
 
@@ -53,5 +45,3 @@ class SocketService {
     });
   }
 }
-
-export const socketService: SocketService = new SocketService();

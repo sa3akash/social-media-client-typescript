@@ -34,7 +34,7 @@ const Videos = () => {
 
   return (
     <div className="relative w-full h-full">
-      <div className="absolute top-0 left-0 w-full h-[90%] flex items-center justify-center z-40">
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-40">
         <video
           ref={videoRef}
           width={464}

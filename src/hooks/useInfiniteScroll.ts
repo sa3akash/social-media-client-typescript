@@ -29,6 +29,7 @@ export default function useInfiniteScroll(
   // Create the IntersectionObserver outside the component
   const observer = useRef<IntersectionObserver | null>(null);
 
+
   // Inside your component
   const lastElementRef = useCallback(
     (node: HTMLDivElement) => {

@@ -22,17 +22,12 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
   const won = user?.authId === item.senderId;
   const dispatch: AppDispatch = useDispatch();
 
-  const userFriend =
-    user?.authId !== item.senderId ? item.senderObject : item.receiverObject;
-
   return (
     <div
       className={cn(
         "flex items-center px-4 gap-2 rounded-md w-full h-[74px] cursor-pointer",
         active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : "hover:bg-[#292932]",
-        user?.authId !== item.senderId
-          ? "border-r-2 border-[#1E75FF]"
-          : "border-r-2 border-transparent"
+
       )}
       onClick={() => {
         // setSearchParams({ conversationId: item.conversationId })
@@ -40,28 +35,27 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
           _id: item._id,
           body: item.body,
           isRead: item.isRead,
-          senderId: user?.authId,
-          receiverId: userFriend.authId,
-          receiverObject: userFriend,
+          senderId: item?.user.authId,
+          receiverId: item.senderId,
+          user: item.user,
           conversationId: item.conversationId,
         };
 
         dispatch(setSelectedConversation(data as IMessageData));
-
       }}
     >
       <UserAvater
-        src={userFriend?.profilePicture}
-        name={userFriend?.name as NameDoc}
+        src={item.user?.profilePicture}
+        name={item.user?.name as NameDoc}
         className="w-[36px] h-[36px] md:w-[36px] md:h-[36px]"
-        avatarColor={userFriend?.avatarColor}
-        authId={userFriend?.authId}
+        avatarColor={item.user?.avatarColor}
+        authId={item.user?.authId}
         indicator="bottom-5"
       />
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <h4 className="font-semibold text-[14px] tracking-[0.1px] capitalize">
-            {userFriend?.name.first} {userFriend?.name.last}
+            {item.user?.name.first} {item.user?.name.last}
           </h4>
           <span
             className={cn(
@@ -76,17 +70,22 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
           <span
             className={cn(
               "roboto text-[14px] tracking-[0.1px] text-[#92929D]",
-              active ? "text-primary" : "text-[#92929D]"
+              !item.isRead && !active && item.senderId !== user?.authId ? "text-[#1E75FF] font-bold" : "text-[#92929D]",
+              active && "text-primary!",
             )}
           >
-            {item?.body.length > 25
-              ? item.body.substring(0, 25) + "..."
+            {item?.body.length > 20
+              ? item.body.substring(0, 20) + " ..."
               : item.body}
           </span>
           {item.isRead ? (
-            <CheckCheck className="w-5" />
+            <CheckCheck className={cn("w-5",
+            !item.isRead && !active && item.senderId !== user?.authId && "text-[#1E75FF]")} 
+            />
           ) : (
-            <Check className="w-5" />
+            <Check className={cn("w-5",
+            !item.isRead && !active && item.senderId !== user?.authId && "text-[#1E75FF]")}
+            />
           )}
         </div>
       </div>

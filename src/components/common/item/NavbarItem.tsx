@@ -25,6 +25,8 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
   const logout = () => {
     dispatch(setAuth(null));
     dispatch(resetNotifications());
+    localStorage.clear()
+    window.location.reload()
   };
 
   return (

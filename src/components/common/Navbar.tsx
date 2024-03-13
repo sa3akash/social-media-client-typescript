@@ -22,7 +22,6 @@ import { RootState } from "@/store";
 import { ModeToggle } from "@/components/common/ThemeToggle";
 import Logo from '@/assets/images/Logo.svg';
 import { api } from "@/services/http/api";
-import { socketService } from "@/services/socket/socket";
 
 const Navbar = () => {
   const { user } = useSelector((store: RootState) => store.auth);
@@ -34,7 +33,6 @@ const Navbar = () => {
     api.getUserLoginData()
     api.getUserReactions();
     api.getNotification();
-    socketService.socket.emit("setup", {authId: user?.authId})
   },[user?.authId])
 
 

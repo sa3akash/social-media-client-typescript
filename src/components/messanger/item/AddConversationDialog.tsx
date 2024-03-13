@@ -30,9 +30,6 @@ const AddConversationDialog: React.FC<Props> = ({
   const [searchName, setSearchName] = useState("");
   const searchValue = useDebounce(searchName, 1000);
 
-  // useEffect(() => {
-  //   console.log(searchValue);
-  // }, [searchValue]);
 
   const { loading } = useInfiniteScroll(
     `/users/${searchValue}`,
@@ -139,24 +136,23 @@ const SingleUser = ({
       isRead: false,
       receiverId: fUser.authId,
       senderId: user.authId,
-      senderObject: {
-        authId: user.authId,
-        name: user.name,
-        profilePicture: user.profilePicture,
-        avatarColor: user.avatarColor,
-        coverPicture: user.coverPicture,
-        uId: user.uId,
-        username: user.username,
-        email: user.email,
-        quote: user.quote,
-        createdAt: user.createdAt,
+      user: {
+        authId: fUser.authId,
+        name: fUser.name,
+        profilePicture: fUser.profilePicture,
+        avatarColor: fUser.avatarColor,
+        coverPicture: fUser.coverPicture,
+        uId: fUser.uId,
+        username: fUser.username,
+        email: fUser.email,
+        quote: fUser.quote,
+        createdAt: fUser.createdAt,
       },
       deleteForEveryone: false,
       deleteForMe: false,
       files: [],
       gifUrl: "",
       reaction: [],
-      receiverObject: fUser,
     }
     dispatch(setSelectedConversation(find || data));
     setOpenSearchModel(false);

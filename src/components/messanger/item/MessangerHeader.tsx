@@ -17,20 +17,20 @@ const MessangerHeader = () => {
       <div className="flex items-center gap-2">
         {selectedConversation?.receiverId && (
           <UserAvater
-            src={selectedConversation.receiverObject?.profilePicture}
-            name={selectedConversation.receiverObject?.name as NameDoc}
+            src={selectedConversation.user?.profilePicture}
+            name={selectedConversation.user?.name as NameDoc}
             className="min-w-[36px] min-h-[36px]"
-            avatarColor={selectedConversation.receiverObject?.avatarColor}
-            authId={selectedConversation.receiverObject.authId}
+            avatarColor={selectedConversation.user?.avatarColor}
+            authId={selectedConversation.user.authId}
           />
         )}
         <h4 className="font-semibold text-[18px] tracking-[0.1px] capitalize">
-          {selectedConversation?.receiverObject?.name.first}{" "}
-          {selectedConversation?.receiverObject?.name.last}
+          {selectedConversation?.user?.name.first}{" "}
+          {selectedConversation?.user?.name.last}
         </h4>
         <div className="w-[2px] h-[25px] bg-[#92929D] rounded-md" />
         <span className="text-[#92929D] text-[12px] roboto tracking-[0.1px]">
-          {onlineUsers.some((id) => id === selectedConversation?.receiverId)
+          {onlineUsers.some((id) => id === selectedConversation?.user.authId)
             ? "Online"
             : "Offline"}
         </span>

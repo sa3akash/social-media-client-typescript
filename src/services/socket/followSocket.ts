@@ -1,21 +1,21 @@
-import { socketService } from "@/services/socket/socket";
 import { store } from "@/store";
 import { addFollowing, removeFollowing } from "@/store/reducers/AuthReducer";
+import { Socket } from "socket.io-client";
 
 // post
 export class FollowSocket {
-  static start() {
-    FollowSocket.init();
+  static start(socket:Socket) {
+    FollowSocket.init(socket);
   }
 
-  static init() {
-    socketService.socket.on("add-follow", ({ id, to }) => {
+  static init(socket:Socket) {
+    socket.on("add-follow", ({ id, to }) => {
       const { user } = store.getState().auth;
       if (user?.authId === to) {
         store.dispatch(addFollowing({ id }));
       }
     });
-    socketService.socket.on("remove-follow", ({ id, to }) => {
+    socket.on("remove-follow", ({ id, to }) => {
       const { user } = store.getState().auth;
       if (user?.authId === to) {
         store.dispatch(removeFollowing({ id }));

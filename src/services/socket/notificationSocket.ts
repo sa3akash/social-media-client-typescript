@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { socketService } from "./socket";
 import { store } from "@/store";
 import {
   addNotification,
   deleteNotification,
   updateAsReadNotification,
 } from "@/store/reducers/NotificationReducer";
+import { Socket } from "socket.io-client";
 
 // notifications
 export class NotificationSocket {
-  static start(toast: any) {
-    NotificationSocket.addNotificationSocket(toast);
+  static start(socket:Socket,toast: any) {
+    NotificationSocket.addNotificationSocket(socket,toast);
   }
 
-  static addNotificationSocket(toast: any) {
-    socketService.socket.on("reaction-notification", (data, { userTo }) => {
+  static addNotificationSocket(socket:Socket,toast: any) {
+    socket.on("reaction-notification", (data, { userTo }) => {
       const { user } = store.getState().auth;
       if (user?.authId === userTo && data?.creator?.authId !== user?.authId) {
         store.dispatch(addNotification(data));
@@ -25,7 +25,7 @@ export class NotificationSocket {
       }
     });
 
-    socketService.socket.on(
+    socket.on(
       "insert-notification",
       (notificationData, { userTo }) => {
         // store.dispatch(updateAsReadNotification(notificationId));
@@ -36,11 +36,11 @@ export class NotificationSocket {
       },
     );
 
-    socketService.socket.on("update-notification", (notificationId: string) => {
+    socket.on("update-notification", (notificationId: string) => {
       store.dispatch(updateAsReadNotification(notificationId));
     });
 
-    socketService.socket.on("delete-notification", (notificationId: string) => {
+    socket.on("delete-notification", (notificationId: string) => {
       store.dispatch(deleteNotification(notificationId));
     });
   }
