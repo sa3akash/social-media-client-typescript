@@ -75,11 +75,13 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
               active && "text-primary!"
             )}
           >
-            {item?.body.length > 20
+            {item.body.length > 20
               ? item.body.substring(0, 20) + " ..."
               : item.body}
+
+            {/* {item.gifUrl ? "Gif" : "Image"} */}
           </span>
-          {item.senderId === user?.authId && (
+          {item.senderId === user?.authId ? (
             <>
               {item.isRead ? (
                 <CheckCheck
@@ -103,6 +105,12 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
                 />
               )}
             </>
+          ) : (
+            !item.isRead && (
+              <div className="w-[20px] h-[20px] bg-[#1E75FF] rounded-full flex items-center justify-center">
+                2
+              </div>
+            )
           )}
         </div>
       </div>

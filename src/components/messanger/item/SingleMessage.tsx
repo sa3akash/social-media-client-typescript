@@ -27,6 +27,9 @@ const SingleMessage: FC<Props> = ({
   lastMessage,
 }) => {
   const { user } = useSelector((state: RootState) => state.auth);
+  const { selectedConversation } = useSelector(
+    (state: RootState) => state.messanger
+  );
 
   return (
     <>
@@ -47,7 +50,12 @@ const SingleMessage: FC<Props> = ({
         )}
       >
         <div className="flex flex-col gap-0">
-          <div className="px-4 py-3 bg-[#292932] rounded-2xl">
+          <div
+            className={cn(
+              "px-4 py-3 bg-[#292932] rounded-2xl",
+              !item.body && "hidden"
+            )}
+          >
             <div
               className={cn(
                 "w-10 h-10 rounded-full absolute top-1 border-[4px] border-transparent cardBG items-center justify-center",
@@ -55,23 +63,27 @@ const SingleMessage: FC<Props> = ({
                 multipleMessage ? "hidden" : "flex"
               )}
             >
-              <UserAvater
-                name={
-                  wonMessage
-                    ? (user?.name as NameDoc)
-                    : (item.user?.name as NameDoc)
-                }
-                src={
-                  wonMessage ? user?.profilePicture : item.user.profilePicture
-                }
-                className="!w-[32px] !h-[32px]"
-                fallbackClassName="text-[12px]"
-                indicator="hidden"
-                avatarColor={
-                  wonMessage ? user?.avatarColor : item.user.avatarColor
-                }
-                authId={item.user?.authId}
-              />
+              {wonMessage ? (
+                <UserAvater
+                  name={user?.name as NameDoc}
+                  src={user?.profilePicture}
+                  className="!w-[32px] !h-[32px]"
+                  fallbackClassName="text-[12px]"
+                  indicator="hidden"
+                  avatarColor={user?.avatarColor}
+                  authId={user?.authId}
+                />
+              ) : (
+                <UserAvater
+                  name={selectedConversation?.user.name as NameDoc}
+                  src={selectedConversation?.user.profilePicture}
+                  className="!w-[32px] !h-[32px]"
+                  fallbackClassName="text-[12px]"
+                  indicator="hidden"
+                  avatarColor={selectedConversation?.user.avatarColor}
+                  authId={selectedConversation?.user?.authId}
+                />
+              )}
             </div>
             <p className="roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">
               {item.body}
@@ -94,9 +106,9 @@ const SingleMessage: FC<Props> = ({
             <div className="text-sm flex justify-end">
               {item.isRead ? (
                 <CheckCheck className="w-5" />
-                ) : (
-                  <Check className="w-5" />
-                )}
+              ) : (
+                <Check className="w-5" />
+              )}
             </div>
           )}
         </div>

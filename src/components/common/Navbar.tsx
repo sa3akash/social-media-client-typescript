@@ -85,6 +85,7 @@ const Navbar = () => {
                 name={user?.name as NameDoc}
                 avatarColor={user?.avatarColor}
                 authId={user?.authId}
+                indicator="hidden"
               />
               <img src={Dropdown} alt="drop" className="pointer-events-none"/>
             </div>

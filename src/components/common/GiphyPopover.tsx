@@ -1,19 +1,14 @@
-import Image from "@/components/common/Image";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import useDebounce from "@/hooks/useDebounce";
 import { GiphyUtils } from "@/services/utils/giphyUtils";
-import { AppDispatch, RootState } from "@/store";
 import { FC, ReactNode, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { setSelectedConversation } from "@/store/reducers/MessangerReducer";
-import { IMessageData } from "@/interfaces/chat.interface";
 
 interface Props {
   children: ReactNode;
@@ -26,16 +21,8 @@ const GiphyPopover: FC<Props> = ({ children,fn }) => {
   const [inputValue, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
 
-  const {selectedConversation} = useSelector((state:RootState)=>state.messanger)
-
-  const dispatch: AppDispatch = useDispatch();
-
   const handleGif = (url: string) => {
     fn(url)
-    const data = {
-        ...selectedConversation,gifUrl: url
-    }
-    dispatch(setSelectedConversation(data as IMessageData));
   };
   useEffect(() => {
     // Make API call when debouncedValue changes
@@ -72,10 +59,10 @@ const GiphyPopover: FC<Props> = ({ children,fn }) => {
                     }
                     key={index}
                   >
-                    <Image
+                    <img
                       src={item.images.original.url as string}
                       className="w-full h-full object-cover"
-                      classNameTwo="object-cover"
+                      // classNameTwo="object-cover"
                     />
                   </div>
                 )

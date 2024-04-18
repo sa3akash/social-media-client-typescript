@@ -9,12 +9,15 @@ import { useEffect, useRef, useState } from "react";
 import mainApi from "@/services/http";
 import { setMessages } from "@/store/reducers/MessangerReducer";
 import { useSocket } from "@/hooks/useSocket";
+import { X } from "lucide-react";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { messages, selectedConversation } = useSelector(
+  const { messages, selectedConversation, conversations } = useSelector(
     (state: RootState) => state.messanger
   );
+
+  const [gif, setGif] = useState<string>('');
 
   const [loading, setLoading] = useState(false);
 
@@ -53,9 +56,10 @@ const MessangerBody = () => {
       });
     }
   }, [
+    conversations,
+    dispatch,
     messages,
-    selectedConversation?.conversationId,
-    selectedConversation?.user.authId,
+    selectedConversation,
     socket,
     user?.authId,
   ]);
@@ -63,8 +67,8 @@ const MessangerBody = () => {
   return (
     <div className="flex flex-col w-full h-full">
       <MessangerHeader />
-      <div className="flex-1 flex flex-col h-full w-full justify-end">
-        <ScrollArea className="">
+      <div className="flex-1 flex flex-col h-full w-full justify-end relative">
+        <ScrollArea>
           <div className="flex flex-col gap-4 h-full p-4">
             {messages.map((message, index) => (
               <SingleMessage
@@ -87,8 +91,19 @@ const MessangerBody = () => {
           </div>
           <div ref={simpleRef}></div>
         </ScrollArea>
+        {gif && (
+          <div className="absolute bottom-0 left-0 w-full h-[150px]">
+            <div className="w-[150px] h-full relative group">
+              <img src={gif} alt="" className="w-full h-full object-cover" />
+              <X
+                className="w-5 h-5 absolute top-2 right-2 cursor-pointer z-10 hidden group-hover:block transition-all"
+                onClick={() => setGif("")}
+              />
+            </div>
+          </div>
+        )}
       </div>
-      <MessangerInput />
+      <MessangerInput setGif={setGif} gif={gif}/>
     </div>
   );
 };

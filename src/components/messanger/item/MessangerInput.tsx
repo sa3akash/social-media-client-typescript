@@ -12,15 +12,17 @@ import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
 import GiphyPopover from "@/components/common/GiphyPopover";
 
-interface Props {}
+interface Props {
+  setGif:React.Dispatch<React.SetStateAction<string>>;
+  gif:string;
+}
 
-const MessangerInput: FC<Props> = () => {
+const MessangerInput: FC<Props> = ({setGif,gif}) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { selectedConversation } = useSelector(
     (state: RootState) => state.messanger
   );
 
-  const [giphyUrl, setGiphyUrl] = useState("");
 
   const [messageValue, setMessageValue] = useState<string>("");
 
@@ -33,20 +35,18 @@ const MessangerInput: FC<Props> = () => {
   const { toast } = useToast();
 
   const sendMessage = () => {
-    if (messageValue.length > 0 && user) {
-
+    if (messageValue.length > 0 && user || gif) {
       const data = {
         body: messageValue,
-        receiverId: user?.authId === selectedConversation?.senderId ? selectedConversation?.receiverId : selectedConversation?.senderId as string,
+        receiverId: selectedConversation?.user.authId as string,
         conversationId: selectedConversation?.conversationId,
-        gifUrl: selectedConversation?.gifUrl,
-      }
+        gifUrl: gif,
+      };
 
-
-      api.sendMessageJsonCall(data,toast);
+      api.sendMessageJsonCall(data, toast);
+      setMessageValue("");
+      setGif("")
     }
-    setMessageValue("");
-    setGiphyUrl("");
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -76,7 +76,7 @@ const MessangerInput: FC<Props> = () => {
             <GiphyPopover
               fn={(url: string) => {
                 inputRef.current?.focus();
-                setGiphyUrl(url);
+                setGif(url)
               }}
             >
               <img
