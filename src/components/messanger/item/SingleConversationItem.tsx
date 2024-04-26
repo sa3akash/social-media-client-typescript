@@ -3,12 +3,11 @@ import { NameDoc } from "@/interfaces/auth.interface";
 import { IMessageData } from "@/interfaces/chat.interface";
 import { cn } from "@/lib/utils";
 import { timeAgo } from "@/services/utils/timeAgo";
-import { AppDispatch, RootState } from "@/store";
-import { setSelectedConversation } from "@/store/reducers/MessangerReducer";
+import { RootState } from "@/store";
 import { Check, CheckCheck } from "lucide-react";
 import { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { useSearchParams } from "react-router-dom";
+import {  useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   item: IMessageData;
@@ -17,10 +16,9 @@ interface Props {
 
 const SingleConversationItem: FC<Props> = ({ item, active }) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  // const [, setSearchParams] = useSearchParams();
+  const [,setSearchParams] = useSearchParams();
 
   const won = user?.authId === item.senderId;
-  const dispatch: AppDispatch = useDispatch();
 
   return (
     <div
@@ -29,18 +27,7 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
         active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : "hover:bg-[#292932]"
       )}
       onClick={() => {
-        // setSearchParams({ conversationId: item.conversationId })
-        const data = {
-          _id: item._id,
-          body: item.body,
-          isRead: item.isRead,
-          senderId: item?.user.authId,
-          receiverId: item.senderId,
-          user: item.user,
-          conversationId: item.conversationId,
-        };
-
-        dispatch(setSelectedConversation(data as IMessageData));
+        setSearchParams({ conversationId: item.conversationId,receiverId:item.user.authId });
       }}
     >
       <UserAvater

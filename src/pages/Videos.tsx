@@ -33,7 +33,7 @@ const Videos = () => {
   useVideoVisibility(videoRef);
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-[calc(100%-70px)] md:h-full">
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-40">
         <video
           ref={videoRef}
@@ -41,10 +41,12 @@ const Videos = () => {
           height={825}
           src={videoUrl}
           loop
-          controls
+          // controls
           className="flex items-center object-contain justify-center rounded-md w-[464px] h-[825px]"
           style={{ backgroundColor: bgColor ? bgColor : "#000" }}
           autoPlay
+          onDoubleClick={()=>{console.log('double click')}}
+          onClick={()=>{console.log('single click')}}
         ></video>
       </div>
       <img

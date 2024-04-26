@@ -1,24 +1,30 @@
 import MessangerBody from "@/components/messanger/MessangerBody";
 import MessangerSidebar from "@/components/messanger/MessangerSidebar";
+import { cn } from "@/lib/utils";
 import { api } from "@/services/http/api";
-import { RootState } from "@/store";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+
 
 const MessangerPage = () => {
   useEffect(() => {
     api.getConversationCall()
   }, []);
 
-  const {selectedConversation} = useSelector((state:RootState)=>state.messanger)
+
+  const [searchParams] = useSearchParams()
+
 
   return (
     <div className="w-full h-full flex">
-      <div className="w-[350px] h-full border-r">
+      <div className={cn("w-full md:w-[350px] h-full border-r",
+      searchParams.get('receiverId') ? "hidden md:block" : ""
+      
+      )}>
         <MessangerSidebar />
       </div>
       <div className="flex-1 h-full">
-        {selectedConversation?.receiverId && <MessangerBody />}
+        {searchParams.get("receiverId") && <MessangerBody />}
       </div>
     </div>
   );

@@ -5,14 +5,17 @@ import { RootState } from "@/store";
 import { FC, useState } from "react";
 import AddConversationDialog from "@/components/messanger/item/AddConversationDialog";
 import { Button } from "@/components/ui/button";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {}
 
 const MessangerSidebar: FC<Props> = () => {
-  const { conversations, selectedConversation } = useSelector(
+  const { conversations } = useSelector(
     (state: RootState) => state.messanger
   );
   const [openSearchModel, setOpenSearchModel] = useState(false);
+  const [searchParams] = useSearchParams()
+
 
   return (
     <div className="w-full h-full ">
@@ -29,7 +32,7 @@ const MessangerSidebar: FC<Props> = () => {
               key={index}
               item={item}
               active={
-                selectedConversation?.conversationId === item.conversationId
+                searchParams.get("receiverId") === item.user.authId
               }
             />
           ))}

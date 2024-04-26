@@ -6,14 +6,15 @@ import {
 } from "@/components/ui/dialog";
 import { AppDispatch, RootState } from "@/store";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import SearchIcon from "@/assets/images/ic_Search.svg";
 import { IFollowerDoc, IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import useDebounce from "@/hooks/useDebounce";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { Loader2 } from "lucide-react";
 import { X } from "lucide-react";
-import { setSelectedConversation } from "@/store/reducers/MessangerReducer";
+import { useSearchParams } from "react-router-dom";
+import { setMessages } from "@/store/reducers/MessangerReducer";
 
 interface Props {
   openSearchModel: boolean;
@@ -54,7 +55,6 @@ const AddConversationDialog: React.FC<Props> = ({
               avatarColor={user?.avatarColor}
               authId={user?.authId}
               indicator='hidden'
-
             />
             <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background select-none items-center gap-2">
               <img
@@ -96,7 +96,6 @@ const AddConversationDialog: React.FC<Props> = ({
                     authId: fUser._id,
                     ...fUser
                   }}
-                  user={user}
                   key={index}
                   setOpenSearchModel={setOpenSearchModel}
                 />
@@ -113,48 +112,24 @@ const AddConversationDialog: React.FC<Props> = ({
 export default AddConversationDialog;
 
 const SingleUser = ({
-  user,
   fUser,
-
   setOpenSearchModel,
 }: {
   fUser: IUserDoc;
-  user: IUserDoc;
   setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const dispatch: AppDispatch = useDispatch();
-  const {conversations} = useSelector((state:RootState)=>state.messanger)
+  const {conversations} = useSelector((state:RootState)=>state.messanger);
+  const [,setSearchParams] = useSearchParams()
+  const dispatch:AppDispatch = useDispatch()
 
   const handleSelectUser = () => {
     const find = conversations.find(con=>con.senderId === fUser.authId || con.receiverId === fUser.authId)
-
-    const data = {
-      _id: "",
-      body: "",
-      conversationId: "",
-      createdAt: `${new Date()}`,
-      isRead: false,
-      receiverId: fUser.authId,
-      senderId: user.authId,
-      user: {
-        authId: fUser.authId,
-        name: fUser.name,
-        profilePicture: fUser.profilePicture,
-        avatarColor: fUser.avatarColor,
-        coverPicture: fUser.coverPicture,
-        uId: fUser.uId,
-        username: fUser.username,
-        email: fUser.email,
-        quote: fUser.quote,
-        createdAt: fUser.createdAt,
-      },
-      deleteForEveryone: false,
-      deleteForMe: false,
-      files: [],
-      gifUrl: "",
-      reaction: [],
+    if(find){
+      setSearchParams({conversationId:find.conversationId,receiverId:find.user.authId})
+    }else{
+      setSearchParams({conversationId:'',receiverId:fUser.authId})
+      dispatch(setMessages([]))
     }
-    dispatch(setSelectedConversation(find || data));
     setOpenSearchModel(false);
   };
 

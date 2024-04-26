@@ -1,0 +1,56 @@
+import React, { useState, useRef } from 'react';
+
+const VideoPlayer = ({ videoUrl }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const videoRef = useRef(null);
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleStop = () => {
+    videoRef.current.pause();
+    setCurrentTime(0);
+  };
+
+  const handleLike = () => setIsLiked(!isLiked);
+
+  const handleProgress = () => {
+    setCurrentTime(videoRef.current.currentTime);
+  };
+
+  const handleLoadedMetadata = () => {
+    setDuration(videoRef.current.duration);
+  };
+
+  return (
+    <div className="video-player">
+      <video
+        ref={videoRef}
+        src={videoUrl}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onTimeUpdate={handleProgress}
+        onLoadedMetadata={handleLoadedMetadata}
+      />
+      <div className="controls">
+        <button onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
+        <button onClick={handleStop}>Stop</button>
+        <button onClick={handleLike} className={isLiked ? 'liked' : ''}>
+          Like
+        </button>
+        <progress value={currentTime} max={duration} />
+      </div>
+    </div>
+  );
+};
+
+export default VideoPlayer;

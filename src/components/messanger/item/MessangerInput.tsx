@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
 import GiphyPopover from "@/components/common/GiphyPopover";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   setGif:React.Dispatch<React.SetStateAction<string>>;
@@ -19,10 +20,6 @@ interface Props {
 
 const MessangerInput: FC<Props> = ({setGif,gif}) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { selectedConversation } = useSelector(
-    (state: RootState) => state.messanger
-  );
-
 
   const [messageValue, setMessageValue] = useState<string>("");
 
@@ -34,12 +31,14 @@ const MessangerInput: FC<Props> = ({setGif,gif}) => {
 
   const { toast } = useToast();
 
+  const [searchParam] = useSearchParams()
+
   const sendMessage = () => {
     if (messageValue.length > 0 && user || gif) {
       const data = {
         body: messageValue,
-        receiverId: selectedConversation?.user.authId as string,
-        conversationId: selectedConversation?.conversationId,
+        receiverId: searchParam.get("receiverId") as string,
+        conversationId: searchParam.get("conversationId") as string,
         gifUrl: gif,
       };
 

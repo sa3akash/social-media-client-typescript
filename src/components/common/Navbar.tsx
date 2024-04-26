@@ -55,6 +55,7 @@ const Navbar = () => {
                   name={user?.name as NameDoc}
                   avatarColor={user?.avatarColor}
                   authId={user?.authId}
+                  indicator="hidden"
                 />
               </NavbarItem>
             </div>

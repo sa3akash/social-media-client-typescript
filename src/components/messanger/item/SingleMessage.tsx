@@ -27,9 +27,6 @@ const SingleMessage: FC<Props> = ({
   lastMessage,
 }) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { selectedConversation } = useSelector(
-    (state: RootState) => state.messanger
-  );
 
   return (
     <>
@@ -75,13 +72,13 @@ const SingleMessage: FC<Props> = ({
                 />
               ) : (
                 <UserAvater
-                  name={selectedConversation?.user.name as NameDoc}
-                  src={selectedConversation?.user.profilePicture}
+                  name={item.user.name as NameDoc}
+                  src={item.user.profilePicture}
                   className="!w-[32px] !h-[32px]"
                   fallbackClassName="text-[12px]"
                   indicator="hidden"
-                  avatarColor={selectedConversation?.user.avatarColor}
-                  authId={selectedConversation?.user?.authId}
+                  avatarColor={item.user.avatarColor}
+                  authId={item.user?.authId}
                 />
               )}
             </div>
