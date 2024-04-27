@@ -1,11 +1,17 @@
 import CoverImageAndProfileImage from "@/components/profile/item/CoverImageAndProfileImage";
 import SinglePostInfo from "@/components/profile/item/SinglePostInfo";
+import { IUserDoc } from "@/interfaces/auth.interface";
+import React from "react";
 
-const ProfileBar = () => {
+interface Props {
+  user:IUserDoc
+}
+
+const ProfileBar:React.FC<Props> = ({user}) => {
   return (
     <div className="w-full md:rounded-lg relative">
       <div className="cardBG w-full xl:w-full md:mx-auto h-[357px] md:h-[231px]">
-        <CoverImageAndProfileImage />
+        <CoverImageAndProfileImage user={user}/>
       </div>
 
       <div className="cardBG w-full px-4 flex items-center justify-center gap-x-2 xl:justify-end xl:pr-6">

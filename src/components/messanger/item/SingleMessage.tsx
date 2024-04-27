@@ -86,6 +86,7 @@ const SingleMessage: FC<Props> = ({
               {item.body}
             </p>
           </div>
+
           {item.files.length > 0 && (
             <div className="grid gap-1 grid-cols-1 lg:grid-cols-3">
               {item.files.map((f, i) => (

@@ -7,8 +7,14 @@ import AudioCallIcon from "@/assets/images/call/ic_Audio_Call.svg";
 import MoreIcon from "@/assets/images/call/ic_more.svg";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import React from "react";
 
-const MessangerHeader = () => {
+interface Props {
+  setOpenCall: React.Dispatch<React.SetStateAction<string>>;
+  
+}
+
+const MessangerHeader:React.FC<Props> = ({setOpenCall}) => {
   const { messages } = useSelector((state: RootState) => state.messanger);
   const { onlineUsers } = useSelector((state: RootState) => state.auth);
 
@@ -37,14 +43,14 @@ const MessangerHeader = () => {
         </span>
       </div>
       <div className="flex items-center gap-4">
-        <button>
+        <button onClick={()=>setOpenCall(prev=> !prev ? "video" : prev === "audio" ? "video" : "")}>
           <img
             src={VideoCallIcon}
             alt="videoCall"
             className="pointer-events-none"
           />
         </button>
-        <button>
+        <button onClick={()=>setOpenCall(prev=> !prev ? "audio" : prev === "video" ? "audio" : "")}>
           <img
             src={AudioCallIcon}
             alt="audioCall"

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { Separator } from "@/components/ui/separator";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
@@ -8,8 +8,13 @@ import DateIcon from "@/assets/images/ic_date.svg";
 import WorkingIcon from "@/assets/images/ic_Working.svg";
 import RelationShipIcon from "@/assets/images/ic_relationship.svg";
 import { cn } from "@/lib/utils";
+import { IFullUserDoc } from "@/interfaces/auth.interface";
 
-const AboutMeCard = () => {
+interface Props {
+  user: IFullUserDoc
+}
+
+const AboutMeCard:React.FC<Props> = ({user}) => {
   const docRef = useRef(null);
 
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
@@ -30,13 +35,13 @@ const AboutMeCard = () => {
       </div>
       <Separator />
       <div className="hidden md:block px-4 py-4 w-full roboto text-[14px] tracking-[0.1px]">
-        “Pushing pixels and experiences in digital products for Sebostudio”
+        {user.quote || `“Pushing pixels and experiences in digital products for Sebostudio”`}
       </div>
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full gap-4">
         <div className="flex flex-col justify-start cursor-pointer w-full gap-8 2xl:gap-4">
-          <SingleItem icon={LocationIcon} text="Yogyakarta, ID" />
+          {user.address.city && <SingleItem icon={LocationIcon} text={user.address.local + "," + user.address.city+","+user.address.country+","+ user.address.street+","+user.address.zipcode} />}
           <SingleItem icon={WebsiteIcon} text="dribbble.com/fawait" />
           <SingleItem icon={DateIcon} text="Joined June 2012" />
           <SingleItem icon={WorkingIcon} text="Working at Sebo Studio" />

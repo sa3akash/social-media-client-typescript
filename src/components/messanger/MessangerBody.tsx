@@ -7,28 +7,40 @@ import SingleMessage from "@/components/messanger/item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 import { useEffect, useRef, useState } from "react";
 import mainApi from "@/services/http";
-import { setConversation, setMessages } from "@/store/reducers/MessangerReducer";
+import {
+  setConversation,
+  setMessages,
+} from "@/store/reducers/MessangerReducer";
 import { useSocket } from "@/hooks/useSocket";
 import { X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import CallingAudioVideo from "@/components/messanger/item/CallingAudioVideo";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { messages, conversations } = useSelector(
     (state: RootState) => state.messanger
   );
-  const [searchParams] = useSearchParams()
-  const conversationId = searchParams.get("conversationId")
-  const receiverId = searchParams.get("receiverId")
 
-  const [gif, setGif] = useState<string>('');
+  const [openCall,setOpenCall] = useState('')
+
+  const [searchParams] = useSearchParams();
+  const conversationId = searchParams.get("conversationId");
+  const receiverId = searchParams.get("receiverId");
+
+  const [gif, setGif] = useState<string>("");
 
   const [loading, setLoading] = useState(false);
+
+  console.log(loading);
 
   const simpleRef = useRef<HTMLDivElement>(null);
   const { socket } = useSocket();
 
   const dispatch: AppDispatch = useDispatch();
+
+  const chatRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -48,7 +60,6 @@ const MessangerBody = () => {
     simpleRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
   useEffect(() => {
     const otherMessage =
       messages.length &&
@@ -61,15 +72,12 @@ const MessangerBody = () => {
       });
     }
     return () => {
-      socket?.off("markAsMessage")
-    }
+      socket?.off("markAsMessage");
+    };
   }, [conversationId, messages, receiverId, socket, user?.authId]);
 
-
-
-  useEffect(()=>{
+  useEffect(() => {
     socket?.on("chat-mark", (data) => {
-
       const updatedConversations = conversations.map((c) =>
         c.conversationId === data.conversationId ? { ...c, isRead: true } : c
       );
@@ -84,16 +92,17 @@ const MessangerBody = () => {
       }
     });
 
-    return ()=>{
-      socket?.off("chat-mark")
-    }
-  },[conversationId, conversations, dispatch, messages, socket])
+    return () => {
+      socket?.off("chat-mark");
+    };
+  }, [conversationId, conversations, dispatch, messages, socket]);
 
   return (
     <div className="flex flex-col w-full h-full">
-      <MessangerHeader />
+      <MessangerHeader setOpenCall={setOpenCall}/>
       <div className="flex-1 flex flex-col h-full w-full justify-end relative">
-        <ScrollArea>
+        {/* {receiverId && <CallingAudioVideo openCall={openCall}/>} */}
+        <ScrollArea ref={chatRef}>
           <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
             {messages.map((message, index) => (
               <SingleMessage
@@ -114,6 +123,8 @@ const MessangerBody = () => {
               />
             ))}
           </div>
+          <div ref={bottomRef} />
+
           <div ref={simpleRef}></div>
         </ScrollArea>
         {gif && (
@@ -128,7 +139,7 @@ const MessangerBody = () => {
           </div>
         )}
       </div>
-      <MessangerInput setGif={setGif} gif={gif}/>
+      <MessangerInput setGif={setGif} gif={gif} />
     </div>
   );
 };

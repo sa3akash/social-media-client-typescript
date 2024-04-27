@@ -17,7 +17,7 @@
 // }
 
 // const useFetchMessageAll = (
-//   conversationId: string,
+//   conversationId: string | null,
 //   // initialMessages: IMessageData[] = []
 // ): InfiniteScrollHook => {
 //   const [messages, setMessages] = useState<IMessageData[]>([]);
@@ -35,6 +35,7 @@
 //   }, [conversationId]);
 
 //   const fetchMoreMessages = useCallback(() => {
+//     if(!conversationId) return;
 //     setLoading(true);
 //     api
 //       .get(`/chat/messagess/${conversationId}?page=${pageNumber}`)
@@ -116,9 +117,11 @@ interface InfiniteScrollHook {
   loading: boolean;
 }
 
-const useFetchMessageAll = (conversationId: string): InfiniteScrollHook => {
+const useFetchMessageAll = (conversationId: string | null): InfiniteScrollHook => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<IMessageData[]>([]);
+
+  
 
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
@@ -130,8 +133,32 @@ const useFetchMessageAll = (conversationId: string): InfiniteScrollHook => {
     setLoading(false)
   },[conversationId])
 
+
+  useEffect(()=>{
+    const handleScroll = (e) => {
+      console.log(e)
+      if (
+        containerRef.current && containerRef.current.scrollTop === 0) {
+        // setPageNumber((prev) => prev + 1);
+        console.log('run main')
+      }
+    };
+
+    const currentContainerRef = containerRef.current;
+    if (currentContainerRef) {
+      currentContainerRef.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (currentContainerRef) {
+        currentContainerRef.removeEventListener("scroll", handleScroll);
+      }
+    };
+  },[])
+
   useEffect(() => {
     setLoading(true);
+    if(!conversationId) return;
 
     api
       .get(`/chat/messagess/${conversationId}?page=${pageNumber}`)
@@ -148,13 +175,15 @@ const useFetchMessageAll = (conversationId: string): InfiniteScrollHook => {
 
   useEffect(() => {
     const handleScroll = () => {
+      console.log('run')
       if (
         containerRef.current &&
         containerRef.current.scrollTop === 0 &&
         !loading &&
         totalPages >= pageNumber
       ) {
-        setPageNumber((prev) => prev + 1);
+        // setPageNumber((prev) => prev + 1);
+        console.log('run main')
       }
     };
 
@@ -168,14 +197,13 @@ const useFetchMessageAll = (conversationId: string): InfiniteScrollHook => {
         currentContainerRef.removeEventListener("scroll", handleScroll);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+  }, [loading, pageNumber, totalPages]);
 
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
       container.scrollTop = container.scrollHeight;
-      // container.scrollIntoView({behavior:"smooth"})
+      container.scrollIntoView({behavior:"smooth"})
     }
   }, [messages]);
 

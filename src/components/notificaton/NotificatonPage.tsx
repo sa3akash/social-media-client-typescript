@@ -25,6 +25,9 @@ const NotificatonPage = () => {
     }
   );
 
+
+  
+
   return initialLoad ? (
     <NotificationSkeleton />
   ) : (
