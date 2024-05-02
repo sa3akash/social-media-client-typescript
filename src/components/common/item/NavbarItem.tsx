@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
 import { resetNotifications } from "@/store/reducers/NotificationReducer";
+import { PageURL } from "@/services/utils/pageUrl";
 
 interface Props {
   children: React.ReactNode;
@@ -36,6 +37,10 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
         <MenubarContent>
           <MenubarItem onClick={() => navigate(`/u/${user?.authId}`)}>
             Profile
+          </MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem onClick={() => navigate(`${PageURL.Settings}?tab=profile`)}>
+            Settings
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem onClick={logout}>Logout</MenubarItem>

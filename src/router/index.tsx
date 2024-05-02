@@ -74,7 +74,7 @@ const Router = createBrowserRouter([
         <NotFound />
       </Suspense>
     ),
-  },
+  }
 ]);
 
 export default Router;

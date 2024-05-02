@@ -16,6 +16,7 @@ const Photos = lazy(() => import("@/pages/Photos"));
 const Messanger = lazy(() => import("@/pages/Messanger"));
 const MarketPlace = lazy(() => import("@/pages/MarketPlace"));
 const Notification = lazy(() => import("@/pages/Notification"));
+const Settings = lazy(() => import("@/pages/Settings"));
 
 const Protected = [
   {
@@ -87,6 +88,14 @@ const Protected = [
     element: (
       <Suspense fallback={<NotificationSkeleton />}>
         <Notification />
+      </Suspense>
+    ),
+  },
+  {
+    path: `${PageURL.Settings}`,
+    element: (
+      <Suspense fallback={"Loading..."}>
+        <Settings />
       </Suspense>
     ),
   },

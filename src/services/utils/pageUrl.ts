@@ -3,6 +3,7 @@ export const PageURL = {
   Register: "/register",
   Forgot: "/forgot",
   Reset: "/reset-password",
+  Settings: "/settings",
   Feed: "feed",
   Friends: "friends",
   Events: "events",
