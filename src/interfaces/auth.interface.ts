@@ -113,3 +113,13 @@ export interface IUserReactionDoc {
   postId: string;
   createdAt: string;
 }
+
+
+
+export interface StoreImagProfile {
+  profilePic: string;
+  profileRow: File | null;
+  coverPic: string;
+  coverPicRow: File | null;
+  openProfileModel:boolean;
+}

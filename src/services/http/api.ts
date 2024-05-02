@@ -27,6 +27,8 @@ import {
   followUser,
   sendMessageJson,
   getConversations,
+  updateProfileCover,
+  updateProfileImage,
 } from ".";
 import { store } from "@/store";
 import {
@@ -264,6 +266,25 @@ class Api {
     try {
       const response = await getConversations();
       store.dispatch(setConversation(response.data?.conversationList));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+  public async updateCoverImage(data:FormData): Promise<{message:string,url:string} | undefined> {
+    try {
+      const res = await updateProfileCover(data)
+      return res.data
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public async updateProfilePic(data:FormData): Promise<{message:string,url:string} | undefined> {
+    try {
+      const res = await updateProfileImage(data)
+      return res.data
     } catch (err) {
       console.log(err);
     }

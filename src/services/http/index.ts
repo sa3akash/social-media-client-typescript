@@ -60,7 +60,7 @@ export const createPost = (data: FormData) =>
       "Content-Type": "multipart/form-data",
     },
   });
-// form data
+
 export const updatePost = (postId: string, data: FormData) =>
   api.put(`/post/${postId}`, data, {
     headers: {
@@ -68,6 +68,24 @@ export const updatePost = (postId: string, data: FormData) =>
     },
   });
 
+
+export const updateProfileCover = (data: FormData) =>
+  api.put("/update-cover-picture", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export const updateProfileImage = (data: FormData) =>
+  api.put("/update-profile-picture", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+
+
+  
 // Interceptors
 let isRetry = false;
 api.interceptors.response.use(
@@ -82,7 +100,7 @@ api.interceptors.response.use(
       window.location.replace(PageURL.Login);
     }
     throw error;
-  },
+  }
 );
 
 export default api;

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
 import { cn } from "@/lib/utils";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { buttonVariants } from "@/components/ui/button";
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
@@ -12,9 +12,9 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 function SidebarNav({ className, items, ...props }: SidebarNavProps) {
-  const [searchParams,setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const tab = searchParams.get('tab');
+  const tab = searchParams.get("tab");
 
   return (
     <nav
@@ -27,8 +27,9 @@ function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       {items.map((item) => (
         <div
           key={item.href}
-          onClick={()=>setSearchParams({tab: item.href})}
-          className={cn("cursor-pointer select-none w-full",
+          onClick={() => setSearchParams({ tab: item.href })}
+          className={cn(
+            "cursor-pointer select-none w-full",
             buttonVariants({ variant: "ghost" }),
             tab === item.href
               ? "dark:bg-[#292932] borderWrapper "
@@ -43,4 +44,4 @@ function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   );
 }
 
-export default SidebarNav
+export default SidebarNav;

@@ -19,7 +19,6 @@ import MessageDropDown from "@/components/common/item/MessageDropDown";
 import { NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { ModeToggle } from "@/components/common/ThemeToggle";
 import Logo from '@/assets/images/Logo.svg';
 import { api } from "@/services/http/api";
 
@@ -92,7 +91,6 @@ const Navbar = () => {
             </div>
           </NavbarItem>
         </div>
-        <ModeToggle />
       </div>
     </>
   );

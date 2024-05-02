@@ -29,6 +29,7 @@ const SingleFriendItem = React.forwardRef(
           <Image
             src={item.coverPicture || DefaultCover}
             className="w-full h-[110px] object-cover"
+            classNameTwo="object-cover"
           />
         </div>
         <div className="p-4 flex gap-2">
