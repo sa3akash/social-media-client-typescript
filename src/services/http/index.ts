@@ -4,11 +4,13 @@ import {
   ILogin,
   IRegister,
   IResetPassword,
+  IUpdatePassword,
 } from "@/interfaces/auth.interface";
 import { ApiReactionInterface } from "@/interfaces/http.interface";
 import axios, { AxiosInstance } from "axios";
 import { PageURL } from "@/services/utils/pageUrl";
 import { ISendMessageDataJson } from "@/interfaces/chat.interface";
+import { INotificationSettings } from "@/interfaces/settings.interface";
 
 const api: AxiosInstance = axios.create({
   baseURL: config.apiUrl,
@@ -53,6 +55,17 @@ export const sendMessageJson = (data: ISendMessageDataJson) =>
 export const getConversations = () => api.get("/chat/conversations");
 export const getMessages = () => api.get("/chat/conversations");
 
+export const checkUsername = (username: string) =>
+  api.get(`/check-username?username=${username}`);
+export const updateUsername = (body: { username: string }) =>
+  api.put("/update-username", body);
+export const updatePassword = (body: IUpdatePassword) =>
+  api.put("/update-password", body);
+export const getNotificaitonsData = () =>
+  api.get("/users/settings/notificatons");
+export const updateNotificaitons = (body: INotificationSettings) =>
+  api.put("/users/settings/notificaton", body);
+
 // form data
 export const createPost = (data: FormData) =>
   api.post("/post", data, {
@@ -68,7 +81,6 @@ export const updatePost = (postId: string, data: FormData) =>
     },
   });
 
-
 export const updateProfileCover = (data: FormData) =>
   api.put("/update-cover-picture", data, {
     headers: {
@@ -83,9 +95,6 @@ export const updateProfileImage = (data: FormData) =>
     },
   });
 
-
-
-  
 // Interceptors
 let isRetry = false;
 api.interceptors.response.use(

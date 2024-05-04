@@ -40,7 +40,7 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem onClick={() => navigate(`${PageURL.Settings}?tab=profile`)}>
-            Settings
+          Settings & privacy
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem onClick={logout}>Logout</MenubarItem>

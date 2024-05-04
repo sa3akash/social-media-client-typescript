@@ -16,6 +16,11 @@ export interface IResetPassword {
   password: string;
   confirmPassword: string;
 }
+export interface IUpdatePassword {
+  password: string;
+  confirmPassword: string;
+  oldPassword:string
+}
 
 export interface NameDoc {
   first: string;

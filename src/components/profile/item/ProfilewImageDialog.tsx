@@ -42,7 +42,10 @@ const ProfilewImageDialog: React.FC<Props> = ({
       setLoading(true);
       // as src for <img/> to preview result
       // console.log(cropperRef.current.getCanvas()?.toDataURL());
-      // setProfileImg(prev=>({...prev,profilePic: cropperRef.current?.getCanvas()?.toDataURL() as string}))
+      setProfileImg((prev) => ({
+        ...prev,
+        profilePic: cropperRef.current?.getCanvas()?.toDataURL() as string,
+      }));
 
       const canvas = cropperRef.current?.getCanvas();
       if (canvas) {
@@ -93,13 +96,15 @@ const ProfilewImageDialog: React.FC<Props> = ({
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4 max-h-[420px]">
+        <div className="py-4 max-h-[400px]">
           {profileImg.profileRow ? (
             <Cropper
               src={profileImg.profilePic}
               ref={cropperRef}
-              className="cropper w-full object-cover"
+              // className="cropper w-full object-cover"
               stencilComponent={CircleStencil}
+              stencilProps={{ aspectRatio: 1 / 1 }}
+              className="h-[400px] cropper"
             />
           ) : (
             <div>

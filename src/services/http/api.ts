@@ -29,6 +29,7 @@ import {
   getConversations,
   updateProfileCover,
   updateProfileImage,
+  getNotificaitonsData,
 } from ".";
 import { store } from "@/store";
 import {
@@ -46,6 +47,7 @@ import { ISendMessageDataJson } from "@/interfaces/chat.interface";
 import {
   setConversation,
 } from "@/store/reducers/MessangerReducer";
+import { INotificationSettings } from "@/interfaces/settings.interface";
 
 class Api {
   public async loginCall(data: ILogin, toast: any): Promise<void> {
@@ -266,6 +268,14 @@ class Api {
     try {
       const response = await getConversations();
       store.dispatch(setConversation(response.data?.conversationList));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  public async getNotificationCall():Promise<INotificationSettings | undefined> {
+    try {
+      const response = await getNotificaitonsData();
+      return response.data.notifications;
     } catch (err) {
       console.log(err);
     }

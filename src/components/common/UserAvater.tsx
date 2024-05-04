@@ -13,6 +13,7 @@ interface Props {
   fallbackClassName?: string;
   authId?: string;
   indicator?: string;
+  style?: object 
 }
 
 const UserAvater: React.FC<Props> = ({
@@ -22,13 +23,14 @@ const UserAvater: React.FC<Props> = ({
   avatarColor,
   fallbackClassName,
   authId,
-  indicator
+  indicator,
+  style
 }) => {
   const { onlineUsers } = useSelector((state: RootState) => state.auth);
 
   return (
     <div className="relative flex items-center justify-center h-full min-w-[35px]">
-      <Avatar className={cn("h-7 w-7 md:h-10 md:w-10", className)}>
+      <Avatar className={cn("h-7 w-7 md:h-10 md:w-10", className)} style={style}>
         <AvatarImage src={src} className="object-cover" />
         <AvatarFallback
           className={cn(
