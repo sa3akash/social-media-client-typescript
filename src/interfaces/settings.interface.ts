@@ -7,7 +7,6 @@ export interface ISettingsComponentsMap {
   security: JSX.Element;
 }
 
-
 export interface INotificationSettings {
   messages: boolean;
   reactions: boolean;

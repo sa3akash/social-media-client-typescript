@@ -4,11 +4,11 @@ import { Socket } from "socket.io-client";
 
 // post
 export class FollowSocket {
-  static start(socket:Socket) {
+  static start(socket: Socket) {
     FollowSocket.init(socket);
   }
 
-  static init(socket:Socket) {
+  static init(socket: Socket) {
     socket.on("add-follow", ({ id, to }) => {
       const { user } = store.getState().auth;
       if (user?.authId === to) {

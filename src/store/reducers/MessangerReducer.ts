@@ -36,11 +36,7 @@ export const MessangerSlice = createSlice({
   },
 });
 
-export const {
-  setConversation,
-  addConversation,
-  setMessages,
-  addMessages,
-} = MessangerSlice.actions;
+export const { setConversation, addConversation, setMessages, addMessages } =
+  MessangerSlice.actions;
 
 export default MessangerSlice.reducer;

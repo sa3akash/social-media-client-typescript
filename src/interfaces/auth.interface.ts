@@ -19,7 +19,7 @@ export interface IResetPassword {
 export interface IUpdatePassword {
   password: string;
   confirmPassword: string;
-  oldPassword:string
+  oldPassword: string;
 }
 
 export interface NameDoc {
@@ -119,12 +119,10 @@ export interface IUserReactionDoc {
   createdAt: string;
 }
 
-
-
 export interface StoreImagProfile {
   profilePic: string;
   profileRow: File | null;
   coverPic: string;
   coverPicRow: File | null;
-  openProfileModel:boolean;
+  openProfileModel: boolean;
 }

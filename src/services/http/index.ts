@@ -109,7 +109,7 @@ api.interceptors.response.use(
       window.location.replace(PageURL.Login);
     }
     throw error;
-  }
+  },
 );
 
 export default api;

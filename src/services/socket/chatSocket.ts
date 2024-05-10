@@ -21,7 +21,7 @@ export class ChatSocket {
     socket.on("chat-list", (data: IMessageData) => {
       const conversation = store.getState().messanger.conversations;
       const filterData = conversation.filter(
-        (c) => c.conversationId !== data.conversationId
+        (c) => c.conversationId !== data.conversationId,
       );
       store.dispatch(setConversation([data, ...filterData]));
     });

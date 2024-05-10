@@ -65,8 +65,6 @@ export const resetSchema = z.object({
     }),
 });
 
-
-
 export const profileFormSchema = z.object({
   username: z
     .string()
@@ -86,11 +84,10 @@ export const profileFormSchema = z.object({
     .array(
       z.object({
         value: z.string().url({ message: "Please enter a valid URL." }),
-      })
+      }),
     )
     .optional(),
-})
-
+});
 
 export const usernameSchema = z.object({
   username: z
@@ -100,44 +97,49 @@ export const usernameSchema = z.object({
     })
     .max(30, {
       message: "Username must not be longer than 30 characters.",
-    }).regex(/^[a-zA-Z0-9_-]{5,20}$/,{
-      message: "invalid username format"
     })
-})
+    .regex(/^[a-zA-Z0-9_-]{5,20}$/, {
+      message: "invalid username format",
+    }),
+});
 
-export const passwordSchema = z.object({
-  oldPassword: z
-    .string()
-    .min(6, {
-      message: "Old Password must be at least 6 characters.",
-    })
-    .max(30, {
-      message: "Old Password must not be longer than 30 characters.",
-    }).regex(/^[a-zA-Z0-9]{6,30}$/,{
-      message: "invalid password format."
-    }),
-  password: z
-    .string()
-    .min(6, {
-      message: "Password must be at least 6 characters.",
-    })
-    .max(30, {
-      message: "Password must not be longer than 30 characters.",
-    }).regex(/^[a-zA-Z0-9]{6,30}$/,{
-      message: "Invalid password format."
-    }),
-  confirmPassword: z
-    .string()
-    .min(6, {
-      message: "Confirm Password must be at least 6 characters.",
-    })
-    .max(30, {
-      message: "Confirm Password must not be longer than 30 characters.",
-    }).regex(/^[a-zA-Z0-9]{6,30}$/,{
-      message: "Invalid password format."
-    })
-    
-}).refine((d)=>d.password === d.confirmPassword,{
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-})
+export const passwordSchema = z
+  .object({
+    oldPassword: z
+      .string()
+      .min(6, {
+        message: "Old Password must be at least 6 characters.",
+      })
+      .max(30, {
+        message: "Old Password must not be longer than 30 characters.",
+      })
+      .regex(/^[a-zA-Z0-9]{6,30}$/, {
+        message: "invalid password format.",
+      }),
+    password: z
+      .string()
+      .min(6, {
+        message: "Password must be at least 6 characters.",
+      })
+      .max(30, {
+        message: "Password must not be longer than 30 characters.",
+      })
+      .regex(/^[a-zA-Z0-9]{6,30}$/, {
+        message: "Invalid password format.",
+      }),
+    confirmPassword: z
+      .string()
+      .min(6, {
+        message: "Confirm Password must be at least 6 characters.",
+      })
+      .max(30, {
+        message: "Confirm Password must not be longer than 30 characters.",
+      })
+      .regex(/^[a-zA-Z0-9]{6,30}$/, {
+        message: "Invalid password format.",
+      }),
+  })
+  .refine((d) => d.password === d.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });

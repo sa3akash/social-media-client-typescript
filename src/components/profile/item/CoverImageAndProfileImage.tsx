@@ -1,4 +1,3 @@
-import Image from "@/components/common/Image";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { IUserDoc, StoreImagProfile } from "@/interfaces/auth.interface";
 import React, { useEffect, useRef, useState } from "react";
@@ -93,8 +92,6 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
     }
   };
 
-  console.log(profileImg)
-
   const { user: rootUser } = useSelector((state: RootState) => state.auth);
 
   const location = useLocation().pathname.split("/")[2];
@@ -166,10 +163,9 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
       <div className="absolute left-0 w-full top-[80px] md:top-[50px] md:left-4 xl:bottom-6 xl:left-6 2xl:top-[100px] flex justify-center">
         <div className="flex items-center flex-col w-full md:flex-row gap-2">
           <div className="w-[160px] h-[160px] select-none relative flex items-center justify-center">
-            <Image
+            <img
               src={profileImg.profilePic}
-              classNameTwo="object-cover"
-              className="rounded-full border-[6px] border-primary cardBG"
+              className="rounded-full border-[6px] border-primary cardBG object-cover pointer-events-none"
             />
             {location === rootUser?.authId && (
               <>

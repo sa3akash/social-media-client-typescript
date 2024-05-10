@@ -16,7 +16,7 @@ interface InfiniteScrollHook {
 
 const useFetchMessage = (
   fetchMoreMessages: () => void,
-  initialMessages: string[] = []
+  initialMessages: string[] = [],
 ): InfiniteScrollHook => {
   const [messages, setMessages] = useState<string[]>(initialMessages);
   const containerRef = useRef<ScrollableContainerProps>(null);
@@ -62,7 +62,6 @@ const useFetchMessage = (
 };
 
 export default useFetchMessage;
-
 
 // ============================== call ===========================
 
