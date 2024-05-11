@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import CoverImage from "@/assets/defaultCover.jpg";
 import ProfileImage from "@/assets/defaultProfile.jpg";
 import { ImageUtils } from "@/services/utils/imageUtils";
-import { api } from "@/services/http/api";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2, UploadCloud } from "lucide-react";
 import { useLocation } from "react-router-dom";
@@ -13,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { cn } from "@/lib/utils";
 import ProfilewImageDialog from "@/components/profile/item/ProfilewImageDialog";
 import { setAuth } from "@/store/reducers/AuthReducer";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { updateProfileCover } from "@/services/http";
 
 interface Props {
   user: IUserDoc;
@@ -26,8 +27,6 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
     coverPicRow: null,
     openProfileModel: false,
   });
-
-  const [loading, setLoading] = useState(false);
 
   const coverRef = useRef<HTMLInputElement>(null);
   const dispatch: AppDispatch = useDispatch();
@@ -72,23 +71,23 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
     }
   };
 
+  const mutation = useMutationCustom({
+    mutationFn: updateProfileCover,
+    onSuccess: ({ data }) => {
+      const mainObj: IUserDoc = { ...user, coverPicture: data.url } as IUserDoc;
+      dispatch(setAuth(mainObj));
+      setProfileImg((prev) => ({ ...prev, coverPicRow: null }));
+      toast({
+        title: data.message,
+      });
+    },
+  });
+
   const handleSaveCoverImage = () => {
     if (profileImg.coverPicRow) {
-      setLoading(true);
       const form = new FormData();
       form.append("file", profileImg.coverPicRow);
-
-      api.updateCoverImage(form).then((res) => {
-        if (res) {
-          const data: IUserDoc = { ...user, coverPicture: res.url } as IUserDoc;
-          dispatch(setAuth(data));
-          setProfileImg((prev) => ({ ...prev, coverPicRow: null }));
-          toast({
-            title: res.message,
-          });
-        }
-        setLoading(false);
-      });
+      mutation.mutate(form);
     }
   };
 
@@ -124,12 +123,15 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
                 </Button>
                 <Button
                   onClick={() => coverRef.current?.click()}
-                  disabled={loading}
+                  disabled={mutation.isPending}
                 >
                   Change
                 </Button>
-                <Button onClick={handleSaveCoverImage} disabled={loading}>
-                  {loading ? (
+                <Button
+                  onClick={handleSaveCoverImage}
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending ? (
                     <span className="flex items-center gap-2">
                       <Loader2 className="animate-spin w-5" /> Loading...
                     </span>
@@ -142,7 +144,7 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
               <Button
                 className="transition-all font-semibold text-[12px] absolute top-4 right-4 select-none"
                 onClick={() => coverRef.current?.click()}
-                disabled={loading}
+                disabled={mutation.isPending}
               >
                 Edit Cover
               </Button>
@@ -165,7 +167,7 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
           <div className="w-[160px] h-[160px] select-none relative flex items-center justify-center">
             <img
               src={profileImg.profilePic}
-              className="rounded-full border-[6px] border-primary cardBG object-cover pointer-events-none"
+              className="rounded-full border-[6px] border-primary cardBG object-cover pointer-events-none w-full h-full"
             />
             {location === rootUser?.authId && (
               <>

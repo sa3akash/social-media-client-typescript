@@ -8,12 +8,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
+import useMutationCustom from "@/hooks/useMutationCustom";
 import { IUserDoc, StoreImagProfile } from "@/interfaces/auth.interface";
-import { api } from "@/services/http/api";
+import { updateProfileImage } from "@/services/http";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
 import { Loader2, UploadCloud } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Cropper, CircleStencil, CropperRef } from "react-advanced-cropper";
 
 import "react-advanced-cropper/dist/style.css";
@@ -33,19 +34,37 @@ const ProfilewImageDialog: React.FC<Props> = ({
   const profileRef = useRef<HTMLInputElement>(null);
   const cropperRef = useRef<CropperRef>(null);
   const { user } = useSelector((state: RootState) => state.auth);
-  const [loading, setLoading] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
 
-  const makeNewImageAndUpdate = () => {
-    if (cropperRef.current) {
-      setLoading(true);
-      // as src for <img/> to preview result
-      // console.log(cropperRef.current.getCanvas()?.toDataURL());
+  const mutation = useMutationCustom({
+    mutationFn: updateProfileImage,
+    onSuccess: ({ data }) => {
+      const mainOb: IUserDoc = {
+        ...user,
+        profilePicture: data.url,
+      } as IUserDoc;
+      dispatch(setAuth(mainOb));
+      toast({
+        title: data.message,
+      });
       setProfileImg((prev) => ({
         ...prev,
-        profilePic: cropperRef.current?.getCanvas()?.toDataURL() as string,
+        openProfileModel: false,
+        profileRow: null,
+        profilePic: data.url,
       }));
+    },
+  });
+
+  const makeNewImageAndUpdate = () => {
+    if (cropperRef.current) {
+      // as src for <img/> to preview result
+      // console.log(cropperRef.current.getCanvas()?.toDataURL());
+      // setProfileImg((prev) => ({
+      //   ...prev,
+      //   profilePic: cropperRef.current?.getCanvas()?.toDataURL() as string,
+      // }));
 
       const canvas = cropperRef.current?.getCanvas();
       if (canvas) {
@@ -53,25 +72,7 @@ const ProfilewImageDialog: React.FC<Props> = ({
         canvas.toBlob((blob) => {
           if (blob) {
             form.append("file", blob);
-            // api call
-            api.updateProfilePic(form).then((res) => {
-              if (res?.url) {
-                const data: IUserDoc = {
-                  ...user,
-                  profilePicture: res.url,
-                } as IUserDoc;
-                dispatch(setAuth(data));
-                toast({
-                  title: res.message,
-                });
-              }
-              setProfileImg((prev) => ({
-                ...prev,
-                openProfileModel: false,
-                profileRow: null,
-              }));
-              setLoading(false);
-            });
+            mutation.mutate(form);
           }
         }, "image/jpeg");
       }
@@ -134,16 +135,16 @@ const ProfilewImageDialog: React.FC<Props> = ({
           </Button>
           <Button
             onClick={() => profileRef.current?.click()}
-            disabled={loading}
+            disabled={mutation.isPending}
           >
             Change
           </Button>
           <Button
             type="submit"
             onClick={makeNewImageAndUpdate}
-            disabled={loading}
+            disabled={mutation.isPending}
           >
-            {loading ? (
+            {mutation.isPending ? (
               <span className="flex items-center gap-1">
                 <Loader2 className="w-5 animate-spin" /> Loading...
               </span>

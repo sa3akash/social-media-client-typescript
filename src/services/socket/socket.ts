@@ -1,5 +1,4 @@
 import { Socket } from "socket.io-client";
-import { PostSocket } from "@/services/socket/postSocket";
 import { FollowSocket } from "@/services/socket/followSocket";
 import { ChatSocket } from "@/services/socket/chatSocket";
 import { store } from "@/store";
@@ -14,7 +13,6 @@ export class SocketService {
   // start connection
   public setupSocketConnection() {
     this.socketConnectionEvents();
-    PostSocket.start(this.socket);
     FollowSocket.start(this.socket);
     ChatSocket.init(this.socket);
   }

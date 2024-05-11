@@ -19,8 +19,6 @@ import {
   followUser,
   sendMessageJson,
   getConversations,
-  updateProfileCover,
-  updateProfileImage,
   getNotificaitonsData,
 } from ".";
 import { store } from "@/store";
@@ -194,27 +192,6 @@ class Api {
     }
   }
 
-  public async updateCoverImage(
-    data: FormData,
-  ): Promise<{ message: string; url: string } | undefined> {
-    try {
-      const res = await updateProfileCover(data);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  public async updateProfilePic(
-    data: FormData,
-  ): Promise<{ message: string; url: string } | undefined> {
-    try {
-      const res = await updateProfileImage(data);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   private responseError(err: unknown, toast: any) {
     const { message } = axiosError(err as AxiosError);
