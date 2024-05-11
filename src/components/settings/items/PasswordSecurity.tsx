@@ -63,17 +63,15 @@ const PasswordForm = () => {
         <FormField
           control={form.control}
           name="oldPassword"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel>Old Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder={field.value}
-                  {...field}
-                  disabled={loading}
-                />
+                <Input placeholder="**********" {...field} disabled={loading} />
               </FormControl>
-              <FormDescription>Enter your current password.</FormDescription>
+              {!fieldState.error && (
+                <FormDescription>Enter your current password.</FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -81,17 +79,16 @@ const PasswordForm = () => {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder={field.value}
-                  {...field}
-                  disabled={loading}
-                />
+                <Input placeholder="**********" {...field} disabled={loading} />
               </FormControl>
-              <FormDescription>Choose a new password.</FormDescription>
+              {!fieldState.error && (
+                <FormDescription>Choose a new password.</FormDescription>
+              )}
+
               <FormMessage />
             </FormItem>
           )}
@@ -99,17 +96,16 @@ const PasswordForm = () => {
         <FormField
           control={form.control}
           name="confirmPassword"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder={field.value}
-                  {...field}
-                  disabled={loading}
-                />
+                <Input placeholder="**********" {...field} disabled={loading} />
               </FormControl>
-              <FormDescription>Write new password again.</FormDescription>
+              {!fieldState.error && (
+                <FormDescription>Write new password again.</FormDescription>
+              )}
+
               <FormMessage />
             </FormItem>
           )}

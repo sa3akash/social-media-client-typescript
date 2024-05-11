@@ -1,37 +1,37 @@
 import SinglePost from "@/components/post/item/SinglePost";
 import NoPost from "@/components/post/NoPost";
 import { IPostDoc } from "@/interfaces/post.interface";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import { AppDispatch, RootState } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "@/store/reducers/PostsReducer";
 import { Loader2 } from "lucide-react";
 import PostSkeleton from "@/components/home/skeleton/PostSkeleton";
 import { UserUtils } from "@/services/utils/userUtils";
+import useReactInfiniteScroll from "@/hooks/ReactQueryInfiniteScroll";
+import api from "@/services/http";
 
 const AllPost = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const { lastElementRef, loading } = useInfiniteScroll(
-    "/posts",
-    (data: { posts: IPostDoc[] }) => {
-      dispatch(setPosts({ posts: data.posts }));
-    }
-  );
+  const { data, lastElementRef, loading } = useReactInfiniteScroll({
+    baseURL: "posts",
+    fn: async ({ pageParam = 1 }) => {
+      const response = await api.get(`/posts?page=${pageParam}`);
+      return response.data;
+    },
+  });
 
-  const { posts, loading: fLoad } = useSelector(
-    (state: RootState) => state.posts
-  );
+  if (!data) {
+    return <PostSkeleton />;
+  }
 
-  return fLoad ? (
-    <PostSkeleton />
-  ) : (
+  const mainData = data?.pages.reduce((acc, page) => {
+    return [...acc, ...page.posts];
+  }, []);
+
+  return (
     <div className="mt-2 md:mt-4 flex flex-col gap-4">
-      {posts.map(
+      {mainData.map(
         (item: IPostDoc, i: number) =>
           UserUtils.checkPrivacyPost(item) && (
             <SinglePost
               item={item}
-              ref={posts.length === i + 1 ? lastElementRef : null}
+              ref={mainData.length === i + 1 ? lastElementRef : null}
               key={i}
             />
           )

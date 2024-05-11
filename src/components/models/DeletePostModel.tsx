@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { deletePost } from "@/services/http";
 
 interface Props {
   postId: string;
@@ -11,8 +13,33 @@ interface Props {
 const DeletePostModel: React.FC<Props> = ({ setOpenModel, postId }) => {
   const { toast } = useToast();
 
+  // const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: deletePost,
+    // onSuccess: () => {
+    //   const testData = queryClient.getQueryData(["posts"]) as MainPostQueryType;
+    //   const filteredPages = testData.pages.map((item) => {
+    //     const posts = item.posts.filter((item) => item._id !== postId);
+    //     return {
+    //       ...item,
+    //       posts,
+    //     };
+    //   });
+    //   queryClient.setQueryData(["posts"], { ...testData, pages: filteredPages });
+    // },
+    onError: (err) => {
+      if (axios.isAxiosError(err)) {
+        toast({
+          variant: "destructive",
+          title: err.response?.data.message || "Uh oh! Something went wrong.",
+        });
+      }
+    },
+  });
+
   const handleDelete = () => {
-    api.deletePost(postId, toast);
+    mutation.mutate(postId)
     setOpenModel(false);
   };
 

@@ -6,7 +6,7 @@ const ProfilePost = () => {
   return (
     <div className="w-full h-full mx-auto">
         <AddPost />
-        <AddStory />
+        {/* <AddStory /> */}
         <AllPost />
     </div>
   );

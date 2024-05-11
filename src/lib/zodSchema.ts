@@ -16,14 +16,6 @@ export const registerSchema = z.object({
     .max(30, {
       message: "Password must be at less then 30 characters",
     }),
-  gender: z
-    .string()
-    .refine(
-      (value) => value === "male" || value === "female" || value === "custom",
-      {
-        message: "Gender must be either male, female or custom.",
-      },
-    ),
   check: z
     .boolean()
     .default(false)

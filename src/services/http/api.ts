@@ -16,13 +16,10 @@ import {
   currentUser,
   markAsReadNotification,
   getNotificaitons,
-  createPost,
   updateReaction,
   getUserReaction,
   getPostReaction,
   addComment,
-  updatePost,
-  deletePost,
   getLoginData,
   followUser,
   sendMessageJson,
@@ -40,8 +37,6 @@ import {
 import { axiosError } from "@/services/utils/serializeError";
 import { AxiosError } from "axios";
 import { setNotification } from "@/store/reducers/NotificationReducer";
-import { clearPost } from "@/store/reducers/SinglePostReducer";
-import { closeModel } from "@/store/reducers/ModelReducer";
 import { ApiReactionInterface } from "@/interfaces/http.interface";
 import { ISendMessageDataJson } from "@/interfaces/chat.interface";
 import { setConversation } from "@/store/reducers/MessangerReducer";
@@ -135,44 +130,6 @@ class Api {
     }
   }
 
-  public async createPost(
-    formData: FormData,
-    toast: any,
-    setFiles: any,
-    setLoading: any,
-  ): Promise<void> {
-    setLoading(true);
-    try {
-      await createPost(formData);
-      setFiles([]);
-      store.dispatch(closeModel());
-      store.dispatch(clearPost());
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      this.responseError(err, toast);
-    }
-  }
-
-  public async updatePost(
-    _id: string,
-    formData: FormData,
-    toast: any,
-    setFiles: any,
-    setLoading: any,
-  ): Promise<void> {
-    setLoading(true);
-    try {
-      await updatePost(_id, formData);
-      setFiles([]);
-      store.dispatch(closeModel());
-      store.dispatch(clearPost());
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      this.responseError(err, toast);
-    }
-  }
 
   public async getNotification(): Promise<void> {
     try {
@@ -232,13 +189,6 @@ class Api {
     }
   }
 
-  public async deletePost(postId: string, toast: any) {
-    try {
-      await deletePost(postId);
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
 
   public async addCommentCall(
     value: { postId: string; comment: string },

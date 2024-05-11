@@ -55,7 +55,7 @@ const ProfilewImageDialog: React.FC<Props> = ({
             form.append("file", blob);
             // api call
             api.updateProfilePic(form).then((res) => {
-              if (res) {
+              if (res?.url) {
                 const data: IUserDoc = {
                   ...user,
                   profilePicture: res.url,

@@ -21,6 +21,8 @@ const api: AxiosInstance = axios.create({
   },
 });
 
+
+
 // List of all the endpoints
 export const loginFn = (data: ILogin) => api.post("/signin", data);
 export const registerFn = (data: IRegister) => api.post("/signup", data);
@@ -66,15 +68,17 @@ export const getNotificaitonsData = () =>
 export const updateNotificaitons = (body: INotificationSettings) =>
   api.put("/users/settings/notificaton", body);
 
+
+
 // form data
-export const createPost = (data: FormData) =>
+export const createPostApi = (data: FormData) =>
   api.post("/post", data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 
-export const updatePost = (postId: string, data: FormData) =>
+export const updatePostApi = (postId: string, data: FormData) =>
   api.put(`/post/${postId}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",

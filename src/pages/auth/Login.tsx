@@ -17,8 +17,13 @@ import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/services/utils/pageUrl";
-import { api } from "@/services/http/api";
-import { useToast } from "@/components/ui/use-toast";
+import { loginFn } from "@/services/http";
+import { AppDispatch } from "@/store";
+import { useDispatch } from "react-redux";
+import { setAuth } from "@/store/reducers/AuthReducer";
+import { storeKey } from "@/services/utils/keys";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import useMutationCustom from "@/hooks/useMutationCustom";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -30,11 +35,24 @@ const Login = () => {
     },
   });
 
-  // const [, setKeepLogin] = useLocalStorage(storeKey.KeepLogin);
-  const { toast } = useToast();
+  const dispatch: AppDispatch = useDispatch();
 
-  const onLogin = async (values: z.infer<typeof loginSchema>) => {
-    await api.loginCall(values, toast);
+  const [, setKeepLogin] = useLocalStorage(storeKey.KeepLogin);
+
+
+  const mutation = useMutationCustom({
+    mutationFn: loginFn,
+    onSuccess: ({ data }) => {
+      dispatch(setAuth({ authId: data.user._id, ...data.user }));
+      setKeepLogin(form.getValues().check);
+    }
+  })
+
+  const onLogin = (values: z.infer<typeof loginSchema>) => {
+    mutation.mutate({
+      email: values.email,
+      password: values.password,
+    });
   };
 
   return (
@@ -108,10 +126,10 @@ const Login = () => {
 
             <Button
               type="submit"
-              disabled={form.formState.isSubmitting}
+              disabled={mutation.isPending}
               className="w-full"
             >
-              {form.formState.isSubmitting ? (
+              {mutation.isPending ? (
                 <span className="flex text-center gap-2">
                   Login...
                   <Loader2 className="animate-spin" size={20} />

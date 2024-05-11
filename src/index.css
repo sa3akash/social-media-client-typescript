@@ -136,3 +136,10 @@ em-emoji-picker {
   height: 350px;
 }
 
+
+#scrollOverOff > div > div {
+  /* min-width: unset !important; */
+  display: unset !important;
+}
+
+

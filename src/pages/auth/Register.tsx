@@ -11,21 +11,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { Input } from "@/components/ui/input";
 import { registerSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { api } from "@/services/http/api";
-import { useToast } from "@/components/ui/use-toast";
+import { registerFn } from "@/services/http";
+import { setAuth } from "@/store/reducers/AuthReducer";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import useMutationCustom from "@/hooks/useMutationCustom";
 
 const Register = () => {
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -35,23 +31,24 @@ const Register = () => {
       lastname: "",
       email: "",
       password: "",
-      gender: "",
       check: false,
     },
   });
-  const { toast } = useToast();
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const mutation = useMutationCustom({
+    mutationFn: registerFn,
+    onSuccess: ({ data }) => {
+      dispatch(setAuth({ authId: data.user._id, ...data.user }));
+    },
+  });
 
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
-    await api.registerCall(
-      {
-        email: values.email,
-        firstname: values.firstname,
-        gender: values.gender,
-        lastname: values.lastname,
-        password: values.password,
-      },
-      toast
-    );
+    const { check, ...others } = values;
+    if (check) {
+      mutation.mutate(others);
+    }
   };
 
   return (
@@ -103,30 +100,6 @@ const Register = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Gender" />
-                      </SelectTrigger>
-                      <SelectContent id="genderId">
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="custom">Custom</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <FormField
               control={form.control}
@@ -165,10 +138,10 @@ const Register = () => {
             />
             <Button
               type="submit"
-              disabled={form.formState.isSubmitting}
+              disabled={mutation.isPending}
               className="w-full"
             >
-              {form.formState.isSubmitting ? (
+              {mutation.isPending ? (
                 <span className="flex text-center gap-2">
                   Register...
                   <Loader2 className="animate-spin" size={20} />

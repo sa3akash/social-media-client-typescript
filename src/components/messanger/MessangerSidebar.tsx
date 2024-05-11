@@ -18,8 +18,8 @@ const MessangerSidebar: FC<Props> = () => {
 
 
   return (
-    <div className="w-full h-full ">
-      <ScrollArea className="w-full h-[calc(100%-80px)]">
+    <>
+      <ScrollArea className="w-full h-full">
         <div className="py-4 px-4 flex items-center justify-between">
           <h4 className="text-[18px] font-semibold leading-6 tracking-[0.1px]">
             Message
@@ -42,7 +42,7 @@ const MessangerSidebar: FC<Props> = () => {
         openSearchModel={openSearchModel}
         setOpenSearchModel={setOpenSearchModel}
       />
-    </div>
+    </>
   );
 };
 

@@ -17,11 +17,12 @@ import SelectBgAndEmoji from "@/components/post/postForm/SelectBgAndEmoji";
 import AddToUserPost from "@/components/post/postForm/AddToUserPost";
 import { IFeelings, IFiles, IPrivacy } from "@/interfaces/post.interface";
 import { useEffect, useState } from "react";
-import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { clearPost } from "@/store/reducers/SinglePostReducer";
 import { ImageUtils } from "@/services/utils/imageUtils";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { createPostApi, updatePostApi } from "@/services/http";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -37,9 +38,29 @@ const CreatePostModel = () => {
   } = useSelector((store: RootState) => store.SinglePost);
   const dispatch: AppDispatch = useDispatch();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
+
+  const createPostMutation = useMutationCustom({
+    mutationFn: createPostApi,
+    onSuccess: ({ data }) => {
+      toast({
+        title: data.message,
+      });
+      dispatch(clearPost());
+      dispatch(closeModel());
+    },
+  });
+  const updatePostMutation = useMutationCustom({
+    mutationFn: (data) => updatePostApi(_id!, data),
+    onSuccess: ({ data }) => {
+      toast({
+        title: data.message,
+      });
+      dispatch(clearPost());
+      dispatch(closeModel());
+    },
+  });
 
   const createPost = () => {
     if (!post)
@@ -57,9 +78,11 @@ const CreatePostModel = () => {
     formData.append("gifUrl", `${gifUrl}`);
     formData.append("bgColor", `${bgColor}`);
     if (type === "createPost") {
-      api.createPost(formData, toast, setFiles, setLoading);
+      createPostMutation.mutate(formData);
+      setFiles([]);
     } else {
-      api.updatePost(_id!, formData, toast, setFiles, setLoading);
+      updatePostMutation.mutate(formData);
+      setFiles([]);
     }
   };
 
@@ -75,13 +98,15 @@ const CreatePostModel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oldFiles]);
 
+  const loading = createPostMutation.isPending || updatePostMutation.isPending;
+
   return (
     <Dialog
       open={isOpen}
       onOpenChange={() => {
         dispatch(closeModel());
         dispatch(clearPost());
-        setFiles([])
+        setFiles([]);
       }}
     >
       <DialogContent className="max-w-[500px] p-0 cardBG">

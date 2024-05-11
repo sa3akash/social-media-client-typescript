@@ -4,7 +4,7 @@ import {
   addUserReactions,
   deleteUserReactions,
 } from "@/store/reducers/AuthReducer";
-import { addPost, deletePost, updatePost } from "@/store/reducers/PostsReducer";
+import { addPost, updatePost } from "@/store/reducers/PostsReducer";
 import { UserUtils } from "@/services/utils/userUtils";
 import { Socket } from "socket.io-client";
 
@@ -51,8 +51,8 @@ export class PostSocket {
       store.dispatch(updatePost(data));
     });
 
-    socket.on("delete-post", (postId: string) => {
-      store.dispatch(deletePost(postId));
-    });
+    // socket.on("delete-post", (postId: string) => {
+    //   store.dispatch(deletePost(postId));
+    // });
   }
 }
