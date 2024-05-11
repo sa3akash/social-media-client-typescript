@@ -16,8 +16,9 @@ import { Input } from "@/components/ui/input";
 import { forgotSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { api } from "@/services/http/api";
 import { useToast } from "@/components/ui/use-toast";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { forgotFn } from "@/services/http";
 
 const Forgot = () => {
   const form = useForm<z.infer<typeof forgotSchema>>({
@@ -28,8 +29,15 @@ const Forgot = () => {
   });
   const { toast } = useToast();
 
+  const mutation = useMutationCustom({
+    mutationFn: forgotFn,
+    onSuccess: ({ data }) => {
+      toast({ title: data.message });
+    },
+  });
+
   const onForgot = async (values: z.infer<typeof forgotSchema>) => {
-    await api.forgotCall(values, toast);
+    mutation.mutate(values);
   };
 
   return (
@@ -59,7 +67,7 @@ const Forgot = () => {
             />
 
             <Button type="submit" disabled={false} className="w-full">
-              {form.formState.isSubmitting ? (
+              {mutation.isPending ? (
                 <span className="flex text-center gap-2">
                   Email Sending...
                   <Loader2 className="animate-spin" size={20} />

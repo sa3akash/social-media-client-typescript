@@ -3,9 +3,9 @@ import ImojiIcon from "@/assets/images/ic_emoji.svg";
 import ImageIcon from "@/assets/images/ic_Image.svg";
 import EmojiPicker from "@/components/common/EmojiPicker";
 import UserAvater from "@/components/common/UserAvater";
-import { useToast } from "@/components/ui/use-toast";
+import useMutationCustom from "@/hooks/useMutationCustom";
 import { NameDoc } from "@/interfaces/auth.interface";
-import { api } from "@/services/http/api";
+import { addComment } from "@/services/http";
 import { RootState } from "@/store";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,19 +18,21 @@ interface Props {
 const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
   const { user } = useSelector((store: RootState) => store.auth);
 
-  const { toast } = useToast();
-
   const [commentValue, setCommentValue] = useState<string>("");
+
+  const mutation = useMutationCustom({
+    mutationFn: addComment,
+    onSuccess: ({ data }) => {
+      console.log(data);
+    },
+  });
 
   const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && commentValue.length > 1) {
-      api.addCommentCall(
-        {
-          comment: commentValue,
-          postId: postId,
-        },
-        toast
-      );
+      mutation.mutate({
+        comment: commentValue,
+        postId: postId,
+      });
       setCommentValue("");
     }
   };
@@ -43,7 +45,6 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
         className="min-w-[36px] min-h-[36px]"
         avatarColor={user?.avatarColor}
         authId={user?.authId}
-
       />
       <div className="flex-1 flex gap-4 select-none h-10 w-full rounded-md border-input dark:bg-[#292932] px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:flex-row borderWrapper dark:border-[0px]">
         <input
@@ -54,26 +55,15 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
           onChange={(e) => setCommentValue(e.target.value as string)}
           value={commentValue}
           onKeyDown={handlekeydown}
+          disabled={mutation.isPending}
         />
-        <img
-          src={AtachmentIcon}
-          alt="atachIcon"
-          className="w-5 icon"
-        />
+        <img src={AtachmentIcon} alt="atachIcon" className="w-5 icon" />
         <EmojiPicker
           onChange={(value: string) => setCommentValue((prev) => prev + value)}
         >
-          <img
-            src={ImojiIcon}
-            alt="emojiIcon"
-            className="w-5 icon"
-          />
+          <img src={ImojiIcon} alt="emojiIcon" className="w-5 icon" />
         </EmojiPicker>
-          <img
-            src={ImageIcon}
-            alt="commentIcon"
-            className="w-5 icon"
-          />
+        <img src={ImageIcon} alt="commentIcon" className="w-5 icon" />
       </div>
     </div>
   );

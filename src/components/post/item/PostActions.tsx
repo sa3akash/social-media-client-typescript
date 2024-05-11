@@ -17,6 +17,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { PostUtils } from "@/services/utils/postUtils";
 import { OnlyReactionName } from "@/interfaces/reaction.interface";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { updateReaction } from "@/services/http";
 
 interface Props {
   commentInputRef: React.MutableRefObject<null | HTMLInputElement>;
@@ -153,10 +155,12 @@ const SingleReaciton = ({
     type as keyof typeof ReactionIconMapGif
   ] as string;
 
-  const { toast } = useToast();
+  const mutation = useMutationCustom({
+    mutationFn: updateReaction,
+  });
 
   const handleReactionClick = () => {
-    api.updateReactionCall({ postId, type }, toast);
+    mutation.mutate({ postId, type });
     setOpenReaction(false);
   };
 

@@ -1,17 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IFollowerDoc,
-  IForgotPassword,
   IFullUserDoc,
   ILogin,
   IRegister,
-  IResetPassword,
 } from "@/interfaces/auth.interface";
 import {
-  forgotFn,
   loginFn,
   registerFn,
-  resetFn,
   suggestedFriendFn,
   currentUser,
   markAsReadNotification,
@@ -19,7 +15,6 @@ import {
   updateReaction,
   getUserReaction,
   getPostReaction,
-  addComment,
   getLoginData,
   followUser,
   sendMessageJson,
@@ -74,27 +69,6 @@ class Api {
     }
   }
 
-  public async forgotCall(data: IForgotPassword, toast: any): Promise<void> {
-    try {
-      const response = await forgotFn(data);
-      this.responseSuccess(response.data?.message, toast);
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
-
-  public async resetCall(
-    token: string,
-    data: IResetPassword,
-    toast: any,
-  ): Promise<void> {
-    try {
-      const response = await resetFn(token, data);
-      this.responseSuccess(response.data?.message, toast);
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
 
   public async suggestedFriendCall(
     toast: any,
@@ -189,17 +163,6 @@ class Api {
     }
   }
 
-
-  public async addCommentCall(
-    value: { postId: string; comment: string },
-    toast: any,
-  ) {
-    try {
-      await addComment(value);
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
 
   public async sendMessageJsonCall(
     RequestData: ISendMessageDataJson,

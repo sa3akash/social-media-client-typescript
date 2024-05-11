@@ -5,7 +5,7 @@ import axios, { AxiosResponse } from "axios";
 
 interface Props {
   mutationFn: (data?: any) => Promise<AxiosResponse<any, any>>;
-  onSuccess: (data: AxiosResponse<any, any>) => void;
+  onSuccess?: (data: AxiosResponse<any, any>) => void;
 }
 
 const useMutationCustom = ({ mutationFn, onSuccess }: Props) => {

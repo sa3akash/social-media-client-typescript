@@ -17,8 +17,8 @@ import { resetSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { api } from "@/services/http/api";
-import { useToast } from "@/components/ui/use-toast";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { resetFn } from "@/services/http";
 
 const Reset = () => {
   const form = useForm<z.infer<typeof resetSchema>>({
@@ -33,11 +33,15 @@ const Reset = () => {
 
   const token = searchParams.get("token") as string;
 
-  const { toast } = useToast();
+  const mutation = useMutationCustom({
+    mutationFn: (data) => resetFn(token, data),
+    onSuccess: () => {
+      navigate("/feed");
+    },
+  });
 
   const onLogin = async (values: z.infer<typeof resetSchema>) => {
-    await api.resetCall(token, values, toast);
-    navigate("/feed");
+    mutation.mutate(values);
   };
 
   return (
@@ -81,10 +85,10 @@ const Reset = () => {
 
             <Button
               type="submit"
-              disabled={form.formState.isSubmitting}
+              disabled={mutation.isPending}
               className="w-full"
             >
-              {form.formState.isSubmitting ? (
+              {mutation.isPending ? (
                 <span className="flex text-center gap-2">
                   Submit...
                   <Loader2 className="animate-spin" size={20} />
