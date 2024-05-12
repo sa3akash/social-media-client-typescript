@@ -6,14 +6,12 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-// import 'swiper/css';
-
 
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 10, // 5 minutes
+      staleTime: 1000 * 60 * 10, // 10 minutes
       gcTime: 1000 * 60 * 10, // 10 minutes
     },
   },

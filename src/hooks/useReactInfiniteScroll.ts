@@ -19,7 +19,7 @@ const useReactInfiniteScroll = ({ baseURL, fn }: Props) => {
         }
         return undefined;
       },
-      //   staleTime: 10000000
+      staleTime: 1000 * 60,
     });
 
   // Create the IntersectionObserver outside the component

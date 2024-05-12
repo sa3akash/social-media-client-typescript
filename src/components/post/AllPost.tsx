@@ -4,7 +4,7 @@ import { IPostDoc } from "@/interfaces/post.interface";
 import { Loader2 } from "lucide-react";
 import PostSkeleton from "@/components/home/skeleton/PostSkeleton";
 import { UserUtils } from "@/services/utils/userUtils";
-import useReactInfiniteScroll from "@/hooks/ReactQueryInfiniteScroll";
+import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
 import api from "@/services/http";
 
 const AllPost = () => {

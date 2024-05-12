@@ -1,39 +1,46 @@
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import React, { useState } from "react";
+import React from "react";
 import UserAvater from "@/components/common/UserAvater";
 import { NameDoc } from "@/interfaces/auth.interface";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2 } from "lucide-react";
 import UserHoverCard from "@/components/common/UserHoverCard";
+import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
+import api from "@/services/http";
+import { ICommentType } from "@/interfaces/post.interface";
 
 interface Props {
   postId: string;
 }
 const CommentsModel: React.FC<Props> = ({ postId }) => {
-  const [commentsData, setCommentsData] = useState([]);
+  const { data, lastElementRef, loading } = useReactInfiniteScroll({
+    baseURL: `comments/${postId}`,
+    fn: async ({ pageParam = 1 }) => {
+      const response = await api.get(`/comments/${postId}?page=${pageParam}`);
+      return response.data;
+    },
+  });
 
-  const { lastElementRef, loading } = useInfiniteScroll(
-    `/comments/${postId}`,
-    (data) => {
-      setCommentsData(data.comments);
-    }
-  );
+  const mainData: ICommentType[] = data?.pages.reduce((acc, page) => {
+    return [...acc, ...page.comments];
+  }, []);
 
   return (
     <div className="mx-auto max-w-[700px] w-full h-[92%] flex gap-4">
-      <div
-        className="w-full h-full md:rounded-lg bg-[#1C1C24]"
-        ref={lastElementRef}
-      >
+      <div className="w-full h-full md:rounded-lg bg-[#1C1C24]">
         {loading ? (
           <div className="h-full flex items-center justify-center">
             <Loader2 className="animate-spin w-10" />
           </div>
         ) : (
           <ScrollArea className="h-full w-full">
-            {commentsData?.map((item, index) => (
-              <SingleCommentUser key={index} item={item} />
+            {mainData?.map((item, index) => (
+              <div
+                ref={mainData.length === index + 1 ? lastElementRef : null}
+                key={index}
+              >
+                <SingleCommentUser item={item} />
+              </div>
             ))}
           </ScrollArea>
         )}
@@ -55,7 +62,6 @@ const SingleCommentUser = ({ item }: { item: any }) => {
           className="min-w-[36px] min-h-[36px]"
           avatarColor={item?.creator?.avatarColor}
           authId={item?._id}
-
         />
       </div>
       <div>

@@ -3,7 +3,7 @@ import SingleFriendItem from "@/components/friends/item/SingleFriendItem";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import useReactInfiniteScroll from "@/hooks/ReactQueryInfiniteScroll";
+import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
 import api from "@/services/http";
 import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
 

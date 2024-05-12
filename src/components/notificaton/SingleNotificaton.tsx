@@ -9,6 +9,7 @@ import { markAsReadNotification } from "@/services/http";
 import NotificationModel from "@/components/notificaton/NotificationModel";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { notificationIconMap } from "@/services/utils/map";
+import useMutationCustom from "@/hooks/useMutationCustom";
 
 interface Props {
   item: INotification;
@@ -16,8 +17,13 @@ interface Props {
 
 const SingleNotificaton = forwardRef(
   ({ item }: Props, ref: React.LegacyRef<HTMLDivElement>) => {
+
+    const mutation = useMutationCustom({
+      mutationFn: markAsReadNotification,
+    })
+
     const handleNotification = () => {
-      markAsReadNotification(item._id);
+      mutation.mutate(item._id)
     };
 
     return (

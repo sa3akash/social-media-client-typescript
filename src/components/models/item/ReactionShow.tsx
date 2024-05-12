@@ -4,12 +4,12 @@ import {
   OnlyReactionName,
   ReactionName,
 } from "@/interfaces/reaction.interface";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SingleReactionData from "@/components/models/item/SingleReactionData";
 import { ReactionIconMap, reactionColorMap } from "@/services/utils/map";
 import { Check } from "lucide-react";
-import { api } from "@/services/http/api";
-import { useToast } from "@/components/ui/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { getPostReaction } from "@/services/http";
 
 interface Props {
   activeType: ReactionName;
@@ -24,35 +24,30 @@ const ReactionShow: React.FC<Props> = ({
   setActiveType,
   postId,
 }) => {
-  const [reactionData, setReactionData] = useState([]);
-  const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
+  const notAtAll = activeType !== "more" && activeType !== "all";
 
   const apiUrl =
-    activeType && activeType !== "all"
+    activeType && notAtAll
       ? `/post/reaction/${postId}/${activeType}`
       : `/post/reactions/${postId}`;
 
-  useEffect(() => {
-    const callApi = async () => {
-      setReactionData([]);
-      setLoading(true);
-      const data = await api.getPostReactions(apiUrl, toast);
-      setReactionData(data.reactions);
-      setLoading(false);
-    };
-    activeType !== "more" && callApi();
-  }, [activeType, apiUrl, toast]);
+  const { data, isLoading } = useQuery({
+    queryKey: ["reactions", postId, activeType],
+    queryFn: () => getPostReaction(apiUrl),
+    staleTime: 1000 * 60,
+  });
+
+  const reactionsData: IReactionDoc[] = data?.data.reactions || [];
 
   return (
     <div className="w-full text-white my-2 h-[calc(100%-65px)] ">
       <ScrollArea className="relative h-full w-full">
         <div className="w-full h-full flex flex-col gap-0 p-2">
-          {reactionData.length > 0 &&
-            reactionData.map((item: IReactionDoc, index: number) => (
+          {reactionsData.length > 0 &&
+            reactionsData.map((item, index) => (
               <SingleReactionData key={index} reaction={item} active={false} />
             ))}
-          {loading && (
+          {isLoading && (
             <p className="w-full text-center text-[18px] pb-4">Loading...</p>
           )}
         </div>

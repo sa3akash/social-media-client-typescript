@@ -21,10 +21,7 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
   const [commentValue, setCommentValue] = useState<string>("");
 
   const mutation = useMutationCustom({
-    mutationFn: addComment,
-    onSuccess: ({ data }) => {
-      console.log(data);
-    },
+    mutationFn: addComment
   });
 
   const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {

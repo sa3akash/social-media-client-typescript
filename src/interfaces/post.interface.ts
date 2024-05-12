@@ -94,3 +94,14 @@ export type PostModelType =
   | "delete"
   | "pin"
   | "report";
+
+
+
+export interface ICommentType {
+  comment:string;
+  commentedUser: string;
+  createdAt:string;
+  creator: IUserDoc;
+  postId:string;
+  _id:string;
+}

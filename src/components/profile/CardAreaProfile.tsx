@@ -1,11 +1,11 @@
 import AboutMeCard from "@/components/card/AboutMeCard";
 import PhotoAndVideo from "@/components/card/PhotoAndVideo";
 import ProfilePrograce from "@/components/card/ProfilePrograce";
-import { IUserDoc } from "@/interfaces/auth.interface";
+import { IFullUserDoc } from "@/interfaces/auth.interface";
 import React from "react";
 
 interface Props {
-  user: IUserDoc
+  user: IFullUserDoc
 }
 
 const CardAreaProfile:React.FC<Props> = ({user}) => {

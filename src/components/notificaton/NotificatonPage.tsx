@@ -2,7 +2,7 @@ import { INotification } from "@/interfaces/notificaton.interface";
 import SingleNotificaton from "@/components/notificaton/SingleNotificaton";
 import NotificationSkeleton from "@/components/notificaton/skeleton/NotificationSkeleton";
 import { ListChecks, Loader2 } from "lucide-react";
-import useReactInfiniteScroll from "@/hooks/ReactQueryInfiniteScroll";
+import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
 import api from "@/services/http";
 
 const NotificatonPage = () => {
