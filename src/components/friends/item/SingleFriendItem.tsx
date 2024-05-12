@@ -5,9 +5,12 @@ import { IFollowerDoc } from "@/interfaces/auth.interface";
 import React, { LegacyRef } from "react";
 import DefaultCover from "@/assets/defaultCover.jpg";
 import UserHoverCard from "@/components/common/UserHoverCard";
-import { api } from "@/services/http/api";
+
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { followUserFn } from "@/services/http";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   item: IFollowerDoc;
@@ -19,8 +22,22 @@ const SingleFriendItem = React.forwardRef(
 
     const active = following.some((id) => id === item._id);
 
+    const queryClient = useQueryClient();
+
+    const mutation = useMutationCustom({
+      mutationFn: followUserFn,
+      onSuccess: () => {
+        const sujestedUserCache = queryClient.getQueryData([
+          "sujestedFriends",
+        ]) as IFollowerDoc[];
+
+        const filter = [...sujestedUserCache].filter((i) => i._id !== item._id);
+        queryClient.setQueryData(["sujestedFriends"], filter);
+      },
+    });
+
     const handleFollowUnFollow = () => {
-      api.followUserApi(item._id);
+      mutation.mutate(item._id);
     };
 
     return (
@@ -33,15 +50,15 @@ const SingleFriendItem = React.forwardRef(
           />
         </div>
         <div className="p-4 flex gap-2">
-            <UserAvater
-              src={item.profilePicture}
-              name={item.name}
-              // className="md:absolute md:top-20 z-20 !w-[60px] !h-[60px] md:!w-[90px] md:!h-[90px] object-cover rounded-full border-[4px] border-white"
-              className="!w-[60px] !h-[60px] md:!w-[90px] md:!h-[90px] object-cover rounded-full border-[4px] border-white"
-              avatarColor={item.avatarColor}
-              authId={item._id}
-              indicator="md:right-2 w-4 h-4 md:w-5 md:h-5 border-[3px]"
-            />
+          <UserAvater
+            src={item.profilePicture}
+            name={item.name}
+            // className="md:absolute md:top-20 z-20 !w-[60px] !h-[60px] md:!w-[90px] md:!h-[90px] object-cover rounded-full border-[4px] border-white"
+            className="!w-[60px] !h-[60px] md:!w-[90px] md:!h-[90px] object-cover rounded-full border-[4px] border-white"
+            avatarColor={item.avatarColor}
+            authId={item._id}
+            indicator="md:right-2 w-4 h-4 md:w-5 md:h-5 border-[3px]"
+          />
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
               <div className="flex flex-col">

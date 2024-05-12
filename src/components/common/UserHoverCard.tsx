@@ -14,9 +14,11 @@ import { timeAgo } from "@/services/utils/timeAgo";
 import { FollowButton } from "@/components/common/FollowButton";
 import { cn } from "@/lib/utils";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
-import { api } from "@/services/http/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { followUserFn } from "@/services/http";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   item: IFollowerDoc;
@@ -25,14 +27,29 @@ interface Props {
 
 const UserHoverCard: React.FC<Props> = ({ item, className }) => {
   const { following, user } = useSelector((state: RootState) => state.auth);
-  const navigate= useNavigate()
+  const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutationCustom({
+    mutationFn: followUserFn,
+    onSuccess: () => {
+      const sujestedUserCache = queryClient.getQueryData([
+        "sujestedFriends",
+      ]) as IFollowerDoc[];
+
+      const filter = [...sujestedUserCache].filter((i) => i._id !== item._id);
+      queryClient.setQueryData(["sujestedFriends"], filter);
+    },
+  });
+
   return (
     <HoverCard>
       <HoverCardTrigger>
         <Button
           variant="link"
           className={cn("font-semibold text-[18px] capitalize p-0", className)}
-          onClick={()=>navigate(`/u/${item._id}`)}
+          onClick={() => navigate(`/u/${item._id}`)}
         >
           {item?.name.first} {item?.name.last}
         </Button>
@@ -100,7 +117,7 @@ const UserHoverCard: React.FC<Props> = ({ item, className }) => {
             }
             className="w-full"
             fn={() => {
-              api.followUserApi(item._id);
+              mutation.mutate(item._id);
             }}
           />
           <FollowButton

@@ -4,7 +4,7 @@ import RightSide from "@/components/home/RightSide";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ModelProviders from "@/components/providers/ModelProviders";
-
+import useEveryRender from "@/hooks/useEveryRender";
 
 const Layout = () => {
   const pathname = useLocation().pathname.split("/")[1];
@@ -15,6 +15,8 @@ const Layout = () => {
       navigate("/feed");
     }
   }, [navigate, pathname]);
+
+  useEveryRender();
 
   return (
     <div className="h-full w-full">

@@ -1,5 +1,6 @@
 import { config } from "@/config";
 import {
+  IFollowerDoc,
   IForgotPassword,
   ILogin,
   IRegister,
@@ -30,7 +31,12 @@ export const forgotFn = (data: IForgotPassword) =>
   api.post("/forgot-password", data);
 export const resetFn = (token: string, data: IResetPassword) =>
   api.post(`/reset-password/${token}`, data);
-export const suggestedFriendFn = () => api.get("/users/random");
+export const suggestedFriendFn = async() => {
+  const {data} = await api.get("/users/random")
+  return data?.users as IFollowerDoc[]
+};
+
+
 export const followUserFn = (userId: string) =>
   api.put(`user/follow/${userId}`);
 export const currentUser = (authId: string) =>

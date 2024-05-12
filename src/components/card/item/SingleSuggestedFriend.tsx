@@ -1,15 +1,34 @@
 import UserAvater from "@/components/common/UserAvater";
 import { Button } from "@/components/ui/button";
+import useMutationCustom from "@/hooks/useMutationCustom";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
-import { api } from "@/services/http/api";
-import { Dispatch, FC } from "react";
+import { followUserFn } from "@/services/http";
+import { useQueryClient } from "@tanstack/react-query";
+import { FC } from "react";
 
 interface Props {
   item: IFollowerDoc;
-  setData: Dispatch<React.SetStateAction<IFollowerDoc[] | undefined>>;
 }
 
-const SingleSuggestedFriend: FC<Props> = ({ item, setData }) => {
+const SingleSuggestedFriend: FC<Props> = ({ item }) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutationCustom({
+    mutationFn: followUserFn,
+    onSuccess: () => {
+      const sujestedUserCache = queryClient.getQueryData([
+        "sujestedFriends",
+      ]) as IFollowerDoc[];
+
+      const filter = [...sujestedUserCache].filter((i) => i._id !== item._id);
+      queryClient.setQueryData(["sujestedFriends"], filter);
+    },
+  });
+
+  const followUser = () => {
+    mutation.mutate(item._id);
+  };
+
   return (
     <div className="w-full flex items-center gap-4 justify-between mr-2">
       <div className="flex items-center gap-2">
@@ -24,10 +43,7 @@ const SingleSuggestedFriend: FC<Props> = ({ item, setData }) => {
         <div className="text-[14px] tracking-[0.2px] capitalize">{`${item.name.first} ${item.name.last}`}</div>
       </div>
       <Button
-        onClick={() => {
-          api.followUserApi(item._id);
-          setData((prev) => prev?.filter((i) => i._id !== item._id));
-        }}
+        onClick={followUser}
         className="h-8 capitalize font-semibold text-[14px] bg-green-400"
       >
         follow

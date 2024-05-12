@@ -5,12 +5,10 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface NotificationState {
   notifications: INotification[] | [];
-  loading?: boolean;
 }
 
 const initialState: NotificationState = {
   notifications: [],
-  loading: true,
 };
 
 export const NotificationSlice = createSlice({
@@ -27,7 +25,6 @@ export const NotificationSlice = createSlice({
         ...action.payload.notifications,
       ]);
       state.notifications = uniqueArray;
-      state.loading = false;
     },
     addNotification: (state, action: PayloadAction<INotification>) => {
       state.notifications = [action.payload, ...state.notifications];
@@ -51,7 +48,6 @@ export const NotificationSlice = createSlice({
       );
     },
     resetNotifications: (state) => {
-      state.loading = initialState.loading;
       state.notifications = initialState.notifications;
     },
   },

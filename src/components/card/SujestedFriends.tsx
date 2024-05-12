@@ -1,31 +1,28 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import MoreDot from "@/assets/images/ic_More_3_dot.svg";
 import CardSkeleton from "@/components/card/skeleton/CardSkeleton";
 import SingleSuggestedFriend from "@/components/card/item/SingleSuggestedFriend";
-import { api } from "@/services/http/api";
-import { IFollowerDoc } from "@/interfaces/auth.interface";
-import useEffectOnce from "@/hooks/useEffectOnece";
-import { useToast } from "@/components/ui/use-toast";
+
+import { useQuery } from "@tanstack/react-query";
+import { suggestedFriendFn } from "@/services/http";
 
 const SujestedFriends = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
-  const [data, setData] = useState<IFollowerDoc[] | undefined>();
-  const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
 
-  useEffectOnce(async () => {
-    setLoading(true);
-    setData(await api.suggestedFriendCall(toast));
-    setLoading(false);
+  const { isPending, data } = useQuery({
+    queryKey: ["sujestedFriends"],
+    queryFn: suggestedFriendFn,
+    staleTime: 1000 * 60,
   });
 
-  if (loading) {
+  if (isPending) {
     return <CardSkeleton />;
   }
+
 
   return (
     <div
@@ -51,7 +48,7 @@ const SujestedFriends = () => {
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full items-center gap-4">
-        {data?.map((u, i) => <SingleSuggestedFriend key={i} item={u} setData={setData}/>)}
+        {data?.map((u, i) => <SingleSuggestedFriend key={i} item={u} />)}
       </div>
     </div>
   );

@@ -10,8 +10,6 @@ import {
 } from "@/services/utils/map";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { api } from "@/services/http/api";
-import { useToast } from "@/components/ui/use-toast";
 import ActionTolltip from "@/components/common/ActionTolltip";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -29,8 +27,6 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
   const [openReaction, setOpenReaction] = useState(false);
   const { userReaction } = useSelector((state: RootState) => state.auth);
 
-  const { toast } = useToast();
-
   const reactionType = PostUtils.userReactionExists(userReaction, postId);
 
   let timeout: string | number | NodeJS.Timeout | undefined;
@@ -45,6 +41,9 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
     setOpenReaction(false);
   };
 
+  const mutation = useMutationCustom({
+    mutationFn: updateReaction,
+  });
   return (
     <div className="px-4 py-1 border-t border-b">
       <div className="flex items-center justify-around gap-2 select-none">
@@ -56,7 +55,7 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
           onTouchEnd={handleMouseLeave}
           onClick={(e) => {
             e.stopPropagation();
-            api.updateReactionCall({ postId, type: "love" }, toast);
+            mutation.mutate({ postId, type: "love" });
             handleMouseLeave();
           }}
         >

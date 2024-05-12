@@ -2,28 +2,16 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import SingleNotificaton from "@/components/common/item/SingleNotificaton";
 import { cn } from "@/lib/utils";
 import { INotification } from "@/interfaces/notificaton.interface";
-import { useDispatch, useSelector } from "react-redux";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import { AppDispatch, RootState } from "@/store";
-import { Loader2 } from "lucide-react";
-import { setNotification } from "@/store/reducers/NotificationReducer";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { buttonVariants } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const NotificationDrop = () => {
   const { notifications } = useSelector(
-    (store: RootState) => store.notification
+    (state: RootState) => state.notification
   );
-  const dispatch: AppDispatch = useDispatch();
 
-  const { lastElementRef, loading } = useInfiniteScroll(
-    "/notifications",
-    (data: { notifications: INotification[] }) => {
-      dispatch(
-        setNotification({
-          notifications: data?.notifications as INotification[],
-        })
-      );
-    }
-  );
   return (
     <div
       className={cn(
@@ -36,19 +24,18 @@ const NotificationDrop = () => {
         </h3>
         {notifications?.map((item: INotification, index: number) =>
           notifications.length === index + 1 ? (
-            <SingleNotificaton key={index} item={item} ref={lastElementRef} />
+            <SingleNotificaton key={index} item={item} />
           ) : (
             <SingleNotificaton key={index} item={item} />
           )
         )}
-        {loading && (
-          <p className="p-4 flex items-center justify-center">
-            <Loader2 className="animate-spin w-6 h-6" />
-          </p>
-        )}
-        {notifications.length === 0 && (
-          <p className="p-4 flex items-center justify-center">Not found!</p>
-        )}
+
+        <Link
+          to="/notifications"
+          className={cn(buttonVariants(), "w-full h-12")}
+        >
+          See more
+        </Link>
       </ScrollArea>
     </div>
   );

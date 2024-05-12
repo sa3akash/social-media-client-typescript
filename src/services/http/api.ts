@@ -1,83 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  IFollowerDoc,
   IFullUserDoc,
-  ILogin,
-  IRegister,
 } from "@/interfaces/auth.interface";
 import {
-  loginFn,
-  registerFn,
-  suggestedFriendFn,
+
   currentUser,
   markAsReadNotification,
   getNotificaitons,
-  updateReaction,
   getUserReaction,
   getPostReaction,
   getLoginData,
-  followUser,
   sendMessageJson,
   getConversations,
   getNotificaitonsData,
 } from ".";
 import { store } from "@/store";
 import {
-  setAuth,
   setLoginUserData,
   setUserReactions,
 } from "@/store/reducers/AuthReducer";
 import { axiosError } from "@/services/utils/serializeError";
 import { AxiosError } from "axios";
 import { setNotification } from "@/store/reducers/NotificationReducer";
-import { ApiReactionInterface } from "@/interfaces/http.interface";
 import { ISendMessageDataJson } from "@/interfaces/chat.interface";
 import { setConversation } from "@/store/reducers/MessangerReducer";
 import { INotificationSettings } from "@/interfaces/settings.interface";
 
 class Api {
-  public async loginCall(data: ILogin, toast: any): Promise<void> {
-    try {
-      const response = await loginFn({
-        email: data.email,
-        password: data.password,
-      });
-      store.dispatch(
-        setAuth({
-          authId: response.data?.user._id,
-          ...response.data?.user,
-        }),
-      );
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
-
-  public async registerCall(data: IRegister, toast: any): Promise<void> {
-    try {
-      const response = await registerFn(data);
-      store.dispatch(
-        setAuth({
-          authId: response.data?.user._id,
-          ...response.data?.user,
-        }),
-      );
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
 
 
-  public async suggestedFriendCall(
-    toast: any,
-  ): Promise<IFollowerDoc[] | undefined> {
-    try {
-      const response = await suggestedFriendFn();
-      return response.data?.users as IFollowerDoc[];
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
+
+
+
 
   public async currentUser(
     authId: string,
@@ -116,16 +70,7 @@ class Api {
     }
   }
 
-  public async updateReactionCall(
-    body: ApiReactionInterface,
-    toast: any,
-  ): Promise<void> {
-    try {
-      await updateReaction(body);
-    } catch (err) {
-      this.responseError(err, toast);
-    }
-  }
+
 
   public async getUserReactions(): Promise<void> {
     try {
@@ -140,13 +85,6 @@ class Api {
     try {
       const { data } = await getLoginData();
       store.dispatch(setLoginUserData(data));
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  public async followUserApi(authId: string): Promise<void> {
-    try {
-      await followUser(authId);
     } catch (err) {
       console.log(err);
     }

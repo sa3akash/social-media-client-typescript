@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import Search from "@/assets/images/ic_Search.svg";
 import Chat from "@/assets/images/Chat.svg";
@@ -12,34 +13,31 @@ import Notification_off from "@/assets/images/ic_Notification_off.svg";
 
 import NavbarItem from "@/components/common/item/NavbarItem";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import NotificationDrop from "@/components/common/item/NotificationDrop";
 import FriendsDropDown from "@/components/common/item/FriendsDropDown";
 import MessageDropDown from "@/components/common/item/MessageDropDown";
 import { NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import Logo from '@/assets/images/Logo.svg';
-import { api } from "@/services/http/api";
+import Logo from "@/assets/images/Logo.svg";
+import { INotification } from "@/interfaces/notificaton.interface";
 
 const Navbar = () => {
   const { user } = useSelector((store: RootState) => store.auth);
+
   const { notifications } = useSelector(
-    (store: RootState) => store.notification
+    (state: RootState) => state.notification
   );
-
-  useEffect(()=>{
-    api.getUserLoginData()
-    api.getUserReactions();
-    api.getNotification();
-  },[user?.authId])
-
 
   return (
     <>
       <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
         <div className="flex items-center gap-6 lg:gap-24 flex-1">
-          <Link to={PageURL.Feed} className="hidden md:block select-none min-w-[180px]">
+          <Link
+            to={PageURL.Feed}
+            className="hidden md:block select-none min-w-[180px]"
+          >
             <img
               src={Logo}
               alt="Logo"
@@ -63,7 +61,11 @@ const Navbar = () => {
               type="search"
               placeholder="Search"
             />
-            <img src={Search} alt="search" className="pr-2 md:pr-0 pointer-events-none" />
+            <img
+              src={Search}
+              alt="search"
+              className="pr-2 md:pr-0 pointer-events-none"
+            />
           </div>
         </div>
 
@@ -72,7 +74,7 @@ const Navbar = () => {
           <NavItem imageSrc={Chat} DropNode={<MessageDropDown />} text="chat" />
           <NavItem
             imageSrc={
-              notifications.some((n) => !n.read)
+              notifications.some((n: INotification) => !n.read)
                 ? Notification
                 : Notification_off
             }
@@ -87,7 +89,7 @@ const Navbar = () => {
                 authId={user?.authId}
                 indicator="hidden"
               />
-              <img src={Dropdown} alt="drop" className="pointer-events-none"/>
+              <img src={Dropdown} alt="drop" className="pointer-events-none" />
             </div>
           </NavbarItem>
         </div>
@@ -122,7 +124,11 @@ const NavItem = ({ imageSrc, DropNode, text }: NavItemProps) => {
         )}
         onClick={() => setNotificationOpen((prev) => !prev)}
       >
-        <img src={imageSrc} alt="Notification" className="pointer-events-none"/>
+        <img
+          src={imageSrc}
+          alt="Notification"
+          className="pointer-events-none"
+        />
       </div>
       {notficationOpen && <>{DropNode}</>}
     </div>
