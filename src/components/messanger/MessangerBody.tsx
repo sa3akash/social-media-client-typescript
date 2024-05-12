@@ -6,73 +6,73 @@ import { useSelector } from "react-redux";
 
 import { X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import CallingAudioVideo from "@/components/messanger/item/CallingAudioVideo";
+// import CallingAudioVideo from "@/components/messanger/item/CallingAudioVideo";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { IMessageData } from "@/interfaces/chat.interface";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import api from "@/services/http";
 import SingleMessage from "./item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 import useChatSocket from "@/services/socket/useChatSocket";
-import { useSocket } from "@/hooks/useSocket";
-import { useChatScroll } from "@/hooks/useChatScroll";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [openCall, setOpenCall] = useState("");
 
+  console.log(openCall);
+
   const [searchParams] = useSearchParams();
   const conversationId = searchParams.get("conversationId");
 
   const [gif, setGif] = useState<string>("");
 
-  const chatRef = useRef<ElementRef<"div">>(null);
+  // const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
 
-  // const { data } = useQuery({
-  //   queryKey: ["messages", conversationId],
-  //   queryFn: async () => {
-  //     const { data } = await api.get(`/chat/messagess/${conversationId}`);
-  //     return data.messages as IMessageData[];
-  //   },
-  //   staleTime: 1000,
-  // });
-
-  const { fetchNextPage, hasNextPage, data, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["messages", conversationId],
-      queryFn: async ({ pageParam = 1 }) => {
-        const { data } = await api.get(
-          `/chat/messagess/${conversationId}?page=${pageParam}`
-        );
-        return data;
-      },
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.currentPage < lastPage.numberOfPages) {
-          return lastPage.currentPage + 1;
-        }
-        return undefined;
-      },
-      staleTime: 1000 * 60,
-    });
-
-  const mainData = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.messages];
-  }, []) as IMessageData[];
-
-  useChatScroll({
-    bottomRef,
-    chatRef,
-    loadMore: fetchNextPage,
+  const { data: mainData } = useQuery({
+    queryKey: ["messages", conversationId],
+    queryFn: async () => {
+      const { data } = await api.get(`/chat/messagess/${conversationId}`);
+      return data.messages as IMessageData[];
+    },
+    staleTime: 1000,
   });
+
+  // const { fetchNextPage, hasNextPage, data, isFetchingNextPage } =
+  //   useInfiniteQuery({
+  //     queryKey: ["messages", conversationId],
+  //     queryFn: async ({ pageParam = 1 }) => {
+  //       const { data } = await api.get(
+  //         `/chat/messagess/${conversationId}?page=${pageParam}`
+  //       );
+  //       return data;
+  //     },
+  //     initialPageParam: 1,
+  //     getNextPageParam: (lastPage) => {
+  //       if (lastPage.currentPage < lastPage.numberOfPages) {
+  //         return lastPage.currentPage + 1;
+  //       }
+  //       return undefined;
+  //     },
+  //     staleTime: 1000 * 60,
+  //   });
+
+  // const mainData = data?.pages.reduce((acc, page) => {
+  //   return [...acc, ...page.messages];
+  // }, []) as IMessageData[];
+
+  // useChatScroll({
+  //   bottomRef,
+  //   chatRef,
+  //   loadMore: fetchNextPage,
+  // });
 
   useChatSocket({ messages: mainData });
 
-  // useEffect(() => {
-  //   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [data]);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [mainData]);
 
   if (!mainData?.length) {
     return null;
@@ -85,10 +85,7 @@ const MessangerBody = () => {
       <div className="flex-1 flex flex-col h-full w-full justify-end relative">
         {/* {receiverId && <CallingAudioVideo openCall={openCall}/>} */}
         <ScrollArea>
-          <div
-            className="flex flex-col gap-4 h-full px-0 py-4 md:p-4"
-            ref={chatRef}
-          >
+          <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
             {mainData.map((message, index) => (
               <SingleMessage
                 item={message}
@@ -107,7 +104,7 @@ const MessangerBody = () => {
                 lastMessage={index + 1 === mainData.length}
               />
             ))}
-            <div ref={bottomRef}></div>
+            <div ref={bottomRef} />
           </div>
         </ScrollArea>
         {gif && (

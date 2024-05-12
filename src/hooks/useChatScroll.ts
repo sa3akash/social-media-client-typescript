@@ -18,22 +18,23 @@ export const useChatScroll = ({
   useEffect(() => {
     const topDiv = chatRef?.current;
 
+    if (!topDiv) return;
 
     const handleScroll = () => {
-      const scrollTop = topDiv?.scrollTop;
-      console.log(scrollTop)
+      const scrollTop = topDiv.scrollTop;
+      console.log(scrollTop);
 
       if (scrollTop === 0) {
         // loadMore()
-        console.log('running scroll')
+        console.log('running scroll');
       }
     };
 
-    topDiv?.addEventListener("scroll", handleScroll);
+    topDiv.addEventListener("scroll", handleScroll);
 
     return () => {
-      topDiv?.removeEventListener("scroll", handleScroll);
-    }
+      topDiv.removeEventListener("scroll", handleScroll);
+    };
   }, [loadMore, chatRef]);
 
   useEffect(() => {
