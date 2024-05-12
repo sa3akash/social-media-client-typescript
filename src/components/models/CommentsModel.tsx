@@ -3,7 +3,7 @@ import UserAvater from "@/components/common/UserAvater";
 import { NameDoc } from "@/interfaces/auth.interface";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2 } from "lucide-react";
+import { Loader2,MessagesSquare } from "lucide-react";
 import UserHoverCard from "@/components/common/UserHoverCard";
 import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
 import api from "@/services/http";
@@ -28,22 +28,31 @@ const CommentsModel: React.FC<Props> = ({ postId }) => {
   return (
     <div className="mx-auto max-w-[700px] w-full h-[92%] flex gap-4">
       <div className="w-full h-full md:rounded-lg bg-[#1C1C24]">
-        {loading ? (
-          <div className="h-full flex items-center justify-center">
-            <Loader2 className="animate-spin w-10" />
-          </div>
-        ) : (
-          <ScrollArea className="h-full w-full">
-            {mainData?.map((item, index) => (
-              <div
-                ref={mainData.length === index + 1 ? lastElementRef : null}
-                key={index}
-              >
-                <SingleCommentUser item={item} />
-              </div>
-            ))}
-          </ScrollArea>
-        )}
+        <ScrollArea className="h-full w-full">
+          {mainData?.map((item, index) => (
+            <div
+              ref={mainData?.length === index + 1 ? lastElementRef : null}
+              key={index}
+            >
+              <SingleCommentUser item={item} />
+            </div>
+          ))}
+          {!data && (
+            <div className="h-full flex items-center justify-center my-6 gap-2">
+              <Loader2 className="animate-spin w-10" /> Loading...
+            </div>
+          )}
+          {loading && (
+            <div className="h-full flex items-center justify-center my-6 gap-2">
+              <Loader2 className="animate-spin w-10" /> Loading...
+            </div>
+          )}
+          {!mainData?.length && (
+            <div className="h-full flex items-center justify-center my-6 gap-2">
+              <MessagesSquare /> No comment found
+            </div>
+          )}
+        </ScrollArea>
       </div>
     </div>
   );

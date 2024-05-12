@@ -1,18 +1,17 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SingleConversationItem from "@/components/messanger/item/SingleConversationItem";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import { FC, useState } from "react";
 import AddConversationDialog from "@/components/messanger/item/AddConversationDialog";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "react-router-dom";
+import { IMessageData } from "@/interfaces/chat.interface";
 
-interface Props {}
+interface Props {
+  conversations:IMessageData[]
+}
 
-const MessangerSidebar: FC<Props> = () => {
-  const { conversations } = useSelector(
-    (state: RootState) => state.messanger
-  );
+const MessangerSidebar: FC<Props> = ({conversations}) => {
+
   const [openSearchModel, setOpenSearchModel] = useState(false);
   const [searchParams] = useSearchParams()
 

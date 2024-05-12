@@ -1,5 +1,4 @@
 import { Socket } from "socket.io-client";
-import { ChatSocket } from "@/services/socket/chatSocket";
 import { store } from "@/store";
 import { setOnlineUsers } from "@/store/reducers/AuthReducer";
 
@@ -12,7 +11,6 @@ export class SocketService {
   // start connection
   public setupSocketConnection() {
     this.socketConnectionEvents();
-    ChatSocket.init(this.socket);
   }
 
   // disconnect connection

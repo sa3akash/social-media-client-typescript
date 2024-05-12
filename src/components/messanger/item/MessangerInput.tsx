@@ -8,17 +8,17 @@ import { NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
-import { api } from "@/services/http/api";
-import { useToast } from "@/components/ui/use-toast";
 import GiphyPopover from "@/components/common/GiphyPopover";
 import { useSearchParams } from "react-router-dom";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { sendMessageJson } from "@/services/http";
 
 interface Props {
-  setGif:React.Dispatch<React.SetStateAction<string>>;
-  gif:string;
+  setGif: React.Dispatch<React.SetStateAction<string>>;
+  gif: string;
 }
 
-const MessangerInput: FC<Props> = ({setGif,gif}) => {
+const MessangerInput: FC<Props> = ({ setGif, gif }) => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [messageValue, setMessageValue] = useState<string>("");
@@ -29,22 +29,23 @@ const MessangerInput: FC<Props> = ({setGif,gif}) => {
     }
   };
 
-  const { toast } = useToast();
+  const [searchParam] = useSearchParams();
 
-  const [searchParam] = useSearchParams()
+  const mutation = useMutationCustom({
+    mutationFn: sendMessageJson,
+  });
 
   const sendMessage = () => {
-    if (messageValue.length > 0 && user || gif) {
+    if ((messageValue.length > 0 && user) || gif) {
       const data = {
         body: messageValue,
         receiverId: searchParam.get("receiverId") as string,
         conversationId: searchParam.get("conversationId") as string,
         gifUrl: gif,
       };
-
-      api.sendMessageJsonCall(data, toast);
+      mutation.mutate(data);
       setMessageValue("");
-      setGif("")
+      setGif("");
     }
   };
 
@@ -66,16 +67,20 @@ const MessangerInput: FC<Props> = ({setGif,gif}) => {
             type="text"
             className="w-full focus:outline-none bg-transparent placeholder:roboto placeholder:text-[#92929D] roboto text-[14px] leading-6 "
             placeholder="Write messages down here…"
-            ref={inputRef}
+            ref={(el)=>{
+              el?.focus()
+              inputRef.current = el;
+            }}
             onChange={(e) => setMessageValue(e.target.value as string)}
             value={messageValue}
             onKeyDown={handlekeydown}
+            disabled={mutation.isPending}
           />
           <div className="flex items-center gap-4">
             <GiphyPopover
               fn={(url: string) => {
                 inputRef.current?.focus();
-                setGif(url)
+                setGif(url);
               }}
             >
               <img
@@ -94,7 +99,9 @@ const MessangerInput: FC<Props> = ({setGif,gif}) => {
             </EmojiPicker>
           </div>
         </div>
-        <Button onClick={sendMessage}>Send</Button>
+        <Button onClick={sendMessage} disabled={mutation.isPending}>
+          Send
+        </Button>
       </div>
     </div>
   );

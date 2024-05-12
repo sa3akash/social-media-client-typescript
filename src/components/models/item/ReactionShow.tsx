@@ -7,7 +7,7 @@ import {
 import React from "react";
 import SingleReactionData from "@/components/models/item/SingleReactionData";
 import { ReactionIconMap, reactionColorMap } from "@/services/utils/map";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getPostReaction } from "@/services/http";
 
@@ -48,7 +48,9 @@ const ReactionShow: React.FC<Props> = ({
               <SingleReactionData key={index} reaction={item} active={false} />
             ))}
           {isLoading && (
-            <p className="w-full text-center text-[18px] pb-4">Loading...</p>
+            <div className="h-full flex items-center justify-center my-6 gap-2">
+              <Loader2 className="animate-spin w-10" /> Loading...
+            </div>
           )}
         </div>
         {activeType === "more" && (
