@@ -22,8 +22,6 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-
-
 // List of all the endpoints
 export const loginFn = (data: ILogin) => api.post("/signin", data);
 export const registerFn = (data: IRegister) => api.post("/signup", data);
@@ -31,11 +29,10 @@ export const forgotFn = (data: IForgotPassword) =>
   api.post("/forgot-password", data);
 export const resetFn = (token: string, data: IResetPassword) =>
   api.post(`/reset-password/${token}`, data);
-export const suggestedFriendFn = async() => {
-  const {data} = await api.get("/users/random")
-  return data?.users as IFollowerDoc[]
+export const suggestedFriendFn = async () => {
+  const { data } = await api.get("/users/random");
+  return data?.users as IFollowerDoc[];
 };
-
 
 export const followUserFn = (userId: string) =>
   api.put(`user/follow/${userId}`);
@@ -74,8 +71,6 @@ export const getNotificaitonsData = () =>
   api.get("/users/settings/notificatons");
 export const updateNotificaitons = (body: INotificationSettings) =>
   api.put("/users/settings/notificaton", body);
-
-
 
 // form data
 export const createPostApi = (data: FormData) =>

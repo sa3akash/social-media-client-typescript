@@ -30,7 +30,7 @@ const useEveryRender = () => {
       dispatch(
         setNotification({
           notifications: notificationData,
-        })
+        }),
       );
     }
     if (reactionsData) {

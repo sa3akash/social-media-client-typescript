@@ -44,7 +44,7 @@ const useReactInfiniteScroll = ({ baseURL, fn }: Props) => {
           root: null,
           rootMargin: "0px",
           threshold: 1.0,
-        }
+        },
       );
 
       if (node) {
@@ -52,7 +52,7 @@ const useReactInfiniteScroll = ({ baseURL, fn }: Props) => {
       }
     },
 
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
   );
 
   return { data, lastElementRef, loading: isFetchingNextPage };

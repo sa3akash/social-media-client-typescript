@@ -95,13 +95,11 @@ export type PostModelType =
   | "pin"
   | "report";
 
-
-
 export interface ICommentType {
-  comment:string;
+  comment: string;
   commentedUser: string;
-  createdAt:string;
+  createdAt: string;
   creator: IUserDoc;
-  postId:string;
-  _id:string;
+  postId: string;
+  _id: string;
 }

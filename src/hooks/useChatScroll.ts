@@ -10,10 +10,8 @@ export const useChatScroll = ({
   chatRef,
   bottomRef,
   loadMore,
-
 }: ChatScrollProps) => {
   const [hasInitialized, setHasInitialized] = useState(false);
-
 
   useEffect(() => {
     const topDiv = chatRef?.current;
@@ -26,7 +24,7 @@ export const useChatScroll = ({
 
       if (scrollTop === 0) {
         // loadMore()
-        console.log('running scroll');
+        console.log("running scroll");
       }
     };
 
@@ -50,9 +48,10 @@ export const useChatScroll = ({
         return false;
       }
 
-      const distanceFromBottom = topDiv.scrollHeight - topDiv.scrollTop - topDiv.clientHeight;
+      const distanceFromBottom =
+        topDiv.scrollHeight - topDiv.scrollTop - topDiv.clientHeight;
       return distanceFromBottom <= 100;
-    }
+    };
 
     if (shouldAutoScroll()) {
       setTimeout(() => {
@@ -62,4 +61,4 @@ export const useChatScroll = ({
       }, 100);
     }
   }, [bottomRef, chatRef, hasInitialized]);
-}
+};

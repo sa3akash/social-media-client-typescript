@@ -42,7 +42,7 @@ const usePostSocket = () => {
       ]) as MainPostQueryType;
       const filteredPages = postCache.pages.map((items) => {
         const updatedData = items.posts.map((item) =>
-          item._id === data._id ? data : item
+          item._id === data._id ? data : item,
         );
         return {
           ...items,

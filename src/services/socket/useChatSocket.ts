@@ -7,10 +7,10 @@ import { IMessageData } from "@/interfaces/chat.interface";
 import { useSearchParams } from "react-router-dom";
 
 interface Props {
-    messages: IMessageData[] | undefined
+  messages: IMessageData[] | undefined;
 }
 
-const useChatSocket = ({messages}:Props) => {
+const useChatSocket = ({ messages }: Props) => {
   const { socket } = useSocket();
   const queryClient = useQueryClient();
 
@@ -41,7 +41,7 @@ const useChatSocket = ({messages}:Props) => {
       ]) as IMessageData[];
 
       const updatedConversations = [...conversationCache].map((c) =>
-        c.conversationId === data.conversationId ? { ...c, isRead: true } : c
+        c.conversationId === data.conversationId ? { ...c, isRead: true } : c,
       );
       queryClient.setQueryData(["conversations"], updatedConversations);
 
@@ -52,7 +52,7 @@ const useChatSocket = ({messages}:Props) => {
         ]) as IMessageData[];
 
         const updatedMessges = [...messageCache].map((m) =>
-          !m.isRead ? { ...m, isRead: true } : m
+          !m.isRead ? { ...m, isRead: true } : m,
         );
         queryClient.setQueryData(["messages", conversationId], updatedMessges);
       }
@@ -64,11 +64,11 @@ const useChatSocket = ({messages}:Props) => {
     };
   }, [conversationId, queryClient, socket]);
 
-
   useEffect(() => {
     if (!messages) return;
     const otherMessage =
-      messages.length && messages[messages.length - 1].senderId !== user?.authId;
+      messages.length &&
+      messages[messages.length - 1].senderId !== user?.authId;
     if (otherMessage) {
       socket?.emit("markAsMessage", {
         conversationId: conversationId,
@@ -80,6 +80,5 @@ const useChatSocket = ({messages}:Props) => {
       socket?.off("markAsMessage");
     };
   }, [conversationId, messages, receiverId, socket, user?.authId]);
-
 };
 export default useChatSocket;
