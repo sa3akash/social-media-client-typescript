@@ -46,7 +46,7 @@ const UserAvater: React.FC<Props> = ({
         </AvatarFallback>
       </Avatar>
       {onlineUsers.some((id) => id === authId) && (
-        <div className={cn("absolute bottom-1 right-0 w-3 h-3 rounded-full bg-[#82C43C] border-[2px] border-white",
+        <div className={cn("absolute bottom-0 right-0 w-3 h-3 rounded-full bg-[#82C43C] border-[2px] border-white",
         indicator
         )} />
       )}

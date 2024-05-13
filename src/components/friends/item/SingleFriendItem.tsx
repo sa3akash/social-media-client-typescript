@@ -25,6 +25,7 @@ const SingleFriendItem = React.forwardRef(
     const queryClient = useQueryClient();
 
     const mutation = useMutationCustom({
+      mutationKey: ['follow'],
       mutationFn: followUserFn,
       onSuccess: () => {
         const sujestedUserCache = queryClient.getQueryData([

@@ -1,20 +1,14 @@
 import UserAvater from "@/components/common/UserAvater";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import { AppDispatch, RootState } from "@/store";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { RootState } from "@/store";
 import React, { useState } from "react";
-import {useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import SearchIcon from "@/assets/images/ic_Search.svg";
 import { IFollowerDoc, IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import useDebounce from "@/hooks/useDebounce";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { Loader2 } from "lucide-react";
 import { X } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
-import { setMessages } from "@/store/reducers/MessangerReducer";
 
 interface Props {
   openSearchModel: boolean;
@@ -31,13 +25,9 @@ const AddConversationDialog: React.FC<Props> = ({
   const [searchName, setSearchName] = useState("");
   const searchValue = useDebounce(searchName, 1000);
 
-
-  const { loading } = useInfiniteScroll(
-    `/users/${searchValue}`,
-    (data) => {
-      setSearchUsers(data.search || []);
-    }
-  );
+  const { loading } = useInfiniteScroll(`/users/${searchValue}`, (data) => {
+    setSearchUsers(data.search || []);
+  });
 
   return (
     <Dialog
@@ -54,7 +44,7 @@ const AddConversationDialog: React.FC<Props> = ({
               fallbackClassName="text-[12px]"
               avatarColor={user?.avatarColor}
               authId={user?.authId}
-              indicator='hidden'
+              indicator="hidden"
             />
             <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background select-none items-center gap-2">
               <img
@@ -94,7 +84,7 @@ const AddConversationDialog: React.FC<Props> = ({
                 <SingleUser
                   fUser={{
                     authId: fUser._id,
-                    ...fUser
+                    ...fUser,
                   }}
                   key={index}
                   setOpenSearchModel={setOpenSearchModel}
@@ -118,18 +108,7 @@ const SingleUser = ({
   fUser: IUserDoc;
   setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const {conversations} = useSelector((state:RootState)=>state.messanger);
-  const [,setSearchParams] = useSearchParams()
-  const dispatch:AppDispatch = useDispatch()
-
   const handleSelectUser = () => {
-    const find = conversations.find(con=>con.senderId === fUser.authId || con.receiverId === fUser.authId)
-    if(find){
-      setSearchParams({conversationId:find.conversationId,receiverId:find.user.authId})
-    }else{
-      setSearchParams({conversationId:'',receiverId:fUser.authId})
-      dispatch(setMessages([]))
-    }
     setOpenSearchModel(false);
   };
 
@@ -144,8 +123,7 @@ const SingleUser = ({
         className="w-[36px] h-[36px] md:w-[36px] md:h-[36px]"
         avatarColor={fUser?.avatarColor}
         authId={fUser?.authId}
-        indicator='bottom-3'
-
+        indicator="bottom-3"
       />
       <div className="flex-1">
         <div className="flex items-center justify-between">

@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
 interface Props {
-  mutationKey: string[];
+  mutationKey?: string[];
   mutationFn: (data?: any) => Promise<AxiosResponse<any, any>>;
   onSuccess?: (data: AxiosResponse<any, any>) => void;
 }
