@@ -11,11 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
+import useMutationCustom from "@/hooks/useMutationCustom";
 import { passwordSchema } from "@/lib/zodSchema";
 import { updatePassword } from "@/services/http";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -28,33 +28,22 @@ const PasswordForm = () => {
     confirmPassword: "",
   };
 
-  const [loading, setLoading] = useState(false);
-
   const form = useForm<UsernameFormValues>({
     resolver: zodResolver(passwordSchema),
     defaultValues,
   });
 
-  function onSubmit(data: UsernameFormValues) {
-    setLoading(true);
-    updatePassword(data)
-      .then((res) => {
-        toast({
-          title: res.data.message,
-        });
-        form.reset();
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        const message = err?.response?.data?.message;
-        if (message) {
-          toast({
-            title: message,
-            variant: "destructive",
-          });
-        }
+  const mutation = useMutationCustom({
+    mutationFn: updatePassword,
+    onSuccess: (res) => {
+      toast({
+        title: res.data.message,
       });
+    },
+  });
+
+  function onSubmit(data: UsernameFormValues) {
+    mutation.mutate(data);
   }
 
   return (
@@ -67,7 +56,11 @@ const PasswordForm = () => {
             <FormItem>
               <FormLabel>Old Password</FormLabel>
               <FormControl>
-                <Input placeholder="**********" {...field} disabled={loading} />
+                <Input
+                  placeholder="**********"
+                  {...field}
+                  disabled={mutation.isPending}
+                />
               </FormControl>
               {!fieldState.error && (
                 <FormDescription>Enter your current password.</FormDescription>
@@ -83,7 +76,11 @@ const PasswordForm = () => {
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input placeholder="**********" {...field} disabled={loading} />
+                <Input
+                  placeholder="**********"
+                  {...field}
+                  disabled={mutation.isPending}
+                />
               </FormControl>
               {!fieldState.error && (
                 <FormDescription>Choose a new password.</FormDescription>
@@ -100,7 +97,11 @@ const PasswordForm = () => {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input placeholder="**********" {...field} disabled={loading} />
+                <Input
+                  placeholder="**********"
+                  {...field}
+                  disabled={mutation.isPending}
+                />
               </FormControl>
               {!fieldState.error && (
                 <FormDescription>Write new password again.</FormDescription>
@@ -110,8 +111,8 @@ const PasswordForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={loading}>
-          {loading ? (
+        <Button type="submit" disabled={mutation.isPending}>
+          {mutation.isPending ? (
             <span className="flex items-center gap-1">
               <Loader2 className="w-5 animate-spin" /> <span>Loading...</span>
             </span>

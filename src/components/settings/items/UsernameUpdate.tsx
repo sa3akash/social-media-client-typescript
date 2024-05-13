@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
 import useDebounce from "@/hooks/useDebounce";
+import useMutationCustom from "@/hooks/useMutationCustom";
 import { IUserDoc } from "@/interfaces/auth.interface";
 import { usernameSchema } from "@/lib/zodSchema";
 import { checkUsername, updateUsername } from "@/services/http";
@@ -39,25 +40,20 @@ const UsernameForm = () => {
     mode: "onChange",
   });
 
+  const mutation = useMutationCustom({
+    mutationFn: updateUsername,
+    onSuccess: (res) => {
+      toast({
+        title: res.data.message,
+      });
+      const userSave = { ...user, username: res.data.username } as IUserDoc;
+      dispatch(setAuth(userSave));
+    },
+  });
+
   function onSubmit(data: UsernameFormValues) {
     if (data.username !== user?.username) {
-      updateUsername(data)
-        .then((res) => {
-          toast({
-            title: res.data.message,
-          });
-          const userSave = { ...user, username: data.username } as IUserDoc;
-          dispatch(setAuth(userSave));
-        })
-        .catch((err) => {
-          const message = err?.response?.data?.message;
-          if (message) {
-            toast({
-              title: message,
-              variant: "destructive",
-            });
-          }
-        });
+      mutation.mutate(data);
     }
   }
 
@@ -84,26 +80,31 @@ const UsernameForm = () => {
         <FormField
           control={form.control}
           name="username"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
                   placeholder={field.value}
                   {...field}
-                  disabled={form.formState.isLoading}
+                  disabled={mutation.isPending}
                 />
               </FormControl>
-              <FormDescription>
-                This is your public display and unique username. It can be your
-                real name or a pseudonym. You can only change this once every 30
-                days.
-              </FormDescription>
+              {!fieldState.error && (
+                <FormDescription>
+                  This is your public display and unique username. It can be
+                  your real name or a pseudonym. You can only change this once
+                  every 30 days.
+                </FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={form.formState.isLoading}>
+        <Button
+          type="submit"
+          disabled={mutation.isPending || !!form.formState.errors.username}
+        >
           Update Username
         </Button>
       </form>

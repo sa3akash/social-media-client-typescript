@@ -10,9 +10,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
-import { updateNotificaitons } from "@/services/http";
-import { api } from "@/services/http/api";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { getNotificaitonsData, updateNotificaitons } from "@/services/http";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -39,19 +40,27 @@ const NotificationsForm = () => {
     defaultValues,
   });
 
+  const mutation = useMutationCustom({
+    mutationFn: updateNotificaitons,
+  });
+
+  const { data } = useQuery({
+    queryKey: ["settings", "notifications"],
+    queryFn: getNotificaitonsData,
+  });
+
   useEffect(() => {
-    api.getNotificationCall().then((res) => {
-      if (res) {
-        form.setValue("comments", res.comments);
-        form.setValue("follows", res.follows);
-        form.setValue("messages", res.messages);
-        form.setValue("reactions", res.reactions);
-      }
-    });
-  }, [form]);
+    const noti = data?.data.notifications;
+    if (noti) {
+      form.setValue("comments", noti.comments);
+      form.setValue("follows", noti.follows);
+      form.setValue("messages", noti.messages);
+      form.setValue("reactions", noti.reactions);
+    }
+  }, [data?.data, form]);
 
   function onSubmit(data: NotificationsFormValues) {
-    updateNotificaitons(data);
+    mutation.mutate(data);
     toast({
       title: "Notification settings updated successfully.",
     });

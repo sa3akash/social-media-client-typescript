@@ -7,9 +7,9 @@ import NotificationSkeleton from "@/components/notificaton/skeleton/Notification
 import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
 
 // lazy loading
+const Profile = lazy(() => import("@/pages/Profile"));
 const Home = lazy(() => import("@/pages/Home"));
 const Friends = lazy(() => import("@/pages/Friends"));
-const Profile = lazy(() => import("@/pages/Profile"));
 const Evants = lazy(() => import("@/pages/Evants"));
 const Videos = lazy(() => import("@/pages/Videos"));
 const Photos = lazy(() => import("@/pages/Photos"));

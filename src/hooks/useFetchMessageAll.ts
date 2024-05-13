@@ -134,7 +134,7 @@ const useFetchMessageAll = (
   }, [conversationId]);
 
   useEffect(() => {
-    const handleScroll = (e) => {
+    const handleScroll = (e:Event) => {
       console.log(e);
       if (containerRef.current && containerRef.current.scrollTop === 0) {
         // setPageNumber((prev) => prev + 1);

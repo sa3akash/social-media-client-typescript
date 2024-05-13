@@ -19,7 +19,7 @@ const Profile = () => {
   });
 
   if (isError) {
-    return navigate("/404");
+    navigate("/404");
   }
 
   if (!data?.data) {
