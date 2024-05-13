@@ -31,7 +31,7 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
   };
 
   return (
-    <Menubar className="bg-transparent border-none focus:bg-transparent">
+    <Menubar className="bg-transparent border-none focus:bg-transparent focus:outline-none ring-offset-0 focus:ring-offset-0 focus:ring-0">
       <MenubarMenu>
         <MenubarTrigger>{children}</MenubarTrigger>
         <MenubarContent>
@@ -39,7 +39,7 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
             Profile
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem onClick={() => navigate(`${PageURL.Settings}?tab=profile`)}>
+          <MenubarItem onClick={() => navigate(`${PageURL.Settings}?tab=username`)}>
           Settings & privacy
           </MenubarItem>
           <MenubarSeparator />

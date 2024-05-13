@@ -76,7 +76,7 @@ export const profileFormSchema = z.object({
     .array(
       z.object({
         value: z.string().url({ message: "Please enter a valid URL." }),
-      }),
+      })
     )
     .optional(),
 });
@@ -135,3 +135,83 @@ export const passwordSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
+
+export const accountFormSchema = z.object({
+  firstName: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Name must not be longer than 30 characters.",
+    }),
+  lastName: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Name must not be longer than 30 characters.",
+    }),
+  nickName: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Name must not be longer than 30 characters.",
+    }),
+  dobYear: z.string(),
+  dobMonth: z.string(),
+  dobDay: z.string(),
+  quote: z.string(),
+  work: z.string(),
+  school: z.string(),
+  website: z.string(),
+  gender: z.enum(["male", "female", "custom"]),
+  facebook: z.string(),
+  instagram: z.string(),
+  twitter: z.string(),
+  youtube: z.string(),
+  relationShipType: z.enum([
+    "Single",
+    "In a relationship",
+    "Married",
+    "Divorced",
+  ]),
+  relationShipPartner: z.string(),
+  addStreet: z.string(),
+  addcity: z.string(),
+  addZipcode: z.string(),
+  addLocal: z.string(),
+  addCountry: z.string(),
+});
+
+
+export type AccountFormValues = z.infer<typeof accountFormSchema>;
+
+// This can come from your database or API.
+export const udateProfileValues: Partial<AccountFormValues> = {
+  firstName: "",
+  lastName: "",
+  nickName: "",
+  quote: "",
+  dobDay: "",
+  dobMonth: "",
+  dobYear: "",
+  work: "",
+  school: "",
+  website: "",
+  addcity: "",
+  addCountry: "",
+  addLocal: "",
+  addStreet: "",
+  addZipcode: "",
+  relationShipType: "Single",
+  relationShipPartner: "",
+  gender: "male",
+  facebook: "",
+  instagram: "",
+  twitter: "",
+  youtube: "",
+};

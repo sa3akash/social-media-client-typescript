@@ -4,14 +4,16 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
 interface Props {
+  mutationKey: string[];
   mutationFn: (data?: any) => Promise<AxiosResponse<any, any>>;
   onSuccess?: (data: AxiosResponse<any, any>) => void;
 }
 
-const useMutationCustom = ({ mutationFn, onSuccess }: Props) => {
+const useMutationCustom = ({ mutationFn, onSuccess,mutationKey }: Props) => {
   const { toast } = useToast();
 
   const mutation = useMutation({
+    mutationKey: mutationKey,
     mutationFn: mutationFn,
     onSuccess: onSuccess,
     onError: (err) => {

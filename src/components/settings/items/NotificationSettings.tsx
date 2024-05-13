@@ -41,6 +41,7 @@ const NotificationsForm = () => {
   });
 
   const mutation = useMutationCustom({
+    mutationKey: ["settings", "notifications"],
     mutationFn: updateNotificaitons,
   });
 

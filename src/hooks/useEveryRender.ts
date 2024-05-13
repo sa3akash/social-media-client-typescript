@@ -1,8 +1,8 @@
-import { getNotificaitons, getUserReaction } from "@/services/http";
+import { getLoginData, getNotificaitons, getUserReaction } from "@/services/http";
 import useFollowSocket from "@/services/socket/useFollowSocket";
 import useNotificationSocket from "@/services/socket/useNotificationSocket";
 import { AppDispatch } from "@/store";
-import { setUserReactions } from "@/store/reducers/AuthReducer";
+import { setLoginUserData, setUserReactions } from "@/store/reducers/AuthReducer";
 import { setNotification } from "@/store/reducers/NotificationReducer";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -18,6 +18,11 @@ const useEveryRender = () => {
     queryKey: ["notificationNavbar"],
     queryFn: () => getNotificaitons(1),
   });
+  const LogedUserQuery = useQuery({
+    queryKey: ["logedUserData"],
+    queryFn: () => getLoginData(),
+  });
+
   const reactTionQuery = useQuery({
     queryKey: ["userReactions"],
     queryFn: getUserReaction,
@@ -37,6 +42,13 @@ const useEveryRender = () => {
       dispatch(setUserReactions(reactionsData));
     }
   }, [dispatch, notificationQuery.data, reactTionQuery.data?.data?.reactions]);
+
+  useEffect(()=>{
+    console.log(LogedUserQuery.data)
+    if(LogedUserQuery.data){
+      dispatch(setLoginUserData(LogedUserQuery.data.data))
+    }
+  },[LogedUserQuery.data, dispatch])
 };
 
 export default useEveryRender;

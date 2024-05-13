@@ -12,6 +12,7 @@ import axios, { AxiosInstance } from "axios";
 import { PageURL } from "@/services/utils/pageUrl";
 import { ISendMessageDataJson } from "@/interfaces/chat.interface";
 import { INotificationSettings } from "@/interfaces/settings.interface";
+import { AccountFormValues } from "@/lib/zodSchema";
 
 const api: AxiosInstance = axios.create({
   baseURL: config.apiUrl,
@@ -72,6 +73,9 @@ export const getNotificaitonsData = () =>
 export const updateNotificaitons = (body: INotificationSettings) =>
   api.put("/users/settings/notificaton", body);
 
+export const updateProfileInfo = (body: AccountFormValues) =>
+  api.put("/users/info-update", body);
+
 // form data
 export const createPostApi = (data: FormData) =>
   api.post("/post", data, {
@@ -100,6 +104,7 @@ export const updateProfileImage = (data: FormData) =>
       "Content-Type": "multipart/form-data",
     },
   });
+
 
 // Interceptors
 let isRetry = false;
