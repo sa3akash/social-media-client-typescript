@@ -22,8 +22,8 @@ const useNotificationSocket = () => {
       if (user?.authId === userTo && data?.creator?.authId !== user?.authId) {
         dispatch(addNotification(data));
         toast({
-          title: `${data?.creator?.name.first} ${data?.creator?.name.last} react your post: ${data.notificationType}`,
           description: `${data.message}`,
+          data: data,
         });
       }
     });

@@ -18,7 +18,7 @@ const NotificationToast: React.FC<Props> = ({ notification }) => {
   const fullName =
     notification.creator.name.first + " " + notification.creator.name.last;
   return (
-    <div className="w-[350px] h-[115px] flex items-center justify-between bg-[#292932] hover:bg-[#3d3d4a] p-4 gap-3 cursor-pointer transition-all">
+    <div className="flex items-center justify-between bg-background rounded-sm p-4 gap-3 cursor-pointer transition-all">
       <div className="h-full flex flex-col gap-2 items-center">
         <div className="">
           <UserAvater
