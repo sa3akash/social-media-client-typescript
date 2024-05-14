@@ -5,12 +5,15 @@ import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { IFullUserDoc } from "@/interfaces/auth.interface";
 import { currentUser } from "@/services/http";
+import usePostSocket from "@/services/socket/usePostSocket";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Profile = () => {
   const param = useParams();
   const navigate = useNavigate();
+  usePostSocket()
+
 
   const { data, isError } = useQuery({
     queryKey: ["profile", param.authId],

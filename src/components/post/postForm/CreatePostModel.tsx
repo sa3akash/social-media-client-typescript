@@ -49,6 +49,7 @@ const CreatePostModel = () => {
       });
       dispatch(clearPost());
       dispatch(closeModel());
+      setFiles([]);
     },
   });
   const updatePostMutation = useMutationCustom({
@@ -79,10 +80,8 @@ const CreatePostModel = () => {
     formData.append("bgColor", `${bgColor}`);
     if (type === "createPost") {
       createPostMutation.mutate(formData);
-      setFiles([]);
     } else {
       updatePostMutation.mutate(formData);
-      setFiles([]);
     }
   };
 

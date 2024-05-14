@@ -48,7 +48,7 @@ const SingleNotificaton = forwardRef(
             className="w-[36px] h-[36px]"
             avatarColor={item.creator?.avatarColor}
             authId={item?.creator.authId}
-
+            indicator="hidden"
           />
 
           <img

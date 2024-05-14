@@ -39,9 +39,10 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
       <UserAvater
         src={user?.profilePicture}
         name={user?.name as NameDoc}
-        className="min-w-[36px] min-h-[36px]"
+        className="min-w-[32px] min-h-[32px]"
         avatarColor={user?.avatarColor}
         authId={user?.authId}
+        indicator="hidden"
       />
       <div className="flex-1 flex gap-4 select-none h-10 w-full rounded-md border-input dark:bg-[#292932] px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:flex-row borderWrapper dark:border-[0px]">
         <input

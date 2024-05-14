@@ -44,7 +44,6 @@ const useEveryRender = () => {
   }, [dispatch, notificationQuery.data, reactTionQuery.data?.data?.reactions]);
 
   useEffect(()=>{
-    console.log(LogedUserQuery.data)
     if(LogedUserQuery.data){
       dispatch(setLoginUserData(LogedUserQuery.data.data))
     }
