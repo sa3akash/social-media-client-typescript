@@ -21,7 +21,7 @@ const Profile = () => {
       const {data} = await currentUser(param.authId as string);
       return data;
     },
-    staleTime: 1000 * 60 * 2,
+    staleTime: 500,
   });
 
   if (isError) {

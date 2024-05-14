@@ -9,9 +9,14 @@ import SinglePost from "../post/item/SinglePost";
 import { Loader2 } from "lucide-react";
 import NoPost from "../post/NoPost";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { cn } from "@/lib/utils";
 
 const ProfilePost = () => {
   const param = useParams();
+
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const { data, lastElementRef, loading } = useReactInfiniteScroll({
     baseURL: `posts/user/${param.authId}`,
@@ -33,9 +38,14 @@ const ProfilePost = () => {
 
   return (
     <div className="w-full h-full mx-auto">
-      <AddPost />
+      {param.authId === user?.authId && <AddPost />}
       {/* <AddStory /> */}
-      <div className="mt-2 md:mt-4 flex flex-col gap-4">
+      <div
+        className={cn(
+          "flex flex-col gap-4",
+          param.authId === user?.authId ? "mt-2 md:mt-4" : "md:mt-6"
+        )}
+      >
         {mainData.map(
           (item: IPostDoc, i: number) =>
             UserUtils.checkPrivacyPost(item) && (

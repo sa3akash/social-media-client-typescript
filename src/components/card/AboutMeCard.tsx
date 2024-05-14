@@ -9,6 +9,7 @@ import WorkingIcon from "@/assets/images/ic_Working.svg";
 import RelationShipIcon from "@/assets/images/ic_relationship.svg";
 import { cn } from "@/lib/utils";
 import { IFullUserDoc } from "@/interfaces/auth.interface";
+import { timeAgo } from "@/services/utils/timeAgo";
 
 interface Props {
   user: IFullUserDoc;
@@ -38,35 +39,46 @@ const AboutMeCard: React.FC<Props> = ({ user }) => {
       </div>
       <Separator />
       <div className="hidden md:block px-4 py-4 w-full roboto text-[14px] tracking-[0.1px]">
-        {user.quote ||
+        {user?.quote ||
           `“Pushing pixels and experiences in digital products for Sebostudio”`}
       </div>
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full gap-4">
         <div className="flex flex-col justify-start cursor-pointer w-full gap-8 2xl:gap-4">
-          {user.address.city && (
+          {user?.address?.city && (
             <SingleItem
               icon={LocationIcon}
               text={
-                user.address.local +
-                "," +
-                user.address.city +
-                "," +
                 user.address.country +
-                "," +
+                ", " +
                 user.address.street +
-                "," +
-                user.address.zipcode
+                ", " +
+                user.address.city +
+                " " +
+                user.address.zipcode +
+                ", " +
+                user.address.local
               }
             />
           )}
-          <SingleItem icon={WebsiteIcon} text="dribbble.com/fawait" />
-          <SingleItem icon={DateIcon} text="Joined June 2012" />
-          <SingleItem icon={WorkingIcon} text="Working at Sebo Studio" />
+          {user.website && (
+            <SingleItem icon={WebsiteIcon} text={user.website} />
+          )}
+          <SingleItem
+            icon={DateIcon}
+            text={`Joined ${timeAgo.monthAndYear(user.createdAt)}`}
+          />
+          {user.work && (
+            <SingleItem icon={WorkingIcon} text={`Working at ${user.work}`} />
+          )}
           <SingleItem
             icon={RelationShipIcon}
-            text="In relationship with Gal Gadot"
+            text={
+              user?.relationShip?.type === "Single"
+                ? "Single"
+                : `${user?.relationShip?.type} with ${user?.relationShip?.partner}`
+            }
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ import PasswordSecurity from "@/components/settings/items/PasswordSecurity";
 import UsernameUpdate from "@/components/settings/items/UsernameUpdate";
 import { ISettingsComponentsMap } from "@/interfaces/settings.interface";
 
+
 export const settingsComponentsMap: ISettingsComponentsMap = {
   // profile: <ProfileFormMain />,
   account: <AccountMain />,

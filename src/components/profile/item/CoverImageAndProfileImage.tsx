@@ -103,6 +103,8 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
     }));
   };
 
+  
+
   return (
     <div className="w-full h-full">
       <div
@@ -196,10 +198,10 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
           <div className="flex flex-col md:gap-4 md:h-full md:justify-end xl:justify-center items-center justify-center px-4">
             <div className="text-[#FAFAFB] flex md:flex-col gap-4 md:gap-0 items-center">
               <h3 className="font-semibold md:text-[24px] tracking-[0.1px] leading-9">
-                {user.name.first} {user.name.last}
+                {user?.name?.first} {user?.name?.last}
               </h3>
               <span className="roboto text-[14px] leading-6 tracking-[0.1px] md:w-full">
-                @{user.username}
+                @{user?.username}
               </span>
             </div>
             <p className="roboto md:text-[16px] md:hidden tracking-[0.1px] leading-6 w-full text-center md:text-start">

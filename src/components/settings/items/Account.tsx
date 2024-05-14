@@ -61,6 +61,7 @@ const Account = () => {
   const { data } = useQuery({
     queryKey: ["profile", user?.authId],
     queryFn: () => currentUser(user?.authId as string),
+    staleTime: 1000,
   });
 
   const mutation = useMutationCustom({
