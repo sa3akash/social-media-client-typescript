@@ -13,12 +13,14 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
 import useDebounce from "@/hooks/useDebounce";
 import useMutationCustom from "@/hooks/useMutationCustom";
-import { IUserDoc } from "@/interfaces/auth.interface";
+import { IFullUserDoc, IUserDoc } from "@/interfaces/auth.interface";
 import { usernameSchema } from "@/lib/zodSchema";
 import { checkUsername, updateUsername } from "@/services/http";
+import { SocketUtils } from "@/services/socket/socketUtils";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +31,8 @@ type UsernameFormValues = z.infer<typeof usernameSchema>;
 const UsernameForm = () => {
   const { user } = useSelector((store: RootState) => store.auth);
   const dispatch: AppDispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const socketUtils = new SocketUtils(queryClient);
 
   const defaultValues: Partial<UsernameFormValues> = {
     username: user?.username || "",
@@ -48,6 +52,19 @@ const UsernameForm = () => {
       });
       const userSave = { ...user, username: res.data.username } as IUserDoc;
       dispatch(setAuth(userSave));
+
+      const userDetails = queryClient.getQueryData([
+        "profile",
+        user?.authId as string,
+      ]) as IFullUserDoc;
+
+      if (userDetails) {
+        socketUtils.updateUserDetails({
+          key: ["profile", user?.authId as string],
+          mainData: userDetails,
+          updateFeild: { username: res.data.username },
+        });
+      }
     },
   });
 

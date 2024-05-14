@@ -34,7 +34,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
-import { IUserDoc } from "@/interfaces/auth.interface";
+import { IFullUserDoc, IUserDoc } from "@/interfaces/auth.interface";
+import { SocketUtils } from "@/services/socket/socketUtils";
 
 const relationShipArray = [
   "Single",
@@ -50,10 +51,17 @@ const Account = () => {
     mode: "onChange",
   });
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch: AppDispatch = useDispatch();
+
+  const socketUtils = new SocketUtils(queryClient);
+
+  const { data } = useQuery({
+    queryKey: ["profile", user?.authId],
+    queryFn: () => currentUser(user?.authId as string),
+  });
 
   const mutation = useMutationCustom({
     mutationKey: ["updateInfo"],
@@ -62,7 +70,7 @@ const Account = () => {
       toast({
         title: "Profile updated successfully.",
       });
-      const data = {
+      const dataUpdated = {
         ...user,
         name: {
           first: form.getValues().firstName,
@@ -71,14 +79,18 @@ const Account = () => {
         },
         quote: form.getValues().quote,
       } as IUserDoc;
-      dispatch(setAuth(data));
-      queryClient.removeQueries({queryKey: ['profile', user?.authId]})
-    },
-  });
+      dispatch(setAuth(dataUpdated));
 
-  const { data } = useQuery({
-    queryKey: ["profile", user?.authId],
-    queryFn: () => currentUser(user?.authId as string),
+      const fullUser = {
+        ...data?.data,
+        ...dataUpdated,
+      } as unknown as IFullUserDoc;
+      socketUtils.updateUserDetails({
+        key: ["profile", user?.authId as string],
+        mainData: fullUser,
+        updateFeild: {},
+      });
+    },
   });
 
   function onSubmit(data: AccountFormValues) {

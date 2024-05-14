@@ -17,7 +17,10 @@ const Profile = () => {
 
   const { data, isError } = useQuery({
     queryKey: ["profile", param.authId],
-    queryFn: () => currentUser(param.authId as string),
+    queryFn: async() => {
+      const {data} = await currentUser(param.authId as string);
+      return data;
+    },
     staleTime: 1000 * 60 * 2,
   });
 
@@ -25,7 +28,7 @@ const Profile = () => {
     navigate("/404");
   }
 
-  if (!data?.data) {
+  if (!data) {
     return <ProfileSkeleton />;
   }
 
@@ -33,9 +36,9 @@ const Profile = () => {
     <div className="max-w-[1200px] h-[calc(100%-70px)] md:h-full w-full">
       <ScrollArea className="h-full w-full">
         <div className="h-full w-full md:w-[95%] xl:w-full md:mx-auto mt-0 md:mt-6">
-          <ProfileBar user={data.data as IFullUserDoc} />
+          <ProfileBar user={data as IFullUserDoc} />
           <div className="flex flex-col 2xl:flex-row gap-4 md:gap-0 2xl:gap-4 w-full h-full">
-            <CardAreaProfile user={data.data as IFullUserDoc} />
+            <CardAreaProfile user={data as IFullUserDoc} />
             <ProfilePost />
           </div>
         </div>

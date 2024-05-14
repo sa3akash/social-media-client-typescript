@@ -11,13 +11,16 @@ import { cn } from "@/lib/utils";
 import { IFullUserDoc } from "@/interfaces/auth.interface";
 
 interface Props {
-  user: IFullUserDoc
+  user: IFullUserDoc;
 }
 
-const AboutMeCard:React.FC<Props> = ({user}) => {
+const AboutMeCard: React.FC<Props> = ({ user }) => {
   const docRef = useRef(null);
 
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
+
+  if (!user) return null;
+
   return (
     <div className="cardBG md:rounded-lg relative w-full">
       <div className="flex items-center justify-between px-4 py-4 ">
@@ -35,13 +38,29 @@ const AboutMeCard:React.FC<Props> = ({user}) => {
       </div>
       <Separator />
       <div className="hidden md:block px-4 py-4 w-full roboto text-[14px] tracking-[0.1px]">
-        {user.quote || `“Pushing pixels and experiences in digital products for Sebostudio”`}
+        {user.quote ||
+          `“Pushing pixels and experiences in digital products for Sebostudio”`}
       </div>
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full gap-4">
         <div className="flex flex-col justify-start cursor-pointer w-full gap-8 2xl:gap-4">
-          {user.address.city && <SingleItem icon={LocationIcon} text={user.address.local + "," + user.address.city+","+user.address.country+","+ user.address.street+","+user.address.zipcode} />}
+          {user.address.city && (
+            <SingleItem
+              icon={LocationIcon}
+              text={
+                user.address.local +
+                "," +
+                user.address.city +
+                "," +
+                user.address.country +
+                "," +
+                user.address.street +
+                "," +
+                user.address.zipcode
+              }
+            />
+          )}
           <SingleItem icon={WebsiteIcon} text="dribbble.com/fawait" />
           <SingleItem icon={DateIcon} text="Joined June 2012" />
           <SingleItem icon={WorkingIcon} text="Working at Sebo Studio" />

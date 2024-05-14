@@ -10,6 +10,8 @@ import {
   deleteUserReactions,
 } from "@/store/reducers/AuthReducer";
 import { UserUtils } from "@/services/utils/userUtils";
+import { IFullUserDoc } from "@/interfaces/auth.interface";
+import { SocketUtils } from "./socketUtils";
 
 const usePostSocket = () => {
   const { socket } = useSocket();
@@ -18,63 +20,16 @@ const usePostSocket = () => {
   const dispatch: AppDispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
 
+  const socketUtils = new SocketUtils(queryClient);
+
   useEffect(() => {
-    const deletePostSocket = (
-      data: MainPostQueryType,
-      key: string,
-      postId: string
-    ) => {
-      const filteredPages = data.pages.map((item) => {
-        const posts = item.posts.filter((item) => item._id !== postId);
-        return {
-          ...item,
-          posts,
-        };
-      });
-      queryClient.setQueryData([key], {
-        ...data,
-        pages: filteredPages,
-      });
-    };
-
-    const updateSinglePost = (mainData:MainPostQueryType,data:IPostDoc,key:string) => {
-      const filteredPages = mainData.pages.map((items) => {
-        const updatedData = items.posts.map((item) =>
-          item._id === data._id ? data : item
-        );
-        return {
-          ...items,
-          posts: updatedData,
-        };
-      });
-
-      queryClient.setQueryData([key], {
-        ...mainData,
-        pages: filteredPages,
-      });
-    }
-
-    const addSinglePost = (mainData:MainPostQueryType,data:IPostDoc,key:string) => {
-      const filteredPages = mainData.pages.map((page) => {
-        return {
-          ...page,
-          posts: [data, ...page.posts],
-        };
-      });
-      queryClient.setQueryData([key], {
-        ...mainData,
-        pages: filteredPages,
-      });
-    }
-
-
     const postUpdate = (data: IPostDoc) => {
       const postCache = queryClient.getQueryData([
         "posts",
       ]) as MainPostQueryType;
 
       if (postCache) {
-        updateSinglePost(postCache,data,"posts")
+        socketUtils.updateSinglePostCache(postCache, data, "posts");
       }
 
       if (data.authId === user?.authId) {
@@ -83,18 +38,22 @@ const usePostSocket = () => {
         ]) as MainPostQueryType;
 
         if (postUpdateUser) {
-          updateSinglePost(postUpdateUser,data,`posts/user/${data.authId}`)
+          socketUtils.updateSinglePostCache(
+            postUpdateUser,
+            data,
+            `posts/user/${data.authId}`
+          );
         }
       }
     };
 
-    socket?.on("delete-post", (postId: string) => {
+    socket?.on("delete-post", (postId: string, postCreator: string) => {
       const postCache = queryClient.getQueryData([
         "posts",
       ]) as MainPostQueryType;
 
       if (postCache) {
-        deletePostSocket(postCache, "posts", postId);
+        socketUtils.deletePostCache(postCache, "posts", postId);
       }
 
       const postCacheUser = queryClient.getQueryData([
@@ -102,11 +61,27 @@ const usePostSocket = () => {
       ]) as MainPostQueryType;
 
       if (postCacheUser) {
-        deletePostSocket(postCacheUser, `posts/user/${user?.authId}`, postId);
+        socketUtils.deletePostCache(
+          postCacheUser,
+          `posts/user/${user?.authId}`,
+          postId
+        );
+      }
+
+      if (user?.authId === postCreator) {
+        const userDetails = queryClient.getQueryData([
+          "profile",
+          postCreator,
+        ]) as IFullUserDoc;
+        if (userDetails) {
+          socketUtils.updateUserDetails({
+            key: ["profile", postCreator],
+            mainData: userDetails,
+            updateFeild: { postsCount: +userDetails.postsCount - 1 },
+          });
+        }
       }
     });
-
-  
 
     socket?.on("update-post", postUpdate);
     socket?.on("update-comment", postUpdate);
@@ -125,7 +100,7 @@ const usePostSocket = () => {
           "posts",
         ]) as MainPostQueryType;
         if (postCache) {
-          addSinglePost(postCache,newPost,"posts")
+          socketUtils.addPostCache(postCache, newPost, "posts");
         }
       }
 
@@ -134,7 +109,12 @@ const usePostSocket = () => {
           `posts/user/${newPost.authId}`,
         ]) as MainPostQueryType;
         if (postCacheUser) {
-          addSinglePost(postCacheUser,newPost,`posts/user/${newPost.authId}`)
+          socketUtils.addPostCache(
+            postCacheUser,
+            newPost,
+            `posts/user/${newPost.authId}`,
+            true
+          );
         }
       }
     });
