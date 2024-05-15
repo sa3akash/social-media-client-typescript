@@ -1,4 +1,4 @@
-import { NameDoc } from "@/interfaces/auth.interface";
+import { IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import UserAvater from "@/components/common/UserAvater";
@@ -11,33 +11,33 @@ import React from "react";
 import { IMessageData } from "@/interfaces/chat.interface";
 
 interface Props {
-  setOpenCall: React.Dispatch<React.SetStateAction<string>>;
-  message: IMessageData
+  setOpenCall: React.Dispatch<React.SetStateAction<{
+    type: "audio" | "video";
+    isCalling: boolean;
+    isConnected: boolean;
+    userData: IUserDoc;
+} | undefined>>;
+  message: IMessageData;
 }
 
-const MessangerHeader:React.FC<Props> = ({setOpenCall,message}) => {
-
+const MessangerHeader: React.FC<Props> = ({ setOpenCall, message }) => {
   const { onlineUsers } = useSelector((state: RootState) => state.auth);
-
-  
- 
-
-  
-  
 
   return (
     <div className="h-[78px] flex items-center justify-between px-4 border-b shadow">
       <div className="flex items-center gap-2">
-        <Link to="/messanger" className="md:hidden"><ArrowLeft /></Link>
-         {message?.receiverId && (
+        <Link to="/messanger" className="2xl:hidden">
+          <ArrowLeft />
+        </Link>
+        {message?.receiverId && (
           <UserAvater
             src={message.user?.profilePicture}
             name={message.user?.name as NameDoc}
             className="min-w-[36px] min-h-[36px]"
             avatarColor={message.user?.avatarColor}
             authId={message.user.authId}
-            />
-            )}
+          />
+        )}
         <h4 className="font-semibold text-[14px] md:text-[18px] tracking-[0.1px] capitalize">
           {message?.user?.name.first} {message?.user?.name.last}
         </h4>
@@ -46,17 +46,25 @@ const MessangerHeader:React.FC<Props> = ({setOpenCall,message}) => {
           {onlineUsers.some((id) => id === message?.user.authId)
             ? "Online"
             : "Offline"}
-        </span> 
+        </span>
       </div>
       <div className="flex items-center gap-4">
-        <button onClick={()=>setOpenCall(prev=> !prev ? "video" : prev === "audio" ? "video" : "")}>
+        <button
+          onClick={() =>
+            setOpenCall({type: "video",isCalling: true,isConnected: false,userData:message.user})
+          }
+        >
           <img
             src={VideoCallIcon}
             alt="videoCall"
             className="pointer-events-none"
           />
         </button>
-        <button onClick={()=>setOpenCall(prev=> !prev ? "audio" : prev === "video" ? "audio" : "")}>
+        <button
+          onClick={() =>
+            setOpenCall({type: "audio",isCalling: true,isConnected: false,userData:message.user})
+          }
+        >
           <img
             src={AudioCallIcon}
             alt="audioCall"

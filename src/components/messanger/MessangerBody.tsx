@@ -14,13 +14,19 @@ import api from "@/services/http";
 import SingleMessage from "./item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 import useChatSocket from "@/services/socket/useChatSocket";
+import Call from "./call/Call";
+import { IUserDoc } from "@/interfaces/auth.interface";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const [openCall, setOpenCall] = useState("");
-
-  console.log(openCall);
+  const [openCall, setOpenCall] = useState<{
+    type: "audio" | "video";
+    isCalling: boolean;
+    isConnected: boolean;
+    userData: IUserDoc
+  }|undefined>();
+  
 
   const [searchParams] = useSearchParams();
   const conversationId = searchParams.get("conversationId");
@@ -72,6 +78,9 @@ const MessangerBody = () => {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    return ()=>{
+      setOpenCall(undefined)
+    }
   }, [mainData]);
 
   if (!mainData?.length) {
@@ -81,45 +90,58 @@ const MessangerBody = () => {
   return (
     <div className="flex flex-col w-full h-full">
       <MessangerHeader setOpenCall={setOpenCall} message={mainData[0]} />
-
-      <div className="flex-1 flex flex-col h-full w-full justify-end relative">
-        {/* {receiverId && <CallingAudioVideo openCall={openCall}/>} */}
-        <ScrollArea>
-          <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
-            {mainData.map((message, index) => (
-              <SingleMessage
-                item={message}
-                wonMessage={user?.authId === message.senderId}
-                multipleMessage={
-                  index > 0 && message.senderId === mainData[index - 1].senderId
-                }
-                separatorDate={
-                  index > 0 &&
-                  !Utils.checkDateSame(
-                    mainData[index - 1].createdAt,
-                    message.createdAt
-                  )
-                }
-                key={index}
-                lastMessage={index + 1 === mainData.length}
-              />
-            ))}
-            <div ref={bottomRef} />
-          </div>
-        </ScrollArea>
-        {gif && (
-          <div className="absolute bottom-0 left-0 w-full h-[150px]">
-            <div className="w-[150px] h-full relative group">
-              <img src={gif} alt="" className="w-full h-full object-cover" />
-              <X
-                className="w-5 h-5 absolute top-2 right-2 cursor-pointer z-10 hidden group-hover:block transition-all"
-                onClick={() => setGif("")}
-              />
-            </div>
+      <div className="flex-1 flex flex-col lg:flex-row gap-4">
+        {openCall && (
+          <div className="flex-1">
+            <Call openCall={openCall} setOpenCall={setOpenCall} />
           </div>
         )}
+        <div className="flex-1 border h-full">
+          <div className="h-full w-full justify-end relative">
+            <ScrollArea className="h-full">
+              <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
+                {mainData.map((message, index) => (
+                  <SingleMessage
+                    item={message}
+                    wonMessage={user?.authId === message.senderId}
+                    multipleMessage={
+                      index > 0 &&
+                      message.senderId === mainData[index - 1].senderId
+                    }
+                    separatorDate={
+                      index > 0 &&
+                      !Utils.checkDateSame(
+                        mainData[index - 1].createdAt,
+                        message.createdAt
+                      )
+                    }
+                    key={index}
+                    lastMessage={index + 1 === mainData.length}
+                  />
+                ))}
+                <div ref={bottomRef} />
+              </div>
+            </ScrollArea>
+
+            {gif && (
+              <div className="absolute bottom-0 left-0 w-full h-[150px]">
+                <div className="w-[150px] h-full relative group">
+                  <img
+                    src={gif}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                  <X
+                    className="w-5 h-5 absolute top-2 right-2 cursor-pointer z-10 hidden group-hover:block transition-all"
+                    onClick={() => setGif("")}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <MessangerInput setGif={setGif} gif={gif} />
+        </div>
       </div>
-      <MessangerInput setGif={setGif} gif={gif} />
     </div>
   );
 };

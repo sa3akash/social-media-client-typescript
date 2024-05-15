@@ -26,7 +26,7 @@ const SingleReactionData = forwardRef(
               className="!w-[60px] !h-[60px] object-cover rounded-full border-[4px] border-white"
               avatarColor={reaction.creator.avatarColor}
               authId={reaction?.authId}
-
+              indicator="hidden"
             />
             <img
               src={reactionIcon}

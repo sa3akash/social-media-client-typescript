@@ -71,6 +71,7 @@ const SingleCommentUser = ({ item }: { item: any }) => {
           className="min-w-[36px] min-h-[36px]"
           avatarColor={item?.creator?.avatarColor}
           authId={item?._id}
+          indicator="hidden"
         />
       </div>
       <div>

@@ -17,11 +17,14 @@ const MessangerPage = () => {
       const { data } = await getConversations();
       return data.conversationList;
     },
+    staleTime: 1000*6
   });
 
   const [searchParams] = useSearchParams();
 
   const conversationId = searchParams.get("conversationId");
+
+
   useEffect(() => {
     socket?.on("chat-list", (data: IMessageData) => {
       const conversationCache = queryClient.getQueryData([
@@ -42,8 +45,8 @@ const MessangerPage = () => {
     <div className="w-full h-full flex">
       <div
         className={cn(
-          "w-full md:w-[350px] h-full border-r",
-          searchParams.get("receiverId") ? "hidden md:block" : ""
+          "w-full 2xl:w-[350px] h-full border-r",
+          conversationId ? "hidden 2xl:block" : ""
         )}
       >
         <MessangerSidebar conversations={query.data} />
