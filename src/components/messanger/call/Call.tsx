@@ -1,85 +1,91 @@
-import React, { FC, useEffect, useRef, useState } from "react";
 import CallScreen from "./CallScreen";
 import CallAction from "./CallAction";
-import { IUserDoc } from "@/interfaces/auth.interface";
-import Peer from "simple-peer";
+import { IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useSocket } from "@/hooks/useSocket";
+import useWebrtc from "@/hooks/webrtc/useWebrtc";
+import UserAvater from "@/components/common/UserAvater";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
 
-interface Props {
-  setOpenCall: React.Dispatch<
-    React.SetStateAction<{
-      type: "audio" | "video";
-      isCalling: boolean;
-      isConnected: boolean;
-      userData: IUserDoc;
-    } | undefined>
-  >;
-  openCall: {
-    type: "audio" | "video";
-    isCalling: boolean;
-    isConnected: boolean;
-    userData: IUserDoc;
-  } | undefined;
-}
+const Call = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
 
-const Call: FC<Props> = ({ openCall, setOpenCall }) => {
-
-  const {user} = useSelector((state:RootState)=>state.auth)
-
-  const closeConnection = () => {
-    console.log("closeConnection");
-    setOpenCall(undefined);
-  };
-
-  const {socket} = useSocket()
-
-  const peerRef = useRef<Peer.Instance>();
-  const peer2Ref = useRef<Peer.Instance>();
-
-  const [localStream,setLocalStream] = useState<MediaStream | null>(null)
-  const [remoteStream,setRemoteStream] = useState<MediaStream | null>(null)
-
-  useEffect(() => {
-    const constains =
-      openCall?.type === "video"
-        ? {
-            audio: true,
-            video: true,
-          }
-        : {
-            audio: true,
-            video: false,
-          };
-
-    navigator.mediaDevices
-      .getUserMedia(constains)
-      .then((stream) => {
-        setLocalStream(stream);
-        const peer1 = new Peer({ initiator: true, stream: stream })
-        peerRef.current = peer1;
-
-        peer1.on('signal', data => {
-          socket?.emit('signal', {signal: data, authId: openCall?.userData.authId})
-        })
-
-      })
-      .catch((err) => console.log(err));
-
-    
-  }, [openCall?.type, openCall?.userData.authId, socket]);
-
-
-
+  const {
+    localStream,
+    remoteStream,
+    cancelCall,
+    data,
+    isConnected,
+    isCalling,
+  } = useWebrtc();
 
   return (
     <div className="py-4 pl-4 flex flex-col gap-4 h-full">
-      <div className="flex-1 h-full flex flex-col gap-4">
-        <CallScreen stream={remoteStream} won={false} user={openCall?.userData as IUserDoc} type={openCall!.type}/>
-        <CallScreen stream={localStream} won={true} user={user} type={openCall!.type}/>
-      </div>
-      <CallAction closeConnection={closeConnection} />
+      {isConnected && (
+        <div className="flex-1 h-full flex flex-col gap-4">
+          <CallScreen
+            stream={remoteStream || null}
+            won={false}
+            user={data?.friendUser as IUserDoc}
+            type={data!.type}
+          />
+          <CallScreen
+            stream={localStream || null}
+            won={true}
+            user={user}
+            type={data!.type}
+            talking
+          />
+        </div>
+      )}
+
+      {isCalling && !isConnected && data?.user.authId === user?.authId && (
+        <div className="flex-1 h-full flex items-center justify-center">
+          <div className="dark:bg-[#292932] lg:borderWrapper rounded-lg w-full p-4">
+            <h1 className="text-white text-2xl text-center capitalize mb-2">
+              {data?.type} Calling...
+            </h1>
+            <div className="flex items-center gap-5 justify-center">
+              <div className="flex flex-col gap-2 items-center">
+                <UserAvater
+                  src={data?.friendUser.profilePicture}
+                  name={data?.friendUser.name as NameDoc}
+                  indicator="hidden"
+                  className="md:w-[120px] md:h-[120px] border-[3px]"
+                  style={{
+                    borderColor: data?.friendUser.avatarColor,
+                  }}
+                />
+                <h3>
+                  {data?.friendUser.name.first} {data?.friendUser.name.last}
+                </h3>
+              </div>
+
+              <div>
+                {data?.user.authId === user?.authId ? (
+                  <ChevronsLeft className="w-10 h-10" />
+                ) : (
+                  <ChevronsRight className="w-10 h-10" />
+                )}
+              </div>
+
+              <div className="flex flex-col gap-2 items-center">
+                <UserAvater
+                  src={data?.user.profilePicture}
+                  name={data?.user.name as NameDoc}
+                  indicator="hidden"
+                  className="md:w-[120px] md:h-[120px] border-[3px]"
+                  style={{ borderColor: data?.user.avatarColor }}
+                />
+                <h3>
+                  {data?.user.name.first} {data?.user.name.last}
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <CallAction closeConnection={cancelCall} />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNotification,
   deleteNotification,
+  setCallUser,
   updateAsReadNotification,
 } from "@/store/reducers/NotificationReducer";
 import { useToast } from "@/components/ui/use-toast";
@@ -31,6 +32,10 @@ const useNotificationSocket = () => {
     socket?.on("insert-notification", (notificationData, { userTo }) => {
       if (user?.authId === userTo) {
         dispatch(addNotification(notificationData));
+        toast({
+          description: `${notificationData.message}`,
+          data: notificationData,
+        });
       }
     });
 
@@ -49,5 +54,21 @@ const useNotificationSocket = () => {
       socket?.off("delete-notification");
     };
   }, [dispatch, socket, toast, user?.authId]);
+
+  useEffect(() => {
+    /// call video
+    socket?.on("call-user", (data) => {
+      console.log(data)
+      dispatch(setCallUser({
+        userData: data.user,
+        initiator:false,
+        isCalling: true,
+        isConnected: true,type: "video",
+      }))
+    });
+    return () => {
+      socket?.off("call-user");
+    };
+  }, [dispatch, socket]);
 };
 export default useNotificationSocket;

@@ -1,6 +1,6 @@
-import { IUserDoc, NameDoc } from "@/interfaces/auth.interface";
-import { RootState } from "@/store";
-import { useSelector } from "react-redux";
+import { NameDoc } from "@/interfaces/auth.interface";
+import {  RootState } from "@/store";
+import {  useSelector } from "react-redux";
 import UserAvater from "@/components/common/UserAvater";
 import VideoCallIcon from "@/assets/images/call/ic_Video_Call.svg";
 import AudioCallIcon from "@/assets/images/call/ic_Audio_Call.svg";
@@ -9,19 +9,28 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import React from "react";
 import { IMessageData } from "@/interfaces/chat.interface";
+import useWebrtc from "@/hooks/webrtc/useWebrtc";
 
 interface Props {
-  setOpenCall: React.Dispatch<React.SetStateAction<{
-    type: "audio" | "video";
-    isCalling: boolean;
-    isConnected: boolean;
-    userData: IUserDoc;
-} | undefined>>;
   message: IMessageData;
 }
 
-const MessangerHeader: React.FC<Props> = ({ setOpenCall, message }) => {
+const MessangerHeader: React.FC<Props> = ({ message }) => {
   const { onlineUsers } = useSelector((state: RootState) => state.auth);
+
+  const {sendCall} = useWebrtc()
+  const { user } = useSelector((state: RootState) => state.auth);
+
+
+  const openCall = (type: "audio" | "video") => {
+    if(!user) return;
+    sendCall({
+      friendUser:message.user,
+      type,
+      user,
+      conversationId: message.conversationId
+    })
+  };
 
   return (
     <div className="h-[78px] flex items-center justify-between px-4 border-b shadow">
@@ -49,22 +58,14 @@ const MessangerHeader: React.FC<Props> = ({ setOpenCall, message }) => {
         </span>
       </div>
       <div className="flex items-center gap-4">
-        <button
-          onClick={() =>
-            setOpenCall({type: "video",isCalling: true,isConnected: false,userData:message.user})
-          }
-        >
+        <button onClick={() => openCall("video")}>
           <img
             src={VideoCallIcon}
             alt="videoCall"
             className="pointer-events-none"
           />
         </button>
-        <button
-          onClick={() =>
-            setOpenCall({type: "audio",isCalling: true,isConnected: false,userData:message.user})
-          }
-        >
+        <button onClick={() => openCall("audio")}>
           <img
             src={AudioCallIcon}
             alt="audioCall"

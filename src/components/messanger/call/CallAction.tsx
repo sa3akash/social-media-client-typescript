@@ -7,10 +7,10 @@ import ScreenShare from "./buttons/ScreenShare";
 import { FC } from "react";
 
 interface Props {
-  closeConnection: () => void  
+  closeConnection: () => void;
 }
 
-const CallAction:FC<Props> = ({closeConnection}) => {
+const CallAction: FC<Props> = ({ closeConnection }) => {
   return (
     <div className="h-20 flex items-center justify-center gap-2">
       <CameraButton />

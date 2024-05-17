@@ -35,6 +35,7 @@ const useEveryRender = () => {
       dispatch(
         setNotification({
           notifications: notificationData,
+          callUser:null
         }),
       );
     }

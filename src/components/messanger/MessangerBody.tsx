@@ -15,17 +15,15 @@ import SingleMessage from "./item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 import useChatSocket from "@/services/socket/useChatSocket";
 import Call from "./call/Call";
-import { IUserDoc } from "@/interfaces/auth.interface";
+import {  } from "@/interfaces/auth.interface";
+import useWebrtc from "@/hooks/webrtc/useWebrtc";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const [openCall, setOpenCall] = useState<{
-    type: "audio" | "video";
-    isCalling: boolean;
-    isConnected: boolean;
-    userData: IUserDoc
-  }|undefined>();
+  
+  const {isCalling} = useWebrtc()
+
   
 
   const [searchParams] = useSearchParams();
@@ -78,9 +76,6 @@ const MessangerBody = () => {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    return ()=>{
-      setOpenCall(undefined)
-    }
   }, [mainData]);
 
   if (!mainData?.length) {
@@ -89,16 +84,16 @@ const MessangerBody = () => {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <MessangerHeader setOpenCall={setOpenCall} message={mainData[0]} />
+      <MessangerHeader message={mainData[0]} />
       <div className="flex-1 flex flex-col lg:flex-row gap-4">
-        {openCall && (
+        {isCalling && (
           <div className="flex-1">
-            <Call openCall={openCall} setOpenCall={setOpenCall} />
+            <Call />
           </div>
         )}
         <div className="flex-1 border h-full">
           <div className="h-full w-full justify-end relative">
-            <ScrollArea className="h-full">
+            <ScrollArea className="h-full w-full">
               <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
                 {mainData.map((message, index) => (
                   <SingleMessage
