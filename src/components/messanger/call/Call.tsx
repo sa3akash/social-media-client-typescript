@@ -1,11 +1,12 @@
-import CallScreen from "./CallScreen";
-import CallAction from "./CallAction";
+import CallScreen from "@/components/messanger/call/CallScreen";
+import CallAction from "@/components/messanger/call/CallAction";
 import { IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import useWebrtc from "@/hooks/webrtc/useWebrtc";
 import UserAvater from "@/components/common/UserAvater";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { useEffect } from "react";
 
 const Call = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -18,6 +19,13 @@ const Call = () => {
     isConnected,
     isCalling,
   } = useWebrtc();
+
+  useEffect(() => {
+    return () => {
+      cancelCall();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="py-4 pl-4 flex flex-col gap-4 h-full">
