@@ -30,6 +30,7 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
 
   const coverRef = useRef<HTMLInputElement>(null);
   const dispatch: AppDispatch = useDispatch();
+  const { user: stateUser } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     setProfileImg((prev) => ({
@@ -74,7 +75,7 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
   const mutation = useMutationCustom({
     mutationFn: updateProfileCover,
     onSuccess: ({ data }) => {
-      const mainObj: IUserDoc = { ...user, coverPicture: data.url } as IUserDoc;
+      const mainObj = { ...stateUser, coverPicture: data.url } as IUserDoc;
       dispatch(setAuth(mainObj));
       setProfileImg((prev) => ({ ...prev, coverPicRow: null }));
       toast({
@@ -102,8 +103,6 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
       coverPic: user.coverPicture,
     }));
   };
-
-  
 
   return (
     <div className="w-full h-full">

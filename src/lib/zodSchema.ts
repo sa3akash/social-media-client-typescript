@@ -154,37 +154,31 @@ export const accountFormSchema = z.object({
       message: "Name must not be longer than 30 characters.",
     }),
   nickName: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
+    .string().optional(),
   dobYear: z.string(),
   dobMonth: z.string(),
   dobDay: z.string(),
-  quote: z.string(),
-  work: z.string(),
-  school: z.string(),
-  website: z.string(),
+  quote: z.string().optional(),
+  work: z.string().optional(),
+  school: z.string().optional(),
+  website: z.string().optional(),
   gender: z.enum(["male", "female", "custom"]),
-  facebook: z.string(),
-  instagram: z.string(),
-  twitter: z.string(),
-  youtube: z.string(),
+  facebook: z.string().optional(),
+  instagram: z.string().optional(),
+  twitter: z.string().optional(),
+  youtube: z.string().optional(),
   relationShipType: z.enum([
     "Single",
     "In a relationship",
     "Married",
     "Divorced",
   ]),
-  relationShipPartner: z.string(),
-  addStreet: z.string(),
-  addcity: z.string(),
-  addZipcode: z.string(),
-  addLocal: z.string(),
-  addCountry: z.string(),
+  relationShipPartner: z.string().optional(),
+  addStreet: z.string().optional(),
+  addcity: z.string().optional(),
+  addZipcode: z.string().optional(),
+  addLocal: z.string().optional(),
+  addCountry: z.string().optional(),
 });
 
 
