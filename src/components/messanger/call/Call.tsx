@@ -68,6 +68,7 @@ const Call = () => {
                   {data?.friendUser.name.first} {data?.friendUser.name.last}
                 </h3>
               </div>
+              <audio src="/caller.mp3" loop autoPlay hidden></audio>
 
               <div>
                 {data?.user.authId === user?.authId ? (

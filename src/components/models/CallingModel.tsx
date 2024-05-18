@@ -6,40 +6,27 @@ import { NameDoc } from "@/interfaces/auth.interface";
 import { ChevronsLeft, ChevronsRight, Phone, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
 
 const CallingModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const navigate = useNavigate()
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const navigate = useNavigate();
 
   const { offerData, cancelCall, receiveCall, isConnected } = useWebrtc();
-
-
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.src = '/calling.mp3';
-      audioRef.current.load();
-      audioRef.current.volume = 1; // Set volume to full
-      audioRef.current.play().catch(error => console.error('Error playing audio:', error));
-  }
-}, []);
 
   if (!offerData) return null;
   if (!user) return null;
 
   const acceptCall = () => {
-    navigate(`/messanger?conversationId=${offerData.conversationId}`)
-    receiveCall()
-  }
+    navigate(`/messanger?conversationId=${offerData.conversationId}`);
+    receiveCall();
+  };
 
   return (
     !isConnected &&
     offerData && (
       <div className="fixed bottom-10 left-10 bg-background z-20 w-[400px] rounded-lg dark:bg-[#292932] lg:borderWrapper shadow">
-        <audio ref={audioRef} autoPlay hidden></audio>
+        <audio src="/calling.mp3" loop autoPlay hidden></audio>
         <div className="h-full flex items-center justify-center">
           <div className="w-full p-4">
             <h1 className="text-white text-2xl text-center capitalize mb-2">
