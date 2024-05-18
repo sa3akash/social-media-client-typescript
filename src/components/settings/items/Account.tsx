@@ -37,12 +37,7 @@ import { setAuth } from "@/store/reducers/AuthReducer";
 import { IFullUserDoc, IUserDoc } from "@/interfaces/auth.interface";
 import { SocketUtils } from "@/services/socket/socketUtils";
 
-const relationShipArray = [
-  "Single",
-  "In a relationship",
-  "Married",
-  "Divorced",
-];
+const relationShipArray = ['Single', 'In a relationship', 'Married', 'Divorced'];
 
 const Account = () => {
   const form = useForm<AccountFormValues>({
