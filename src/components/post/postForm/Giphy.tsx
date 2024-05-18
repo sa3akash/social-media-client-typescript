@@ -9,43 +9,33 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import useDebounce from "@/hooks/useDebounce";
-import { GiphyUtils } from "@/services/utils/giphyUtils";
+import useReactInfiniteScrollGiphy from "@/hooks/useReactInfiniteScrollGiphy";
 import { AppDispatch } from "@/store";
 import { updatePostItem } from "@/store/reducers/SinglePostReducer";
-import { ArrowLeft } from "lucide-react";
-import { FC, useEffect, useState } from "react";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface Props {
   setGiphyModel: (arg: boolean) => void;
-  giphyModel: boolean;
 }
 
-const Giphy: FC<Props> = ({ setGiphyModel, giphyModel }) => {
-  const [giphyData, setGiphyData] = useState([]);
-  const [loading, setLoading] = useState(true);
+const Giphy: FC<Props> = ({ setGiphyModel }) => {
   const [inputValue, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
 
   const dispatch: AppDispatch = useDispatch();
 
+  const { data, lastElementRef, loading } =
+    useReactInfiniteScrollGiphy(debouncedValue);
+
   const handleGif = (url: string) => {
     dispatch(updatePostItem({ gifUrl: url }));
     setGiphyModel(false);
   };
-  useEffect(() => {
-    // Make API call when debouncedValue changes
-    if (debouncedValue) {
-      GiphyUtils.searchGifs(debouncedValue, setGiphyData, setLoading);
-    }
-  }, [debouncedValue]);
-
-  useEffect(() => {
-    GiphyUtils.getTrendingGifs(setGiphyData, setLoading);
-  }, []);
 
   return (
-    <Dialog onOpenChange={() => setGiphyModel(false)} open={giphyModel}>
+    <Dialog onOpenChange={() => setGiphyModel(false)} open={true}>
       <DialogContent className="max-w-[500px] p-0 cardBG">
         <DialogHeader>
           <DialogTitle className="text-center mt-4 relative">
@@ -66,16 +56,20 @@ const Giphy: FC<Props> = ({ setGiphyModel, giphyModel }) => {
               onChange={(e) => setInputValue(e.target.value)}
             />
           </div>
-          <ScrollArea className="h-full w-full">
+          <ScrollArea className="h-[450px]">
             <div className="flex items-center justify-center gap-2 flex-col">
-              {giphyData.map(
-                (item: { images: { original: { url: string } } }, index) => (
+              {data.map(
+                (
+                  item: { images: { original: { url: string } } },
+                  index: number
+                ) => (
                   <div
                     className="w-full h-[300px]"
                     onClick={() =>
-                      handleGif(item.images.original.url as string)
+                      handleGif(item?.images?.original.url as string)
                     }
                     key={index}
+                    ref={data.length === index + 1 ? lastElementRef : null}
                   >
                     <Image
                       src={item.images.original.url as string}
@@ -85,7 +79,11 @@ const Giphy: FC<Props> = ({ setGiphyModel, giphyModel }) => {
                   </div>
                 )
               )}
-              {loading && <span>Loading...</span>}
+              {loading && (
+                <p className="p-4 flex items-center justify-center gap-2">
+                  <Loader2 className="animate-spin w-6 h-6" /> Loading...
+                </p>
+              )}
             </div>
           </ScrollArea>
         </div>

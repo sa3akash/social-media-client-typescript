@@ -2,38 +2,33 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import useDebounce from "@/hooks/useDebounce";
-import { GiphyUtils } from "@/services/utils/giphyUtils";
-import { FC, ReactNode, useEffect, useState } from "react";
+
+import { FC, ReactNode, useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import useReactInfiniteScrollGiphy from "@/hooks/useReactInfiniteScrollGiphy";
 
 interface Props {
   children: ReactNode;
-  fn:(url:string)=>void;
+  fn: (url: string) => void;
 }
 
-const GiphyPopover: FC<Props> = ({ children,fn }) => {
-  const [giphyData, setGiphyData] = useState([]);
-  const [loading, setLoading] = useState(true);
+const GiphyPopover: FC<Props> = ({ children, fn }) => {
   const [inputValue, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
 
-  const handleGif = (url: string) => {
-    fn(url)
-  };
-  useEffect(() => {
-    // Make API call when debouncedValue changes
-    if (debouncedValue) {
-      GiphyUtils.searchGifs(debouncedValue, setGiphyData, setLoading);
-    }
-  }, [debouncedValue]);
+  const { data, lastElementRef, loading } =
+    useReactInfiniteScrollGiphy(debouncedValue);
 
-  useEffect(() => {
-    GiphyUtils.getTrendingGifs(setGiphyData, setLoading);
-  }, []);
+  console.log(data);
+
+  const handleGif = (url: string) => {
+    fn(url);
+  };
+  console.log("running");
 
   return (
     <Popover>
@@ -50,14 +45,18 @@ const GiphyPopover: FC<Props> = ({ children,fn }) => {
           </div>
           <ScrollArea className="h-full w-full">
             <div className="flex items-center justify-center gap-2 flex-col">
-              {giphyData.map(
-                (item: { images: { original: { url: string } } }, index) => (
+              {data.map(
+                (
+                  item: { images: { original: { url: string } } },
+                  index: number
+                ) => (
                   <div
                     className="w-full h-[300px]"
                     onClick={() =>
                       handleGif(item.images.original.url as string)
                     }
                     key={index}
+                    ref={data.length === index + 1 ? lastElementRef : null}
                   >
                     <img
                       src={item.images.original.url as string}
@@ -68,6 +67,7 @@ const GiphyPopover: FC<Props> = ({ children,fn }) => {
                 )
               )}
               {loading && <span>Loading...</span>}
+              <div ref={lastElementRef}></div>
             </div>
           </ScrollArea>
         </div>

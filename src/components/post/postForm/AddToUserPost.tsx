@@ -80,7 +80,7 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
           >
             <img src={GifIcon} alt="image" />
           </div>
-          <Giphy setGiphyModel={setGiphyModel} giphyModel={giphyModel} />
+         {giphyModel && <Giphy setGiphyModel={setGiphyModel} />}
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { IFollowerDoc } from "@/interfaces/auth.interface";
 import { followUserFn } from "@/services/http";
 import { useQueryClient } from "@tanstack/react-query";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   item: IFollowerDoc;
@@ -40,7 +41,10 @@ const SingleSuggestedFriend: FC<Props> = ({ item }) => {
           authId={item._id}
           style={{ border: `2px solid ${item.avatarColor}` }}
         />
-        <div className="text-[14px] tracking-[0.2px] capitalize">{`${item.name.first} ${item.name.last}`}</div>
+        <Link to={`/u/${item._id}`} className="flex flex-col">
+          <span className="text-[14px] tracking-[0.2px] capitalize">{`${item.name.first} ${item.name.last}`}</span>
+          <span className="text-[12px] text-[#696974]">@{item.username}</span>
+        </Link>
       </div>
       <Button
         onClick={followUser}
