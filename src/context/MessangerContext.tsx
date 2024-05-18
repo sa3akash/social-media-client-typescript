@@ -200,7 +200,6 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
     });
     return () => {
       socket?.off("cancelCall");
-      cancelCall();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);

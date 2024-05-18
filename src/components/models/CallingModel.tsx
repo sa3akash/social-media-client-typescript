@@ -6,6 +6,7 @@ import { NameDoc } from "@/interfaces/auth.interface";
 import { ChevronsLeft, ChevronsRight, Phone, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const CallingModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -14,6 +15,18 @@ const CallingModel = () => {
 
   const { offerData, cancelCall, receiveCall, isConnected } = useWebrtc();
 
+
+  useEffect(()=>{
+    const timeOut = setTimeout(()=>{
+      cancelCall()
+    },1000 * 30)
+
+    return ()=>{
+      clearTimeout(timeOut)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   if (!offerData) return null;
   if (!user) return null;
 
@@ -21,6 +34,7 @@ const CallingModel = () => {
     navigate(`/messanger?conversationId=${offerData.conversationId}`);
     receiveCall();
   };
+
 
   return (
     !isConnected &&
