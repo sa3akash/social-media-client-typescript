@@ -1,0 +1,103 @@
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import UserAvater from "@/components/common/UserAvater";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import React, { useRef } from "react";
+import { Input } from "@/components/ui/input";
+import { setSelectedUser } from "@/store/reducers/ModelReducer";
+import ModelMessages from "@/components/models/item/ModelMessages";
+import useMutationCustom from "@/hooks/useMutationCustom";
+import { sendMessageJson } from "@/services/http";
+import { useSearchParams } from "react-router-dom";
+
+const MessangerModel = () => {
+  const { selectedUser } = useSelector((state: RootState) => state.model);
+  const { onlineUsers } = useSelector((state: RootState) => state.auth);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const dispatch: AppDispatch = useDispatch();
+  const [, setSearchParams] = useSearchParams();
+
+  const mutation = useMutationCustom({
+    mutationFn: sendMessageJson,
+    onSuccess: ({ data }) => {
+      console.log(data);
+      dispatch(
+        setSelectedUser({
+          conversationId: data.conversationId,
+          user: data?.message?.user,
+        })
+      );
+      setSearchParams({
+        conversationId: data.conversationId,
+      });
+    },
+  });
+
+  const hanelKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputRef.current) {
+      const text = inputRef.current?.value;
+      if (text?.length > 0) {
+        mutation.mutate({
+          receiverId: selectedUser?.user.authId,
+          body: text,
+          conversationId: selectedUser?.conversationId,
+        });
+        inputRef.current.value = "";
+      }
+    }
+  };
+
+  return (
+    selectedUser && (
+      <div className="fixed left-4 bottom-0 w-[400px] h-[400px] cardBG borderWrapper  flex flex-col gap-2 rounded-tl-md rounded-tr-md justify-between">
+        <div className="bg-green-500">
+          <div className="p-2 flex gap-2 justify-between items-center">
+            <div className="flex gap-2 items-center">
+              <UserAvater
+                src={selectedUser.user?.profilePicture}
+                name={selectedUser.user?.name}
+                className="w-[36px] h-[36px] md:w-[36px] md:h-[36px]"
+                avatarColor={selectedUser.user?.avatarColor}
+                authId={selectedUser?.user.authId}
+                indicator="hidden"
+              />
+              <div className="flex-1">
+                <div className="flex flex-col">
+                  <h4 className="font-semibold text-sm tracking-[0.1px] capitalize">
+                    {selectedUser?.user.name.first}{" "}
+                    {selectedUser.user?.name.last}
+                  </h4>
+                  <span className="text-[12px]">
+                    {onlineUsers.some((i) => i === selectedUser.user.authId)
+                      ? "Online"
+                      : "Offline"}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              onClick={() => dispatch(setSelectedUser(null))}
+            >
+              <X />
+            </Button>
+          </div>
+        </div>
+        <ModelMessages conversationId={selectedUser.conversationId} />
+        <div className="p-2 border-t border-gray-600">
+          <Input
+            className="bg-transparent border-none"
+            placeholder="Write a new message"
+            ref={inputRef}
+            onKeyDown={hanelKeyDown}
+          />
+        </div>
+      </div>
+    )
+  );
+};
+
+export default MessangerModel;

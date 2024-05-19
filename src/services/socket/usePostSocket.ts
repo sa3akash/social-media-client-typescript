@@ -41,7 +41,7 @@ const usePostSocket = () => {
           socketUtils.updateSinglePostCache(
             postUpdateUser,
             data,
-            `posts/user/${data.authId}`
+            `posts/user/${data.authId}`,
           );
         }
       }
@@ -64,7 +64,7 @@ const usePostSocket = () => {
         socketUtils.deletePostCache(
           postCacheUser,
           `posts/user/${user?.authId}`,
-          postId
+          postId,
         );
       }
 
@@ -113,7 +113,7 @@ const usePostSocket = () => {
             postCacheUser,
             newPost,
             `posts/user/${newPost.authId}`,
-            true
+            true,
           );
         }
       }

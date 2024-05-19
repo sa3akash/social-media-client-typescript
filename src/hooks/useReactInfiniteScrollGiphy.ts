@@ -56,7 +56,7 @@ const useReactInfiniteScrollGiphy = (debouncedValue?: string) => {
           root: null,
           rootMargin: "0px",
           threshold: 1.0,
-        }
+        },
       );
 
       if (node) {
@@ -64,7 +64,7 @@ const useReactInfiniteScrollGiphy = (debouncedValue?: string) => {
       }
     },
 
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
   );
 
   const mainData =

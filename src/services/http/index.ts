@@ -105,7 +105,6 @@ export const updateProfileImage = (data: FormData) =>
     },
   });
 
-
 // Interceptors
 let isRetry = false;
 api.interceptors.response.use(

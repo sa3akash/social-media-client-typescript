@@ -10,7 +10,7 @@ export class SocketUtils {
     mainData: MainPostQueryType,
     data: IPostDoc,
     key: string,
-    updateProfilePost?: boolean
+    updateProfilePost?: boolean,
   ) {
     const filteredPages = mainData.pages.map((page) => {
       return {
@@ -67,11 +67,11 @@ export class SocketUtils {
   public updateSinglePostCache(
     mainData: MainPostQueryType,
     data: IPostDoc,
-    key: string
+    key: string,
   ) {
     const filteredPages = mainData.pages.map((items) => {
       const updatedData = items.posts.map((item) =>
-        item._id === data._id ? data : item
+        item._id === data._id ? data : item,
       );
       return {
         ...items,

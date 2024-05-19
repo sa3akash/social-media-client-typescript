@@ -1,8 +1,13 @@
+import { IUserDoc } from "@/interfaces/auth.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 type ModelType = "createPost" | "editPost";
 
+interface ISelectedUser {
+  user: IUserDoc;
+  conversationId: string;
+}
 export interface ModelState {
   type: ModelType | null;
   isOpen: boolean;
@@ -13,6 +18,7 @@ export interface ModelState {
   reactionsModalIsOpen: boolean;
   commentsModalIsOpen: boolean;
   deleteDialogIsOpen: boolean;
+  selectedUser: ISelectedUser | null;
 }
 
 const initialState: ModelState = {
@@ -25,6 +31,7 @@ const initialState: ModelState = {
   reactionsModalIsOpen: false,
   commentsModalIsOpen: false,
   deleteDialogIsOpen: false,
+  selectedUser: null,
 };
 
 export const ModelSlice = createSlice({
@@ -46,10 +53,13 @@ export const ModelSlice = createSlice({
         (state.commentsModalIsOpen = false),
         (state.deleteDialogIsOpen = false);
     },
+    setSelectedUser: (state, action: PayloadAction<ISelectedUser | null>) => {
+      state.selectedUser = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { openModel, closeModel } = ModelSlice.actions;
+export const { openModel, closeModel, setSelectedUser } = ModelSlice.actions;
 
 export default ModelSlice.reducer;

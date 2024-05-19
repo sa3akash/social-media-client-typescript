@@ -15,16 +15,13 @@ import SingleMessage from "./item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 import useChatSocket from "@/services/socket/useChatSocket";
 import Call from "./call/Call";
-import {  } from "@/interfaces/auth.interface";
+import {} from "@/interfaces/auth.interface";
 import useWebrtc from "@/hooks/webrtc/useWebrtc";
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
-  
-  const {isCalling} = useWebrtc()
-
-  
+  const { isCalling } = useWebrtc();
 
   const [searchParams] = useSearchParams();
   const conversationId = searchParams.get("conversationId");
@@ -85,16 +82,17 @@ const MessangerBody = () => {
   return (
     <div className="flex flex-col w-full h-full">
       <MessangerHeader message={mainData[0]} />
-      <div className="flex-1 flex flex-col lg:flex-row gap-4">
+      <div className="flex-1 flex flex-col h-full lg:flex-row gap-4">
         {isCalling && (
           <div className="flex-1">
             <Call />
           </div>
         )}
-        <div className="flex-1 border h-full">
-          <div className="h-full w-full justify-end relative">
-            <ScrollArea className="h-full w-full">
+        <div className="flex-1 border flex flex-col ">
+          <div className="flex-1 flex flex-col relative ">
+            <ScrollArea className="h-full w-full" id="scrollOverHight">
               <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
+                <div className="flex-1"></div>
                 {mainData.map((message, index) => (
                   <SingleMessage
                     item={message}

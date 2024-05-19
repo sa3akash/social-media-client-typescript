@@ -12,7 +12,7 @@ type ToasterToast = ToastProps & {
   title?: React.ReactNode;
   description?: React.ReactNode;
   action?: ToastActionElement;
-  data?:INotification
+  data?: INotification;
 };
 
 const actionTypes = {

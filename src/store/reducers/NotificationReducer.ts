@@ -9,7 +9,7 @@ interface CallUserProps {
   isCalling: boolean;
   isConnected: boolean;
   userData: IUserDoc;
-  initiator:boolean
+  initiator: boolean;
 }
 
 export interface NotificationState {
@@ -44,7 +44,7 @@ export const NotificationSlice = createSlice({
 
     updateAsReadNotification: (state, action: PayloadAction<string>) => {
       const findIndex = state.notifications.findIndex(
-        (n) => n._id === action.payload
+        (n) => n._id === action.payload,
       );
       if (findIndex !== -1) {
         state.notifications[findIndex] = {
@@ -56,7 +56,7 @@ export const NotificationSlice = createSlice({
 
     deleteNotification: (state, action: PayloadAction<string>) => {
       state.notifications = state.notifications.filter(
-        (n) => n._id !== action.payload
+        (n) => n._id !== action.payload,
       );
     },
     resetNotifications: (state) => {

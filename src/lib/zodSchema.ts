@@ -76,7 +76,7 @@ export const profileFormSchema = z.object({
     .array(
       z.object({
         value: z.string().url({ message: "Please enter a valid URL." }),
-      })
+      }),
     )
     .optional(),
 });
@@ -153,8 +153,7 @@ export const accountFormSchema = z.object({
     .max(30, {
       message: "Name must not be longer than 30 characters.",
     }),
-  nickName: z
-    .string().optional(),
+  nickName: z.string().optional(),
   dobYear: z.string(),
   dobMonth: z.string(),
   dobDay: z.string(),
@@ -180,7 +179,6 @@ export const accountFormSchema = z.object({
   addLocal: z.string().optional(),
   addCountry: z.string().optional(),
 });
-
 
 export type AccountFormValues = z.infer<typeof accountFormSchema>;
 

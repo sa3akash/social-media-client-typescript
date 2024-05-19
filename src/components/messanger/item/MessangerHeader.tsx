@@ -1,6 +1,6 @@
 import { NameDoc } from "@/interfaces/auth.interface";
-import {  RootState } from "@/store";
-import {  useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 import UserAvater from "@/components/common/UserAvater";
 import VideoCallIcon from "@/assets/images/call/ic_Video_Call.svg";
 import AudioCallIcon from "@/assets/images/call/ic_Audio_Call.svg";
@@ -18,18 +18,17 @@ interface Props {
 const MessangerHeader: React.FC<Props> = ({ message }) => {
   const { onlineUsers } = useSelector((state: RootState) => state.auth);
 
-  const {sendCall} = useWebrtc()
+  const { sendCall } = useWebrtc();
   const { user } = useSelector((state: RootState) => state.auth);
 
-
   const openCall = (type: "audio" | "video") => {
-    if(!user) return;
+    if (!user) return;
     sendCall({
-      friendUser:message.user,
+      friendUser: message.user,
       type,
       user,
-      conversationId: message.conversationId
-    })
+      conversationId: message.conversationId,
+    });
   };
 
   return (

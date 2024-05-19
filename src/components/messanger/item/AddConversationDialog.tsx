@@ -1,39 +1,43 @@
 import UserAvater from "@/components/common/UserAvater";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import { RootState } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SearchIcon from "@/assets/images/ic_Search.svg";
 import { IFollowerDoc, IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import useDebounce from "@/hooks/useDebounce";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { Loader2 } from "lucide-react";
 import { X } from "lucide-react";
+import { setSelectedUser } from "@/store/reducers/ModelReducer";
+import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
+import api from "@/services/http";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Props {
-  openSearchModel: boolean;
   setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddConversationDialog: React.FC<Props> = ({
-  openSearchModel,
-  setOpenSearchModel,
-}) => {
+const AddConversationDialog: React.FC<Props> = ({ setOpenSearchModel }) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [searchUsers, setSearchUsers] = useState<IFollowerDoc[]>([]);
 
   const [searchName, setSearchName] = useState("");
-  const searchValue = useDebounce(searchName, 1000);
+  const searchValue = useDebounce(searchName, 500);
 
-  const { loading } = useInfiniteScroll(`/users/${searchValue}`, (data) => {
-    setSearchUsers(data.search || []);
+  const { data, loading, lastElementRef } = useReactInfiniteScroll({
+    baseURL: searchValue ? `users/${searchValue}` : "searchUsers",
+    fn: async ({ pageParam }) => {
+      const response = await api.get(`/users/${searchValue}?page=${pageParam}`);
+      return response.data;
+    },
   });
 
+  const mainData =
+    data?.pages.reduce((acc, page) => {
+      return [...acc, ...page.users];
+    }, []) || [];
+
   return (
-    <Dialog
-      open={openSearchModel}
-      onOpenChange={() => setOpenSearchModel(false)}
-    >
+    <Dialog open={true} onOpenChange={() => setOpenSearchModel(false)}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <div className="flex items-center gap-4 mt-4">
@@ -59,40 +63,41 @@ const AddConversationDialog: React.FC<Props> = ({
                 placeholder="Search user"
                 value={searchName}
               />
-              {searchUsers.length > 0 && (
+              {searchName.length > 0 && (
                 <X
                   className="cursor-pointer w-4 h-4"
-                  onClick={() => {
-                    setSearchName("");
-                    setSearchUsers([]);
-                  }}
+                  onClick={() => setSearchName("")}
                 />
               )}
             </div>
           </div>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 ">
           {loading && (
             <div className="h-full flex items-center justify-center">
               <Loader2 className="animate-spin w-10" />
             </div>
           )}
 
-          {!loading && user?.authId && searchUsers.length > 0 && (
-            <div>
-              {searchUsers.map((fUser, index) => (
-                <SingleUser
-                  fUser={{
-                    authId: fUser._id,
-                    ...fUser,
-                  }}
+          {mainData?.length > 0 && (
+            <ScrollArea className="h-[200px] w-full">
+              {mainData.map((fUser: IFollowerDoc, index: number) => (
+                <div
                   key={index}
-                  setOpenSearchModel={setOpenSearchModel}
-                />
+                  ref={mainData?.length === index + 1 ? lastElementRef : null}
+                >
+                  <SingleUser
+                    fUser={{
+                      authId: fUser._id,
+                      ...fUser,
+                    }}
+                    setOpenSearchModel={setOpenSearchModel}
+                  />
+                </div>
               ))}
-            </div>
+            </ScrollArea>
           )}
-          {!loading && searchUsers.length === 0 && <div>No User Found.</div>}
+          {!loading && mainData.length === 0 && <div>No User Found.</div>}
         </div>
       </DialogContent>
     </Dialog>
@@ -108,8 +113,16 @@ const SingleUser = ({
   fUser: IUserDoc;
   setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const dispatch: AppDispatch = useDispatch();
+
   const handleSelectUser = () => {
     setOpenSearchModel(false);
+    dispatch(
+      setSelectedUser({
+        user: fUser,
+        conversationId: "",
+      })
+    );
   };
 
   return (

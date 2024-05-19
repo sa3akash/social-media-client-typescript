@@ -67,8 +67,8 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
             type="text"
             className="w-full focus:outline-none bg-transparent placeholder:roboto placeholder:text-[#92929D] roboto text-[14px] leading-6 "
             placeholder="Write messages down here…"
-            ref={(el)=>{
-              el?.focus()
+            ref={(el) => {
+              el?.focus();
               inputRef.current = el;
             }}
             onChange={(e) => setMessageValue(e.target.value as string)}

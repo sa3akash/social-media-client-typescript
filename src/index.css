@@ -142,4 +142,8 @@ em-emoji-picker {
   display: unset !important;
 }
 
+#scrollOverHight > div > div {
+ height: 100%;
+}
+
 

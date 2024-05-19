@@ -9,7 +9,7 @@ interface Props {
   onSuccess?: (data: AxiosResponse<any, any>) => void;
 }
 
-const useMutationCustom = ({ mutationFn, onSuccess,mutationKey }: Props) => {
+const useMutationCustom = ({ mutationFn, onSuccess, mutationKey }: Props) => {
   const { toast } = useToast();
 
   const mutation = useMutation({

@@ -1,8 +1,15 @@
-import { getLoginData, getNotificaitons, getUserReaction } from "@/services/http";
+import {
+  getLoginData,
+  getNotificaitons,
+  getUserReaction,
+} from "@/services/http";
 import useFollowSocket from "@/services/socket/useFollowSocket";
 import useNotificationSocket from "@/services/socket/useNotificationSocket";
 import { AppDispatch } from "@/store";
-import { setLoginUserData, setUserReactions } from "@/store/reducers/AuthReducer";
+import {
+  setLoginUserData,
+  setUserReactions,
+} from "@/store/reducers/AuthReducer";
 import { setNotification } from "@/store/reducers/NotificationReducer";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -35,7 +42,7 @@ const useEveryRender = () => {
       dispatch(
         setNotification({
           notifications: notificationData,
-          callUser:null
+          callUser: null,
         }),
       );
     }
@@ -44,11 +51,11 @@ const useEveryRender = () => {
     }
   }, [dispatch, notificationQuery.data, reactTionQuery.data?.data?.reactions]);
 
-  useEffect(()=>{
-    if(LogedUserQuery.data){
-      dispatch(setLoginUserData(LogedUserQuery.data.data))
+  useEffect(() => {
+    if (LogedUserQuery.data) {
+      dispatch(setLoginUserData(LogedUserQuery.data.data));
     }
-  },[LogedUserQuery.data, dispatch])
+  }, [LogedUserQuery.data, dispatch]);
 };
 
 export default useEveryRender;

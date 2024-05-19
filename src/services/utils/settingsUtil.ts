@@ -9,11 +9,10 @@ export class SettingsUtils {
     return yearsArray;
   }
 
-
   static updateMonthsList(): number[] {
     const monthsList: number[] = [];
     for (let i = 1; i <= 12; i++) {
-        monthsList.push(i);
+      monthsList.push(i);
     }
     return monthsList;
   }
@@ -23,10 +22,13 @@ export class SettingsUtils {
   }
 
   static updateDaysList(selectedMonth: number, selectedYear: number): number[] {
-    const daysInMonth = SettingsUtils.getDaysInMonth(selectedYear, selectedMonth);
+    const daysInMonth = SettingsUtils.getDaysInMonth(
+      selectedYear,
+      selectedMonth,
+    );
     const daysList: number[] = [];
     for (let i = 1; i <= daysInMonth; i++) {
-        daysList.push(i);
+      daysList.push(i);
     }
     return daysList;
   }

@@ -7,14 +7,12 @@ import { useSearchParams } from "react-router-dom";
 import { IMessageData } from "@/interfaces/chat.interface";
 
 interface Props {
-  conversations:IMessageData[]
+  conversations: IMessageData[];
 }
 
-const MessangerSidebar: FC<Props> = ({conversations}) => {
-
+const MessangerSidebar: FC<Props> = ({ conversations }) => {
   const [openSearchModel, setOpenSearchModel] = useState(false);
-  const [searchParams] = useSearchParams()
-
+  const [searchParams] = useSearchParams();
 
   return (
     <>
@@ -30,17 +28,15 @@ const MessangerSidebar: FC<Props> = ({conversations}) => {
             <SingleConversationItem
               key={index}
               item={item}
-              active={
-                searchParams.get("receiverId") === item.user.authId
-              }
+              active={searchParams.get("receiverId") === item.user.authId}
             />
           ))}
         </div>
       </ScrollArea>
-      <AddConversationDialog
-        openSearchModel={openSearchModel}
-        setOpenSearchModel={setOpenSearchModel}
-      />
+
+      {openSearchModel && (
+        <AddConversationDialog setOpenSearchModel={setOpenSearchModel} />
+      )}
     </>
   );
 };

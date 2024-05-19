@@ -58,13 +58,16 @@ const useNotificationSocket = () => {
   useEffect(() => {
     /// call video
     socket?.on("call-user", (data) => {
-      console.log(data)
-      dispatch(setCallUser({
-        userData: data.user,
-        initiator:false,
-        isCalling: true,
-        isConnected: true,type: "video",
-      }))
+      console.log(data);
+      dispatch(
+        setCallUser({
+          userData: data.user,
+          initiator: false,
+          isCalling: true,
+          isConnected: true,
+          type: "video",
+        }),
+      );
     });
     return () => {
       socket?.off("call-user");
