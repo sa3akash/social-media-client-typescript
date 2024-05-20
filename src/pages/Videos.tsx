@@ -4,7 +4,7 @@ import { ImageUtils } from "@/services/utils/imageUtils";
 import { VideoUtils } from "@/services/utils/videoUtils";
 import { useEffect, useRef, useState } from "react";
 
-const videoUrl = "/2.mp4";
+const videoUrl = "/1.mp4";
 
 const Videos = () => {
   const [image, setImage] = useState("");
@@ -41,7 +41,7 @@ const Videos = () => {
           height={825}
           src={videoUrl}
           loop
-          // controls
+          controls
           className="flex items-center object-contain justify-center rounded-md w-[464px] h-[825px]"
           style={{ backgroundColor: bgColor ? bgColor : "#000" }}
           autoPlay

@@ -38,6 +38,7 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
                 i === 0 && images.length === 3 && "row-span-2 col-span-1",
                 i === 0 && images.length === 5 && "row-span-2 col-span-1"
               )}
+              classNameTwo={images.length > 2 ? "object-cover" : "object-contain"}
             />
           )
         )}
