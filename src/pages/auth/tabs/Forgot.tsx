@@ -1,4 +1,3 @@
-import CommonCard from "@/components/common/CommonCard";
 import { Button } from "@/components/ui/button";
 
 import { useForm } from "react-hook-form";
@@ -41,46 +40,38 @@ const Forgot = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <CommonCard
-        title="Recover Password"
-        title2="Enter your Email and instructions will be sent to you!"
-        type="FORGOT"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onForgot)}
+        className="text-left space-y-4"
       >
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onForgot)}
-            className="text-left space-y-4"
-          >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-left">Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="sa2avroo@gmail.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-left">Email</FormLabel>
+              <FormControl>
+                <Input placeholder="sa2avroo@gmail.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <Button type="submit" disabled={false} className="w-full">
-              {mutation.isPending ? (
-                <span className="flex text-center gap-2">
-                  Email Sending...
-                  <Loader2 className="animate-spin" size={20} />
-                </span>
-              ) : (
-                "Submit"
-              )}
-            </Button>
-            {/* {form.formState.isSubmitSuccessful && <CommonAlert type="email" />} */}
-          </form>
-        </Form>
-      </CommonCard>
-    </div>
+        <Button type="submit" disabled={false} className="w-full">
+          {mutation.isPending ? (
+            <span className="flex text-center gap-2">
+              Email Sending...
+              <Loader2 className="animate-spin" size={20} />
+            </span>
+          ) : (
+            "Submit"
+          )}
+        </Button>
+        {/* {form.formState.isSubmitSuccessful && <CommonAlert type="email" />} */}
+      </form>
+    </Form>
   );
 };
 

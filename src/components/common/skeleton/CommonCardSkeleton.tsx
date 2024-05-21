@@ -1,10 +1,16 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 
-const CommonCardSkeleton = ({ className }: { className?: string }) => {
+const CommonCardSkeleton = () => {
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <Skeleton className={cn("w-[500px] h-[500px] rounded-lg dark:bg-[#1C1C24]", className)} />
+    <div className="w-full h-full flex items-center justify-center overflow-auto">
+      <div className="w-full sm:w-[80%] md:-[50%] lg:w-[80%] 2xl:w-[70%] h-full sm:h-[700px] flex items-center cardBG sm:rounded-lg">
+        <div className="hidden lg:flex flex-1 h-full bg-[#292932] items-center justify-center flex-col gap-2">
+          <Skeleton className="w-full h-full" />
+        </div>
+        <div className="flex-1">
+          <Skeleton className="w-full h-full" />
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import CommonCard from "@/components/common/CommonCard";
 import { Button } from "@/components/ui/button";
 
 import { useForm } from "react-hook-form";
@@ -45,62 +44,50 @@ const Reset = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <CommonCard
-        title="Reset your password."
-        title2="Change your password and secure your social account!"
-        type="FORGOT"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onLogin)}
+        className="text-left space-y-4"
       >
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onLogin)}
-            className="text-left space-y-4"
-          >
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-left">Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="password min 6 characters" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-left">Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="confirm your password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-left">Password</FormLabel>
+              <FormControl>
+                <Input placeholder="password min 6 characters" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-left">Confirm Password</FormLabel>
+              <FormControl>
+                <Input placeholder="confirm your password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <Button
-              type="submit"
-              disabled={mutation.isPending}
-              className="w-full"
-            >
-              {mutation.isPending ? (
-                <span className="flex text-center gap-2">
-                  Submit...
-                  <Loader2 className="animate-spin" size={20} />
-                </span>
-              ) : (
-                "Submit"
-              )}
-            </Button>
-          </form>
-        </Form>
-      </CommonCard>
-    </div>
+        <Button type="submit" disabled={mutation.isPending} className="w-full">
+          {mutation.isPending ? (
+            <span className="flex text-center gap-2">
+              Submit...
+              <Loader2 className="animate-spin" size={20} />
+            </span>
+          ) : (
+            "Submit"
+          )}
+        </Button>
+      </form>
+    </Form>
   );
 };
 
