@@ -23,12 +23,9 @@ const GiphyPopover: FC<Props> = ({ children, fn }) => {
   const { data, lastElementRef, loading } =
     useReactInfiniteScrollGiphy(debouncedValue);
 
-  console.log(data);
-
   const handleGif = (url: string) => {
     fn(url);
   };
-  console.log("running");
 
   return (
     <Popover>
@@ -36,14 +33,14 @@ const GiphyPopover: FC<Props> = ({ children, fn }) => {
       <PopoverContent className=" p-0 cardBG" sideOffset={40}>
         <div className="text-center mt-4 relative">Choose a GIF</div>
         <Separator />
-        <div className="relative h-[500px]">
+        <div className="relative">
           <div className="border pb-2">
             <Input
               placeholder="Search gif"
               onChange={(e) => setInputValue(e.target.value)}
             />
           </div>
-          <ScrollArea className="h-full w-full">
+          <ScrollArea className="h-[450px] w-full">
             <div className="flex items-center justify-center gap-2 flex-col">
               {data.map(
                 (
