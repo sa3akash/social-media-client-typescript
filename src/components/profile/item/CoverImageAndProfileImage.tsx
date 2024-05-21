@@ -67,7 +67,6 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user }) => {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
-        description: "There was a problem, Only allow image file.",
       });
     }
   };

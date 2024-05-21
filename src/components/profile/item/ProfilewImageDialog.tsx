@@ -127,6 +127,7 @@ const ProfilewImageDialog: React.FC<Props> = ({
             name="profileRow"
             ref={profileRef}
             hidden
+            accept="image/*"
           />
         </div>
         <DialogFooter>

@@ -6,11 +6,15 @@ import Router from "@/router";
 import { Toaster } from "@/components/ui/toaster";
 import OnlineOffline from "@/components/common/OnlineOffline";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { MessangerProvider } from "@/context/MessangerContext";
+import { SocketContextProvider } from "@/context/SocketContext";
 
 function App() {
   return (
     <ThemeProvider>
       <Provider store={store}>
+      <SocketContextProvider>
+      <MessangerProvider>
         <div className="bg-background text-foreground h-full">
           <div className="max-w-[2160px] mx-auto h-full w-full">
             <NetworkProvider>
@@ -20,6 +24,8 @@ function App() {
             </NetworkProvider>
           </div>
         </div>
+        </MessangerProvider>
+        </SocketContextProvider>
       </Provider>
     </ThemeProvider>
   );

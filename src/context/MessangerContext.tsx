@@ -165,7 +165,6 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
       peerRef.current = undefined;
     }
 
-
     socket?.emit("cancelCall", {
       from: offerData?.user.authId,
       to: friendUserData?.friendUser.authId || offerData?.to,
@@ -176,8 +175,14 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
     setIsConnected(false);
     setOfferData(null);
     setFriendUserData(null);
-  }, [friendUserData?.friendUser.authId, localStream, offerData?.conversationId, offerData?.to, offerData?.user.authId, socket]);
-
+  }, [
+    friendUserData?.friendUser.authId,
+    localStream,
+    offerData?.conversationId,
+    offerData?.to,
+    offerData?.user.authId,
+    socket,
+  ]);
 
   useEffect(() => {
     socket?.on("offer", (data) => {
@@ -185,13 +190,13 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
     });
 
     socket?.on("offline", () => {
-      console.log("user offline");
+      console.log('offline received user')
     });
 
     return () => {
       socket?.off("offer");
       socket?.off("offline");
-    }
+    };
   }, [socket]);
 
   useEffect(() => {
@@ -200,8 +205,8 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
     });
     return () => {
       socket?.off("cancelCall");
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
 
   return (

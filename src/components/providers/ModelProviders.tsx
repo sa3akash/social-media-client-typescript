@@ -3,12 +3,11 @@ import CallingModel from "@/components/models/CallingModel";
 import MessangerModel from "@/components/models/MessangerModel";
 
 const ModelProviders = () => {
-  
   return (
     <>
       <CreatePostModel />
       <CallingModel />
-      <MessangerModel/>
+      <MessangerModel />
     </>
   );
 };
