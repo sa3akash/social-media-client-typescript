@@ -32,7 +32,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
+      <nav className="flex items-center justify-between gap-2 px-6 md:px-8 h-full">
         <div className="flex items-center gap-6 lg:gap-24 flex-1">
           <Link
             to={PageURL.Feed}
@@ -93,7 +93,7 @@ const Navbar = () => {
             </div>
           </NavbarItem>
         </div>
-      </div>
+      </nav>
     </>
   );
 };

@@ -13,7 +13,7 @@ const AddPost = () => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
-    <div className="cardBG md:mt-6 md:rounded-xl md:borderWrapper">
+    <section className="cardBG md:mt-6 md:rounded-xl md:borderWrapper">
       <h3 className="hidden md:block tracking-[0.1px] text-[14px] pl-4 pt-4">
         Post Something
       </h3>
@@ -44,7 +44,7 @@ const AddPost = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

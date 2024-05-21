@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <section className="w-full h-full flex items-center justify-center">
       <div className="flex flex-col items-center p-4 text-center">
         <img src={NotFountIcon} alt="" className="w-[250px] md:w-full" />
         <p className="roboto text-[17px] tracking-[0.6px] leading-5 my-2">
@@ -17,7 +17,7 @@ const NotFound = () => {
           Back Home
         </Link>
       </div>
-    </div>
+    </section>
   );
 };
 

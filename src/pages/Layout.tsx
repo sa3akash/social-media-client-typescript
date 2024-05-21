@@ -19,26 +19,26 @@ const Layout = () => {
   useEveryRender();
 
   return (
-    <div className="h-full w-full">
-      <div className="h-[70px] md:h-[80px] cardBG border-b">
+    <main className="h-full w-full">
+      <aside className="h-[70px] md:h-[80px] cardBG border-b">
         <Navbar />
-      </div>
+      </aside>
       {/* main  */}
-      <div className="flex flex-col md:flex-row md:gap-6 h-[calc(100%-70px)] md:h-[calc(100%-80px)] w-full justify-start md:justify-between">
+      <section className="flex flex-col md:flex-row md:gap-6 h-[calc(100%-70px)] md:h-[calc(100%-80px)] w-full justify-start md:justify-between">
         {/* left sidebar */}
-        <div className="h-[70px] w-full md:w-[90px] lg:max-w-[260px] lg:w-full cardBG md:h-full border-b md:border-none">
+        <section className="h-[70px] w-full md:w-[90px] lg:max-w-[260px] lg:w-full cardBG md:h-full border-b md:border-none">
           <SidebarLeft />
-        </div>
+        </section>
         {/* main */}
         <Outlet />
         {/* right sidebar */}
-        <div className="hidden xl:block max-w-[310px] w-full cardBG h-full border-l">
+        <aside className="hidden xl:block max-w-[310px] w-full cardBG h-full border-l">
           <RightSide />
-        </div>
+        </aside>
 
         <ModelProviders />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

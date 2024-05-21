@@ -20,9 +20,9 @@ const Evants = () => {
     VideoUtils.checkVideoHorizontalOrVertical(videoUrl);
   }, []);
   return (
-    <div>
+    <section>
       <VideoPlayer src={videoUrl} setQuality={()=>{}} poster={image}/>
-    </div>
+    </section>
   )
 }
 

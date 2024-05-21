@@ -37,7 +37,7 @@ const ProfilePost = () => {
   }, []);
 
   return (
-    <div className="w-full h-full mx-auto">
+    <section className="w-full h-full mx-auto">
       {param.authId === user?.authId && <AddPost />}
       {/* <AddStory /> */}
       <div
@@ -63,7 +63,7 @@ const ProfilePost = () => {
         )}
         <NoPost />
       </div>
-    </div>
+    </section>
   );
 };
 

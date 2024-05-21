@@ -7,13 +7,13 @@ const PostArea = () => {
   usePostSocket();
 
   return (
-    <div className="w-full h-full md:w-[95%] mx-auto">
+    <section className="w-full h-full md:w-[95%] mx-auto">
       <ScrollArea className="h-full w-full">
         <AddPost />
         {/* <AddStory /> */}
         <AllPost />
       </ScrollArea>
-    </div>
+    </section>
   );
 };
 

@@ -6,7 +6,7 @@ import SujestedPage from "@/components/card/SujestedPage";
 
 const CardArea = () => {
   return (
-    <div className="hidden 2xl:flex flex-col max-w-[340px] w-[95%]">
+    <section className="hidden 2xl:flex flex-col max-w-[340px] w-[95%]">
       <ScrollArea className="h-full w-full">
         <div className="flex flex-col gap-4 mt-6">
           <StoryCard />
@@ -15,7 +15,7 @@ const CardArea = () => {
           <SujestedPage />
         </div>
       </ScrollArea>
-    </div>
+    </section>
   );
 };
 

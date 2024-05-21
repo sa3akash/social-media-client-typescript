@@ -29,7 +29,7 @@ const FriendPage = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col gap-2 md:gap-4 mt-2 md:mt-8">
+    <section className="w-full h-full flex flex-col gap-2 md:gap-4 mt-2 md:mt-8">
       <FriendHeader setSelectType={setSelectType} selectType={selectType} />
       <div className="grid grid-cols-1 2xl:grid-cols-2 gap-2 md:gap-4">
         {mainData.map((item: IFollowerDoc, index: number) => {
@@ -53,7 +53,7 @@ const FriendPage = () => {
           <Loader2 className="animate-spin w-6 h-6" />
         </p>
       )}
-    </div>
+    </section>
   );
 };
 

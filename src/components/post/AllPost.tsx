@@ -25,7 +25,7 @@ const AllPost = () => {
   }, []);
 
   return (
-    <div className="mt-2 md:mt-4 flex flex-col gap-4">
+    <section className="mt-2 md:mt-4 flex flex-col gap-4">
       {mainData.map(
         (item: IPostDoc, i: number) =>
           UserUtils.checkPrivacyPost(item) && (
@@ -42,7 +42,7 @@ const AllPost = () => {
         </p>
       )}
       <NoPost />
-    </div>
+    </section>
   );
 };
 

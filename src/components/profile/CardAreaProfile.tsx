@@ -10,13 +10,13 @@ interface Props {
 
 const CardAreaProfile:React.FC<Props> = ({user}) => {
   return (
-    <div className="flex flex-col 2xl:max-w-[340px] w-full">
+    <section className="flex flex-col 2xl:max-w-[340px] w-full">
         <div className="flex flex-col gap-4 mt-4 md:mt-6">
           <ProfilePrograce />
           <AboutMeCard user={user}/>
           <PhotoAndVideo />
         </div>
-    </div>
+    </section>
   );
 };
 

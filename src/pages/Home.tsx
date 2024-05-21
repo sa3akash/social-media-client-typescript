@@ -3,10 +3,10 @@ import CardArea from "@/components/home/CardArea";
 
 const Home = () => {
   return (
-    <div className="max-w-[1200px] h-[calc(100%-70px)] md:h-full w-full flex gap-8">
+    <section className="max-w-[1200px] h-[calc(100%-70px)] md:h-full w-full flex gap-8">
       <PostArea />
       <CardArea />
-    </div>
+    </section>
   );
 };
 
