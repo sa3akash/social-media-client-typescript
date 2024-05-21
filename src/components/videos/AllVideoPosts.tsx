@@ -1,7 +1,11 @@
 import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
-import React from "react";
 import PostSkeleton from "../home/skeleton/PostSkeleton";
 import api from "@/services/http";
+import NoPost from "../post/NoPost";
+import { Loader2 } from "lucide-react";
+import { UserUtils } from "@/services/utils/userUtils";
+import { IPostDoc } from "@/interfaces/post.interface";
+import SingleVideoItem from "./items/SingleVideoItem";
 
 const AllVideoPosts = () => {
   const { data, lastElementRef, loading } = useReactInfiniteScroll({
@@ -22,7 +26,26 @@ const AllVideoPosts = () => {
 
   console.log(mainData);
 
-  return <div className="mt-4">AllVideoPosts</div>;
+  return (
+    <div className="mt-2 md:mt-4 flex flex-col gap-4">
+      {mainData.map(
+        (item: IPostDoc, i: number) =>
+          UserUtils.checkPrivacyPost(item) && (
+            <SingleVideoItem
+              item={item}
+              ref={mainData.length === i + 1 ? lastElementRef : null}
+              key={i}
+            />
+          )
+      )}
+      {loading && (
+        <p className="p-4 flex items-center justify-center">
+          <Loader2 className="animate-spin w-6 h-6" />
+        </p>
+      )}
+      <NoPost />
+    </div>
+  );
 };
 
 export default AllVideoPosts;

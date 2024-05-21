@@ -1,5 +1,5 @@
 import Image from "@/components/common/Image";
-import { VideoPlayer } from "@/components/videoPlayer/VideoPlayer";
+import { VideoPlayerCustom } from "@/components/videoPlayer/VideoPlayerCustom";
 import { IFiles } from "@/interfaces/post.interface";
 import { cn } from "@/lib/utils";
 import React from "react";
@@ -28,13 +28,7 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
       >
         {images.map((url, i) =>
           url.mimetype === "video/mp4" ? (
-            <VideoPlayer
-              key={i}
-              src={url.path}
-              setQuality={() => {}}
-              height="100%"
-              width="100%"
-            />
+            <VideoPlayerCustom key={i} src={url.path} width="100%" height="100%" className="object-cover"/>
           ) : (
             <Image
               src={url.path}

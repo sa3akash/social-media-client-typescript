@@ -4,7 +4,7 @@
     left: 0;
     user-select: none;
     overflow-x: hidden;
-    z-index: 999999999999999;
+    z-index: 5;
   
     ._6pp-video-player-setting-panel,
     ._6pp-video-player-speed-panel {

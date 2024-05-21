@@ -1,30 +1,18 @@
-import { VideoUtils } from "@/services/utils/videoUtils";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "../ui/button";
+import { FaPause, FaPlay } from "@/components/videoPlayer/icons/Icons";
 
 interface Props {
   videoUrl: string;
 }
 
 const VideoPreview: React.FC<Props> = ({ videoUrl }) => {
-  const [backgroundVideoColor, setBackgroundVideoColor] = useState<string>("");
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const getBackgroundVideoColor = async (url: string) => {
-    try {
-      const bgColor = await VideoUtils.getBackgroundVideoColor(url);
-      setBackgroundVideoColor(`${bgColor}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getBackgroundVideoColor(videoUrl);
-  }, [videoUrl]);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
-    // Intersection Observer options
     const options = {
       root: null,
       rootMargin: "0px",
@@ -59,21 +47,40 @@ const VideoPreview: React.FC<Props> = ({ videoUrl }) => {
     };
   }, [videoUrl]);
 
+  const PlayPaused = () => {
+    if (videoRef.current?.paused) {
+      videoRef.current?.play();
+      setPaused(false);
+    } else {
+      videoRef.current?.pause();
+      setPaused(true);
+    }
+  };
+
   return (
-    <video
-      width="200"
-      height="200"
-      controls
-      controlsList="nodownload"
-      onContextMenu={() => false}
-      loop
-      style={{ background: backgroundVideoColor }}
-      className="w-full h-full max-h-[500px] object-contain"
-      ref={videoRef}
-    >
-      {/* <source src={videoUrl} type="video/mp4" /> */}
-      Your browser does not support the video tag.
-    </video>
+    <div className="relative">
+      <div className="absolute bottom-0 left-0 w-full flex flex-col z-10">
+        <div></div>
+        <div className="flex">
+          <Button size="icon" variant="ghost" onClick={PlayPaused}>
+            {!paused ? FaPause : FaPlay}{" "}
+          </Button>
+        </div>
+      </div>
+      <video
+        width="200"
+        height="200"
+        controlsList="nodownload"
+        onContextMenu={() => false}
+        loop
+        className="w-full h-full max-h-[500px] object-contain"
+        ref={videoRef}
+        onClick={PlayPaused}
+      >
+        {/* <source src={videoUrl} type="video/mp4" /> */}
+        Your browser does not support the video tag.
+      </video>
+    </div>
   );
 };
 

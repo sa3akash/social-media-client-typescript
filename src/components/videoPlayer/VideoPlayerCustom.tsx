@@ -1,4 +1,3 @@
-import * as React from "react";
 import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import {
@@ -8,14 +7,8 @@ import {
   CiVolume,
   CiVolumeHigh,
   CiVolumeMute,
-  FaClosedCaptioning,
   FaPause,
   FaPlay,
-  FaRegClosedCaptioning,
-  IoSettings,
-  IoSettingsOutline,
-  // RiMovieFill,
-  // RiMovieLine,
   TbRewindBackward10,
   TbRewindForward10,
 } from "./icons/Icons";
@@ -30,7 +23,6 @@ type VideoPlayerProps = {
   width?: string;
   height?: string;
   qualityOptions?: number[];
-  setQuality: React.Dispatch<React.SetStateAction<number>>;
   className?: string;
 };
 
@@ -59,14 +51,13 @@ const formatTime = (time: number) => {
 //   else return timeArr[0] * 3600 + timeArr[1] * 60 + timeArr[2];
 // };
 
-const VideoPlayer = ({
+const VideoPlayerCustom = ({
   width = "40rem",
   height = "20.5rem",
   src,
   poster,
   captions,
   qualityOptions = [480, 720, 1080, 1440],
-  setQuality,
   loop = false,
   className,
 }: VideoPlayerProps) => {
@@ -85,7 +76,6 @@ const VideoPlayer = ({
   const [previousVolume, setPreviousVolume] = useState(volume);
 
   const [speed, setSpeed] = useState(1);
-  // const [quality, setQuality] = useState(qualityOptions[0]);
 
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isTheater, setIsTheater] = useState(false);
@@ -137,21 +127,28 @@ const VideoPlayer = ({
     setSpeed(speed);
     toggleSpeed();
   };
-  const handleQualityChange = (quality: number) => {
-    setQuality(quality);
+
+  
+  const handleQualityChange = () => {
     toggleSettings();
   };
+
+
   const handleRewindBackward10 = useCallback(() => {
     const player = videoPlayerRef.current;
     if (!player) return;
     player.currentTime -= 10;
   }, []);
 
+
+
   const handleRewindForward10 = useCallback(() => {
     const player = videoPlayerRef.current;
     if (!player) return;
     player.currentTime += 10;
   }, []);
+
+
 
   const handleMuteUnmute = useCallback(() => {
     setIsMuted((prev) => {
@@ -165,9 +162,12 @@ const VideoPlayer = ({
     });
   }, [previousVolume, volume]);
 
+
   const handleMouseDown = () => {
     isDragging.current = true;
   };
+
+
 
   const handleMouseMove = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -196,6 +196,7 @@ const VideoPlayer = ({
     videoPlayer.currentTime = time;
   };
 
+
   const handleClickOutside = useCallback((event: globalThis.MouseEvent) => {
     if (
       settingsPanelRef.current &&
@@ -211,6 +212,7 @@ const VideoPlayer = ({
       setIsSpeedOpen(false);
     }
   }, []);
+
 
   const handleKeyDown = useCallback(
     (e: globalThis.KeyboardEvent) => {
@@ -263,6 +265,7 @@ const VideoPlayer = ({
     ]
   );
 
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleKeyDown);
@@ -272,10 +275,14 @@ const VideoPlayer = ({
     };
   }, [handleClickOutside, handleKeyDown]);
 
+
   const loadedDataHandler = useCallback(() => {
     const player = videoPlayerRef.current;
-    if (player) setDuration(formatTime(videoPlayerRef.current.duration));
+    if (player) {
+      setDuration(formatTime(videoPlayerRef.current.duration));
+    }
   }, []);
+
 
   const timeupdateHandler = useCallback(() => {
     const player = videoPlayerRef.current;
@@ -296,6 +303,7 @@ const VideoPlayer = ({
     }
   }, [setCurrentTime, setTimelineProgress, setBuffered]);
 
+
   useEffect(() => {
     const videoPlayer = videoPlayerRef.current;
 
@@ -312,6 +320,7 @@ const VideoPlayer = ({
     };
   }, [loadedDataHandler, timeupdateHandler]);
 
+
   useEffect(() => {
     if (volume === 0) {
       setIsMuted(true);
@@ -320,13 +329,16 @@ const VideoPlayer = ({
     }
   }, [volume]);
 
+
   useEffect(() => {
     if (videoPlayerRef.current) videoPlayerRef.current.playbackRate = speed;
   }, [speed]);
 
+
   useEffect(() => {
     if (videoPlayerRef.current) videoPlayerRef.current.volume = volume / 100;
   }, [volume]);
+
 
   useEffect(() => {
     if (videoPlayerRef.current) {
@@ -344,6 +356,7 @@ const VideoPlayer = ({
     };
   }, [isCaptions]);
 
+
   useEffect(() => {
     return () => {
       setIsPaused(true);
@@ -355,6 +368,44 @@ const VideoPlayer = ({
       setSpeed(1);
     };
   }, [src, poster]);
+
+  // observer for if user see this video element then play
+  useEffect(() => {
+    const video = videoPlayerRef.current;
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5, // Adjust this threshold as needed
+    };
+    // Callback fired when the video enters or leaves the viewport
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          video!.src = src;
+          video!.play().catch((error) => {
+            console.log("Failed to play video:", error);
+          });
+        } else {
+          video!.pause(); // Pause when video leaves viewport
+        }
+        if (video?.paused) {
+          setIsPaused(true);
+        } else {
+          setIsPaused(false);
+        }
+      });
+    };
+    const observer = new IntersectionObserver(handleIntersection, options);
+    // Observe the video element
+    if (video) {
+      observer.observe(video as HTMLVideoElement);
+    }
+    // Cleanup the Intersection Observer when component unmounts
+    return () => {
+      observer.unobserve(video as HTMLVideoElement);
+      observer.disconnect();
+    };
+  }, [src]);
 
   const SettingPanel = isSettingsOpen && (
     <div ref={settingsPanelRef} className="_6pp-video-player-setting-panel">
@@ -370,7 +421,7 @@ const VideoPlayer = ({
               borderBottomRightRadius:
                 idx === qualityOptions.length - 1 ? "0.5rem" : 0,
             }}
-            onClick={() => handleQualityChange(i)}
+            onClick={() => handleQualityChange()}
           >
             {i}p
           </li>
@@ -466,23 +517,8 @@ const VideoPlayer = ({
       </div>
 
       <button
-        style={{ marginLeft: "auto" }}
-        onClick={toggleSettings}
-        title="Settings"
-      >
-        {isSettingsOpen ? IoSettings : IoSettingsOutline}
-      </button>
-
-      <button
-        title={isCaptions ? "Hide Captions" : "Show Captions"}
-        onClick={toggleCaptions}
-      >
-        {isCaptions ? FaClosedCaptioning : FaRegClosedCaptioning}
-      </button>
-
-      <button
         title="Plackback Speed"
-        style={{ fontSize: "1.25rem" }}
+        style={{ fontSize: "1.25rem", marginLeft: "auto" }}
         onClick={toggleSpeed}
       >
         {speed}x
@@ -491,12 +527,7 @@ const VideoPlayer = ({
       <button onClick={handleMiniPlayerChange} title="Mini Player">
         {CgMiniPlayer}
       </button>
-      {/* <button
-        onClick={toggleTheater}
-        title={isTheater ? "Exit Theater Mode" : "Theater Mode"}
-      >
-        {isTheater ? RiMovieFill : RiMovieLine}
-      </button> */}
+
       <button
         onClick={handleFullScreenChange}
         title={isFullScreen ? "Exit Full Screen" : "Full Screen"}
@@ -542,7 +573,7 @@ const VideoPlayer = ({
 
       <video
         ref={videoPlayerRef}
-        src={src}
+        // src={src}
         className={`_6pp-video-player-video ${className}`}
         style={{
           filter: isLoading ? "blur(5px)" : "none",
@@ -561,4 +592,4 @@ const VideoPlayer = ({
   );
 };
 
-export { VideoPlayer };
+export { VideoPlayerCustom };
