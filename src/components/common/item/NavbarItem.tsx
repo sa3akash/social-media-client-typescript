@@ -28,7 +28,6 @@ const NavbarItem: React.FC<Props> = ({ children }) => {
     dispatch(resetNotifications());
     localStorage.clear()
     navigate("/login")
-    window.location.reload()
   };
 
   return (

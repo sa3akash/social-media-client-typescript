@@ -7,6 +7,10 @@ interface Props {
 }
 
 const SinglePhoto = forwardRef(({ post }: Props, ref: Ref<HTMLDivElement>) => {
+  const handleClick = () => {
+    console.log(post._id);
+  };
+
   return (
     <>
       {post.files?.length > 0 ? (
@@ -16,6 +20,7 @@ const SinglePhoto = forwardRef(({ post }: Props, ref: Ref<HTMLDivElement>) => {
             post={post?.post}
             imageUrl={image?.path}
             ref={ref}
+            onClick={handleClick}
           />
         ))
       ) : (
@@ -23,6 +28,7 @@ const SinglePhoto = forwardRef(({ post }: Props, ref: Ref<HTMLDivElement>) => {
           post={post?.post}
           imageUrl={post.gifUrl as string}
           ref={ref}
+          onClick={handleClick}
         />
       )}
     </>

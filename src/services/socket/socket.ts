@@ -16,15 +16,10 @@ export class SocketService {
   // disconnect connection
   public disconnect() {
     this.socket.close();
-    console.log("socket disconnected");
   }
 
   // listen for events
   private socketConnectionEvents() {
-    this.socket.on("connect", () => {
-      console.log("connected = ", this.socket.id);
-    });
-
     this.socket.on("user-online", (users) => {
       store.dispatch(setOnlineUsers(users));
     });

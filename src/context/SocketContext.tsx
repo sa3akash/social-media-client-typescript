@@ -34,9 +34,10 @@ export const SocketContextProvider = ({
     const socketService = new SocketService(mainSocket);
     socketService.setupSocketConnection();
     return () => {
-        mainSocket.disconnect();
-        setSocket(null)
-      };
+      mainSocket.disconnect();
+      socketService.disconnect();
+      setSocket(null);
+    };
   }, [user?.authId]);
 
   return (
@@ -45,8 +46,3 @@ export const SocketContextProvider = ({
     </SocketContext.Provider>
   );
 };
-
-
- 
-
-

@@ -6,16 +6,18 @@ import { saveAs } from "file-saver";
 interface Props {
   post: string;
   imageUrl: string;
+  onClick: () => void;
 }
 
 const SinglePostItem = forwardRef(
-  ({ imageUrl, post }: Props, ref: LegacyRef<HTMLDivElement>) => {
+  ({ imageUrl, post, onClick }: Props, ref: LegacyRef<HTMLDivElement>) => {
     const title = post?.length > 16 ? post.slice(0, 12) + "..." : post;
 
     return (
       <div
         className="group w-full h-[250px] md:h-[250px] rounded-lg relative cursor-pointer"
         ref={ref}
+        onClick={onClick}
       >
         <Image src={imageUrl} classNameTwo="object-cover" />
         <div className="hidden group-hover:block bg-gradient-to-t from-[#000000ea] absolute bottom-0 w-full left-0 h-20">
@@ -32,7 +34,10 @@ const SinglePostItem = forwardRef(
             </div>
             <div
               className="cursor-pointer select-none"
-              onClick={() => saveAs(imageUrl, `${post}-${Date.now()}.jpg`)}
+              onClick={(e) => {
+                e.stopPropagation();
+                saveAs(imageUrl, `${post}-${Date.now()}.jpg`);
+              }}
             >
               <img src={DownlaodIcon} alt="d" />
             </div>
