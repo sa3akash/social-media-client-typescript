@@ -14,18 +14,17 @@ import {
   FaRegClosedCaptioning,
   IoSettings,
   IoSettingsOutline,
-  RiMovieFill,
-  RiMovieLine,
+  // RiMovieFill,
+  // RiMovieLine,
   TbRewindBackward10,
   TbRewindForward10,
 } from "./icons/Icons";
 import "./videoPlayer.css";
 import { RangeSlider } from "./Slider";
 
-
 type VideoPlayerProps = {
   src: string;
-  loop?:boolean;
+  loop?: boolean;
   poster?: string;
   captions?: string;
   width?: string;
@@ -33,7 +32,6 @@ type VideoPlayerProps = {
   qualityOptions?: number[];
   setQuality: React.Dispatch<React.SetStateAction<number>>;
 };
-
 
 const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -68,7 +66,7 @@ const VideoPlayer = ({
   captions,
   qualityOptions = [480, 720, 1080, 1440],
   setQuality,
-  loop = false
+  loop = false,
 }: VideoPlayerProps) => {
   const settingsPanelRef = useRef<HTMLDivElement>(null);
   const speedPanelRef = useRef<HTMLDivElement>(null);
@@ -99,20 +97,26 @@ const VideoPlayer = ({
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSpeedOpen, setIsSpeedOpen] = useState(false);
 
-  const toggleSettings = useCallback(() => setIsSettingsOpen((prev) => !prev),[]);
-  const toggleSpeed = useCallback(() => setIsSpeedOpen((prev) => !prev),[]);
-  const toggleCaptions = useCallback(() => setIsCaptions((prev) => !prev),[]);
-  const toggleTheater = useCallback(() => setIsTheater((prev) => !prev),[]);
+  const toggleSettings = useCallback(
+    () => setIsSettingsOpen((prev) => !prev),
+    []
+  );
+  const toggleSpeed = useCallback(() => setIsSpeedOpen((prev) => !prev), []);
+  const toggleCaptions = useCallback(() => setIsCaptions((prev) => !prev), []);
+  const toggleTheater = useCallback(() => setIsTheater((prev) => !prev), []);
 
-  const handlePlayPause = useCallback(() =>
-    setIsPaused((prev) => {
-      if (prev) {
-        videoPlayerRef.current?.play();
-      } else {
-        videoPlayerRef.current?.pause();
-      }
-      return !prev;
-    }),[]);
+  const handlePlayPause = useCallback(
+    () =>
+      setIsPaused((prev) => {
+        if (prev) {
+          videoPlayerRef.current?.play();
+        } else {
+          videoPlayerRef.current?.pause();
+        }
+        return !prev;
+      }),
+    []
+  );
 
   const handleFullScreenChange = useCallback(() => {
     if (isFullScreen) {
@@ -122,7 +126,7 @@ const VideoPlayer = ({
     }
 
     setIsFullScreen((prev) => !prev);
-  },[isFullScreen]);
+  }, [isFullScreen]);
 
   const handleMiniPlayerChange = () =>
     videoPlayerRef.current?.requestPictureInPicture();
@@ -139,28 +143,25 @@ const VideoPlayer = ({
     const player = videoPlayerRef.current;
     if (!player) return;
     player.currentTime -= 10;
-  },[]);
-
+  }, []);
 
   const handleRewindForward10 = useCallback(() => {
     const player = videoPlayerRef.current;
     if (!player) return;
     player.currentTime += 10;
-  },[]);
+  }, []);
 
-    
+  const handleMuteUnmute = useCallback(() => {
+    setIsMuted((prev) => {
+      if (prev) setVolume(previousVolume);
+      else {
+        setPreviousVolume(volume);
+        setVolume(0);
+      }
 
-    const handleMuteUnmute = useCallback(()=>{
-      setIsMuted((prev) => {
-        if (prev) setVolume(previousVolume);
-        else {
-          setPreviousVolume(volume);
-          setVolume(0);
-        }
-  
-        return !prev;
-      });
-    },[previousVolume, volume])
+      return !prev;
+    });
+  }, [previousVolume, volume]);
 
   const handleMouseDown = () => {
     isDragging.current = true;
@@ -488,12 +489,12 @@ const VideoPlayer = ({
       <button onClick={handleMiniPlayerChange} title="Mini Player">
         {CgMiniPlayer}
       </button>
-      <button
+      {/* <button
         onClick={toggleTheater}
         title={isTheater ? "Exit Theater Mode" : "Theater Mode"}
       >
         {isTheater ? RiMovieFill : RiMovieLine}
-      </button>
+      </button> */}
       <button
         onClick={handleFullScreenChange}
         title={isFullScreen ? "Exit Full Screen" : "Full Screen"}

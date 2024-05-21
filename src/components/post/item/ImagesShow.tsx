@@ -1,5 +1,5 @@
 import Image from "@/components/common/Image";
-import VideoPreview from "@/components/common/VideoPreview";
+import { VideoPlayer } from "@/components/videoPlayer/VideoPlayer";
 import { IFiles } from "@/interfaces/post.interface";
 import { cn } from "@/lib/utils";
 import React from "react";
@@ -28,7 +28,13 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
       >
         {images.map((url, i) =>
           url.mimetype === "video/mp4" ? (
-            <VideoPreview videoUrl={url.path} key={i} />
+            <VideoPlayer
+              key={i}
+              src={url.path}
+              setQuality={() => {}}
+              height="100%"
+              width="100%"
+            />
           ) : (
             <Image
               src={url.path}
@@ -38,7 +44,9 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
                 i === 0 && images.length === 3 && "row-span-2 col-span-1",
                 i === 0 && images.length === 5 && "row-span-2 col-span-1"
               )}
-              classNameTwo={images.length > 2 ? "object-cover" : "object-contain"}
+              classNameTwo={
+                images.length > 2 ? "object-cover" : "object-contain"
+              }
             />
           )
         )}

@@ -44,7 +44,7 @@ const FriendPage = () => {
       </div>
       {mainData.length === 0 && !loading && (
         <div className="w-full text-[24px] font-semibold text-center capitalize">
-          No {selectType === "users" ? "friends" : selectType} found.
+         No {selectType === "users" ? "friends" : selectType} found.
         </div>
       )}
 
