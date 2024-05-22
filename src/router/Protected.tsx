@@ -46,6 +46,14 @@ const Protected = [
   {
     path: PageURL.WatchVideos,
     element: (
+      <Suspense fallback={<HomeSkeleton />}>
+        <Videos />
+      </Suspense>
+    ),
+  },
+  {
+    path: PageURL.WatchVideos,
+    element: (
       <Suspense fallback={"Loading..."}>
         <Videos />
       </Suspense>

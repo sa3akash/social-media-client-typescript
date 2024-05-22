@@ -1,4 +1,3 @@
-import React from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 import SujestedPage from '../card/SujestedPage'
 import SujestedFriends from '../card/SujestedFriends'

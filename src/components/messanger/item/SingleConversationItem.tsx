@@ -6,8 +6,8 @@ import { timeAgo } from "@/services/utils/timeAgo";
 import { RootState } from "@/store";
 import { Check, CheckCheck } from "lucide-react";
 import { FC } from "react";
-import {  useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface Props {
   item: IMessageData;
@@ -16,9 +16,10 @@ interface Props {
 
 const SingleConversationItem: FC<Props> = ({ item, active }) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [,setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const won = user?.authId === item.senderId;
+  const navigate = useNavigate();
 
   return (
     <div
@@ -27,7 +28,11 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
         active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : "hover:bg-[#292932]"
       )}
       onClick={() => {
-        setSearchParams({ conversationId: item.conversationId,receiverId:item.user.authId });
+        navigate("messanger");
+        setSearchParams({
+          conversationId: item.conversationId,
+          receiverId: item.user.authId,
+        });
       }}
     >
       <UserAvater

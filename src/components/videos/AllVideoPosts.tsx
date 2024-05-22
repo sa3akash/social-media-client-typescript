@@ -24,8 +24,6 @@ const AllVideoPosts = () => {
     return [...acc, ...page.postWithVideos];
   }, []);
 
-  console.log(mainData);
-
   return (
     <div className="mt-2 md:mt-4 flex flex-col gap-4">
       {mainData.map(
