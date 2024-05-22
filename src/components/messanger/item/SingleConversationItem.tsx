@@ -7,7 +7,7 @@ import { RootState } from "@/store";
 import { Check, CheckCheck } from "lucide-react";
 import { FC } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   item: IMessageData;
@@ -19,7 +19,6 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
   const [, setSearchParams] = useSearchParams();
 
   const won = user?.authId === item.senderId;
-  const navigate = useNavigate();
 
   return (
     <div
@@ -28,7 +27,7 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
         active ? "bg-[#1E75FF]" : won ? "bg-[#292932]" : "hover:bg-[#292932]"
       )}
       onClick={() => {
-        navigate("messanger");
+        // navigate("messanger");
         setSearchParams({
           conversationId: item.conversationId,
           receiverId: item.user.authId,
