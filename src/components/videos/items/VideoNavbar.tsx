@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 
 const vidoeNavbarItems = [
