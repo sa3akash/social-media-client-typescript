@@ -11,12 +11,11 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import ActionTolltip from "@/components/common/ActionTolltip";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import { PostUtils } from "@/services/utils/postUtils";
 import { OnlyReactionName } from "@/interfaces/reaction.interface";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { updateReaction } from "@/services/http";
+import { useCreateReactionMutation } from "@/store/rtk/post/reactionSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 interface Props {
   commentInputRef: React.MutableRefObject<null | HTMLInputElement>;
@@ -25,9 +24,11 @@ interface Props {
 
 const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
   const [openReaction, setOpenReaction] = useState(false);
+
   const { userReaction } = useSelector((state: RootState) => state.auth);
 
   const reactionType = PostUtils.userReactionExists(userReaction, postId);
+  const [createReaction] = useCreateReactionMutation();
 
   let timeout: string | number | NodeJS.Timeout | undefined;
   const handleMouseEnter = () => {
@@ -41,9 +42,6 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
     setOpenReaction(false);
   };
 
-  const mutation = useMutationCustom({
-    mutationFn: updateReaction,
-  });
   return (
     <div className="px-4 py-1 border-t border-b">
       <div className="flex items-center justify-around gap-2 select-none">
@@ -55,7 +53,7 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
           onTouchEnd={handleMouseLeave}
           onClick={(e) => {
             e.stopPropagation();
-            mutation.mutate({ postId, type: "love" });
+            createReaction({ postId, type: "like" });
             handleMouseLeave();
           }}
         >
@@ -154,12 +152,10 @@ const SingleReaciton = ({
     type as keyof typeof ReactionIconMapGif
   ] as string;
 
-  const mutation = useMutationCustom({
-    mutationFn: updateReaction,
-  });
+  const [createReaction] = useCreateReactionMutation();
 
   const handleReactionClick = () => {
-    mutation.mutate({ postId, type });
+    createReaction({ postId, type });
     setOpenReaction(false);
   };
 

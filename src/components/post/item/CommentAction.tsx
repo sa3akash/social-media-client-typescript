@@ -3,10 +3,9 @@ import ImojiIcon from "@/assets/images/ic_emoji.svg";
 import ImageIcon from "@/assets/images/ic_Image.svg";
 import EmojiPicker from "@/components/common/EmojiPicker";
 import UserAvater from "@/components/common/UserAvater";
-import useMutationCustom from "@/hooks/useMutationCustom";
 import { NameDoc } from "@/interfaces/auth.interface";
-import { addComment } from "@/services/http";
 import { RootState } from "@/store";
+import { useAddCommantMutation } from "@/store/rtk/post/commantSlice";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -20,13 +19,13 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
 
   const [commentValue, setCommentValue] = useState<string>("");
 
-  const mutation = useMutationCustom({
-    mutationFn: addComment
-  });
+
+  const [addCommant,{isLoading}] = useAddCommantMutation();
 
   const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && commentValue.length > 1) {
-      mutation.mutate({
+
+      addCommant({
         comment: commentValue,
         postId: postId,
       });
@@ -53,7 +52,7 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
           onChange={(e) => setCommentValue(e.target.value as string)}
           value={commentValue}
           onKeyDown={handlekeydown}
-          disabled={mutation.isPending}
+          disabled={isLoading}
         />
         <img src={AtachmentIcon} alt="atachIcon" className="w-5 icon" />
         <EmojiPicker

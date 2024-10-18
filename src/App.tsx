@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { store } from "@/store";
+import { store,persistor } from "@/store";
 import { NetworkProvider } from "@/context/NetworkContext";
 import { RouterProvider } from "react-router-dom";
 import Router from "@/router";
@@ -8,11 +8,13 @@ import OnlineOffline from "@/components/common/OnlineOffline";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { MessangerProvider } from "@/context/MessangerContext";
 import { SocketContextProvider } from "@/context/SocketContext";
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
   return (
     <ThemeProvider>
       <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <SocketContextProvider>
       <MessangerProvider>
         <div className="bg-background text-foreground h-full">
@@ -26,6 +28,7 @@ function App() {
         </div>
         </MessangerProvider>
         </SocketContextProvider>
+        </PersistGate>
       </Provider>
     </ThemeProvider>
   );

@@ -1,5 +1,5 @@
-import MessangerHeader from "@/components/messanger/item/MessangerHeader";
-import MessangerInput from "@/components/messanger/item/MessangerInput";
+// import MessangerHeader from "@/components/messanger/item/MessangerHeader";
+// import MessangerInput from "@/components/messanger/item/MessangerInput";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
@@ -7,16 +7,26 @@ import { useSelector } from "react-redux";
 import { X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 // import CallingAudioVideo from "@/components/messanger/item/CallingAudioVideo";
-import { ElementRef, useEffect, useRef, useState } from "react";
+import { ElementRef, lazy, Suspense, useEffect, useRef, useState } from "react";
 import { IMessageData } from "@/interfaces/chat.interface";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/http";
-import SingleMessage from "./item/SingleMessage";
+// import SingleMessage from "@/components/messanger/item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
-import useChatSocket from "@/services/socket/useChatSocket";
 import Call from "./call/Call";
 import {} from "@/interfaces/auth.interface";
 import useWebrtc from "@/hooks/webrtc/useWebrtc";
+
+const SingleMessage = lazy(
+  () => import("@/components/messanger/item/SingleMessage")
+);
+
+const MessangerInput = lazy(
+  () => import("@/components/messanger/item/MessangerInput")
+);
+const MessangerHeader = lazy(
+  () => import("@/components/messanger/item/MessangerHeader")
+);
 
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -69,7 +79,6 @@ const MessangerBody = () => {
   //   loadMore: fetchNextPage,
   // });
 
-  useChatSocket({ messages: mainData });
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -81,7 +90,7 @@ const MessangerBody = () => {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <MessangerHeader message={mainData[0]} />
+      <Suspense><MessangerHeader message={mainData[0]} /></Suspense>
       <div className="flex-1 flex flex-col h-full lg:flex-row gap-4">
         {isCalling && (
           <div className="flex-1">
@@ -94,23 +103,25 @@ const MessangerBody = () => {
               <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
                 <div className="flex-1"></div>
                 {mainData.map((message, index) => (
-                  <SingleMessage
-                    item={message}
-                    wonMessage={user?.authId === message.senderId}
-                    multipleMessage={
-                      index > 0 &&
-                      message.senderId === mainData[index - 1].senderId
-                    }
-                    separatorDate={
-                      index > 0 &&
-                      !Utils.checkDateSame(
-                        mainData[index - 1].createdAt,
-                        message.createdAt
-                      )
-                    }
-                    key={index}
-                    lastMessage={index + 1 === mainData.length}
-                  />
+                  <Suspense key={index}>
+                    <SingleMessage
+                      item={message}
+                      wonMessage={user?.authId === message.senderId}
+                      multipleMessage={
+                        index > 0 &&
+                        message.senderId === mainData[index - 1].senderId
+                      }
+                      separatorDate={
+                        index > 0 &&
+                        !Utils.checkDateSame(
+                          mainData[index - 1].createdAt,
+                          message.createdAt
+                        )
+                      }
+                      key={index}
+                      lastMessage={index + 1 === mainData.length}
+                    />
+                  </Suspense>
                 ))}
                 <div ref={bottomRef} />
               </div>
@@ -132,7 +143,7 @@ const MessangerBody = () => {
               </div>
             )}
           </div>
-          <MessangerInput setGif={setGif} gif={gif} />
+          <Suspense><MessangerInput setGif={setGif} gif={gif} /></Suspense>
         </div>
       </div>
     </div>

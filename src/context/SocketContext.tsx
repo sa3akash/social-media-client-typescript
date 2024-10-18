@@ -1,5 +1,6 @@
-import { SocketService } from "@/services/socket/socket";
-import { RootState } from "@/store";
+import { config } from "@/config";
+import { RootState, store } from "@/store";
+import { setOnlineUsers } from "@/store/reducers/AuthReducer";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -21,7 +22,7 @@ export const SocketContextProvider = ({
   const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    const mainSocket = io("http://localhost:5500", {
+    const mainSocket = io(config.baseUrl, {
       path: "/socket.io",
       transports: ["websocket"],
       secure: true,
@@ -31,11 +32,27 @@ export const SocketContextProvider = ({
     });
     setSocket(mainSocket);
 
-    const socketService = new SocketService(mainSocket);
-    socketService.setupSocketConnection();
+    mainSocket.on("connect", () => {
+      console.log(mainSocket.id);
+    });
+
+    mainSocket.on("user-online", (users) => {
+      store.dispatch(setOnlineUsers(users));
+    });
+
+ 
+
+    mainSocket.on("disconnect", (reason: Socket.DisconnectReason) => {
+      console.log(`Reason: ${reason}`);
+      mainSocket.connect();
+    });
+    mainSocket.on("connect_error", (error: Error) => {
+      console.log(`Error: ${error!.message}`);
+      mainSocket.connect();
+    });
+
     return () => {
       mainSocket.disconnect();
-      socketService.disconnect();
       setSocket(null);
     };
   }, [user?.authId]);

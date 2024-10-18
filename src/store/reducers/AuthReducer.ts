@@ -1,5 +1,6 @@
 import { IUserDoc, IUserReactionDoc } from "@/interfaces/auth.interface";
 import { storeKey } from "@/services/utils/keys";
+import { Utils } from "@/services/utils/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -30,7 +31,11 @@ export const AuthSlice = createSlice({
       state.user = action.payload;
     },
     setUserReactions: (state, action: PayloadAction<IUserReactionDoc[]>) => {
-      state.userReaction = action.payload;
+      const uniqueArray = Utils.uniqueArray([
+        ...state.userReaction,
+        ...action.payload,
+      ]);
+      state.userReaction = uniqueArray;
     },
     setOnlineUsers: (state, action: PayloadAction<string[]>) => {
       state.onlineUsers = action.payload;
@@ -50,9 +55,19 @@ export const AuthSlice = createSlice({
     },
 
     addUserReactions: (state, action: PayloadAction<IUserReactionDoc>) => {
-      state.userReaction = [
-        ...new Set([action.payload, ...state.userReaction]),
-      ];
+      const findIndex = state.userReaction.findIndex(
+        (p) => p.postId === action.payload.postId,
+      )
+
+      if (findIndex !== -1) {
+        if(state.userReaction[findIndex].type === action.payload.type){
+          state.userReaction = state.userReaction.filter(p=>p.postId !== action.payload.postId)
+        }else{
+          state.userReaction[findIndex] = {...state.userReaction[findIndex], ...action.payload}
+        }
+      }else{
+        state.userReaction = [...state.userReaction, action.payload]
+      }
     },
 
     addFollowing: (state, action: PayloadAction<{ id: string }>) => {
@@ -64,12 +79,6 @@ export const AuthSlice = createSlice({
         (id) => id !== action.payload.id,
       );
     },
-
-    deleteUserReactions: (state, action: PayloadAction<string>) => {
-      state.userReaction = state.userReaction.filter(
-        (p) => p.postId !== action.payload,
-      );
-    },
   },
 });
 
@@ -77,7 +86,6 @@ export const {
   setAuth,
   setUserReactions,
   addUserReactions,
-  deleteUserReactions,
   setLoginUserData,
   addFollowing,
   removeFollowing,

@@ -21,8 +21,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { clearPost } from "@/store/reducers/SinglePostReducer";
 import { ImageUtils } from "@/services/utils/imageUtils";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { createPostApi, updatePostApi } from "@/services/http";
+import {
+  useCreatePostMutation,
+  useUpdatePostMutation,
+} from "@/store/rtk/post/getPostSlice";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -41,29 +43,12 @@ const CreatePostModel = () => {
 
   const [files, setFiles] = useState<File[]>([]);
 
-  const createPostMutation = useMutationCustom({
-    mutationFn: createPostApi,
-    onSuccess: ({ data }) => {
-      toast({
-        title: data.message,
-      });
-      dispatch(clearPost());
-      dispatch(closeModel());
-      setFiles([]);
-    },
-  });
-  const updatePostMutation = useMutationCustom({
-    mutationFn: (data) => updatePostApi(_id!, data),
-    onSuccess: ({ data }) => {
-      toast({
-        title: data.message,
-      });
-      dispatch(clearPost());
-      dispatch(closeModel());
-    },
-  });
+  const [updatePost, { isLoading: loadingUpdate, data: updatedPost }] =
+    useUpdatePostMutation();
+  const [createPost, { isLoading: loadingCreate, data: createPostRes }] =
+    useCreatePostMutation();
 
-  const createPost = () => {
+  const createPostCall = () => {
     if (!post)
       return toast({
         title: "Post title is required.",
@@ -78,10 +63,14 @@ const CreatePostModel = () => {
     formData.append("feelings", `${feelings}`);
     formData.append("gifUrl", `${gifUrl}`);
     formData.append("bgColor", `${bgColor}`);
+
     if (type === "createPost") {
-      createPostMutation.mutate(formData);
+      createPost(formData);
     } else {
-      updatePostMutation.mutate(formData);
+      updatePost({
+        id: _id!,
+        post: formData,
+      });
     }
   };
 
@@ -97,7 +86,25 @@ const CreatePostModel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oldFiles]);
 
-  const loading = createPostMutation.isPending || updatePostMutation.isPending;
+  const loading = loadingUpdate || loadingCreate;
+
+  useEffect(() => {
+    if (updatedPost) {
+      toast({
+        title: updatedPost.message,
+      });
+      dispatch(clearPost());
+      dispatch(closeModel());
+    }
+
+    if (createPostRes) {
+      toast({
+        title: createPostRes.message,
+      });
+      dispatch(clearPost());
+      dispatch(closeModel());
+    }
+  }, [updatedPost, dispatch, toast, createPostRes]);
 
   return (
     <Dialog
@@ -129,7 +136,7 @@ const CreatePostModel = () => {
           <Button
             type="submit"
             className="w-full disabled:cursor-not-allowed"
-            onClick={createPost}
+            onClick={createPostCall}
             disabled={loading}
           >
             {loading ? (

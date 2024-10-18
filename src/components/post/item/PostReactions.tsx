@@ -11,7 +11,7 @@ import { PostUtils } from "@/services/utils/postUtils";
 import { OnlyReactionName } from "@/interfaces/reaction.interface";
 import { ReactionIconMap } from "@/services/utils/map";
 import ActionTolltip from "@/components/common/ActionTolltip";
-import ReactionHover from "@/components/post/item/ReactionHover";
+import {CommantHover,ReactionHover} from "@/components/post/item/ReactionHover";
 
 interface Props {
   post: IPostDoc;
@@ -60,7 +60,7 @@ const PostReactions: React.FC<Props> = ({ post }) => {
         >
           <div className="cursor-pointer hover:underline reactText">
             {PostUtils.sumAllReactions(post.reactions) > 0 &&
-              millify(PostUtils.sumAllReactions(post.reactions))}
+              millify(+PostUtils.sumAllReactions(post.reactions))}
           </div>
         </DrawerModelProvider>
       </div>
@@ -72,15 +72,14 @@ const PostReactions: React.FC<Props> = ({ post }) => {
             <ActionTolltip
               label="Comments"
               content={
-                <ReactionHover
-                  numberOfPost={PostUtils.sumAllReactions(post.reactions)}
+                <CommantHover
+                  numberOfPost={post.commentsCount}
                   postId={post._id}
-                  comment={true}
                 />
               }
             >
               <div className="flex items-center gap-1">
-                <span>{millify(post.commentsCount)}</span>
+                <span>{millify(+post.commentsCount)}</span>
                 <span className="hidden sm:block">Comments</span>
                 <img
                   src={CommentIcon}

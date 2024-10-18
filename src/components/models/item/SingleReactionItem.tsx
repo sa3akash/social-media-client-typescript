@@ -49,7 +49,7 @@ const SingleReactionItem: React.FC<Props> = ({
                     : "",
               }}
             >
-              {millify(postCount)}
+              {millify(+postCount)}
             </span>
           </div>
         ) : (

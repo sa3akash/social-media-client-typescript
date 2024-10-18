@@ -17,13 +17,12 @@ const MessangerPage = () => {
       const { data } = await getConversations();
       return data.conversationList;
     },
-    staleTime: 1000*6
+    staleTime: 1000 * 6,
   });
 
   const [searchParams] = useSearchParams();
 
   const conversationId = searchParams.get("conversationId");
-
 
   useEffect(() => {
     socket?.on("chat-list", (data: IMessageData) => {

@@ -2,7 +2,6 @@ import SingleMessage from "@/components/messanger/item/SingleMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { IMessageData } from "@/interfaces/chat.interface";
 import api from "@/services/http";
-import useChatSocket from "@/services/socket/useChatSocket";
 import { Utils } from "@/services/utils/utils";
 import { RootState } from "@/store";
 import { useQuery } from "@tanstack/react-query";
@@ -47,7 +46,6 @@ const ModelMessages: FC<Props> = ({ conversationId }) => {
     retry: 0,
   });
 
-  useChatSocket({ messages: mainData });
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });

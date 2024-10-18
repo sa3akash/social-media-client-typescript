@@ -1,11 +1,16 @@
 import FriendHeader from "@/components/friends/FriendHeader";
-import SingleFriendItem from "@/components/friends/item/SingleFriendItem";
+// import SingleFriendItem from "@/components/friends/item/SingleFriendItem";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Loader2 } from "lucide-react";
 import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
 import api from "@/services/http";
 import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
+import FriendSingleSkeleton from "./skeleton/FriendSingleSkeleton";
+
+const SingleFriendItem = lazy(
+  () => import("@/components/friends/item/SingleFriendItem")
+);
 
 const FriendPage = () => {
   const [selectType, setSelectType] = useState<string>("users");
@@ -35,16 +40,26 @@ const FriendPage = () => {
         {mainData.map((item: IFollowerDoc, index: number) => {
           if (mainData.length === index + 1) {
             return (
-              <SingleFriendItem key={index} item={item} ref={lastElementRef} />
+              <Suspense fallback={<FriendSingleSkeleton />}>
+                <SingleFriendItem
+                  key={index}
+                  item={item}
+                  ref={lastElementRef}
+                />
+              </Suspense>
             );
           } else {
-            return <SingleFriendItem key={index} item={item} />;
+            return (
+              <Suspense fallback={<FriendSingleSkeleton />}>
+                <SingleFriendItem key={index} item={item} />
+              </Suspense>
+            );
           }
         })}
       </div>
       {mainData.length === 0 && !loading && (
         <div className="w-full text-[24px] font-semibold text-center capitalize">
-         No {selectType === "users" ? "friends" : selectType} found.
+          No {selectType === "users" ? "friends" : selectType} found.
         </div>
       )}
 
