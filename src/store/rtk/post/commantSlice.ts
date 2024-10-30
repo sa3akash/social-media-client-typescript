@@ -1,7 +1,8 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQueryWithReauth } from "@/store/rtk/BaseQuery";
+import api from "@/store/rtk/BaseQuery";
 import { IReactionDoc } from "@/interfaces/reaction.interface";
-import { apiPostsSlice } from "./getPostSlice";
+import { postsApi } from "@/store/rtk/post/getPostSlice";
+import { IPostDoc } from "@/interfaces/post.interface";
+import { Utils } from "@/services/utils/utils";
 
 export interface ReactionResponse {
   reactions: IReactionDoc[];
@@ -9,19 +10,20 @@ export interface ReactionResponse {
   numberOfPages: number;
 }
 
-export const apiCommantSlice = createApi({
-  reducerPath: "commantApi",
-  baseQuery: baseQueryWithReauth,
+export const commentApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCommantByPostId: builder.query({
       query: ({postId, page=1}) => `/comments/${postId}?page=${page}`,
       serializeQueryArgs: ({queryArgs}) => `posts-commant-${queryArgs.postId}`,
       merge: (currentCache, newData) => {
         // Merge the new data with the current cached data
-        currentCache.comments = [
-          ...currentCache.comments,
-          ...newData.comments,
-        ];
+       
+
+        const uniqueArray = Utils.uniqueArray([
+          ...currentCache.comments, ...newData.comments
+        ]);
+        currentCache.comments = uniqueArray;
+
         currentCache.currentPage = newData.currentPage;
         currentCache.numberOfPages = newData.numberOfPages;
       },
@@ -38,12 +40,12 @@ export const apiCommantSlice = createApi({
       async onQueryStarted(addCommant, { dispatch, queryFulfilled }) {
         // dispatch(addUserReactions(newData));
         dispatch(
-          apiPostsSlice.util.updateQueryData(
+          postsApi.util.updateQueryData(
             "getPaginatedPosts",
             1,
             (draft) => {
               const index = draft.posts.findIndex(
-                (post) => post._id === addCommant.postId
+                (post:IPostDoc) => post._id === addCommant.postId
               );
 
               if (index !== -1) {
@@ -65,4 +67,4 @@ export const apiCommantSlice = createApi({
   }),
 });
 
-export const { useAddCommantMutation,useGetCommantByPostIdQuery } = apiCommantSlice;
+export const { useAddCommantMutation,useGetCommantByPostIdQuery } = commentApi;

@@ -24,7 +24,7 @@ const CreateInput: FC<Props> = ({ files, setFiles }) => {
         <PostInput
           post={post as string}
           bgColor={bgColor as string}
-          className="h-![60px]"
+          className=""
         />
       )}
       {gifUrl && (

@@ -9,9 +9,8 @@ import useDebounce from "@/hooks/useDebounce";
 import { Loader2 } from "lucide-react";
 import { X } from "lucide-react";
 import { setSelectedUser } from "@/store/reducers/ModelReducer";
-import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
-import api from "@/services/http";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useInfiniteSearchFriends } from "@/hooks/testhook/useGetSearchFriends";
 
 interface Props {
   setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,18 +22,7 @@ const AddConversationDialog: React.FC<Props> = ({ setOpenSearchModel }) => {
   const [searchName, setSearchName] = useState("");
   const searchValue = useDebounce(searchName, 500);
 
-  const { data, loading, lastElementRef } = useReactInfiniteScroll({
-    baseURL: searchValue ? `users/${searchValue}` : "searchUsers",
-    fn: async ({ pageParam }) => {
-      const response = await api.get(`/users/${searchValue}?page=${pageParam}`);
-      return response.data;
-    },
-  });
-
-  const mainData =
-    data?.pages.reduce((acc, page) => {
-      return [...acc, ...page.users];
-    }, []) || [];
+  const {users,isFetching,lastPostRef} = useInfiniteSearchFriends(searchValue)
 
   return (
     <Dialog open={true} onOpenChange={() => setOpenSearchModel(false)}>
@@ -73,18 +61,18 @@ const AddConversationDialog: React.FC<Props> = ({ setOpenSearchModel }) => {
           </div>
         </DialogHeader>
         <div className="grid gap-4 ">
-          {loading && (
+          {isFetching && (
             <div className="h-full flex items-center justify-center">
               <Loader2 className="animate-spin w-10" />
             </div>
           )}
 
-          {mainData?.length > 0 && (
+          {users?.length > 0 && (
             <ScrollArea className="h-[200px] w-full">
-              {mainData.map((fUser: IFollowerDoc, index: number) => (
+              {users.map((fUser: IFollowerDoc, index: number) => (
                 <div
                   key={index}
-                  ref={mainData?.length === index + 1 ? lastElementRef : null}
+                  ref={users?.length === index + 1 ? lastPostRef : null}
                 >
                   <SingleUser
                     fUser={{
@@ -97,7 +85,7 @@ const AddConversationDialog: React.FC<Props> = ({ setOpenSearchModel }) => {
               ))}
             </ScrollArea>
           )}
-          {!loading && mainData.length === 0 && <div>No User Found.</div>}
+          {!isFetching && users.length === 0 && <div>No User Found.</div>}
         </div>
       </DialogContent>
     </Dialog>

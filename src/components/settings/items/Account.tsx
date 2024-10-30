@@ -26,18 +26,23 @@ import {
   accountFormSchema,
   udateProfileValues,
 } from "@/lib/zodSchema";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { currentUser, updateProfileInfo } from "@/services/http";
 import { Loader2 } from "lucide-react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
-import { IFullUserDoc, IUserDoc } from "@/interfaces/auth.interface";
-import { SocketUtils } from "@/services/socket/socketUtils";
+import { IUserDoc } from "@/interfaces/auth.interface";
+import {
+  useGetUserQuery,
+  useUpdateProfileInfoMutation,
+} from "@/store/rtk/auth/authSlice";
 
-const relationShipArray = ['Single', 'In a relationship', 'Married', 'Divorced'];
+const relationShipArray = [
+  "Single",
+  "In a relationship",
+  "Married",
+  "Divorced",
+];
 
 const Account = () => {
   const form = useForm<AccountFormValues>({
@@ -46,52 +51,38 @@ const Account = () => {
     mode: "onChange",
   });
 
-  const queryClient = useQueryClient();
-
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch: AppDispatch = useDispatch();
 
-  const socketUtils = new SocketUtils(queryClient);
+  const { data } = useGetUserQuery(user?.authId as string);
 
-  const { data } = useQuery({
-    queryKey: ["profile", user?.authId],
-    queryFn: () => currentUser(user?.authId as string),
-    staleTime: 1000,
-  });
-
-  const mutation = useMutationCustom({
-    mutationKey: ["updateInfo"],
-    mutationFn: updateProfileInfo,
-    onSuccess: () => {
-      toast({
-        title: "Profile updated successfully.",
-      });
-      const dataUpdated = {
-        ...user,
-        name: {
-          first: form.getValues().firstName,
-          last: form.getValues().lastName,
-          nick: form.getValues().nickName,
-        },
-        quote: form.getValues().quote,
-      } as IUserDoc;
-      dispatch(setAuth(dataUpdated));
-
-      const fullUser = {
-        ...data?.data,
-        ...dataUpdated,
-      } as unknown as IFullUserDoc;
-      socketUtils.updateUserDetails({
-        key: ["profile", user?.authId as string],
-        mainData: fullUser,
-        updateFeild: {},
-      });
-    },
-  });
+  const [updateProfileInfo, { isLoading }] = useUpdateProfileInfoMutation();
 
   function onSubmit(data: AccountFormValues) {
-    mutation.mutate(data);
+    updateProfileInfo(data).then((res) => {
+      if ((res as { error: string }).error) {
+        toast({
+          variant: "destructive",
+          title: "Profile not updated.",
+        });
+      } else {
+        toast({
+          title: "Profile updated successfully.",
+        });
+        const dataUpdated = {
+          ...user,
+          name: {
+            first: form.getValues().firstName,
+            last: form.getValues().lastName,
+            nick: form.getValues().nickName,
+          },
+          quote: form.getValues().quote,
+        } as IUserDoc;
+        dispatch(setAuth(dataUpdated));
+      }
+    });
   }
+
 
   // Example usage
   const years = SettingsUtils.generateYearsArray();
@@ -102,32 +93,31 @@ const Account = () => {
   );
 
   useEffect(() => {
-    const userData = data?.data;
-    if (userData) {
-      form.setValue("addCountry", userData.address?.country);
-      form.setValue("addLocal", userData.address?.local);
-      form.setValue("addStreet", userData.address?.street);
-      form.setValue("addZipcode", userData.address?.zipcode);
-      form.setValue("addcity", userData.address?.city);
-      form.setValue("school", userData.school);
-      form.setValue("website", userData.website);
-      form.setValue("work", userData.work);
-      form.setValue("gender", userData.gender);
-      form.setValue("dobDay", userData.dob?.day);
-      form.setValue("dobMonth", userData.dob?.month);
-      form.setValue("dobYear", userData.dob?.year);
-      form.setValue("firstName", userData.name?.first);
-      form.setValue("lastName", userData.name?.last);
-      form.setValue("nickName", userData.name?.nick);
-      form.setValue("quote", userData.quote);
-      form.setValue("relationShipType", userData.relationShip?.type);
-      form.setValue("relationShipPartner", userData.relationShip?.partner);
-      form.setValue("facebook", userData.social?.facebook);
-      form.setValue("instagram", userData.social?.instagram);
-      form.setValue("youtube", userData.social?.youtube);
-      form.setValue("twitter", userData.social?.twitter);
+    if (data) {
+      form.setValue("addCountry", data.address?.country);
+      form.setValue("addLocal", data.address?.local);
+      form.setValue("addStreet", data.address?.street);
+      form.setValue("addZipcode", data.address?.zipcode);
+      form.setValue("addcity", data.address?.city);
+      form.setValue("school", data.school);
+      form.setValue("website", data.website);
+      form.setValue("work", data.work);
+      form.setValue("gender", data.gender);
+      form.setValue("dobDay", data.dob?.day);
+      form.setValue("dobMonth", data.dob?.month);
+      form.setValue("dobYear", data.dob?.year);
+      form.setValue("firstName", data.name?.first);
+      form.setValue("lastName", data.name?.last);
+      form.setValue("nickName", data.name?.nick);
+      form.setValue("quote", data.quote);
+      form.setValue("relationShipType", data.relationShip?.type);
+      form.setValue("relationShipPartner", data.relationShip?.partner);
+      form.setValue("facebook", data.social?.facebook);
+      form.setValue("instagram", data.social?.instagram);
+      form.setValue("youtube", data.social?.youtube);
+      form.setValue("twitter", data.social?.twitter);
     }
-  }, [form, data?.data]);
+  }, [form, data]);
 
   return (
     <Form {...form}>
@@ -278,10 +268,11 @@ const Account = () => {
                 <FormLabel>RelationShip Status</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  // defaultValue={field.value}
+                  value={field.value}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a year" />
+                    <SelectValue placeholder="Select a realationship" />
                   </SelectTrigger>
                   <SelectContent>
                     {relationShipArray.map((value, index) => (
@@ -484,8 +475,8 @@ const Account = () => {
           )}
         />
 
-        <Button type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? (
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="w-5 h-5 animate-spin" /> Loading...
             </span>

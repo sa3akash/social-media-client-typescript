@@ -1,3 +1,11 @@
+
+export interface CustomError {
+  status: number;
+  data: {
+    message:string
+  }
+}
+
 export interface ILogin {
   email: string;
   password: string;

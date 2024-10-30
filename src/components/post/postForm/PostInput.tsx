@@ -46,9 +46,9 @@ const PostInput: React.FC<Props> = ({
     <>
       <div
         className={cn(
-          "w-full h-[70px]",
+          "w-full h-[80px]",
           bgColor.length &&
-            "h-[350px] flex items-center justify-center text-center my-auto text-white font-bold px-4",
+            "h-[250px] md:h-[320px] flex items-center justify-center text-center my-auto text-white font-bold px-4",
           className
         )}
         style={{ backgroundColor: bgColor ? bgColor : "" }}
@@ -58,8 +58,8 @@ const PostInput: React.FC<Props> = ({
           contentEditable={true}
           data-placeholder="What's on your mind?"
           className={cn(
-            "w-full border-none outline-none overflow-y-scroll overflow-x-hidden break-all font-bold px-4",
-            bgColor ? "text-[24px]" : "text-[18px]",
+            "w-full border-none outline-none overflow-y-scroll overflow-x-hidden break-all font-bold px-4 placeholder:text-[14px] md:placeholder:text-[20px]",
+            bgColor ? "text-[16px] md:text-[24px]" : "text-[16px] md:text-[18px]",
             className2
           )}
           onInput={postInputEditable}

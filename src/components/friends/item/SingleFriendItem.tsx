@@ -8,9 +8,7 @@ import UserHoverCard from "@/components/common/UserHoverCard";
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { followUserFn } from "@/services/http";
-import { useQueryClient } from "@tanstack/react-query";
+import { useFollowUserMutation } from "@/store/rtk/friends/friendsSlice";
 
 interface Props {
   item: IFollowerDoc;
@@ -22,23 +20,10 @@ const SingleFriendItem = React.forwardRef(
 
     const active = following.some((id) => id === item._id);
 
-    const queryClient = useQueryClient();
-
-    const mutation = useMutationCustom({
-      mutationKey: ["follow"],
-      mutationFn: followUserFn,
-      onSuccess: () => {
-        const sujestedUserCache = queryClient.getQueryData([
-          "sujestedFriends",
-        ]) as IFollowerDoc[];
-
-        const filter = [...sujestedUserCache].filter((i) => i._id !== item._id);
-        queryClient.setQueryData(["sujestedFriends"], filter);
-      },
-    });
+    const [followUser] = useFollowUserMutation();
 
     const handleFollowUnFollow = () => {
-      mutation.mutate(item._id);
+      followUser(item._id);
     };
 
     return (
@@ -63,7 +48,7 @@ const SingleFriendItem = React.forwardRef(
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
               <div className="flex flex-col">
-                <UserHoverCard item={item} />{" "}
+                <UserHoverCard item={item} />
                 <span className="roboto text-[14px] tracking-[0.1px] text-[#696974]">
                   @{item.username}
                 </span>
@@ -77,8 +62,7 @@ const SingleFriendItem = React.forwardRef(
             <p className="roboto text-[16px] leading-7 tracking-[0.1px] text-[#92929D]">
               {item.quote.length > 70
                 ? item.quote.slice(0, 70) + "..."
-                : "" ||
-                  "“Pushing pixels and experiences in digital products for Sebostudio”"}
+                : "“Pushing pixels and experiences in digital products for Sebostudio”"}
             </p>
           </div>
         </div>

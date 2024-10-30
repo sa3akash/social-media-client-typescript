@@ -5,10 +5,10 @@ import MoreIcon from "@/assets/images/ic_More_3_dot.svg";
 
 import { cn } from "@/lib/utils";
 import UserAvater from "@/components/common/UserAvater";
-import { markAsReadNotification } from "@/services/http";
 import NotificationModel from "@/components/notificaton/NotificationModel";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { notificationIconMap } from "@/services/utils/map";
+import { useMarkReadMutation } from "@/store/rtk/notification/notificationSlice";
 
 interface Props {
   item: INotification;
@@ -16,8 +16,11 @@ interface Props {
 
 const SingleNotificaton = forwardRef(
   ({ item }: Props, ref: LegacyRef<HTMLDivElement>) => {
+
+    const [markRead] = useMarkReadMutation();
+
     const handleNotification = () => {
-      markAsReadNotification(item._id);
+      markRead(item._id);
     };
 
     return (

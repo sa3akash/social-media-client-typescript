@@ -1,26 +1,11 @@
 import { INotification } from "@/interfaces/notificaton.interface";
 import SingleNotificaton from "@/components/notificaton/SingleNotificaton";
-import NotificationSkeleton from "@/components/notificaton/skeleton/NotificationSkeleton";
 import { ListChecks, Loader2 } from "lucide-react";
-import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
-import api from "@/services/http";
+import { useInfiniteNotification } from "@/hooks/testhook/useGetNotification";
 
 const NotificatonPage = () => {
-  const { data, lastElementRef, loading } = useReactInfiniteScroll({
-    baseURL: "notifications",
-    fn: async ({ pageParam = 1 }) => {
-      const response = await api.get(`/notifications?page=${pageParam}`);
-      return response.data;
-    },
-  });
 
-  if (!data) {
-    return <NotificationSkeleton />;
-  }
-
-  const mainData = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.notifications];
-  }, []);
+  const {notifications,isFetching,lastPostRef} = useInfiniteNotification()
 
   return (
     <>
@@ -32,19 +17,19 @@ const NotificatonPage = () => {
       </div>
 
       <div className="flex flex-col gap-2 pb-2">
-        {mainData?.map((item: INotification, index: number) =>
-          mainData.length === index + 1 ? (
-            <SingleNotificaton key={index} item={item} ref={lastElementRef} />
+        {notifications?.map((item: INotification, index: number) =>
+          notifications.length === index + 1 ? (
+            <SingleNotificaton key={index} item={item} ref={lastPostRef} />
           ) : (
             <SingleNotificaton key={index} item={item} />
           )
         )}
-        {loading && (
+        {isFetching && (
           <p className="p-4 flex items-center justify-center">
             <Loader2 className="animate-spin w-6 h-6" />
           </p>
         )}
-        {mainData.length === 0 && (
+        {notifications.length === 0 && (
           <p className="p-4 flex items-center justify-center">Not found!</p>
         )}
       </div>

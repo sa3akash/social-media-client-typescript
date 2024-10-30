@@ -7,9 +7,7 @@ import AuthSlice from "@/store/reducers/AuthReducer";
 import NotificationSlice from "@/store/reducers/NotificationReducer";
 import ModelSlice from "@/store/reducers/ModelReducer";
 import SinglePost from "@/store/reducers/SinglePostReducer";
-import { apiPostsSlice } from "./rtk/post/getPostSlice";
-import { apiReactionSlice } from "./rtk/post/reactionSlice";
-import { apiCommantSlice } from "./rtk/post/commantSlice";
+import api from "./rtk/BaseQuery";
 
 
 // Define the persist configuration
@@ -17,7 +15,7 @@ const persistConfig = {
   key: 'root',
   storage,  // Uses localStorage by default
   whitelist: []
-  // whitelist: [apiPostsSlice.reducerPath]
+  // whitelist: [api.reducerPath]
 };
 
 // Combine your reducers
@@ -27,9 +25,7 @@ const rootReducer = combineReducers({
   notification: NotificationSlice,
   model: ModelSlice,
   SinglePost: SinglePost,
-  [apiPostsSlice.reducerPath]: apiPostsSlice.reducer,  // RTK Query reducer
-  [apiReactionSlice.reducerPath]: apiReactionSlice.reducer,
-  [apiCommantSlice.reducerPath]: apiCommantSlice.reducer,
+  [api.reducerPath]: api.reducer,  // RTK Query reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -41,7 +37,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,  // Disable this check for redux-persist
-    }).concat(apiPostsSlice.middleware).concat(apiReactionSlice.middleware).concat(apiCommantSlice.middleware),
+    }).concat(api.middleware),
 });
 
 // Persistor for the store

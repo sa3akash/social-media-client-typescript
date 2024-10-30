@@ -2,21 +2,16 @@ import SingleConversationItem from "@/components/messanger/item/SingleConversati
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { IMessageData } from "@/interfaces/chat.interface";
 import { cn } from "@/lib/utils";
-import { getConversations } from "@/services/http";
-import { useQuery } from "@tanstack/react-query";
+import {  useGetConversationQuery } from "@/store/rtk/message/message";
 import { useSearchParams } from "react-router-dom";
 
 const MessageDropDown = () => {
   const [seatchParams] = useSearchParams();
   const conversationId = seatchParams.get("conversationId");
 
-  const query = useQuery({
-    queryKey: ["conversations"],
-    queryFn: async () => {
-      const { data } = await getConversations();
-      return data.conversationList;
-    },
-  });
+ const {data} = useGetConversationQuery('')
+
+  
   return (
     <div
       className={cn(
@@ -28,7 +23,7 @@ const MessageDropDown = () => {
           Messages
         </h3>
         <div className="flex flex-col gap-2 px-2 py-2">
-          {query.data?.map((item:IMessageData, index:number) => (
+          {data?.map((item:IMessageData, index:number) => (
             <SingleConversationItem
               key={index}
               item={item}

@@ -22,13 +22,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Logo from "@/assets/images/Logo.svg";
 import { INotification } from "@/interfaces/notificaton.interface";
+import { useInfiniteNotification } from "@/hooks/testhook/useGetNotification";
 
 const Navbar = () => {
   const { user } = useSelector((store: RootState) => store.auth);
 
-  const { notifications } = useSelector(
-    (state: RootState) => state.notification
-  );
+  const { notifications } = useInfiniteNotification();
+
 
   return (
     <>
@@ -44,18 +44,8 @@ const Navbar = () => {
               className="filter brightness-0 dark:brightness-100 pointer-events-none"
             />
           </Link>
-          <div className="flex select-none h-10 max-w-[500px] w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
-            <div className="block md:hidden w-8 h-8 object-cover rounded-full overflow-hidden">
-              <NavbarItem>
-                <UserAvater
-                  src={user?.profilePicture}
-                  name={user?.name as NameDoc}
-                  avatarColor={user?.avatarColor}
-                  authId={user?.authId}
-                  indicator="hidden"
-                />
-              </NavbarItem>
-            </div>
+          <div className="flex select-none h-10 w-full max-w-[500px] md:w-[95%] rounded-md border-input dark:bg-[#292932] borderWrapper p-1 md:px-3 md:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-row-reverse md:flex-row">
+            
             <input
               className="focus:outline-none bg-transparent flex-1"
               type="search"
@@ -81,7 +71,7 @@ const Navbar = () => {
             DropNode={<NotificationDrop />}
           />
           <NavbarItem>
-            <div className="hidden md:flex items-center gap-2 cursor-pointer">
+            <div className="flex items-center gap-2 cursor-pointer">
               <UserAvater
                 src={user?.profilePicture}
                 name={user?.name as NameDoc}

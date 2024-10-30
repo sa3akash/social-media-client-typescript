@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useSocket } from "@/hooks/useSocket";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { IMessageData } from "@/interfaces/chat.interface";
@@ -12,7 +11,6 @@ interface Props {
 
 const useChatSocket = ({ messages }: Props) => {
   const { socket } = useSocket();
-  const queryClient = useQueryClient();
 
   const { user } = useSelector((state: RootState) => state.auth);
 
@@ -22,13 +20,13 @@ const useChatSocket = ({ messages }: Props) => {
 
   useEffect(() => {
     socket?.on("message-received", (data: IMessageData) => {
-      const messageCache = queryClient.getQueryData([
-        "messages",
-        conversationId,
-      ]) as IMessageData[];
+      // const messageCache = queryClient.getQueryData([
+      //   "messages",
+      //   conversationId,
+      // ]) as IMessageData[];
 
-      const newMessageCache = [...messageCache, data];
-      queryClient.setQueryData(["messages", conversationId], newMessageCache);
+      // const newMessageCache = [...messageCache, data];
+      // queryClient.setQueryData(["messages", conversationId], newMessageCache);
     });
 
     // **************************
@@ -36,33 +34,33 @@ const useChatSocket = ({ messages }: Props) => {
     // **************************
 
     socket?.on("chat-mark", (data) => {
-      const conversationCache = queryClient.getQueryData([
-        "conversations",
-      ]) as IMessageData[];
+      // const conversationCache = queryClient.getQueryData([
+      //   "conversations",
+      // ]) as IMessageData[];
 
-      const updatedConversations = [...conversationCache].map((c) =>
-        c.conversationId === data.conversationId ? { ...c, isRead: true } : c,
-      );
-      queryClient.setQueryData(["conversations"], updatedConversations);
+      // const updatedConversations = [...conversationCache].map((c) =>
+      //   c.conversationId === data.conversationId ? { ...c, isRead: true } : c,
+      // );
+      // queryClient.setQueryData(["conversations"], updatedConversations);
 
-      if (data.conversationId === conversationId) {
-        const messageCache = queryClient.getQueryData([
-          "messages",
-          conversationId,
-        ]) as IMessageData[];
+      // if (data.conversationId === conversationId) {
+      //   const messageCache = queryClient.getQueryData([
+      //     "messages",
+      //     conversationId,
+      //   ]) as IMessageData[];
 
-        const updatedMessges = [...messageCache].map((m) =>
-          !m.isRead ? { ...m, isRead: true } : m,
-        );
-        queryClient.setQueryData(["messages", conversationId], updatedMessges);
-      }
+      //   const updatedMessges = [...messageCache].map((m) =>
+      // //    !m.isRead ? { ...m, isRead: true } : m,
+      //   );
+      //   queryClient.setQueryData(["messages", conversationId], updatedMessges);
+      // }
     });
 
     return () => {
       socket?.off("message-received");
       socket?.off("chat-mark");
     };
-  }, [conversationId, queryClient, socket]);
+  }, [conversationId, socket]);
 
   useEffect(() => {
     if (!messages) return;

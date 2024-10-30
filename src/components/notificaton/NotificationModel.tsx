@@ -9,7 +9,7 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { CheckSquare, Trash } from "lucide-react";
-import { deleteNotification, markAsReadNotification } from "@/services/http";
+import { useDeleteNotificationMutation, useMarkReadMutation } from "@/store/rtk/notification/notificationSlice";
 
 interface Props {
   children: React.ReactNode;
@@ -17,12 +17,15 @@ interface Props {
 }
 
 const NotificationModel: React.FC<Props> = ({ children, id }) => {
+
+  const [markRead] = useMarkReadMutation();
+  const [deleteNotification] = useDeleteNotificationMutation()
+
   return (
     <Menubar className="h-full flex items-center justify-center">
       <MenubarMenu>
         <MenubarTrigger
           className="flex items-center justify-center w-10 h-6 hover:bg-gray-600 rounded-full focus-visible:outline-none"
-          onClick={(e) => e.stopPropagation()}
         >
           {children}
         </MenubarTrigger>
@@ -31,7 +34,7 @@ const NotificationModel: React.FC<Props> = ({ children, id }) => {
             className="flex items-center gap-2"
             onClick={(e) => {
               e.stopPropagation();
-              markAsReadNotification(id);
+              markRead(id);
             }}
           >
             <CheckSquare className="w-4 h-4 text-primary" />

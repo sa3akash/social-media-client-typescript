@@ -10,8 +10,7 @@ import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
 import GiphyPopover from "@/components/common/GiphyPopover";
 import { useSearchParams } from "react-router-dom";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { sendMessageJson } from "@/services/http";
+import { useSendMessageMutation } from "@/store/rtk/message/message";
 
 interface Props {
   setGif: React.Dispatch<React.SetStateAction<string>>;
@@ -25,17 +24,15 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
 
   const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && messageValue.length > 0) {
-      sendMessage();
+      sendMessageHandle();
     }
   };
 
   const [searchParam] = useSearchParams();
 
-  const mutation = useMutationCustom({
-    mutationFn: sendMessageJson,
-  });
+  const [sendMessage,{isLoading}] = useSendMessageMutation()
 
-  const sendMessage = () => {
+  const sendMessageHandle = () => {
     if ((messageValue.length > 0 && user) || gif) {
       const data = {
         body: messageValue,
@@ -43,7 +40,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
         conversationId: searchParam.get("conversationId") as string,
         gifUrl: gif,
       };
-      mutation.mutate(data);
+      sendMessage(data);
       setMessageValue("");
       setGif("");
     }
@@ -74,7 +71,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
             onChange={(e) => setMessageValue(e.target.value as string)}
             value={messageValue}
             onKeyDown={handlekeydown}
-            disabled={mutation.isPending}
+            disabled={isLoading}
           />
           <div className="flex items-center gap-4">
             <GiphyPopover
@@ -99,7 +96,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
             </EmojiPicker>
           </div>
         </div>
-        <Button onClick={sendMessage} disabled={mutation.isPending}>
+        <Button onClick={sendMessageHandle} disabled={isLoading}>
           Send
         </Button>
       </div>

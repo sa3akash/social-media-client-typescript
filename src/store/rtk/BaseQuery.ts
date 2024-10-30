@@ -1,5 +1,6 @@
 import { config } from '@/config';
-import { fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { PageURL } from '@/services/utils/pageUrl';
+import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 // Custom baseQuery with cookie handling
 const baseQuery = fetchBaseQuery({
@@ -23,7 +24,8 @@ export const baseQueryWithReauth: typeof baseQuery = async (args, api, extraOpti
       // If refresh failed, handle the error (e.g., logout, show login page, etc.)
     //   api.dispatch(setAuthError('Authentication failed. Please log in again.'));
       // Optionally, redirect to login page or clear auth state
-      // window.location.replace(PageURL.Login);  // Example for redirect
+      localStorage.clear()
+      window.location.href = PageURL.Login;  // Example for redirect
       console.log(result);
     }
   }
@@ -32,3 +34,11 @@ export const baseQueryWithReauth: typeof baseQuery = async (args, api, extraOpti
 };
 
 
+export const api = createApi({  
+  reducerPath: 'api',  
+  baseQuery: baseQueryWithReauth,  
+  tagTypes: ['User', 'Comment',"Reaction",'Notification','Follower','Post','Settings/Notification', 'Conversations'],  
+  endpoints: () => ({}), // Empty, will be populated by separate files  
+});  
+
+export default api;

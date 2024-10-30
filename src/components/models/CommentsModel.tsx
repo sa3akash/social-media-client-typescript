@@ -5,49 +5,34 @@ import { timeAgo } from "@/services/utils/timeAgo";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2,MessagesSquare } from "lucide-react";
 import UserHoverCard from "@/components/common/UserHoverCard";
-import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
-import api from "@/services/http";
-import { ICommentType } from "@/interfaces/post.interface";
+import { useInfiniteCommant } from "@/hooks/testhook/useGetCommant";
 
-interface Props {
+interface Props    {
   postId: string;
 }
 const CommentsModel: React.FC<Props> = ({ postId }) => {
-  const { data, lastElementRef, loading } = useReactInfiniteScroll({
-    baseURL: `comments/${postId}`,
-    fn: async ({ pageParam = 1 }) => {
-      const response = await api.get(`/comments/${postId}?page=${pageParam}`);
-      return response.data;
-    },
-  });
 
-  const mainData: ICommentType[] = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.comments];
-  }, []);
+  const { commants, isFetching,lastPostRef } = useInfiniteCommant(postId)
 
   return (
     <div className="mx-auto max-w-[700px] w-full h-[92%] flex gap-4">
       <div className="w-full h-full md:rounded-lg bg-[#1C1C24]">
         <ScrollArea className="h-full w-full">
-          {mainData?.map((item, index) => (
+          {commants?.map((item, index) => (
             <div
-              ref={mainData?.length === index + 1 ? lastElementRef : null}
+              ref={commants?.length === index + 1 ? lastPostRef : null}
               key={index}
             >
               <SingleCommentUser item={item} />
             </div>
           ))}
-          {!data && (
+          {isFetching && (
             <div className="h-full flex items-center justify-center my-6 gap-2">
               <Loader2 className="animate-spin w-10" /> Loading...
             </div>
           )}
-          {loading && (
-            <div className="h-full flex items-center justify-center my-6 gap-2">
-              <Loader2 className="animate-spin w-10" /> Loading...
-            </div>
-          )}
-          {!mainData?.length && (
+          
+          {!commants?.length && (
             <div className="h-full flex items-center justify-center my-6 gap-2">
               <MessagesSquare /> No comment found
             </div>

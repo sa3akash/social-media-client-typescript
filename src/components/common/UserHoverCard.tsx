@@ -16,9 +16,7 @@ import { cn } from "@/lib/utils";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { followUserFn } from "@/services/http";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useFollowUserMutation } from "@/store/rtk/friends/friendsSlice";
 
 interface Props {
   item: IFollowerDoc;
@@ -28,20 +26,7 @@ interface Props {
 const UserHoverCard: React.FC<Props> = ({ item, className }) => {
   const { following, user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
-
-  const queryClient = useQueryClient();
-
-  const mutation = useMutationCustom({
-    mutationFn: followUserFn,
-    onSuccess: () => {
-      const sujestedUserCache = queryClient.getQueryData([
-        "sujestedFriends",
-      ]) as IFollowerDoc[];
-
-      const filter = [...sujestedUserCache].filter((i) => i._id !== item._id);
-      queryClient.setQueryData(["sujestedFriends"], filter);
-    },
-  });
+  const [followUser] = useFollowUserMutation();
 
   return (
     <HoverCard>
@@ -117,7 +102,7 @@ const UserHoverCard: React.FC<Props> = ({ item, className }) => {
             }
             className="w-full"
             fn={() => {
-              mutation.mutate(item._id);
+              followUser(item._id);
             }}
           />
           <FollowButton

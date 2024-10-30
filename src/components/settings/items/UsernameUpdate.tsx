@@ -12,15 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
 import useDebounce from "@/hooks/useDebounce";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { IFullUserDoc, IUserDoc } from "@/interfaces/auth.interface";
+import { IUserDoc } from "@/interfaces/auth.interface";
 import { usernameSchema } from "@/lib/zodSchema";
-import { checkUsername, updateUsername } from "@/services/http";
-import { SocketUtils } from "@/services/socket/socketUtils";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
+import { useCheckUsernameQuery, useUpdateUsernameMutation } from "@/store/rtk/auth/authSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,11 +25,16 @@ import { z } from "zod";
 
 type UsernameFormValues = z.infer<typeof usernameSchema>;
 
+type ResponseType = {
+  data: {
+    message: string
+    username: string
+  }
+}
+
 const UsernameForm = () => {
   const { user } = useSelector((store: RootState) => store.auth);
   const dispatch: AppDispatch = useDispatch();
-  const queryClient = useQueryClient();
-  const socketUtils = new SocketUtils(queryClient);
 
   const defaultValues: Partial<UsernameFormValues> = {
     username: user?.username || "",
@@ -44,52 +46,35 @@ const UsernameForm = () => {
     mode: "onChange",
   });
 
-  const mutation = useMutationCustom({
-    mutationFn: updateUsername,
-    onSuccess: (res) => {
-      toast({
-        title: res.data.message,
-      });
-      const userSave = { ...user, username: res.data.username } as IUserDoc;
-      dispatch(setAuth(userSave));
+  const [updateUsername,{isLoading: updateLoading}] = useUpdateUsernameMutation()
 
-      const userDetails = queryClient.getQueryData([
-        "profile",
-        user?.authId as string,
-      ]) as IFullUserDoc;
-
-      if (userDetails) {
-        socketUtils.updateUserDetails({
-          key: ["profile", user?.authId as string],
-          mainData: userDetails,
-          updateFeild: { username: res.data.username },
-        });
-      }
-    },
-  });
+  
 
   function onSubmit(data: UsernameFormValues) {
     if (data.username !== user?.username) {
-      mutation.mutate(data);
+      updateUsername(data.username).then((res)=>{        
+        toast({
+          title: (res as ResponseType).data.message,
+        });
+        const userSave = { ...user, username: (res as ResponseType).data.username } as IUserDoc;
+        dispatch(setAuth(userSave));
+      });
     }
   }
 
   const usernameValue = useDebounce(form.watch().username, 1000);
+  const { isError, isSuccess, isLoading,data } =
+    useCheckUsernameQuery(usernameValue);
 
   useEffect(() => {
     if (usernameValue !== user?.username) {
-      checkUsername(usernameValue)
-        .then()
-        .catch((err) => {
-          const message = err?.response?.data?.message;
-          if (message) {
-            form.setError("username", {
-              message: message,
-            });
-          }
+      if (isError) {
+        form.setError("username", {
+          message: "This username is already taken",
         });
+      }
     }
-  }, [form, user?.username, usernameValue]);
+  }, [form, isError, user?.username, usernameValue]);
 
   return (
     <Form {...form}>
@@ -104,15 +89,18 @@ const UsernameForm = () => {
                 <Input
                   placeholder={field.value}
                   {...field}
-                  disabled={mutation.isPending}
+                  disabled={updateLoading}
                 />
               </FormControl>
-              {!fieldState.error && (
+              {!fieldState.error && !isSuccess && (
                 <FormDescription>
                   This is your public display and unique username. It can be
                   your real name or a pseudonym. You can only change this once
                   every 30 days.
                 </FormDescription>
+              )}
+              {data && !fieldState.error && !isError && (
+                <FormDescription>You can use this username.</FormDescription>
               )}
               <FormMessage />
             </FormItem>
@@ -120,7 +108,11 @@ const UsernameForm = () => {
         />
         <Button
           type="submit"
-          disabled={mutation.isPending || !!form.formState.errors.username}
+          disabled={
+            isLoading ||
+            !!form.formState.errors.username ||
+            form.getValues().username === user?.username || updateLoading
+          }
         >
           Update Username
         </Button>

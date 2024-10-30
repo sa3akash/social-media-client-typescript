@@ -1,42 +1,26 @@
-import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
-import PostSkeleton from "../home/skeleton/PostSkeleton";
-import api from "@/services/http";
 import NoPost from "../post/NoPost";
 import { Loader2 } from "lucide-react";
 import { UserUtils } from "@/services/utils/userUtils";
 import { IPostDoc } from "@/interfaces/post.interface";
 import SingleVideoItem from "./items/SingleVideoItem";
+import { useInfinitePostsVideo } from "@/hooks/testhook/useGetPostWithVideo";
 
 const AllVideoPosts = () => {
-  const { data, lastElementRef, loading } = useReactInfiniteScroll({
-    baseURL: "posts/videos",
-    fn: async ({ pageParam = 1 }) => {
-      const response = await api.get(`/posts/video?page=${pageParam}`);
-      return response.data;
-    },
-  });
-
-  if (!data) {
-    return <PostSkeleton />;
-  }
-
-  const mainData = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.postWithVideos];
-  }, []);
+  const { isFetching, videos, lastPostRef } = useInfinitePostsVideo();
 
   return (
     <div className="mt-2 md:mt-4 flex flex-col gap-4">
-      {mainData.map(
+      {videos.map(
         (item: IPostDoc, i: number) =>
           UserUtils.checkPrivacyPost(item) && (
             <SingleVideoItem
               item={item}
-              ref={mainData.length === i + 1 ? lastElementRef : null}
+              ref={videos.length === i + 1 ? lastPostRef : null}
               key={i}
             />
           )
       )}
-      {loading && (
+      {isFetching && (
         <p className="p-4 flex items-center justify-center">
           <Loader2 className="animate-spin w-6 h-6" />
         </p>

@@ -42,7 +42,7 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
   return (
     <div className="px-4">
       <div className="flex items-center justify-between gap-2 px-4 py-2 border rounded-md">
-        <h3 className="select-none text-[15px] font-semibold">
+        <h3 className="select-none text-[14px] md:text-[15px] font-semibold">
           Add to your post
         </h3>
         <div className="flex items-center gap-0">
@@ -50,7 +50,7 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
             className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none"
             onClick={() => imageRef.current?.click()}
           >
-            <img src={ImageVideoIcon} alt="image" />
+            <img src={ImageVideoIcon} alt="image" className="w-5 md:w-6"/>
             <input
               type="file"
               ref={imageRef}
@@ -61,24 +61,24 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
             />
           </div>
           <div className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none">
-            <img src={TagFriendsIcon} alt="image" />
+            <img src={TagFriendsIcon} alt="image" className="w-5 md:w-6"/>
           </div>
           <div
             className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none"
             ref={feelingModelRef}
             onClick={() => setModelOpen((prev) => !prev)}
           >
-            <img src={FeelingsIcon} alt="image" />
+            <img src={FeelingsIcon} alt="image" className="w-5 md:w-6"/>
             {modelOpen && <FeelingsModel />}
           </div>
           <div className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none">
-            <img src={LocationsIcon} alt="image" />
+            <img src={LocationsIcon} alt="image" className="w-5 md:w-6"/>
           </div>
           <div
             className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none"
             onClick={() => setGiphyModel(true)}
           >
-            <img src={GifIcon} alt="image" />
+            <img src={GifIcon} alt="image" className="w-5 md:w-6"/>
           </div>
          {giphyModel && <Giphy setGiphyModel={setGiphyModel} />}
         </div>

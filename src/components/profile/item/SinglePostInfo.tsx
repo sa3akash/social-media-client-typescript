@@ -10,7 +10,7 @@ interface Props {
 
 const SinglePostInfo: React.FC<Props> = ({ active, count, text }) => {
   return (
-    <div className="flex flex-col px-2 py-4 h-full justify-end items-center xl:justify-between select-none cursor-pointer relative">
+    <div className="flex flex-col px-2 py-4 h-full justify-end items-center xl:justify-between select-none cursor-pointer relative z-10 ">
       <span
         className={cn(
           "text-[14px] tracking-[0.2px] text-[#92929D]",

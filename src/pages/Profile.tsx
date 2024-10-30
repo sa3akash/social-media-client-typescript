@@ -3,28 +3,43 @@ import ProfileBar from "@/components/profile/ProfileBar";
 import ProfilePost from "@/components/profile/ProfilePost";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSocket } from "@/hooks/useSocket";
 import { IFullUserDoc } from "@/interfaces/auth.interface";
-import { currentUser } from "@/services/http";
-import { useQuery } from "@tanstack/react-query";
+import { IPostDoc } from "@/interfaces/post.interface";
+import { AppDispatch } from "@/store";
+import { useGetUserQuery } from "@/store/rtk/auth/authSlice";
+import { postsUser } from "@/store/rtk/post/helpers";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Profile = () => {
   const param = useParams();
   const navigate = useNavigate();
+  const { socket } = useSocket();
 
+  const { data, isError } = useGetUserQuery(param.authId as string);
 
-  const { data, isError } = useQuery({
-    queryKey: ["profile", param.authId],
-    queryFn: async() => {
-      const {data} = await currentUser(param.authId as string);
-      return data;
-    },
-    staleTime: 500,
-  });
+  const dispatch: AppDispatch = useDispatch();
 
   if (isError) {
     navigate("/404");
   }
+
+  useEffect(() => {
+    socket?.on("updated-post", (newPost: IPostDoc) => {
+      dispatch(postsUser.update(newPost._id, newPost));
+    });
+
+    socket?.on("update-comment", (newPost: IPostDoc) => {
+      dispatch(postsUser.update(newPost._id, newPost));
+    });
+
+    return () => {
+      socket?.off("updated-post");
+      socket?.off("update-comment");
+    };
+  }, [dispatch, socket]);
 
   if (!data) {
     return <ProfileSkeleton />;

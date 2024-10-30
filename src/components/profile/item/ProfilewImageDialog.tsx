@@ -8,11 +8,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
-import useMutationCustom from "@/hooks/useMutationCustom";
 import { IUserDoc, StoreImagProfile } from "@/interfaces/auth.interface";
-import { updateProfileImage } from "@/services/http";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
+import { useUpdateProfileImageMutation } from "@/store/rtk/auth/authSlice";
 import { Loader2, UploadCloud } from "lucide-react";
 import React, { useRef } from "react";
 import { Cropper, CircleStencil, CropperRef } from "react-advanced-cropper";
@@ -37,25 +36,25 @@ const ProfilewImageDialog: React.FC<Props> = ({
 
   const dispatch: AppDispatch = useDispatch();
 
-  const mutation = useMutationCustom({
-    mutationFn: updateProfileImage,
-    onSuccess: ({ data }) => {
-      const mainOb: IUserDoc = {
-        ...user,
-        profilePicture: data.url,
-      } as IUserDoc;
-      dispatch(setAuth(mainOb));
-      toast({
-        title: data.message,
-      });
-      setProfileImg((prev) => ({
-        ...prev,
-        openProfileModel: false,
-        profileRow: null,
-        profilePic: data.url,
-      }));
-    },
-  });
+  const [updateProfileImage, { isLoading }] =
+    useUpdateProfileImageMutation();
+
+  // if (data) {
+  //   const mainOb: IUserDoc = {
+  //     ...user,
+  //     profilePicture: data.url,
+  //   } as IUserDoc;
+  //   dispatch(setAuth(mainOb));
+  //   toast({
+  //     title: data.message,
+  //   });
+  //   setProfileImg((prev) => ({
+  //     ...prev,
+  //     openProfileModel: false,
+  //     profileRow: null,
+  //     profilePic: data.url,
+  //   }));
+  // }
 
   const makeNewImageAndUpdate = () => {
     if (cropperRef.current) {
@@ -72,7 +71,32 @@ const ProfilewImageDialog: React.FC<Props> = ({
         canvas.toBlob((blob) => {
           if (blob) {
             form.append("file", blob);
-            mutation.mutate(form);
+            updateProfileImage(form).then((res) => {
+              if ((res as { error: string }).error) {
+                toast({
+                  title: "Profile image not updated",
+                  description: (res as { error: { data: { message: string } } })
+                    .error.data.message,
+                  variant: "destructive",
+                });
+              } else {
+                const result = res as {data:{ url: string; message: string }};
+                const mainOb: IUserDoc = {
+                  ...user,
+                  profilePicture: result.data.url,
+                } as IUserDoc;
+                dispatch(setAuth(mainOb));
+                toast({
+                  title: result.data?.message,
+                });
+                setProfileImg((prev) => ({
+                  ...prev,
+                  openProfileModel: false,
+                  profileRow: null,
+                  profilePic: result.data.url,
+                }));
+              }
+            });
           }
         }, "image/jpeg");
       }
@@ -136,16 +160,16 @@ const ProfilewImageDialog: React.FC<Props> = ({
           </Button>
           <Button
             onClick={() => profileRef.current?.click()}
-            disabled={mutation.isPending}
+            disabled={isLoading}
           >
             Change
           </Button>
           <Button
             type="submit"
             onClick={makeNewImageAndUpdate}
-            disabled={mutation.isPending}
+            disabled={isLoading}
           >
-            {mutation.isPending ? (
+            {isLoading ? (
               <span className="flex items-center gap-1">
                 <Loader2 className="w-5 animate-spin" /> Loading...
               </span>

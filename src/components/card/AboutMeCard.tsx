@@ -39,8 +39,9 @@ const AboutMeCard: React.FC<Props> = ({ user }) => {
       </div>
       <Separator />
       <div className="hidden md:block px-4 py-4 w-full roboto text-[14px] tracking-[0.1px]">
-        {user?.quote ||
-          `“Pushing pixels and experiences in digital products for Sebostudio”`}
+        {user.quote ? `“${user.quote}”` :
+          `“Pushing pixels and experiences in digital
+products for Sebostudio”`}
       </div>
       <Separator />
 

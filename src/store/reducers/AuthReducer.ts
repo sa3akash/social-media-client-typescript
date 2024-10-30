@@ -11,6 +11,7 @@ export interface AuthState {
   following: string[];
   followers: string[];
   onlineUsers: string[];
+  navbar: boolean
 }
 
 const initialState: AuthState = {
@@ -20,6 +21,7 @@ const initialState: AuthState = {
   followers: [],
   following: [],
   onlineUsers: [],
+  navbar: true,
 };
 
 export const AuthSlice = createSlice({
@@ -47,7 +49,7 @@ export const AuthSlice = createSlice({
         following: string[];
         followers: string[];
         blocked: string[];
-      }>,
+      }>
     ) => {
       state.blocked = action.payload.blocked;
       state.followers = action.payload.followers;
@@ -56,28 +58,45 @@ export const AuthSlice = createSlice({
 
     addUserReactions: (state, action: PayloadAction<IUserReactionDoc>) => {
       const findIndex = state.userReaction.findIndex(
-        (p) => p.postId === action.payload.postId,
-      )
+        (p) => p.postId === action.payload.postId
+      );
 
       if (findIndex !== -1) {
-        if(state.userReaction[findIndex].type === action.payload.type){
-          state.userReaction = state.userReaction.filter(p=>p.postId !== action.payload.postId)
-        }else{
-          state.userReaction[findIndex] = {...state.userReaction[findIndex], ...action.payload}
+        if (state.userReaction[findIndex].type === action.payload.type) {
+          state.userReaction = state.userReaction.filter(
+            (p) => p.postId !== action.payload.postId
+          );
+        } else {
+          state.userReaction[findIndex] = {
+            ...state.userReaction[findIndex],
+            ...action.payload,
+          };
         }
-      }else{
-        state.userReaction = [...state.userReaction, action.payload]
+      } else {
+        state.userReaction = [...state.userReaction, action.payload];
       }
     },
 
-    addFollowing: (state, action: PayloadAction<{ id: string }>) => {
-      state.following = [...new Set([action.payload.id, ...state.following])];
-    },
+    addFollowing: (state, action: PayloadAction<string>) => {
+      const index = state.following.findIndex((id) => id === action.payload);
 
-    removeFollowing: (state, action: PayloadAction<{ id: string }>) => {
-      state.following = state.following.filter(
-        (id) => id !== action.payload.id,
-      );
+      if (index !== -1) {
+        state.following = state.following.filter((id) => id !== action.payload);
+      } else {
+        state.following = [action.payload, ...state.following];
+      }
+    },
+    addFollowers: (state, action: PayloadAction<string>) => {
+      const index = state.followers.findIndex((id) => id === action.payload);
+
+      if (index !== -1) {
+        state.followers = state.followers.filter((id) => id !== action.payload);
+      } else {
+        state.followers = [action.payload, ...state.followers];
+      }
+    },
+    setNavbar: (state, action: PayloadAction<boolean>) => {
+      state.navbar = action.payload;
     },
   },
 });
@@ -88,8 +107,9 @@ export const {
   addUserReactions,
   setLoginUserData,
   addFollowing,
-  removeFollowing,
   setOnlineUsers,
+  addFollowers,
+  setNavbar
 } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

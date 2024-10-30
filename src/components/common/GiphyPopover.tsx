@@ -9,7 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import useReactInfiniteScrollGiphy from "@/hooks/useReactInfiniteScrollGiphy";
+import GiphyComponents from "./GiphyComponents";
 
 interface Props {
   children: ReactNode;
@@ -19,13 +19,6 @@ interface Props {
 const GiphyPopover: FC<Props> = ({ children, fn }) => {
   const [inputValue, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
-
-  const { data, lastElementRef, loading } =
-    useReactInfiniteScrollGiphy(debouncedValue);
-
-  const handleGif = (url: string) => {
-    fn(url);
-  };
 
   return (
     <Popover>
@@ -42,29 +35,11 @@ const GiphyPopover: FC<Props> = ({ children, fn }) => {
           </div>
           <ScrollArea className="h-[450px] w-full">
             <div className="flex items-center justify-center gap-2 flex-col">
-              {data.map(
-                (
-                  item: { images: { original: { url: string } } },
-                  index: number
-                ) => (
-                  <div
-                    className="w-full h-[300px]"
-                    onClick={() =>
-                      handleGif(item.images.original.url as string)
-                    }
-                    key={index}
-                    ref={data.length === index + 1 ? lastElementRef : null}
-                  >
-                    <img
-                      src={item.images.original.url as string}
-                      className="w-full h-full object-cover"
-                      // classNameTwo="object-cover"
-                    />
-                  </div>
-                )
-              )}
-              {loading && <span>Loading...</span>}
-              <div ref={lastElementRef}></div>
+              
+              <GiphyComponents selectImage={(gif,e)=>{
+                e.preventDefault();
+                fn(gif.images?.original?.url);
+              }} searchTerm={debouncedValue} />
             </div>
           </ScrollArea>
         </div>

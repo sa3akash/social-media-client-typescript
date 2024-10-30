@@ -11,9 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import useMutationCustom from "@/hooks/useMutationCustom";
 import { passwordSchema } from "@/lib/zodSchema";
-import { updatePassword } from "@/services/http";
+import { useUpdatePasswordMutation } from "@/store/rtk/auth/authSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -33,17 +32,21 @@ const PasswordForm = () => {
     defaultValues,
   });
 
-  const mutation = useMutationCustom({
-    mutationFn: updatePassword,
-    onSuccess: (res) => {
-      toast({
-        title: res.data.message,
-      });
-    },
-  });
+  const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
 
   function onSubmit(data: UsernameFormValues) {
-    mutation.mutate(data);
+    updatePassword(data).then((res) => {
+      if ((res as { error: string }).error) {
+        toast({
+          variant: "destructive",
+          title: (res as { error: { data: { message: string } } }).error.data
+            .message,
+        });
+      }
+      toast({
+        title: (res as { data: { message: string } }).data.message,
+      });
+    });
   }
 
   return (
@@ -59,7 +62,7 @@ const PasswordForm = () => {
                 <Input
                   placeholder="**********"
                   {...field}
-                  disabled={mutation.isPending}
+                  disabled={isLoading}
                 />
               </FormControl>
               {!fieldState.error && (
@@ -79,7 +82,7 @@ const PasswordForm = () => {
                 <Input
                   placeholder="**********"
                   {...field}
-                  disabled={mutation.isPending}
+                  disabled={isLoading}
                 />
               </FormControl>
               {!fieldState.error && (
@@ -100,7 +103,7 @@ const PasswordForm = () => {
                 <Input
                   placeholder="**********"
                   {...field}
-                  disabled={mutation.isPending}
+                  disabled={isLoading}
                 />
               </FormControl>
               {!fieldState.error && (
@@ -111,8 +114,8 @@ const PasswordForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? (
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? (
             <span className="flex items-center gap-1">
               <Loader2 className="w-5 animate-spin" /> <span>Loading...</span>
             </span>

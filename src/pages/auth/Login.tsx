@@ -16,13 +16,10 @@ import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PageURL } from "@/services/utils/pageUrl";
-import { loginFn } from "@/services/http";
-import { AppDispatch } from "@/store";
-import { useDispatch } from "react-redux";
-import { setAuth } from "@/store/reducers/AuthReducer";
 import { storeKey } from "@/services/utils/keys";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import useMutationCustom from "@/hooks/useMutationCustom";
+import { useLoginMutation } from "@/store/rtk/auth/authSlice";
+import CommonAlert from "@/components/common/CommonAlert";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -34,23 +31,13 @@ const Login = () => {
     },
   });
 
-  const dispatch: AppDispatch = useDispatch();
-
   const [, setKeepLogin] = useLocalStorage(storeKey.KeepLogin);
 
-  const mutation = useMutationCustom({
-    mutationFn: loginFn,
-    onSuccess: ({ data }) => {
-      dispatch(setAuth({ authId: data.user._id, ...data.user }));
-      setKeepLogin(form.getValues().check);
-    },
-  });
+  const [login, { isLoading, error }] = useLoginMutation();
 
   const onLogin = (values: z.infer<typeof loginSchema>) => {
-    mutation.mutate({
-      email: values.email,
-      password: values.password,
-    });
+    login({ email: values.email, password: values.password });
+    setKeepLogin(values.check);
   };
 
   return (
@@ -116,8 +103,10 @@ const Login = () => {
           </Link>
         </div>
 
-        <Button type="submit" disabled={mutation.isPending} className="w-full">
-          {mutation.isPending ? (
+        <CommonAlert type="error" message={(error as  { data: { message: string } })?.data?.message} />
+
+        <Button type="submit" disabled={isLoading} className="w-full">
+          {isLoading ? (
             <span className="flex text-center gap-2">
               Login...
               <Loader2 className="animate-spin" size={20} />

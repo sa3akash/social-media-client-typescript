@@ -41,7 +41,7 @@ const SingleMessage: FC<Props> = ({
       )}
       <div
         className={cn(
-          "relative flex px-8 gap-2",
+          "relative flex px-8 gap-2 py-2",
           wonMessage ? "flex-row-reverse" : "flex-row",
           multipleMessage ? "-mt-3" : ""
         )}

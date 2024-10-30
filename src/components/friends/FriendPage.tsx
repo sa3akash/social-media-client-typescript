@@ -3,10 +3,8 @@ import FriendHeader from "@/components/friends/FriendHeader";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
 import { lazy, Suspense, useState } from "react";
 import { Loader2 } from "lucide-react";
-import useReactInfiniteScroll from "@/hooks/useReactInfiniteScroll";
-import api from "@/services/http";
-import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
-import FriendSingleSkeleton from "./skeleton/FriendSingleSkeleton";
+import FriendSingleSkeleton from "@/components/friends/skeleton/FriendSingleSkeleton";
+import { useInfiniteFriends } from "@/hooks/testhook/useGetFriends";
 
 const SingleFriendItem = lazy(
   () => import("@/components/friends/item/SingleFriendItem")
@@ -17,53 +15,35 @@ const FriendPage = () => {
 
   const baseUrl = selectType === "users" ? "users" : `user/${selectType}`;
 
-  const { data, lastElementRef, loading } = useReactInfiniteScroll({
-    baseURL: baseUrl,
-    fn: async ({ pageParam }) => {
-      const response = await api.get(`/${baseUrl}?page=${pageParam}`);
-      return response.data;
-    },
-  });
-
-  if (!data) {
-    return <FriendsSkeleton />;
-  }
-
-  const mainData = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.users];
-  }, []);
+  const { users, isFetching, lastPostRef } = useInfiniteFriends(baseUrl);
 
   return (
     <section className="w-full h-full flex flex-col gap-2 md:gap-4 mt-2 md:mt-8">
       <FriendHeader setSelectType={setSelectType} selectType={selectType} />
       <div className="grid grid-cols-1 2xl:grid-cols-2 gap-2 md:gap-4">
-        {mainData.map((item: IFollowerDoc, index: number) => {
-          if (mainData.length === index + 1) {
+        {users.map((item: IFollowerDoc, index: number) => {
+          if (users.length === index + 1) {
             return (
-              <Suspense fallback={<FriendSingleSkeleton />}>
-                <SingleFriendItem
-                  key={index}
-                  item={item}
-                  ref={lastElementRef}
-                />
+              <Suspense fallback={<FriendSingleSkeleton />} key={index}>
+                <SingleFriendItem key={index} item={item} ref={lastPostRef} />
               </Suspense>
             );
           } else {
             return (
-              <Suspense fallback={<FriendSingleSkeleton />}>
+              <Suspense fallback={<FriendSingleSkeleton />} key={index}>
                 <SingleFriendItem key={index} item={item} />
               </Suspense>
             );
           }
         })}
       </div>
-      {mainData.length === 0 && !loading && (
+      {users.length === 0 && !isFetching && (
         <div className="w-full text-[24px] font-semibold text-center capitalize">
           No {selectType === "users" ? "friends" : selectType} found.
         </div>
       )}
 
-      {loading && (
+      {isFetching && (
         <p className="p-4 flex items-center justify-center">
           <Loader2 className="animate-spin w-6 h-6" />
         </p>

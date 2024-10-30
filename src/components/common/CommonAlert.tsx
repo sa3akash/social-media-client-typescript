@@ -9,7 +9,9 @@ interface Props {
 }
 
 const CommonAlert: React.FC<Props> = ({ type, message }) => {
-  return (
+  if(!message) return;
+  
+  return ( 
     <>
       {type === "error" && (
         <Alert variant="destructive" className="bg-rose-300">

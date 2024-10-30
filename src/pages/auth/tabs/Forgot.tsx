@@ -15,9 +15,9 @@ import { Input } from "@/components/ui/input";
 import { forgotSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { forgotFn } from "@/services/http";
+import { useForgotMutation } from "@/store/rtk/auth/authSlice";
+import CommonAlert from "@/components/common/CommonAlert";
+import { CustomError } from "@/interfaces/auth.interface";
 
 const Forgot = () => {
   const form = useForm<z.infer<typeof forgotSchema>>({
@@ -26,17 +26,12 @@ const Forgot = () => {
       email: "",
     },
   });
-  const { toast } = useToast();
 
-  const mutation = useMutationCustom({
-    mutationFn: forgotFn,
-    onSuccess: ({ data }) => {
-      toast({ title: data.message });
-    },
-  });
+  const [forgot, { isLoading, isSuccess, isError, error, data }] =
+    useForgotMutation();
 
   const onForgot = async (values: z.infer<typeof forgotSchema>) => {
-    mutation.mutate(values);
+    forgot(values);
   };
 
   return (
@@ -60,7 +55,7 @@ const Forgot = () => {
         />
 
         <Button type="submit" disabled={false} className="w-full">
-          {mutation.isPending ? (
+          {isLoading ? (
             <span className="flex text-center gap-2">
               Email Sending...
               <Loader2 className="animate-spin" size={20} />
@@ -69,7 +64,13 @@ const Forgot = () => {
             "Submit"
           )}
         </Button>
-        {/* {form.formState.isSubmitSuccessful && <CommonAlert type="email" />} */}
+        {isError && (
+          <CommonAlert
+            type="error"
+            message={(error as CustomError).data.message}
+          />
+        )}
+        {isSuccess && <CommonAlert type="success" message={data.message} />}
       </form>
     </Form>
   );

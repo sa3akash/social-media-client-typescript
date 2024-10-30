@@ -7,9 +7,11 @@ import React, { useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { setSelectedUser } from "@/store/reducers/ModelReducer";
 import ModelMessages from "@/components/models/item/ModelMessages";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { sendMessageJson } from "@/services/http";
+
 import { useSearchParams } from "react-router-dom";
+import { useSendMessageMutation } from "@/store/rtk/message/message";
+import { toast } from "@/components/ui/use-toast";
+import { IUserDoc } from "@/interfaces/auth.interface";
 
 const MessangerModel = () => {
   const { selectedUser } = useSelector((state: RootState) => state.model);
@@ -20,30 +22,36 @@ const MessangerModel = () => {
   const dispatch: AppDispatch = useDispatch();
   const [, setSearchParams] = useSearchParams();
 
-  const mutation = useMutationCustom({
-    mutationFn: sendMessageJson,
-    onSuccess: ({ data }) => {
-      console.log(data);
-      dispatch(
-        setSelectedUser({
-          conversationId: data.conversationId,
-          user: data?.message?.user,
-        })
-      );
-      setSearchParams({
-        conversationId: data.conversationId,
-      });
-    },
-  });
+  const [sendMessage] = useSendMessageMutation()
 
   const hanelKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputRef.current) {
       const text = inputRef.current?.value;
       if (text?.length > 0) {
-        mutation.mutate({
-          receiverId: selectedUser?.user.authId,
+        sendMessage({
+          receiverId: selectedUser?.user.authId as string,
           body: text,
           conversationId: selectedUser?.conversationId,
+        }).then((res)=>{
+                console.log(res);
+        if((res as { error: string }).error){
+          toast({
+            variant: "destructive",
+            title: (res as { error: { data: { message: string } } }).error.data.message,
+          });
+        } else {
+          const data = (res as {data: {message: {user:IUserDoc}; conversationId: string}}).data
+          dispatch(
+            setSelectedUser({
+              conversationId: data.conversationId,
+              user: data?.message?.user,
+            })
+          );
+          setSearchParams({
+            conversationId: data.conversationId,
+          });
+        }
+
         });
         inputRef.current.value = "";
       }

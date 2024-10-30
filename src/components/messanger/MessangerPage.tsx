@@ -3,22 +3,14 @@ import MessangerSidebar from "@/components/messanger/MessangerSidebar";
 import { useSocket } from "@/hooks/useSocket";
 import { IMessageData } from "@/interfaces/chat.interface";
 import { cn } from "@/lib/utils";
-import { getConversations } from "@/services/http";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useGetConversationQuery } from "@/store/rtk/message/message";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const MessangerPage = () => {
   const { socket } = useSocket();
-  const queryClient = useQueryClient();
-  const query = useQuery({
-    queryKey: ["conversations"],
-    queryFn: async () => {
-      const { data } = await getConversations();
-      return data.conversationList;
-    },
-    staleTime: 1000 * 6,
-  });
+
+  const { data } = useGetConversationQuery("");
 
   const [searchParams] = useSearchParams();
 
@@ -26,19 +18,13 @@ const MessangerPage = () => {
 
   useEffect(() => {
     socket?.on("chat-list", (data: IMessageData) => {
-      const conversationCache = queryClient.getQueryData([
-        "conversations",
-      ]) as IMessageData[];
-      const newData = [...conversationCache].filter(
-        (i) => i.conversationId !== data.conversationId
-      );
-      queryClient.setQueryData(["conversations"], [data, ...newData]);
+      console.log("chat-list", data);
     });
 
     return () => {
       socket?.off("chat-list");
     };
-  }, [queryClient, socket]);
+  }, [socket]);
 
   return (
     <div className="w-full h-full flex">
@@ -48,7 +34,7 @@ const MessangerPage = () => {
           conversationId ? "hidden 2xl:block" : ""
         )}
       >
-        <MessangerSidebar conversations={query.data} />
+        <MessangerSidebar conversations={data?.conversationList} />
       </div>
       <div className="flex-1 h-full">
         {conversationId ? <MessangerBody /> : <NoSelectConversation />}

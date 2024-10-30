@@ -12,7 +12,7 @@ interface Props {
 const CreateImageShow: React.FC<Props> = ({ images, setFiles }) => {
 
   return (
-    <div className="h-[300px] w-full">
+    <div className="h-[220px] md:h-[300px] w-full">
       <div
         className={cn(
           "grid gap-1 h-full ",

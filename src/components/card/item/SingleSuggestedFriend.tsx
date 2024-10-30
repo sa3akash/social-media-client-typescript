@@ -1,9 +1,7 @@
 import UserAvater from "@/components/common/UserAvater";
 import { Button } from "@/components/ui/button";
-import useMutationCustom from "@/hooks/useMutationCustom";
 import { IFollowerDoc } from "@/interfaces/auth.interface";
-import { followUserFn } from "@/services/http";
-import { useQueryClient } from "@tanstack/react-query";
+import { useFollowUserMutation } from "@/store/rtk/friends/friendsSlice";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,22 +10,12 @@ interface Props {
 }
 
 const SingleSuggestedFriend: FC<Props> = ({ item }) => {
-  const queryClient = useQueryClient();
 
-  const mutation = useMutationCustom({
-    mutationFn: followUserFn,
-    onSuccess: () => {
-      const sujestedUserCache = queryClient.getQueryData([
-        "sujestedFriends",
-      ]) as IFollowerDoc[];
+  const [followUser] = useFollowUserMutation();
 
-      const filter = [...sujestedUserCache].filter((i) => i._id !== item._id);
-      queryClient.setQueryData(["sujestedFriends"], filter);
-    },
-  });
 
-  const followUser = () => {
-    mutation.mutate(item._id);
+  const followUserHandle = () => {
+    followUser(item._id);
   };
 
   return (
@@ -47,7 +35,7 @@ const SingleSuggestedFriend: FC<Props> = ({ item }) => {
         </Link>
       </div>
       <Button
-        onClick={followUser}
+        onClick={followUserHandle}
         className="h-8 capitalize font-semibold text-[14px] bg-green-400"
       >
         follow

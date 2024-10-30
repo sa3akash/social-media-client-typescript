@@ -8,10 +8,12 @@ import PostSkeleton from "@/components/home/skeleton/PostSkeleton";
 import { UserUtils } from "@/services/utils/userUtils";
 import { useInfiniteScrollPosts } from "@/hooks/testhook/useGetPost";
 
+
 const SinglePost = lazy(() => import("@/components/post/item/SinglePost"));
 
 const AllPost = () => {
   const { posts, isFetching, lastPostRef } = useInfiniteScrollPosts();
+ 
 
   return (
     <section className="mt-2 md:mt-4 flex flex-col gap-4">
@@ -27,12 +29,13 @@ const AllPost = () => {
             </Suspense>
           )
       )}
-      {isFetching && (
+      {isFetching ? (
         <p className="p-4 flex items-center justify-center mb-5">
           <Loader2 className="animate-spin w-6 h-6" />
         </p>
+      ) : (
+        <NoPost />
       )}
-      {!isFetching && <NoPost />}
     </section>
   );
 };

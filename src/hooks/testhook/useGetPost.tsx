@@ -7,7 +7,7 @@ export const useInfiniteScrollPosts = () => {
   const lastPostRef = useRef<HTMLDivElement | null>(null); // Ref for the last post element
   const observerRef = useRef<IntersectionObserver | null>(null); // Ref for the observer
 
-  const { data, isFetching, isError } = useGetPaginatedPostsQuery(page);
+  const { data, isFetching, isError,refetch } = useGetPaginatedPostsQuery(page);
 
   const posts: IPostDoc[] = data?.posts || [];
 
@@ -87,5 +87,5 @@ export const useInfiniteScrollPosts = () => {
   //     };
   //   }, [isFetching, loadMorePosts]);
 
-  return { posts, isFetching, isError, lastPostRef };
+  return { posts, isFetching, isError, lastPostRef,refetch };
 };

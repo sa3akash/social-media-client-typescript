@@ -15,9 +15,10 @@ import { Input } from "@/components/ui/input";
 import { resetSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import useMutationCustom from "@/hooks/useMutationCustom";
-import { resetFn } from "@/services/http";
+import { useSearchParams } from "react-router-dom";
+import { useResetMutation } from "@/store/rtk/auth/authSlice";
+import CommonAlert from "@/components/common/CommonAlert";
+import { CustomError } from "@/interfaces/auth.interface";
 
 const Reset = () => {
   const form = useForm<z.infer<typeof resetSchema>>({
@@ -28,19 +29,16 @@ const Reset = () => {
     },
   });
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const token = searchParams.get("token") as string;
 
-  const mutation = useMutationCustom({
-    mutationFn: (data) => resetFn(token, data),
-    onSuccess: () => {
-      navigate("/feed");
-    },
-  });
+  const [reset, { isLoading, isSuccess, isError, error, data }] = useResetMutation();
 
   const onLogin = async (values: z.infer<typeof resetSchema>) => {
-    mutation.mutate(values);
+    reset({
+      data: values,
+      token: token
+    });
   };
 
   return (
@@ -76,8 +74,8 @@ const Reset = () => {
           )}
         />
 
-        <Button type="submit" disabled={mutation.isPending} className="w-full">
-          {mutation.isPending ? (
+        <Button type="submit" disabled={isLoading} className="w-full">
+          {isLoading ? (
             <span className="flex text-center gap-2">
               Submit...
               <Loader2 className="animate-spin" size={20} />
@@ -86,6 +84,13 @@ const Reset = () => {
             "Submit"
           )}
         </Button>
+        {isError && (
+          <CommonAlert
+            type="error"
+            message={(error as CustomError).data.message}
+          />
+        )}
+        {isSuccess && <CommonAlert type="success" message={data.message} />}
       </form>
     </Form>
   );

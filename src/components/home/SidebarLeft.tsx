@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import UserProfile from "@/components/home/items/UserProfile";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PageURL } from "@/services/utils/pageUrl";
@@ -6,18 +5,11 @@ import { SingleLeftItem } from "@/components/home/items/SingleLeftItem";
 import { leftSidebarIconMap } from "@/services/utils/map";
 import { sidebarLeftPage } from "@/data/SidebarLeftData";
 import SingleLeftPageItem from "@/components/home/items/SingleLeftPageItem";
-import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { INotification } from "@/interfaces/notificaton.interface";
+import { useInfiniteNotification } from "@/hooks/testhook/useGetNotification";
 
 const SidebarLeft = () => {
-  const queryClient = useQueryClient();
-  const notificationCache = queryClient.getQueryData(["notifications"]) as
-    | InfiniteData<any, unknown>
-    | undefined;
-
-  const mainData = notificationCache?.pages.reduce((acc, page) => {
-    return [...acc, ...page.notifications];
-  }, []);
+  const { notifications } = useInfiniteNotification();
 
   return (
     <div className="w-full h-full">
@@ -61,7 +53,7 @@ const SidebarLeft = () => {
 
           <SingleLeftItem
             imageUrl={
-              mainData?.some((n: INotification) => !n.read)
+              notifications.some((n: INotification) => !n.read)
                 ? leftSidebarIconMap.notifications
                 : leftSidebarIconMap.notificationOff
             }

@@ -8,14 +8,13 @@ import { X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 // import CallingAudioVideo from "@/components/messanger/item/CallingAudioVideo";
 import { ElementRef, lazy, Suspense, useEffect, useRef, useState } from "react";
-import { IMessageData } from "@/interfaces/chat.interface";
-import { useQuery } from "@tanstack/react-query";
-import api from "@/services/http";
 // import SingleMessage from "@/components/messanger/item/SingleMessage";
 import { Utils } from "@/services/utils/utils";
 import Call from "./call/Call";
 import {} from "@/interfaces/auth.interface";
 import useWebrtc from "@/hooks/webrtc/useWebrtc";
+import useMessageScroll from "@/hooks/testhook/useMessageScroll";
+import { Button } from "../ui/button";
 
 const SingleMessage = lazy(
   () => import("@/components/messanger/item/SingleMessage")
@@ -36,95 +35,62 @@ const MessangerBody = () => {
   const [searchParams] = useSearchParams();
   const conversationId = searchParams.get("conversationId");
 
+  const { messages,hasLoadMore,loadMoreMessages,isLoading,isFetching } = useMessageScroll(conversationId!);
+  console.log(messages);
+
   const [gif, setGif] = useState<string>("");
 
   // const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
 
-  const { data: mainData } = useQuery({
-    queryKey: ["messages", conversationId],
-    queryFn: async () => {
-      const { data } = await api.get(`/chat/messagess/${conversationId}`);
-      return data.messages as IMessageData[];
-    },
-    staleTime: 1000,
-  });
-
-  // const { fetchNextPage, hasNextPage, data, isFetchingNextPage } =
-  //   useInfiniteQuery({
-  //     queryKey: ["messages", conversationId],
-  //     queryFn: async ({ pageParam = 1 }) => {
-  //       const { data } = await api.get(
-  //         `/chat/messagess/${conversationId}?page=${pageParam}`
-  //       );
-  //       return data;
-  //     },
-  //     initialPageParam: 1,
-  //     getNextPageParam: (lastPage) => {
-  //       if (lastPage.currentPage < lastPage.numberOfPages) {
-  //         return lastPage.currentPage + 1;
-  //       }
-  //       return undefined;
-  //     },
-  //     staleTime: 1000 * 60,
-  //   });
-
-  // const mainData = data?.pages.reduce((acc, page) => {
-  //   return [...acc, ...page.messages];
-  // }, []) as IMessageData[];
-
-  // useChatScroll({
-  //   bottomRef,
-  //   chatRef,
-  //   loadMore: fetchNextPage,
-  // });
-
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [mainData]);
+  }, [messages]);
 
-  if (!mainData?.length) {
-    return null;
+  const handleMoreLoad = () => {
+    if(isLoading || isFetching) return;
+    loadMoreMessages();
   }
 
   return (
     <div className="flex flex-col w-full h-full">
-      <Suspense><MessangerHeader message={mainData[0]} /></Suspense>
+      <Suspense>
+        <MessangerHeader message={messages[0]} />
+      </Suspense>
       <div className="flex-1 flex flex-col h-full lg:flex-row gap-4">
         {isCalling && (
           <div className="flex-1">
             <Call />
           </div>
         )}
-        <div className="flex-1 border flex flex-col ">
-          <div className="flex-1 flex flex-col relative ">
-            <ScrollArea className="h-full w-full" id="scrollOverHight">
-              <div className="flex flex-col gap-4 h-full px-0 py-4 md:p-4">
-                <div className="flex-1"></div>
-                {mainData.map((message, index) => (
-                  <Suspense key={index}>
-                    <SingleMessage
-                      item={message}
-                      wonMessage={user?.authId === message.senderId}
-                      multipleMessage={
-                        index > 0 &&
-                        message.senderId === mainData[index - 1].senderId
-                      }
-                      separatorDate={
-                        index > 0 &&
-                        !Utils.checkDateSame(
-                          mainData[index - 1].createdAt,
-                          message.createdAt
-                        )
-                      }
-                      key={index}
-                      lastMessage={index + 1 === mainData.length}
-                    />
-                  </Suspense>
-                ))}
-                <div ref={bottomRef} />
-              </div>
+        <div className="flex-1 border flex flex-col">
+          <div className="flex-1 relative h-full ">
+            <ScrollArea className="h-full w-full px-4">
+              {hasLoadMore && <div className="text-center py-4">
+                <Button onClick={handleMoreLoad}>Load previous messages</Button>
+              </div>}
+              {messages.map((message, index) => (
+                // <Suspense key={index}>
+                  <SingleMessage
+                    item={message}
+                    wonMessage={user?.authId === message.senderId}
+                    multipleMessage={
+                      index > 0 &&
+                      message.senderId === messages[index - 1].senderId
+                    }
+                    separatorDate={
+                      index > 0 &&
+                      !Utils.checkDateSame(
+                        messages[index - 1].createdAt,
+                        message.createdAt
+                      )
+                    }
+                    key={index}
+                    lastMessage={index + 1 === messages.length}
+                  />
+                // </Suspense>
+              ))}
+              <div ref={bottomRef} />
             </ScrollArea>
 
             {gif && (
@@ -143,7 +109,10 @@ const MessangerBody = () => {
               </div>
             )}
           </div>
-          <Suspense><MessangerInput setGif={setGif} gif={gif} /></Suspense>
+
+          <Suspense>
+            <MessangerInput setGif={setGif} gif={gif} />
+          </Suspense>
         </div>
       </div>
     </div>
@@ -151,3 +120,5 @@ const MessangerBody = () => {
 };
 
 export default MessangerBody;
+
+// id="scrollOverHight"

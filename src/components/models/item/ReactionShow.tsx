@@ -1,6 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  IReactionDoc,
   OnlyReactionName,
   ReactionName,
 } from "@/interfaces/reaction.interface";
@@ -8,8 +7,7 @@ import React from "react";
 import SingleReactionData from "@/components/models/item/SingleReactionData";
 import { ReactionIconMap, reactionColorMap } from "@/services/utils/map";
 import { Check, Loader2 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { getPostReaction } from "@/services/http";
+import { useInfinitePostReactions } from "@/hooks/testhook/useGetPostReactions";
 
 interface Props {
   activeType: ReactionName;
@@ -24,30 +22,24 @@ const ReactionShow: React.FC<Props> = ({
   setActiveType,
   postId,
 }) => {
-  const notAtAll = activeType !== "more" && activeType !== "all";
-
-  const apiUrl =
-    activeType && notAtAll
-      ? `/post/reaction/${postId}/${activeType}`
-      : `/post/reactions/${postId}`;
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["reactions", postId, activeType],
-    queryFn: () => getPostReaction(apiUrl),
-    staleTime: 1000 * 60,
-  });
-
-  const reactionsData: IReactionDoc[] = data?.data.reactions || [];
+  const { reactions, isFetching, lastPostRef } = useInfinitePostReactions(
+    postId,
+    activeType
+  );
 
   return (
     <div className="w-full text-white my-2 h-[calc(100%-65px)] ">
       <ScrollArea className="relative h-full w-full">
         <div className="w-full h-full flex flex-col gap-0 p-2">
-          {reactionsData.length > 0 &&
-            reactionsData.map((item, index) => (
-              <SingleReactionData key={index} reaction={item} active={false} />
+          {reactions.length > 0 &&
+            reactions.map((item, index) => (
+              <SingleReactionData
+                key={index}
+                reaction={item}
+                ref={reactions.length === index + 1 ? lastPostRef : undefined}
+              />
             ))}
-          {isLoading && (
+          {isFetching && (
             <div className="h-full flex items-center justify-center my-6 gap-2">
               <Loader2 className="animate-spin w-10" /> Loading...
             </div>

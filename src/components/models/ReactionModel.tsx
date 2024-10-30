@@ -11,6 +11,7 @@ interface Props {
 }
 
 const ReactionModel: React.FC<Props> = ({ post, reactionType }) => {
+  
   const filersReactions = PostUtils.filterReactions(post.reactions, 7);
   const [activeType, setActiveType] = useState(reactionType);
 

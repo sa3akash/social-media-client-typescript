@@ -3,12 +3,10 @@ import { useSocket } from "@/hooks/useSocket";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addNotification,
-  deleteNotification,
   setCallUser,
-  updateAsReadNotification,
 } from "@/store/reducers/NotificationReducer";
 import { useToast } from "@/components/ui/use-toast";
+import { notificationHelpers } from "@/store/rtk/notification/helpers";
 // import NotificationToast from "@/components/common/NotificationToast";
 
 const useNotificationSocket = () => {
@@ -21,7 +19,7 @@ const useNotificationSocket = () => {
   useEffect(() => {
     socket?.on("reaction-notification", (data, { userTo }) => {
       if (user?.authId === userTo && data?.creator?.authId !== user?.authId) {
-        dispatch(addNotification(data));
+        dispatch(notificationHelpers.addNotification(data));
         toast({
           description: `${data.message}`,
           data: data,
@@ -31,7 +29,7 @@ const useNotificationSocket = () => {
 
     socket?.on("insert-notification", (notificationData, { userTo }) => {
       if (user?.authId === userTo) {
-        dispatch(addNotification(notificationData));
+        dispatch(notificationHelpers.addNotification(notificationData));
         toast({
           description: `${notificationData.message}`,
           data: notificationData,
@@ -40,11 +38,23 @@ const useNotificationSocket = () => {
     });
 
     socket?.on("update-notification", (notificationId: string) => {
-      dispatch(updateAsReadNotification(notificationId));
+      dispatch(notificationHelpers.update(notificationId));
     });
 
     socket?.on("delete-notification", (notificationId: string) => {
-      dispatch(deleteNotification(notificationId));
+      dispatch(notificationHelpers.delete(notificationId));
+    });
+
+    socket?.on("follow-notification", (notificationData,{userTo}) => {
+
+      console.log(notificationData,{userTo})
+
+      // if (user?.authId === userTo) {
+      //   toast({
+      //     description: `${notificationData.message}`,
+      //     data: notificationData,
+      //   });
+      // }
     });
 
     return () => {
@@ -52,6 +62,7 @@ const useNotificationSocket = () => {
       socket?.off("insert-notification");
       socket?.off("update-notification");
       socket?.off("delete-notification");
+      socket?.off("follow-notification");
     };
   }, [dispatch, socket, toast, user?.authId]);
 

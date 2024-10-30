@@ -2,8 +2,8 @@ import { useSocket } from "@/hooks/useSocket";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { apiPostsSlice } from "@/store/rtk/post/getPostSlice";
 import { IPostDoc } from "@/interfaces/post.interface";
+import { posts } from "@/store/rtk/post/helpers";
 
 const usePostSocket = () => {
   const { socket } = useSocket();
@@ -12,70 +12,31 @@ const usePostSocket = () => {
 
   useEffect(() => {
     socket?.on("add-post", (newPost: IPostDoc) => {
-      dispatch(
-        apiPostsSlice.util.updateQueryData("getPaginatedPosts", 1, (draft) => {
-          if (user?.authId !== newPost.creator.authId) {
-            draft.posts.unshift(newPost);
-          }
-        })
-      );
+      if (user?.authId !== newPost.creator.authId) {
+        dispatch(posts.addPost(newPost));
+      }
     });
 
     socket?.on("update-post", (newPost: IPostDoc) => {
-      dispatch(
-        apiPostsSlice.util.updateQueryData("getPaginatedPosts", 1, (draft) => {
-          if (user?.authId !== newPost.creator.authId) {
-            const index = draft.posts.findIndex(
-              (post) => post._id === newPost._id
-            );
-            if (index !== -1) {
-              draft.posts[index] = newPost;
-            }
-          }
-        })
-      );
+      if (user?.authId !== newPost.creator.authId) {
+        dispatch(posts.update(newPost._id, newPost));
+      }
     });
 
     socket?.on("updated-post", (newPost: IPostDoc) => {
-      dispatch(
-        apiPostsSlice.util.updateQueryData("getPaginatedPosts", 1, (draft) => {
-            const index = draft.posts.findIndex(
-              (post) => post._id === newPost._id
-            );
-            if (index !== -1) {
-              draft.posts[index] = newPost;
-            }
-          
-        })
-      );
+      dispatch(posts.update(newPost._id, newPost));
     });
-    socket?.on("update-comment", (newPost: IPostDoc,id:string) => {
-      dispatch(
-        apiPostsSlice.util.updateQueryData("getPaginatedPosts", 1, (draft) => {
-          if (user?.authId !== id) {
-            const index = draft.posts.findIndex(
-              (post) => post._id === newPost._id
-            );
-            if (index !== -1) {
-              draft.posts[index] = newPost;
-            }
-          }
-          
-        })
-      );
+    
+    socket?.on("update-comment", (newPost: IPostDoc, id: string) => {
+      if (user?.authId !== id) {
+        dispatch(posts.update(newPost._id, newPost));
+      }
     });
 
     socket?.on("delete-post", (postId: string, creatorId: string) => {
-      dispatch(
-        apiPostsSlice.util.updateQueryData("getPaginatedPosts", 1, (draft) => {
-          if (user?.authId !== creatorId) {
-            const index = draft.posts.findIndex((p) => p._id === postId);
-            if (index !== -1) {
-              draft.posts.splice(index, 1);
-            }
-          }
-        })
-      );
+      if (user?.authId !== creatorId) {
+        dispatch(posts.delete(postId));
+      }
     });
 
     return () => {

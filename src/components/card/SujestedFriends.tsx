@@ -6,23 +6,20 @@ import MoreDot from "@/assets/images/ic_More_3_dot.svg";
 import CardSkeleton from "@/components/card/skeleton/CardSkeleton";
 import SingleSuggestedFriend from "@/components/card/item/SingleSuggestedFriend";
 
-import { useQuery } from "@tanstack/react-query";
-import { suggestedFriendFn } from "@/services/http";
+import { useGetSuggestedFriendsQuery } from "@/store/rtk/friends/friendsSlice";
+import { IFollowerDoc } from "@/interfaces/auth.interface";
 
 const SujestedFriends = () => {
   const docRef = useRef(null);
   const [openModel, setOpenModel] = useDetectOutsideClick(docRef, false);
 
-  const { isPending, data } = useQuery({
-    queryKey: ["sujestedFriends"],
-    queryFn: suggestedFriendFn,
-    staleTime: 1000 * 60,
-  });
+  const { data, isLoading } = useGetSuggestedFriendsQuery(1);
 
-  if (isPending) {
+  if (isLoading) {
     return <CardSkeleton />;
   }
 
+  const mainData: IFollowerDoc[] = data?.users || ([] as IFollowerDoc[]);
 
   return (
     <div
@@ -48,7 +45,7 @@ const SujestedFriends = () => {
       <Separator />
 
       <div className="px-4 py-4 flex flex-col w-full items-center gap-4">
-        {data?.map((u, i) => <SingleSuggestedFriend key={i} item={u} />)}
+        {mainData?.map((u, i) => <SingleSuggestedFriend key={i} item={u} />)}
       </div>
     </div>
   );
