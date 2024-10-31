@@ -20,6 +20,24 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
 
   const won = user?.authId === item.senderId;
 
+  const getString = () => {
+    if (item.body.trim().length > 0) {
+      return item.body.length > 35
+        ? item.body.substring(0, 35) + " ..."
+        : item.body;
+    }
+    if (item.gifUrl) {
+      return "Send a gif image";
+    }
+    // if (item.audioUrl) {
+    //   return 'Send an audio message'
+    // }
+    // if (item.videoUrl) {
+    //   return 'Send a video message'
+    // }
+    return "Send a file";
+  };
+
   return (
     <div
       className={cn(
@@ -66,9 +84,7 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
               active && "text-primary!"
             )}
           >
-            {item.body.length > 20
-              ? item.body.substring(0, 20) + " ..."
-              : item.body}
+            {getString()}
 
             {/* {item.gifUrl ? "Gif" : "Image"} */}
           </span>

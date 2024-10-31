@@ -66,13 +66,16 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
 
   const getMedia = async (constraints: MediaStreamConstraints) => {
     try {
-      return await navigator.mediaDevices.getUserMedia(constraints);
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      setLocalStream(stream);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const sendCall = (arg: FriendProps) => {
+
+
+  const sendCall = useCallback(async (arg: FriendProps) => {
     setFriendUserData(arg);
 
     const constraints: MediaStreamConstraints =
@@ -80,80 +83,89 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
         ? { audio: true, video: false }
         : { audio: true, video: true };
 
-    getMedia(constraints).then((stream) => {
-      setLocalStream(stream);
-      setIsCalling(true);
-      peerRef.current = new Peer({
-        initiator: true,
-        trickle: false,
-        stream: stream,
-      });
+    await getMedia(constraints);
 
-      peerRef.current.on("signal", (offer) => {
-        socket?.emit("offer", {
-          type: arg.type,
-          user: arg.user,
-          from: arg.user.authId,
-          to: arg.friendUser.authId,
-          offer: offer,
-          conversationId: arg.conversationId,
-        });
-      });
+    setIsCalling(true);
+    
+    console.log(localStream)
 
-      socket?.on("answer", ({ answer }) => {
-        peerRef.current?.signal(answer);
-      });
+    // peerRef.current = new Peer({
+    //   initiator: true,
+    //   trickle: false,
+    //   stream: localStream,
+    // });
 
-      peerRef.current.on("stream", (remoteStream) => {
-        setRemoteStream(remoteStream);
-        setIsConnected(true);
-      });
-    });
-  };
+    // peerRef.current.on("signal", (offer) => {
+    //   socket?.emit("offer", {
+    //     type: arg.type,
+    //     user: arg.user,
+    //     from: arg.user.authId,
+    //     to: arg.friendUser.authId,
+    //     offer: offer,
+    //     conversationId: arg.conversationId,
+    //   });
+    // });
 
-  const receiveCall = () => {
+    // socket?.on("answer", ({ answer }) => {
+    //   peerRef.current?.signal(answer);
+    // });
+
+    // peerRef.current.on("stream", (remoteStream) => {
+    //   console.log("remoteStream", remoteStream);
+    //   setRemoteStream(remoteStream);
+    //   setIsConnected(true);
+    // });
+  },[localStream]);
+
+
+
+
+  const receiveCall = async () => {
+    console.log(offerData);
     if (!offerData) return null;
+
+    console.log("run receive call");
 
     const constraints: MediaStreamConstraints =
       offerData.type === "audio"
         ? { audio: true, video: false }
         : { audio: true, video: true };
 
-    getMedia(constraints).then((stream) => {
-      setLocalStream(stream);
-      setIsCalling(true);
-      setFriendUserData({
-        conversationId: offerData.conversationId,
-        friendUser: offerData.user,
-        user: user as IUserDoc,
+    await getMedia(constraints);
+    setIsCalling(true);
+    setFriendUserData({
+      conversationId: offerData.conversationId,
+      friendUser: offerData.user,
+      user: user as IUserDoc,
+      type: offerData.type,
+    });
+
+    peerRef.current = new Peer({
+      initiator: false,
+      trickle: false,
+      stream: localStream,
+    });
+
+    peerRef.current.signal(offerData.offer);
+
+    peerRef.current.on("signal", (ans) => {
+      socket?.emit("answer", {
         type: offerData.type,
-      });
-
-      peerRef.current = new Peer({
-        initiator: false,
-        trickle: false,
-        stream: stream,
-      });
-
-      peerRef.current.signal(offerData.offer);
-
-      peerRef.current.on("signal", (ans) => {
-        socket?.emit("answer", {
-          type: offerData.type,
-          user: offerData.user,
-          from: offerData.user.authId,
-          to: offerData.to,
-          answer: ans,
-          conversationId: offerData.conversationId,
-        });
-      });
-
-      peerRef.current.on("stream", (remoteStream) => {
-        setRemoteStream(remoteStream);
-        setIsConnected(true);
+        user: offerData.user,
+        from: offerData.user.authId,
+        to: offerData.to,
+        answer: ans,
+        conversationId: offerData.conversationId,
       });
     });
+
+    peerRef.current.on("stream", (remoteStream) => {
+      setRemoteStream(remoteStream);
+      setIsConnected(true);
+    });
   };
+
+
 
   const cancelCall = useCallback(() => {
     if (localStream) {
@@ -184,13 +196,15 @@ export const MessangerProvider = ({ children }: PropsWithChildren) => {
     socket,
   ]);
 
+
+
   useEffect(() => {
     socket?.on("offer", (data) => {
       setOfferData(data);
     });
 
     socket?.on("offline", () => {
-      console.log('offline received user')
+      console.log("offline received user");
     });
 
     return () => {

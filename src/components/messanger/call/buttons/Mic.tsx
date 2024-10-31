@@ -1,16 +1,14 @@
 import { Button } from "@/components/ui/button";
+import useSimplePeer from "@/hooks/webrtc/useSimplePeer";
 import { MicOff, Mic } from "lucide-react";
-import { useState } from "react";
 
 const MicButton = () => {
-  const [open, setOpen] = useState(false);
+  const { isMuted, toggleMic } = useSimplePeer();
 
-  const handleClick = () => {
-    setOpen((prev) => !prev);
-  };
+  
   return (
-    <Button variant="ghost" onClick={handleClick}>
-      {open ? <MicOff /> : <Mic />}
+    <Button variant="ghost" onClick={toggleMic}>
+      {isMuted ? <MicOff /> : <Mic />}
     </Button>
   );
 };

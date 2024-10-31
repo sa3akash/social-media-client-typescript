@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { setSelectedUser } from "@/store/reducers/ModelReducer";
 import ModelMessages from "@/components/models/item/ModelMessages";
 
-import { useSearchParams } from "react-router-dom";
 import { useSendMessageMutation } from "@/store/rtk/message/message";
 import { toast } from "@/components/ui/use-toast";
 import { IUserDoc } from "@/interfaces/auth.interface";
@@ -20,7 +19,6 @@ const MessangerModel = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch: AppDispatch = useDispatch();
-  const [, setSearchParams] = useSearchParams();
 
   const [sendMessage] = useSendMessageMutation()
 
@@ -33,7 +31,6 @@ const MessangerModel = () => {
           body: text,
           conversationId: selectedUser?.conversationId,
         }).then((res)=>{
-                console.log(res);
         if((res as { error: string }).error){
           toast({
             variant: "destructive",
@@ -47,9 +44,7 @@ const MessangerModel = () => {
               user: data?.message?.user,
             })
           );
-          setSearchParams({
-            conversationId: data.conversationId,
-          });
+          
         }
 
         });
@@ -60,7 +55,7 @@ const MessangerModel = () => {
 
   return (
     selectedUser && (
-      <div className="fixed left-4 bottom-0 w-[400px] h-[400px] cardBG borderWrapper  flex flex-col gap-2 rounded-tl-md rounded-tr-md justify-between">
+      <div className="fixed z-50 left-4 bottom-0 w-[400px] h-[400px] cardBG borderWrapper  flex flex-col gap-2 rounded-tl-md rounded-tr-md justify-between">
         <div className="bg-green-500">
           <div className="p-2 flex gap-2 justify-between items-center">
             <div className="flex gap-2 items-center">
@@ -94,7 +89,7 @@ const MessangerModel = () => {
             </Button>
           </div>
         </div>
-        <ModelMessages conversationId={selectedUser.conversationId} />
+        <ModelMessages conversationId={selectedUser?.conversationId} selectedUser={selectedUser.user}/>
         <div className="p-2 border-t border-gray-600">
           <Input
             className="bg-transparent border-none"

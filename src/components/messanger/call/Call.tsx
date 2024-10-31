@@ -3,75 +3,70 @@ import CallAction from "@/components/messanger/call/CallAction";
 import { IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import useWebrtc from "@/hooks/webrtc/useWebrtc";
+// import useWebrtc from "@/hooks/webrtc/useWebrtc";
 import UserAvater from "@/components/common/UserAvater";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
-import { useEffect } from "react";
+import useSimplePeer from "@/hooks/webrtc/useSimplePeer";
+import useAudioAnalyzer from "@/context/useAudioAnalyzer";
 
 const Call = () => {
   const { user } = useSelector((state: RootState) => state.auth);
+  const { remoteStream, offerData, localStream, endCall, isCalling } =
+    useSimplePeer();
 
-  const {
-    localStream,
-    remoteStream,
-    cancelCall,
-    data,
-    isConnected,
-    isCalling,
-  } = useWebrtc();
+  const { activeSpeakerId } = useAudioAnalyzer();
 
-  useEffect(() => {
-    return () => {
-      cancelCall();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  console.log(activeSpeakerId)
+
+
+  const friendUser = offerData.to as IUserDoc;
 
   return (
     <div className="py-4 pl-4 flex flex-col gap-4 h-full">
-      {isConnected && (
-        <div className="flex-1 h-full flex flex-col gap-4">
+      {remoteStream && (
+        <div className="flex-1 h-full flex flex-row xl:flex-col gap-2 xl:gap-4">
           <CallScreen
-            stream={remoteStream || null}
+            stream={remoteStream}
             won={false}
-            user={data?.friendUser as IUserDoc}
-            type={data!.type}
+            user={friendUser}
+            type={offerData.isVideo ? "video" : "audio"}
+            talking={activeSpeakerId === friendUser?.authId}
           />
           <CallScreen
-            stream={localStream || null}
+            stream={localStream}
             won={true}
             user={user}
-            type={data!.type}
-            talking
+            type={offerData.isVideo ? "video" : "audio"}
+            talking={activeSpeakerId === user?.authId}
           />
         </div>
       )}
 
-      {isCalling && !isConnected && data?.user.authId === user?.authId && (
+      {isCalling && !remoteStream && (
         <div className="flex-1 h-full flex items-center justify-center">
           <div className="dark:bg-[#292932] lg:borderWrapper rounded-lg w-full p-4">
             <h1 className="text-white text-2xl text-center capitalize mb-2">
-              {data?.type} Calling...
+              {offerData?.isVideo ? "Video" : "Audio"} Calling...
             </h1>
             <div className="flex items-center gap-5 justify-center">
               <div className="flex flex-col gap-2 items-center">
                 <UserAvater
-                  src={data?.friendUser.profilePicture}
-                  name={data?.friendUser.name as NameDoc}
+                  src={user?.profilePicture}
+                  name={user?.name as NameDoc}
                   indicator="hidden"
-                  className="md:w-[120px] md:h-[120px] border-[3px]"
+                  className="md:w-[120px] md:h-[120px] h-[80px] w-[80px] xl:w-[80px] xl:h-[80px] 2xl:w-[120px] 2xl:h-[120px] border-[3px]"
                   style={{
-                    borderColor: data?.friendUser.avatarColor,
+                    borderColor: user?.avatarColor,
                   }}
                 />
                 <h3>
-                  {data?.friendUser.name.first} {data?.friendUser.name.last}
+                  {user?.name.first} {user?.name.last}
                 </h3>
               </div>
               <audio src="/caller.mp3" loop autoPlay hidden></audio>
 
               <div>
-                {data?.user.authId === user?.authId ? (
+                {friendUser.authId === user?.authId ? (
                   <ChevronsLeft className="w-10 h-10" />
                 ) : (
                   <ChevronsRight className="w-10 h-10" />
@@ -80,21 +75,21 @@ const Call = () => {
 
               <div className="flex flex-col gap-2 items-center">
                 <UserAvater
-                  src={data?.user.profilePicture}
-                  name={data?.user.name as NameDoc}
+                  src={friendUser.profilePicture}
+                  name={friendUser.name as NameDoc}
                   indicator="hidden"
-                  className="md:w-[120px] md:h-[120px] border-[3px]"
-                  style={{ borderColor: data?.user.avatarColor }}
+                  className="md:w-[120px] md:h-[120px] h-[80px] w-[80px] xl:w-[80px] xl:h-[80px] 2xl:w-[120px] 2xl:h-[120px] border-[3px]"
+                  style={{ borderColor: friendUser.avatarColor }}
                 />
                 <h3>
-                  {data?.user.name.first} {data?.user.name.last}
+                  {friendUser.name.first} {friendUser.name.last}
                 </h3>
               </div>
             </div>
           </div>
         </div>
       )}
-      <CallAction closeConnection={cancelCall} />
+      <CallAction closeConnection={endCall} />
     </div>
   );
 };

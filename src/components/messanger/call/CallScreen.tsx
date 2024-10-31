@@ -1,8 +1,9 @@
 import UserAvater from "@/components/common/UserAvater";
 import { Button } from "@/components/ui/button";
+import useSimplePeer from "@/hooks/webrtc/useSimplePeer";
 import { IUserDoc } from "@/interfaces/auth.interface";
 import { cn } from "@/lib/utils";
-import { MicOff } from "lucide-react";
+import { Maximize } from "lucide-react";
 import { useEffect, useRef, FC } from "react";
 
 interface Props {
@@ -15,38 +16,41 @@ interface Props {
 
 const CallScreen: FC<Props> = ({ stream, type, user, won, talking }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { isScreenSharing, screenStream, } = useSimplePeer();
+  const stremAndWon = isScreenSharing && screenStream && won;
 
   useEffect(() => {
+    if (!stream) return;
+
     const playVideo = () => {
-        if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            videoRef.current.play().catch(error => {
-                console.log("Error playing video:", error);
-            });
-            if (won) {
-                videoRef.current.muted = true;
-            }
+      if (videoRef.current) {
+        videoRef.current.srcObject = stremAndWon ? screenStream : stream;
+        videoRef.current.play().catch((error) => {
+          console.log("Error playing video:", error);
+        });
+        if (won) {
+          videoRef.current.muted = true;
         }
+      }
     };
 
     if (videoRef.current) {
-        playVideo();
+      playVideo();
     }
-
     return () => {
-        if (videoRef.current) {
-            videoRef.current.srcObject = null;
-            videoRef.current.pause();
-        }
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+        videoRef.current.pause();
+      }
     };
-}, [stream, won]);
+  }, [isScreenSharing, screenStream, stream, stremAndWon, user, won]);
 
   if (!user?.name?.first) return null;
 
   return (
     <div
       className={cn(
-        "flex-1 rounded-sm relative border-[4px]",
+        "flex-1 rounded-sm relative border-[4px] group",
         talking ? "border-green-700" : "border-transparent"
       )}
     >
@@ -66,9 +70,9 @@ const CallScreen: FC<Props> = ({ stream, type, user, won, talking }) => {
         <span className="tracking-[0.2px] text-sm shadow-sm">
           {user.name.first} {user.name.last} {won && "(you)"}
         </span>
-        <Button variant="ghost" disabled>
-          <MicOff />
-        </Button>
+        { type === "video" && <Button onClick={() => videoRef.current?.requestFullscreen()} variant="ghost" className="hidden group-hover:block">
+        <Maximize />
+        </Button>}
       </div>
     </div>
   );

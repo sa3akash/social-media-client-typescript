@@ -9,6 +9,7 @@ import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { FC } from "react";
 import { Check, CheckCheck } from "lucide-react";
+import MessagePreview from "./MessagePreview";
 // import AudioWaveform from "@/components/common/AudioWaveform";
 
 interface Props {
@@ -82,9 +83,9 @@ const SingleMessage: FC<Props> = ({
                 />
               )}
             </div>
-            <p className="roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">
-              {item.body}
-            </p>
+            <div className="roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">
+             <MessagePreview text={item.body} />
+            </div>
           </div>
 
           {item.files.length > 0 && (

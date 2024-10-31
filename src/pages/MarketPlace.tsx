@@ -1,5 +1,9 @@
-const MarketPlace = () => {
-  return <div>MarketPlace</div>;
-};
+import React from 'react'
 
-export default MarketPlace;
+const MarketPlace = () => {
+  return (
+    <div>MarketPlace</div>
+  )
+}
+
+export default MarketPlace

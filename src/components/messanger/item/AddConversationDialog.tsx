@@ -11,6 +11,8 @@ import { X } from "lucide-react";
 import { setSelectedUser } from "@/store/reducers/ModelReducer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useInfiniteSearchFriends } from "@/hooks/testhook/useGetSearchFriends";
+import { messagesHelpers } from "@/store/rtk/message/helpers";
+import { IMessageData } from "@/interfaces/chat.interface";
 
 interface Props {
   setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +24,15 @@ const AddConversationDialog: React.FC<Props> = ({ setOpenSearchModel }) => {
   const [searchName, setSearchName] = useState("");
   const searchValue = useDebounce(searchName, 500);
 
-  const {users,isFetching,lastPostRef} = useInfiniteSearchFriends(searchValue)
+  const { users, isFetching, lastPostRef } =
+    useInfiniteSearchFriends(searchValue);
+
+  const cachedConversations = useSelector(
+    messagesHelpers.getConversationCache()
+  );
+
+  const converersationArray = cachedConversations?.data
+    ?.conversationList as IMessageData[];
 
   return (
     <Dialog open={true} onOpenChange={() => setOpenSearchModel(false)}>
@@ -67,22 +77,31 @@ const AddConversationDialog: React.FC<Props> = ({ setOpenSearchModel }) => {
             </div>
           )}
 
-          {users?.length > 0 && (
+          {users.length > 0 && (
             <ScrollArea className="h-[200px] w-full">
-              {users.map((fUser: IFollowerDoc, index: number) => (
-                <div
-                  key={index}
-                  ref={users?.length === index + 1 ? lastPostRef : null}
-                >
-                  <SingleUser
-                    fUser={{
-                      authId: fUser._id,
-                      ...fUser,
-                    }}
-                    setOpenSearchModel={setOpenSearchModel}
-                  />
-                </div>
-              ))}
+              {users
+                .filter(
+                  (u) =>
+                    !converersationArray.some(
+                      (conversation) =>
+                        conversation.senderId === u._id ||
+                        conversation.receiverId === u._id
+                    )
+                )
+                .map((fUser: IFollowerDoc, index: number) => (
+                  <div
+                    key={index}
+                    ref={users?.length === index + 1 ? lastPostRef : null}
+                  >
+                    <SingleUser
+                      fUser={{
+                        authId: fUser._id,
+                        ...fUser,
+                      }}
+                      setOpenSearchModel={setOpenSearchModel}
+                    />
+                  </div>
+                ))}
             </ScrollArea>
           )}
           {!isFetching && users.length === 0 && <div>No User Found.</div>}
@@ -102,15 +121,14 @@ const SingleUser = ({
   setOpenSearchModel: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dispatch: AppDispatch = useDispatch();
-
   const handleSelectUser = () => {
-    setOpenSearchModel(false);
     dispatch(
       setSelectedUser({
         user: fUser,
         conversationId: "",
       })
     );
+    setOpenSearchModel(false);
   };
 
   return (

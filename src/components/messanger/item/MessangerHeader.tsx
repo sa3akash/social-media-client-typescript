@@ -1,4 +1,4 @@
-import { NameDoc } from "@/interfaces/auth.interface";
+import { IUserDoc, NameDoc } from "@/interfaces/auth.interface";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import UserAvater from "@/components/common/UserAvater";
@@ -8,27 +8,35 @@ import MoreIcon from "@/assets/images/call/ic_more.svg";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import React from "react";
-import { IMessageData } from "@/interfaces/chat.interface";
-import useWebrtc from "@/hooks/webrtc/useWebrtc";
+import useSimplePeer from "@/hooks/webrtc/useSimplePeer";
 
 interface Props {
-  message: IMessageData;
+  userFriend: IUserDoc;
+  conversationId:string | null;
 }
 
-const MessangerHeader: React.FC<Props> = ({ message }) => {
+const MessangerHeader: React.FC<Props> = ({ userFriend,conversationId }) => {
   const { onlineUsers } = useSelector((state: RootState) => state.auth);
+  
+  // const { sendCall } = useWebrtc();
 
-  const { sendCall } = useWebrtc();
+
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const openCall = (type: "audio" | "video") => {
+ 
+
+  const { startCall } = useSimplePeer();
+
+  const openCall = (isVideo: boolean) => {
     if (!user) return;
-    sendCall({
-      friendUser: message.user,
-      type,
-      user,
-      conversationId: message.conversationId,
-    });
+    // sendCall({
+    //   friendUser: userFriend,
+    //   type,
+    //   user,
+    //   conversationId: conversationId || '',
+    // });
+
+    startCall(user.authId,userFriend, isVideo,conversationId!)
   };
 
   return (
@@ -37,34 +45,33 @@ const MessangerHeader: React.FC<Props> = ({ message }) => {
         <Link to="/messanger" className="2xl:hidden">
           <ArrowLeft />
         </Link>
-        {message?.receiverId && (
           <UserAvater
-            src={message.user?.profilePicture}
-            name={message.user?.name as NameDoc}
+            src={userFriend.profilePicture}
+            name={userFriend.name as NameDoc}
             className="min-w-[36px] min-h-[36px]"
-            avatarColor={message.user?.avatarColor}
-            authId={message.user.authId}
+            avatarColor={userFriend.avatarColor}
+            authId={userFriend.authId}
           />
-        )}
+      
         <h4 className="font-semibold text-[14px] md:text-[18px] tracking-[0.1px] capitalize">
-          {message?.user?.name.first} {message?.user?.name.last}
+          {userFriend?.name.first} {userFriend?.name.last}
         </h4>
         <div className="hidden md:block w-[2px] h-[25px] bg-[#92929D] rounded-md" />
         <span className="hidden md:block text-[#92929D] text-[12px] roboto tracking-[0.1px]">
-          {onlineUsers.some((id) => id === message?.user.authId)
+          {onlineUsers.some((id) => id === userFriend.authId)
             ? "Online"
             : "Offline"}
         </span>
       </div>
       <div className="flex items-center gap-4">
-        <button onClick={() => openCall("video")}>
+        <button onClick={() => openCall(true)}>
           <img
             src={VideoCallIcon}
             alt="videoCall"
             className="pointer-events-none"
           />
         </button>
-        <button onClick={() => openCall("audio")}>
+        <button onClick={() => openCall(false)}>
           <img
             src={AudioCallIcon}
             alt="audioCall"

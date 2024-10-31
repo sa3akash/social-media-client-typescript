@@ -5,15 +5,21 @@ import VolumeButton from "./buttons/Volume";
 import { Phone } from "lucide-react";
 import ScreenShare from "./buttons/ScreenShare";
 import { FC } from "react";
+import useSimplePeer from "@/hooks/webrtc/useSimplePeer";
 
 interface Props {
   closeConnection: () => void;
 }
 
 const CallAction: FC<Props> = ({ closeConnection }) => {
+
+  const {offerData} = useSimplePeer()
+
+
+
   return (
-    <div className="h-20 flex items-center justify-center gap-2">
-      <CameraButton />
+    <div className="h-20 flex items-center justify-center gap-2 relative">
+     {offerData.isVideo && <CameraButton />}
       <MicButton />
 
       <Button
@@ -24,7 +30,7 @@ const CallAction: FC<Props> = ({ closeConnection }) => {
         <Phone />
       </Button>
       <VolumeButton />
-      <ScreenShare />
+     {offerData.isVideo && <ScreenShare />}
     </div>
   );
 };

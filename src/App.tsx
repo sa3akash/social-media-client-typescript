@@ -6,9 +6,9 @@ import Router from "@/router";
 import { Toaster } from "@/components/ui/toaster";
 import OnlineOffline from "@/components/common/OnlineOffline";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { MessangerProvider } from "@/context/MessangerContext";
 import { SocketContextProvider } from "@/context/SocketContext";
 import { PersistGate } from 'redux-persist/integration/react';
+import { SimplePeerContextProvider } from "./context/SimplePeer";
 
 function App() {
   return (
@@ -16,7 +16,8 @@ function App() {
       <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
       <SocketContextProvider>
-      <MessangerProvider>
+      {/* <MessangerProvider> */}
+      <SimplePeerContextProvider>
         <div className="bg-background text-foreground h-full">
           <div className="max-w-[2160px] mx-auto h-full w-full">
             <NetworkProvider>
@@ -26,7 +27,8 @@ function App() {
             </NetworkProvider>
           </div>
         </div>
-        </MessangerProvider>
+        </SimplePeerContextProvider>
+        {/* </MessangerProvider> */}
         </SocketContextProvider>
         </PersistGate>
       </Provider>

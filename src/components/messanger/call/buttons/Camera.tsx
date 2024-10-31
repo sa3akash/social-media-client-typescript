@@ -1,16 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { CameraOff,Camera } from "lucide-react";
-import { useState } from "react";
+import useSimplePeer from "@/hooks/webrtc/useSimplePeer";
+import { CameraOff, Camera } from "lucide-react";
 
 const CameraButton = () => {
-    const [open,setOpen] = useState(false)
+  const { isCameraOn, toggleCamera } = useSimplePeer();
 
-    const handleClick = () => {
-        setOpen(prev=>!prev)
-    }
   return (
-    <Button variant="ghost" onClick={handleClick}>
-      {open ? <CameraOff/> :<Camera />}
+    <Button variant="ghost" onClick={toggleCamera}>
+      {isCameraOn ? <Camera /> : <CameraOff />}
     </Button>
   );
 };

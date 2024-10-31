@@ -20,14 +20,14 @@ interface Props {
 
 const NavbarItem: React.FC<Props> = ({ children }) => {
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
   const { user } = useSelector((store: RootState) => store.auth);
+  const navigate = useNavigate()
 
   const logout = () => {
     dispatch(setAuth(null));
     dispatch(resetNotifications());
     localStorage.clear()
-    navigate("/login")
+    location.href = PageURL.Login
   };
 
   return (
