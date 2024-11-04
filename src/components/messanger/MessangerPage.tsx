@@ -19,8 +19,8 @@ const MessangerPage = () => {
     <div className="w-full h-full flex">
       <div
         className={cn(
-          "w-full lg:w-[350px] h-full border-r",
-          conversationId ? "hidden lg:block" : ""
+          "w-full xl:w-[350px] h-full border-r",
+          conversationId ? "hidden xl:block" : ""
         )}
       >
         <MessangerSidebar conversations={data?.conversationList} />
