@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileImage from "@/assets/defaultProfile.jpg";
+import ProfileImage from "@/assets/default_avatar.png";
 import { UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfilewImageDialog from "@/components/profile/item/ProfilewImageDialog";

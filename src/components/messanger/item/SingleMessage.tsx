@@ -47,12 +47,13 @@ const SingleMessage: FC<Props> = ({
           multipleMessage ? "-mt-3" : ""
         )}
       >
-        <div className="flex flex-col gap-0">
+        <div className="flex flex-col gap-0 rounded-lg">
           <div
             className={cn(
-              "px-4 py-3 bg-[#292932] rounded-2xl",
+              " bg-[#292932]",
               !item.body && "hidden"
             )}
+            // px-4 py-3
           >
             <div
               className={cn(

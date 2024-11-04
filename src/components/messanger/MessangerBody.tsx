@@ -83,7 +83,7 @@ const MessangerBody = () => {
                 </div>
               )}
               {messages.map((message, index) => (
-                // <Suspense key={index}>
+                <Suspense key={index}>
                 <SingleMessage
                   item={message}
                   wonMessage={user?.authId === message.senderId}
@@ -101,7 +101,7 @@ const MessangerBody = () => {
                   key={index}
                   lastMessage={index + 1 === messages.length}
                 />
-                // </Suspense>
+                </Suspense>
               ))}
               <div ref={bottomRef} />
             </ScrollArea>

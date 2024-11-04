@@ -161,3 +161,150 @@ em-emoji-picker {
 .scrollTypeItem{
   scroll-snap-align: center;
 }
+
+
+/* .heart-icon {
+  position: absolute;
+  font-size: 2rem; /* Adjust size as needed */
+  /* color: #ff69b4;
+  transform: translate(-50%, -50%);
+  animation: fade-out 0.7s ease-out forwards;
+}  */
+
+
+/* @keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+} */
+
+
+.floating-heart {
+  position: absolute;
+  font-size: 1.5rem; /* Adjust size as needed */
+  color: #ff69b4;
+  opacity: 1;
+  animation: float-up 1.8s ease-out forwards;
+  transform-origin: center;
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translateY(0);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.2) translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5) translateY(-100px); /* Final upward position */
+  }
+}
+
+.floating-heart.left {
+  animation: float-up-left 1.8s ease-out forwards;
+}
+
+.floating-heart.right {
+  animation: float-up-right 1.8s ease-out forwards;
+}
+
+/* Add separate animations for left and right drift */
+@keyframes float-up-left {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translateY(0) translateX(0);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.2) translateY(-20px) translateX(-10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5) translateY(-100px) translateX(-20px);
+  }
+}
+
+@keyframes float-up-right {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translateY(0) translateX(0);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.2) translateY(-20px) translateX(10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5) translateY(-100px) translateX(20px);
+  }
+}
+
+
+
+
+
+/* ================= */
+.heart {
+  font-size: 6em;
+  position: relative;
+}
+
+.heartbeat {
+  position: relative;
+  z-index: 1;
+  animation: beat 2s linear infinite;
+}
+
+.heartecho {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  animation: echo 2s linear infinite;
+}
+
+@keyframes beat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(0.9);
+  }
+  21% {
+    transform: scale(1.1) skew(0.004turn)
+  }
+  28% {
+    transform: scale(1) skew(0.008turn);
+  }
+  35% {
+    transform: scale(1) skew(0)
+  }
+}
+
+@keyframes echo {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  14% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+  21% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}

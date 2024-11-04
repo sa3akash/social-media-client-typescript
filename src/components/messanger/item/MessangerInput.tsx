@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import GiphyPopover from "@/components/common/GiphyPopover";
 import { useSearchParams } from "react-router-dom";
 import { useSendMessageMutation } from "@/store/rtk/message/message";
+import { Mic } from "lucide-react";
 
 interface Props {
   setGif: React.Dispatch<React.SetStateAction<string>>;
@@ -30,7 +31,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
 
   const [searchParam] = useSearchParams();
 
-  const [sendMessage,{isLoading}] = useSendMessageMutation()
+  const [sendMessage, { isLoading }] = useSendMessageMutation();
 
   const sendMessageHandle = () => {
     if ((messageValue.length > 0 && user) || gif) {
@@ -74,6 +75,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
             disabled={isLoading}
           />
           <div className="flex items-center gap-4">
+            <Mic className="w-6 dark:invert brightness-50 cursor-pointer hover:brightness-0" />
             <GiphyPopover
               fn={(url: string) => {
                 inputRef.current?.focus();
@@ -83,7 +85,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
               <img
                 src={GifIcon}
                 alt="atachIcon"
-                className="w-5 icon invert brightness-0"
+                className="w-5 icon dark:invert brightness-0"
               />
             </GiphyPopover>
             <img src={AtachmentIcon} alt="atachIcon" className="w-5 icon" />
