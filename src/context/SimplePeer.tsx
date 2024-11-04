@@ -139,6 +139,9 @@ export const SimplePeerContextProvider: React.FC<{
     if (localStream) {
       localStream.getTracks().forEach((track) => track.stop());
       setLocalStream(null);
+      setIsMuted(false);
+      setIsScreenSharing(false);
+      setIsCalling(false);
     }
     if (remoteStream) {
       remoteStream.getTracks().forEach((track) => track.stop());
