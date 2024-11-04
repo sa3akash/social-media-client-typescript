@@ -8,7 +8,7 @@ import OnlineOffline from "@/components/common/OnlineOffline";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SocketContextProvider } from "@/context/SocketContext";
 import { PersistGate } from 'redux-persist/integration/react';
-import { SimplePeerContextProvider } from "./context/SimplePeer";
+import { SimplePeerContextProvider } from "@/context/SimplePeer";
 
 function App() {
   return (
@@ -16,7 +16,6 @@ function App() {
       <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
       <SocketContextProvider>
-      {/* <MessangerProvider> */}
       <SimplePeerContextProvider>
         <div className="bg-background text-foreground h-full">
           <div className="max-w-[2160px] mx-auto h-full w-full">
@@ -28,7 +27,6 @@ function App() {
           </div>
         </div>
         </SimplePeerContextProvider>
-        {/* </MessangerProvider> */}
         </SocketContextProvider>
         </PersistGate>
       </Provider>

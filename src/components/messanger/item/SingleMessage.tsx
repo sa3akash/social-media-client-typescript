@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { FC } from "react";
 import { Check, CheckCheck } from "lucide-react";
 import MessagePreview from "./MessagePreview";
-import WebformAudio from "./WebformAudio";
+import WebformAudio from "./AudioMessage";
 // import AudioWaveform from "@/components/common/AudioWaveform";
 
 interface Props {
@@ -29,6 +29,8 @@ const SingleMessage: FC<Props> = ({
   lastMessage,
 }) => {
   const { user } = useSelector((state: RootState) => state.auth);
+
+  const isVoiceMessage: boolean = false;
 
   return (
     <>
@@ -85,11 +87,11 @@ const SingleMessage: FC<Props> = ({
                 />
               )}
             </div>
-            <div className="hidden roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">
+            <div className="roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">
              <MessagePreview text={item.body} />
             </div>
 
-              <WebformAudio url="/audio.mp3" />
+             {isVoiceMessage && <WebformAudio url="/audio.mp3" />}
           </div>
 
           {item.files.length > 0 && (

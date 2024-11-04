@@ -189,7 +189,7 @@ export const SimplePeerContextProvider: React.FC<{
 
   const switchCamera = async (deviceId: string) => {
     if (!localStream) return;
-    
+
     const videoTrack = (
       await navigator.mediaDevices.getUserMedia({ video: { deviceId } })
     ).getVideoTracks()[0];
@@ -223,15 +223,27 @@ export const SimplePeerContextProvider: React.FC<{
     }
   }, [localStream]);
 
+
   const toggleScreenShare = useCallback(async () => {
-    if (!peer) return;
+    if (!peer || !localStream) return;
+
     if (isScreenSharing) {
       // Stop screen sharing and switch back to the camera stream
-      if (localStream) {
-        localStream.getVideoTracks().forEach((track) => (track.enabled = true)); // Enable camera track
+      if (screenStream) {
+        // Get the camera video track and enable it
+        const cameraTrack = localStream.getVideoTracks()[0];
+        cameraTrack.enabled = true;
+
+        // Replace the screen video track with the camera video track
+        const screenTrack = screenStream.getVideoTracks()[0];
+        peer.replaceTrack(screenTrack, cameraTrack, localStream);
+
+        // Stop all tracks in screenStream
+        screenStream.getTracks().forEach((track) => track.stop());
+        setScreenStream(null);
       }
+
       setIsScreenSharing(false);
-      setScreenStream(null); // Clear the screenStream
     } else {
       // Start screen sharing
       try {
@@ -240,23 +252,37 @@ export const SimplePeerContextProvider: React.FC<{
           audio: true,
         });
 
-        if (localStream) {
-          // Replace the camera video track with the screen video track
-          const screenTrack = screenStream.getVideoTracks()[0];
-          const cameraTrack = localStream.getVideoTracks()[0];
+        // Get screen video track and replace the camera video track with it
+        const screenTrack = screenStream.getVideoTracks()[0];
+        const cameraTrack = localStream.getVideoTracks()[0];
 
-          // Disable camera track and replace it
-          cameraTrack.enabled = false;
-          peer.replaceTrack(cameraTrack, screenTrack, localStream);
-          setScreenStream(screenStream);
-        }
+        // Disable the camera track
+        cameraTrack.enabled = false;
+
+        // Replace the camera track with the screen track
+        peer.replaceTrack(cameraTrack, screenTrack, localStream);
+        setScreenStream(screenStream);
+
+        // Listen for when screen sharing stops (e.g., user clicks "Stop Sharing" in the browser)
+        screenTrack.onended = () => {
+          // Automatically switch back to the camera when screen sharing ends
+          if (localStream) {
+            const cameraTrack = localStream.getVideoTracks()[0];
+            cameraTrack.enabled = true;
+            peer.replaceTrack(screenTrack, cameraTrack, localStream);
+          }
+          setIsScreenSharing(false);
+          setScreenStream(null);
+        };
 
         setIsScreenSharing(true);
       } catch (err) {
         console.error("Error starting screen share", err);
       }
     }
-  }, [isScreenSharing, localStream, peer]);
+  }, [isScreenSharing, localStream, peer, screenStream]);
+
+
 
   useEffect(() => {
     socket?.on("offer", (data) => {
@@ -311,24 +337,3 @@ export const SimplePeerContextProvider: React.FC<{
     </SimplePeerContext.Provider>
   );
 };
-
-// const shareScreen = async () => {
-//   try {
-//     const screenStream = await navigator.mediaDevices.getDisplayMedia({
-//       video: true,
-//       audio: true,
-//     });
-
-//     const mediaStream = new MediaStream();
-
-//     screenStream.getTracks().forEach((track) => {
-//       mediaStream.addTrack(track);
-//     });
-
-//     if (peer) {
-//       peer.addStream(mediaStream);
-//     }
-//   } catch (err) {
-//     console.error("Error sharing screen", err);
-//   }
-// };
