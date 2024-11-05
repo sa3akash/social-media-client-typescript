@@ -50,12 +50,9 @@ const SingleMessage: FC<Props> = ({
           multipleMessage ? "-mt-3" : ""
         )}
       >
-        <div className="flex flex-col gap-0 rounded-lg">
+        <div className="flex flex-col gap-0 max-w-prose w-full">
           <div
-            className={cn(
-              " bg-[#292932]",
-              !item.body && "hidden"
-            )}
+            className={cn(" flex flex-col gap-2 ", !item.body && "hidden")}
             // px-4 py-3
           >
             <div
@@ -87,11 +84,30 @@ const SingleMessage: FC<Props> = ({
                 />
               )}
             </div>
-            <div className="roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px]">
-             <MessagePreview text={item.body} />
+            <div
+              className={cn(
+                "roboto text-[14px] text-[#E2E2EA] leading-7 tracking-[0.1px] flex gap-1 group",
+                wonMessage ? "flex-row-reverse justify-items-end" : "justify-start flex-row"
+              )}
+            >
+              <MessagePreview text={item.body} wonMessage={wonMessage} />
+
+              <div
+                className={cn(
+                  "text-[#92929D] roboto text-[12px] mt-2 min-w-min flex",
+                  // wonMessage ? "text-end" : ""
+                )}
+              >
+                <span className=" group-hover:block">
+                  {timeAgo.timeFormat(`${new Date()}`)}                </span>
+                {/* <span>imoji</span> */}
+              </div>
+
             </div>
 
-             {isVoiceMessage && <WebformAudio url="/audio.mp3" />}
+            {isVoiceMessage && (
+              <WebformAudio url="/audio.mp3" wonMessage={wonMessage} />
+            )}
           </div>
 
           {item.files.length > 0 && (
@@ -103,7 +119,9 @@ const SingleMessage: FC<Props> = ({
           )}
 
           {item.gifUrl && (
-            <img src={item.gifUrl} className="h-[200px] rounded-lg" />
+            <div className="flex justify-end">
+              <img src={item.gifUrl} className="w-full rounded-lg" />
+            </div>
           )}
 
           {/* <AudioWaveform audioUrl={"/audio.mp3"} /> */}
@@ -117,14 +135,17 @@ const SingleMessage: FC<Props> = ({
             </div>
           )}
         </div>
-        <div
-          className={cn(
-            "text-[#92929D] roboto text-[12px] min-w-[100px] mt-4",
-            wonMessage ? "text-end" : ""
-          )}
-        >
-          {timeAgo.transform(item.createdAt)}
-        </div>
+        {/* <div
+        className={cn(
+          "text-[#92929D] roboto text-[12px] mt-4",
+          wonMessage ? "text-end" : ""
+        )}
+      >
+        <span className="">
+        {timeAgo.timeFormat(item.createdAt)}
+
+        </span>
+      </div> */}
       </div>
     </>
   );

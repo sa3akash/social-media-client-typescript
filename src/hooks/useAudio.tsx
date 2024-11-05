@@ -11,11 +11,12 @@ const useAudio = (url: string) => {
 
   useEffect(() => {
     if (!waveSurferRef.current) return;
+    if(!url) return;
 
     const ws = WaveSurfer.create({
       container: waveSurferRef.current,
-      waveColor: "#d0c9c9",
-      progressColor: "#30a3dc",
+      waveColor:"#E2E2EA",
+      progressColor: "#DC0083",
       url: url,
       height: 50,
       renderFunction: (channels, ctx) => {

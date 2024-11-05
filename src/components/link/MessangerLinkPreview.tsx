@@ -18,7 +18,7 @@ const MessangerLinkPreview: React.FC<Props> = ({ url }) => {
   return (
     <Link to={url} target="_blank" rel="noreferrer">
       {metadata && (
-        <div className="border relative group hover:text-[#646cff] flex flex-col md:flex-row bg-white text-black">
+        <div className="relative group hover:text-[#646cff] flex flex-col md:flex-row bg-white text-black">
           <div className="w-full md:w-[150px]">
             {data?.image?.url ? (
               <img

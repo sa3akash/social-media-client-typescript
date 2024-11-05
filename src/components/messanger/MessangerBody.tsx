@@ -30,6 +30,7 @@ const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { selectedUser } = useSelector((state: RootState) => state.model);
 
+
   const [searchParams] = useSearchParams();
   const conversationId = searchParams.get("conversationId");
   const receiverId = searchParams.get("receiverId");
@@ -124,7 +125,7 @@ const MessangerBody = () => {
           </div>
 
           <Suspense>
-            <MessangerInput setGif={setGif} gif={gif} />
+          <MessangerInput setGif={setGif} gif={gif} />
           </Suspense>
         </div>
       </div>

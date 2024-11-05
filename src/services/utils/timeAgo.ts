@@ -56,9 +56,14 @@ class TimeAgo {
     return format(date, "d MMMM yyyy");
   }
 
+  // public timeFormat(value: string) {
+  //   const date = typeof value === "string" ? new Date(value) : value;
+  //   return format(date, "HH:mm a");
+  // }
+
   public timeFormat(value: string) {
     const date = typeof value === "string" ? new Date(value) : value;
-    return format(date, "HH:mm a");
+    return format(date, "hh:mm a"); // Change to "hh:mm a" for 12-hour format
   }
 
   private timeDifference(date: Date) {
