@@ -8,7 +8,6 @@ interface MediaData {
   type: string;
 }
 
-
 export interface ILinkPreviewMetadata {
   title: string;
   description: string;

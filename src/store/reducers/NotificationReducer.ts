@@ -36,9 +36,6 @@ export const NotificationSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  resetNotifications,
-  setCallUser,
-} = NotificationSlice.actions;
+export const { resetNotifications, setCallUser } = NotificationSlice.actions;
 
 export default NotificationSlice.reducer;

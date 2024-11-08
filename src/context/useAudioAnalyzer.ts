@@ -35,7 +35,7 @@ const useAudioAnalyzer = () => {
     checkSpeaking();
   };
 
-  return { createAudioAnalyzer,activeSpeakerId };
+  return { createAudioAnalyzer, activeSpeakerId };
 };
 
 export default useAudioAnalyzer;

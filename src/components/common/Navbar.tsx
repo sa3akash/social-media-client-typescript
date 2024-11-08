@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import Search from "@/assets/images/ic_Search.svg";
 import Chat from "@/assets/images/Chat.svg";

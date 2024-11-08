@@ -26,7 +26,7 @@ const usePostSocket = () => {
     socket?.on("updated-post", (newPost: IPostDoc) => {
       dispatch(posts.update(newPost._id, newPost));
     });
-    
+
     socket?.on("update-comment", (newPost: IPostDoc, id: string) => {
       if (user?.authId !== id) {
         dispatch(posts.update(newPost._id, newPost));

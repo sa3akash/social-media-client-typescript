@@ -33,8 +33,10 @@ export const userFriendApi = api.injectEndpoints({
     }),
 
     getSearchFriends: builder.query({
-      query: ({ searchValue, page=1 }) => `/users/${searchValue}?page=${page}`,
-      serializeQueryArgs: ({queryArgs}) => `search-friends-${queryArgs.searchValue}-page=${queryArgs.pageParam}`,
+      query: ({ searchValue, page = 1 }) =>
+        `/users/${searchValue}?page=${page}`,
+      serializeQueryArgs: ({ queryArgs }) =>
+        `search-friends-${queryArgs.searchValue}-page=${queryArgs.pageParam}`,
       forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
 
@@ -44,7 +46,10 @@ export const userFriendApi = api.injectEndpoints({
         method: "PUT",
         body: {},
       }),
-      invalidatesTags: (result,_error,id) => [{ type: "User", id: result?.data?.authId },{type: "User", id: id}],
+      invalidatesTags: (result, _error, id) => [
+        { type: "User", id: result?.data?.authId },
+        { type: "User", id: id },
+      ],
       // Optimistically update the cache after updating a post
       async onQueryStarted(followId, { dispatch, queryFulfilled }) {
         dispatch(addFollowing(followId));
@@ -54,15 +59,15 @@ export const userFriendApi = api.injectEndpoints({
             1,
             (draft) => {
               const index = draft.users.findIndex(
-                (u: IFollowerDoc) => u._id === followId
+                (u: IFollowerDoc) => u._id === followId,
               );
               if (index !== -1) {
                 draft.users = draft.users.filter(
-                  (u: IFollowerDoc) => u._id !== followId
+                  (u: IFollowerDoc) => u._id !== followId,
                 );
               }
-            }
-          )
+            },
+          ),
         );
         try {
           await queryFulfilled;

@@ -8,8 +8,8 @@ import {
 import { setAuth } from "@/store/reducers/AuthReducer";
 import { AccountFormValues } from "@/lib/zodSchema";
 import { INotificationSettings } from "@/interfaces/settings.interface";
- 
-export const userAuthApi = api.injectEndpoints({ 
+
+export const userAuthApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (data: ILogin) => ({
@@ -64,7 +64,7 @@ export const userAuthApi = api.injectEndpoints({
         url: `/current-user?authId=${id}`,
         method: "GET",
       }),
-      providesTags: (_result, _error, id) => [{ type: 'User', id }],  
+      providesTags: (_result, _error, id) => [{ type: "User", id }],
       // serializeQueryArgs: ({queryArgs}) => `current-user-${queryArgs}`,
       // forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
@@ -81,17 +81,17 @@ export const userAuthApi = api.injectEndpoints({
       query: (username) => ({
         url: `/check-username?username=${username}`,
         method: "GET",
-      }),      
-      serializeQueryArgs: ({queryArgs}) => `check-${queryArgs}`,
+      }),
+      serializeQueryArgs: ({ queryArgs }) => `check-${queryArgs}`,
       forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
     updateUsername: builder.mutation({
       query: (username) => ({
         url: `/update-username`,
         method: "PUT",
-        body: {username},
+        body: { username },
       }),
-      invalidatesTags: (result) => [{ type: "User", id: result?.authId }],    
+      invalidatesTags: (result) => [{ type: "User", id: result?.authId }],
     }),
     updatePassword: builder.mutation({
       query: (body: IUpdatePassword) => ({
@@ -107,7 +107,6 @@ export const userAuthApi = api.injectEndpoints({
         body: body,
       }),
       invalidatesTags: (result) => [{ type: "User", id: result?.authId }],
-
     }),
     updateProfileImage: builder.mutation({
       query: (body: FormData) => ({
@@ -116,7 +115,6 @@ export const userAuthApi = api.injectEndpoints({
         body: body,
       }),
       invalidatesTags: (result) => [{ type: "User", id: result?.authId }],
-
     }),
     updateProfileInfo: builder.mutation({
       query: (body: AccountFormValues) => ({
@@ -131,7 +129,7 @@ export const userAuthApi = api.injectEndpoints({
         url: "/users/settings/notificatons",
         method: "GET",
       }),
-      providesTags: ['Settings/Notification'],
+      providesTags: ["Settings/Notification"],
     }),
 
     updateNotificationSettions: builder.mutation({
@@ -140,7 +138,7 @@ export const userAuthApi = api.injectEndpoints({
         method: "PUT",
         body: body,
       }),
-      invalidatesTags: ['Settings/Notification'],
+      invalidatesTags: ["Settings/Notification"],
     }),
   }),
 });
@@ -159,5 +157,5 @@ export const {
   useUpdateProfileImageMutation,
   useUpdateProfileInfoMutation,
   useGetSettingsNotificationQuery,
-  useUpdateNotificationSettionsMutation
+  useUpdateNotificationSettionsMutation,
 } = userAuthApi;

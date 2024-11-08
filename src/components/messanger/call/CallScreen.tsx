@@ -40,6 +40,7 @@ const CallScreen: FC<Props> = ({ stream, type, user, won, talking }) => {
     return () => {
       if (videoRef.current) {
         videoRef.current.srcObject = null;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         videoRef.current.pause();
       }
     };

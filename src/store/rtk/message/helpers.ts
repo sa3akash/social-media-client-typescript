@@ -8,7 +8,7 @@ export const messagesHelpers = {
       { conversationId: post.conversationId },
       (draft) => {
         draft.messages = [...draft.messages, post];
-      }
+      },
     );
   },
 
@@ -19,13 +19,13 @@ export const messagesHelpers = {
       (draft) => {
         const conversationIndex = draft.conversationList.findIndex(
           (conversation: IMessageData) =>
-            conversation.conversationId === post?.conversationId
+            conversation.conversationId === post?.conversationId,
         );
         if (conversationIndex !== -1) {
           draft.conversationList.splice(conversationIndex, 1);
         }
         draft.conversationList.unshift(post);
-      }
+      },
     );
   },
 
@@ -35,16 +35,16 @@ export const messagesHelpers = {
       "conversations",
       (draft) => {
         const updatedConversations = [...draft.conversationList].map((c) =>
-          c.conversationId === conversationId ? { ...c, isRead: true } : c
+          c.conversationId === conversationId ? { ...c, isRead: true } : c,
         );
 
         draft.conversationList = updatedConversations;
-      }
+      },
     );
   },
   updateMarkReadMessage: (
     conversationIdUser: string,
-    conversationIdSocket: string
+    conversationIdSocket: string,
   ) => {
     return messangerApi.util.updateQueryData(
       "getMessages",
@@ -52,17 +52,16 @@ export const messagesHelpers = {
       (draft) => {
         if (conversationIdUser === conversationIdSocket) {
           const updatedMessges = [...draft.messages].map((m) =>
-            !m.isRead ? { ...m, isRead: true } : m
+            !m.isRead ? { ...m, isRead: true } : m,
           );
 
           draft.messages = updatedMessges;
         }
-      }
+      },
     );
   },
 
-
-  getConversationCache: ()=>{
-    return messangerApi.endpoints.getConversation.select('conversations');
-  }
+  getConversationCache: () => {
+    return messangerApi.endpoints.getConversation.select("conversations");
+  },
 };

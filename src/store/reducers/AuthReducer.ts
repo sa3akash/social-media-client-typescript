@@ -11,7 +11,7 @@ export interface AuthState {
   following: string[];
   followers: string[];
   onlineUsers: string[];
-  navbar: boolean
+  navbar: boolean;
 }
 
 const initialState: AuthState = {
@@ -49,7 +49,7 @@ export const AuthSlice = createSlice({
         following: string[];
         followers: string[];
         blocked: string[];
-      }>
+      }>,
     ) => {
       state.blocked = action.payload.blocked;
       state.followers = action.payload.followers;
@@ -58,13 +58,13 @@ export const AuthSlice = createSlice({
 
     addUserReactions: (state, action: PayloadAction<IUserReactionDoc>) => {
       const findIndex = state.userReaction.findIndex(
-        (p) => p.postId === action.payload.postId
+        (p) => p.postId === action.payload.postId,
       );
 
       if (findIndex !== -1) {
         if (state.userReaction[findIndex].type === action.payload.type) {
           state.userReaction = state.userReaction.filter(
-            (p) => p.postId !== action.payload.postId
+            (p) => p.postId !== action.payload.postId,
           );
         } else {
           state.userReaction[findIndex] = {
@@ -109,7 +109,7 @@ export const {
   addFollowing,
   setOnlineUsers,
   addFollowers,
-  setNavbar
+  setNavbar,
 } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

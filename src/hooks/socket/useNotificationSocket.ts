@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { useSocket } from "@/hooks/useSocket";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setCallUser,
-} from "@/store/reducers/NotificationReducer";
+import { setCallUser } from "@/store/reducers/NotificationReducer";
 import { useToast } from "@/components/ui/use-toast";
 import { notificationHelpers } from "@/store/rtk/notification/helpers";
 // import NotificationToast from "@/components/common/NotificationToast";
@@ -45,9 +43,8 @@ const useNotificationSocket = () => {
       dispatch(notificationHelpers.delete(notificationId));
     });
 
-    socket?.on("follow-notification", (notificationData,{userTo}) => {
-
-      console.log(notificationData,{userTo})
+    socket?.on("follow-notification", (notificationData, { userTo }) => {
+      console.log(notificationData, { userTo });
 
       // if (user?.authId === userTo) {
       //   toast({

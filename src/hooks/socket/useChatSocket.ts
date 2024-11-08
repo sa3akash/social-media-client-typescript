@@ -29,8 +29,8 @@ const useChatSocket = () => {
       dispatch(
         messagesHelpers.updateMarkReadMessage(
           conversationId!,
-          data.conversationId
-        )
+          data.conversationId,
+        ),
       );
     });
 

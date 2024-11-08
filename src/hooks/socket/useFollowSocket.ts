@@ -11,15 +11,14 @@ const useFollowSocket = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-
     socket?.on("add-follow", ({ id, to }) => {
       if (user?.authId === to) {
-        dispatch(addFollowers(id))
+        dispatch(addFollowers(id));
       }
     });
     socket?.on("remove-follow", ({ id, to }) => {
       if (user?.authId === to) {
-        dispatch(addFollowers(id))
+        dispatch(addFollowers(id));
       }
     });
 

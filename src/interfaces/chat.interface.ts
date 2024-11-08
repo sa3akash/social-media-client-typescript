@@ -1,5 +1,4 @@
 import { IUserDoc } from "@/interfaces/auth.interface";
-import { IFiles } from "@/interfaces/post.interface";
 import { IReactionDoc } from "@/interfaces/reaction.interface";
 
 export interface IMessageData {
@@ -11,7 +10,7 @@ export interface IMessageData {
   body: string;
   isRead: boolean;
   gifUrl: string;
-  files: IFiles[] | [];
+  files: IMessageFile[] | [];
   reaction: IReactionDoc[];
   createdAt: string;
   deleteForMe: boolean;
@@ -24,4 +23,15 @@ export interface ISendMessageDataJson {
   body: string;
   gifUrl?: string;
   isRead?: boolean;
+  files: IMessageFile[] | null
+}
+
+export interface IMessageFile {
+  type: string,
+  size?: string,
+  url:string,
+  name?: string,
+  _id?: string
+  duration?: string
+  resulation?: string
 }

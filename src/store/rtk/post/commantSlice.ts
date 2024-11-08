@@ -13,14 +13,15 @@ export interface ReactionResponse {
 export const commentApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCommantByPostId: builder.query({
-      query: ({postId, page=1}) => `/comments/${postId}?page=${page}`,
-      serializeQueryArgs: ({queryArgs}) => `posts-commant-${queryArgs.postId}`,
+      query: ({ postId, page = 1 }) => `/comments/${postId}?page=${page}`,
+      serializeQueryArgs: ({ queryArgs }) =>
+        `posts-commant-${queryArgs.postId}`,
       merge: (currentCache, newData) => {
         // Merge the new data with the current cached data
-       
 
         const uniqueArray = Utils.uniqueArray([
-          ...currentCache.comments, ...newData.comments
+          ...currentCache.comments,
+          ...newData.comments,
         ]);
         currentCache.comments = uniqueArray;
 
@@ -40,22 +41,18 @@ export const commentApi = api.injectEndpoints({
       async onQueryStarted(addCommant, { dispatch, queryFulfilled }) {
         // dispatch(addUserReactions(newData));
         dispatch(
-          postsApi.util.updateQueryData(
-            "getPaginatedPosts",
-            1,
-            (draft) => {
-              const index = draft.posts.findIndex(
-                (post:IPostDoc) => post._id === addCommant.postId
-              );
+          postsApi.util.updateQueryData("getPaginatedPosts", 1, (draft) => {
+            const index = draft.posts.findIndex(
+              (post: IPostDoc) => post._id === addCommant.postId,
+            );
 
-              if (index !== -1) {
-                draft.posts[index] = {
-                  ...draft.posts[index],
-                  commentsCount: draft.posts[index].commentsCount + 1,
-                };
-              }
+            if (index !== -1) {
+              draft.posts[index] = {
+                ...draft.posts[index],
+                commentsCount: draft.posts[index].commentsCount + 1,
+              };
             }
-          )
+          }),
         );
         try {
           await queryFulfilled; // Await the mutation to complete
@@ -67,4 +64,4 @@ export const commentApi = api.injectEndpoints({
   }),
 });
 
-export const { useAddCommantMutation,useGetCommantByPostIdQuery } = commentApi;
+export const { useAddCommantMutation, useGetCommantByPostIdQuery } = commentApi;

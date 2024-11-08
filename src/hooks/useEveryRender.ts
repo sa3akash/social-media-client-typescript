@@ -12,9 +12,9 @@ const useEveryRender = () => {
 
   const { data } = useLogedUserDataQuery(1);
 
-  useNotificationSocket()
-  useFollowSocket()
-  
+  useNotificationSocket();
+  useFollowSocket();
+
   useEffect(() => {
     if (data) {
       dispatch(setLoginUserData(data));

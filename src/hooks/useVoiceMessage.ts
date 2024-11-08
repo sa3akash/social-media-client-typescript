@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 
 const useVoiceMessage = () => {
   const [isRecording, setIsRecording] = useState(false);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [audioFile, setAudioFile] = useState<File | null>(null);
   const [recordingTime, setRecordingTime] = useState<number>(0); // Track recording time in seconds
 
   const recordingIntervalRef = useRef<number | null>(null); // To hold the interval ID
@@ -20,8 +20,11 @@ const useVoiceMessage = () => {
     };
 
     mediaRecorderRef.current.onstop = () => {
-      const blob = new Blob(audioChunksRef.current, { type: "audio/wav" });
-      setAudioBlob(blob);
+      const mainBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
+
+      const file = new File([mainBlob], 'record-audio.wav');
+
+      setAudioFile(file);
       audioChunksRef.current = []; // Clear audio chunks for the next recording
       setRecordingTime(0); // Reset recording time
       stream.getTracks().forEach((track) => track.stop());
@@ -34,7 +37,9 @@ const useVoiceMessage = () => {
       setRecordingTime((prevTime) => prevTime + 1); //
     }, 1000);
   };
+ 
 
+  
   const stopRecording = () => {
     mediaRecorderRef.current?.stop();
     setIsRecording(false);
@@ -45,17 +50,34 @@ const useVoiceMessage = () => {
   };
 
   const formatTime = (seconds: number): string => {
+    if(isNaN(seconds)) return "00:00"
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
+  const resetAudioRecorder = () => {
+    setIsRecording(false);
+    setAudioFile(null);
+    setRecordingTime(0);
+    if (recordingIntervalRef.current) {
+      clearInterval(recordingIntervalRef.current);
+      recordingIntervalRef.current = null;
+    }
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      mediaStreamRef.current = null;
+    }
+    audioChunksRef.current = [];
+  };
+
   return {
     isRecording,
-    audioBlob,
+    audioFile,
     recordingTime: formatTime(recordingTime),
     startRecording,
     stopRecording,
+    resetAudioRecorder,
   };
 };
 

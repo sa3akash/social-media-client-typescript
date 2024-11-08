@@ -1,52 +1,69 @@
-import React, { useRef, useState } from "react";
-import ProfileImage from "@/assets/default_avatar.png";
+import React, { useState } from 'react';  
 
-const MarketPlace = () => {
-  const [context, setContext] = useState(false);
-  const [contextCordinates, setContextCoordinates] = useState({ x: 0, y: 0 });
+const CHUNK_SIZE = 5 * 1024 * 1024; // 10MB  
 
-  const handleContextCordinates = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    setContextCoordinates({ x: e.clientX, y: e.clientY });
-    // setContextCoordinates({x:e.pageX, y:e.pageY});
-    setContext(true);
-  };
+const FileUpload: React.FC = () => {  
+  const [file, setFile] = useState<File | null>(null);  
+  const [uploadProgress, setUploadProgress] = useState<number>(0);  
 
-  console.log(contextCordinates);
-  return (
-    <div className="h-full w-full flex items-center justify-center relative">
-      <div className="" onClick={handleContextCordinates} onContextMenu={handleContextCordinates}>
-        <img src={ProfileImage} alt="" className="w-[120px] cursor-pointer" />
-      </div>
-        {context && <ContextMenu contextCordinates={contextCordinates} />}
-    </div>
-  );
-};
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {  
+    if (event.target.files && event.target.files.length > 0) {  
+      setFile(event.target.files[0]);  
+      setUploadProgress(0); // Reset progress on new file selection  
+    }  
+  };  
 
-export default MarketPlace;
+  const uploadFile = async () => {  
+    if (!file) return; // Return if no file selected  
 
-const ContextMenu = ({
-  contextCordinates,
-}: {
-  contextCordinates: {
-    x: number;
-    y: number;
-  };
-}) => {
-  const contextMenuRef = useRef<HTMLDivElement | null>(null);
+    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);  
+    
+    for (let i = 0; i < totalChunks; i++) {  
+      const start = i * CHUNK_SIZE;  
+      const end = Math.min(file.size, start + CHUNK_SIZE);  
+      const chunk = file.slice(start, end); // Slice the file  
 
-  return (
-    <div
-      className="bg-red-500 fixed p-4 z-[100] shadow-md"
-      ref={contextMenuRef}
-      style={{
-        top: contextCordinates.y + "px",
-        left: contextCordinates.x + "px",
-      }}
-    >
-      context
-    </div>
-  );
-};
+      // Verify if the chunk is defined  
+      if (!chunk) {  
+        console.error(`Chunk ${i} is undefined. Check file slicing.`);  
+        return;  
+      }  
+
+      const formData = new FormData();  
+      formData.append('file', chunk, file.name); // Use the original file name  
+      formData.append('chunkIndex', i.toString());  
+      formData.append('totalChunks', totalChunks.toString());  
+
+      try {  
+        const response = await fetch('http://localhost:5500/api/v1/upload-single', {  
+          method: 'POST',  
+          body: formData,  
+          credentials:'include'
+        });  
+
+        if (!response.ok) throw new Error('Upload failed');  
+
+        const result = await response.json();  
+        console.log('Chunk uploaded:', result);  
+      } catch (error) {  
+        console.error('Error uploading chunk:', error);  
+        // Handle error, maybe break or retry  
+        return; // Stop further uploads on error  
+      }  
+
+      // Update progress  
+      const progress = ((i + 1) / totalChunks) * 100;  
+      setUploadProgress(progress);  
+    }  
+  };  
+
+  return (  
+    <div>  
+      <input type="file" onChange={handleFileChange} />  
+      <button onClick={uploadFile}>Upload</button>  
+      <div>Upload Progress: {uploadProgress.toFixed(2)}%</div>  
+    </div>  
+  );  
+};  
+
+export default FileUpload;

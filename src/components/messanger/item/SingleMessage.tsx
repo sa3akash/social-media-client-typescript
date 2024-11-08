@@ -110,13 +110,8 @@ const SingleMessage: FC<Props> = ({
             )}
           </div>
 
-          {item.files.length > 0 && (
-            <div className="grid gap-1 grid-cols-1 lg:grid-cols-3">
-              {item.files.map((f, i) => (
-                <MessageImageShow file={f} key={i} />
-              ))}
-            </div>
-          )}
+         
+        <MessageImageShow files={item.files} won={wonMessage}/>
 
           {item.gifUrl && (
             <div className="flex justify-end">

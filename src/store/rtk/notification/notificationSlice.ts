@@ -58,8 +58,8 @@ export const notificationApi = api.injectEndpoints({
                   read: true,
                 };
               }
-            }
-          )
+            },
+          ),
         );
         try {
           await queryFulfilled;
@@ -85,8 +85,8 @@ export const notificationApi = api.injectEndpoints({
               if (index !== -1) {
                 draft.notifications.splice(index, 1);
               }
-            }
-          )
+            },
+          ),
         );
         try {
           await queryFulfilled;
@@ -98,5 +98,8 @@ export const notificationApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetNotificationQuery, useMarkReadMutation,useDeleteNotificationMutation } =
-notificationApi;
+export const {
+  useGetNotificationQuery,
+  useMarkReadMutation,
+  useDeleteNotificationMutation,
+} = notificationApi;

@@ -8,11 +8,10 @@ export const postsApi = api.injectEndpoints({
     getPaginatedPosts: builder.query({
       query: (page) => `/posts?page=${page}`,
       serializeQueryArgs: () => `posts-page`,
-      merge: (currentCache, newData,) => {
-
-    
+      merge: (currentCache, newData) => {
         const uniqueArray = Utils.uniqueArray([
-          ...currentCache.posts, ...newData.posts
+          ...currentCache.posts,
+          ...newData.posts,
         ]);
 
         currentCache.posts = uniqueArray;
@@ -46,9 +45,9 @@ export const postsApi = api.injectEndpoints({
       serializeQueryArgs: ({ queryArgs }) =>
         `posts-user-${queryArgs.authId}-page`,
       merge: (currentCache, newData) => {
-
         const uniqueArray = Utils.uniqueArray([
-          ...currentCache.posts, ...newData.posts
+          ...currentCache.posts,
+          ...newData.posts,
         ]);
 
         currentCache.posts = uniqueArray;
@@ -84,7 +83,8 @@ export const postsApi = api.injectEndpoints({
       merge: (currentCache, newData) => {
         // Merge the new data with the current cached data
         const uniqueArray = Utils.uniqueArray([
-          ...currentCache.postWithImages, ...newData.postWithImages
+          ...currentCache.postWithImages,
+          ...newData.postWithImages,
         ]);
 
         currentCache.postWithImages = uniqueArray;
@@ -118,9 +118,10 @@ export const postsApi = api.injectEndpoints({
       serializeQueryArgs: () => `posts-video-page`,
       merge: (currentCache, newData) => {
         // Merge the new data with the current cached data
-       
+
         const uniqueArray = Utils.uniqueArray([
-          ...currentCache.postWithVideos, ...newData.postWithVideos
+          ...currentCache.postWithVideos,
+          ...newData.postWithVideos,
         ]);
         currentCache.postWithVideos = uniqueArray;
         currentCache.currentPage = newData.currentPage;
@@ -137,7 +138,7 @@ export const postsApi = api.injectEndpoints({
           // Handle error if needed
         }
       },
-      providesTags: (result) => 
+      providesTags: (result) =>
         result
           ? [
               { type: "Post", id: "LIST" },
@@ -167,7 +168,8 @@ export const postsApi = api.injectEndpoints({
       },
       // invalidatesTags: [{ type: 'Post', id: 'LIST' }],
       invalidatesTags: (_result, _error, post) => [
-        { type: 'User', id: post.authId },{ type: 'Post', id: 'LIST' }
+        { type: "User", id: post.authId },
+        { type: "Post", id: "LIST" },
       ],
     }),
     updatePost: builder.mutation({
@@ -201,7 +203,7 @@ export const postsApi = api.injectEndpoints({
 
         try {
           const { data: deletedPost } = await queryFulfilled; // Await the mutation to complete
-          dispatch(postsUser.delete(id,deletedPost.authId));
+          dispatch(postsUser.delete(id, deletedPost.authId));
         } catch {
           patchResult.undo(); // Undo the optimistic update if failed
         }

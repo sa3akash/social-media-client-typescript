@@ -1,9 +1,8 @@
-
 export interface CustomError {
   status: number;
   data: {
-    message:string
-  }
+    message: string;
+  };
 }
 
 export interface ILogin {

@@ -10,20 +10,18 @@ export const messangerApi = api.injectEndpoints({
         url: "/chat/message",
         method: "POST",
         body: data,
-      }
-    ),
-    // invalidatesTags: ['Conversations'],
-    onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-      try {
-        const { data: newMessage } = await queryFulfilled;
-        // Update the cache with the updated post
-        dispatch(messagesHelpers.addMessage(newMessage?.message))
-        dispatch(messagesHelpers.updateConversation(newMessage?.message))
-
-      } catch {
-        // Handle error if needed
-      }
-    }
+      }),
+      // invalidatesTags: ['Conversations'],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: newMessage } = await queryFulfilled;
+          // Update the cache with the updated post
+          dispatch(messagesHelpers.addMessage(newMessage?.message));
+          dispatch(messagesHelpers.updateConversation(newMessage?.message));
+        } catch {
+          // Handle error if needed
+        }
+      },
     }),
     getConversation: builder.query({
       query: () => ({
@@ -39,9 +37,9 @@ export const messangerApi = api.injectEndpoints({
         url: `/chat/messagess/${conversationId}?page=${page}`,
         method: "GET",
       }),
-      serializeQueryArgs: ({queryArgs}) => `messages-page-${queryArgs.conversationId}`,
+      serializeQueryArgs: ({ queryArgs }) =>
+        `messages-page-${queryArgs.conversationId}`,
       merge: (currentCache, newData) => {
-
         const uniqueArray = Utils.uniqueArray([
           ...newData.messages,
           ...currentCache.messages,

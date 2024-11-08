@@ -163,26 +163,6 @@ em-emoji-picker {
 }
 
 
-/* .heart-icon {
-  position: absolute;
-  font-size: 2rem; /* Adjust size as needed */
-  /* color: #ff69b4;
-  transform: translate(-50%, -50%);
-  animation: fade-out 0.7s ease-out forwards;
-}  */
-
-
-/* @keyframes fade-out {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5);
-  }
-} */
-
 
 .floating-heart {
   position: absolute;
@@ -307,4 +287,21 @@ em-emoji-picker {
     opacity: 0;
     transform: scale(3);
   }
+}
+
+
+
+.swiper {
+  width: 220px;
+  height: 300px;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
 }

@@ -16,7 +16,7 @@ const useMessageScroll = (conversationId: string) => {
     }
   }, [data]);
 
-  const messages:IMessageData[] = data?.messages || [];
+  const messages: IMessageData[] = data?.messages || [];
 
   const loadMoreMessages = () => {
     if (isFetching) return;
@@ -24,7 +24,14 @@ const useMessageScroll = (conversationId: string) => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  return { messages, loadMoreMessages, isFetching, isLoading, isError, hasLoadMore: numberOfPages > page };
+  return {
+    messages,
+    loadMoreMessages,
+    isFetching,
+    isLoading,
+    isError,
+    hasLoadMore: numberOfPages > page,
+  };
 };
 
 export default useMessageScroll;
