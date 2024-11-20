@@ -17,6 +17,7 @@ const Messanger = lazy(() => import("@/pages/Messanger"));
 const MarketPlace = lazy(() => import("@/pages/MarketPlace"));
 const Notification = lazy(() => import("@/pages/Notification"));
 const Settings = lazy(() => import("@/pages/Settings"));
+const Live = lazy(() => import("@/pages/Live"));
 
 const Protected = [
   {
@@ -85,11 +86,29 @@ const Protected = [
   },
   {
     path: `${PageURL.Profile}/:authId`,
-    element: (
-      <Suspense fallback={<ProfileSkeleton />}>
+    // element: (
+    //   <Suspense fallback={<ProfileSkeleton />}>
+    //     <Profile />
+    //   </Suspense>
+    // ),
+    children: [
+      {
+       index: true,
+        element: (
+          <Suspense fallback={<ProfileSkeleton />}>
         <Profile />
       </Suspense>
-    ),
+        )
+      },
+      {
+        path: PageURL.Live,
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <Live />
+          </Suspense>
+        )
+      }
+    ]
   },
   {
     path: `${PageURL.Notification}`,

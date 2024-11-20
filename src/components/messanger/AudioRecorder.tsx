@@ -73,7 +73,12 @@ const AudioRecorder:FC<Props> = ({setIsAudioRecord,setVoiceAudio}) => {
       )}
       
     </div>
-    <button className="px-2" onClick={()=>setIsAudioRecord(false)}>
+    <button className="px-2" onClick={()=>{
+      setIsAudioRecord(false)
+      setUrl("")
+      resetAudioRecorder()
+      setVoiceAudio(null)
+    }}>
         <X />
       </button>
     </>

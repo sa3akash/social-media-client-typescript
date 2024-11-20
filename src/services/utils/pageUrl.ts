@@ -13,6 +13,7 @@ export const PageURL = {
   FRIENDS: "friends",
   Messanger: "messanger",
   Marketplace: "marketplace",
+  Live: "go-live",
   Profile: "u",
   NotFound: "*",
 };

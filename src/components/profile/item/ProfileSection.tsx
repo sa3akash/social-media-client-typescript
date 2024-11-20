@@ -101,6 +101,12 @@ products for Sebostudio”`}
         >
           Edit profile
         </Link>
+        <Link to='go-live'
+          className="px-4 py-1 border-[2px] rounded-full font-semibold text-[12px] select-none transition-all bg-[#1E75FF] hover:bg-[#1e80ff] border-[#1E75FF]"
+          
+        >
+          Go Live
+        </Link>
        
       </div>
 

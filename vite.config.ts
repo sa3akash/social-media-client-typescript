@@ -20,6 +20,11 @@ export default defineConfig({
         target: 'http://localhost:5500',
         changeOrigin: true,
         secure: false,
+      },
+      '/hls': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+        secure: false,
       }
     }
   }

@@ -113,7 +113,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
         params: params.toString(),
       }).unwrap();
 
-      if (result) {
+      if (result.type) {
         const data = {
           body: '',
           receiverId: receiverId,
