@@ -257,7 +257,7 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
 
   const { toast } = useToast();
   const [startStrem] = useStartStremMutation();
-
+  const {socket} = useSocket()
 
   const startStream = () => {
     // if (!streamRef.current) return;
@@ -268,11 +268,13 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
       });
       return;
     }
+
     startStrem({
       title: liveValue.title,
       description: liveValue.description,
       privacy: liveValue.privacy,
     })
+
     setLiveValue((prev) => ({ ...prev, live: true }));
 
     const streamToSend = isScreenSharing
@@ -291,10 +293,10 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
     mediaRecorderRef.current.start(1000); // Send data every second
   };
 
-  const {socket} = useSocket()
+  
 
   const sendToRTMP = (blob: Blob) => {
-    console.log("Sending to RTMP server:", blob);
+    // console.log("Sending to RTMP server:", blob);
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -315,11 +317,11 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
       mediaRecorderRef.current.state !== "inactive"
     ) {
       mediaRecorderRef.current.stop();
-      setLiveValue((prev) => ({ ...prev, live: false }));
       if(socket){
         socket.emit('stop-stream')
       }
     }
+    setLiveValue((prev) => ({ ...prev, live: false }));
   };
 
 
