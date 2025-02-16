@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 
 const CardWrapper = () => {
   return (
-    <Card className="h-max">
+    <Card className="h-max cardBG">
       <CardHeader>
         <CardDescription>Select a video source</CardDescription>
       </CardHeader>

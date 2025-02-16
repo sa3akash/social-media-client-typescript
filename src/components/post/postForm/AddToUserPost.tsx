@@ -5,18 +5,16 @@ import LocationsIcon from "@/assets/icons/locationIcon.png";
 import GifIcon from "@/assets/icons/gifIcon.png";
 import FeelingsModel from "@/components/post/postForm/FeelingsModel";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
-import React, { Dispatch, FC, SetStateAction, useRef, useState } from "react";
-import { ImageUtils } from "@/services/utils/imageUtils";
-import { useToast } from "@/components/ui/use-toast";
+import {useRef, useState } from "react";
 import Giphy from "@/components/post/postForm/Giphy";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { closeModel } from "@/store/reducers/ModelReducer";
 
-interface Props {
-  setFiles: Dispatch<SetStateAction<File[]>>;
-}
 
-const AddToUserPost: FC<Props> = ({ setFiles }) => {
+const AddToUserPost = () => {
   const feelingModelRef = useRef(null);
-  const imageRef = useRef<HTMLInputElement | null>(null);
   const [modelOpen, setModelOpen] = useDetectOutsideClick(
     feelingModelRef,
     false
@@ -24,20 +22,10 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
 
   const [giphyModel, setGiphyModel] = useState(false);
 
-  const { toast } = useToast();
+  const dispatch:AppDispatch = useDispatch()
 
-  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target?.files;
-    if (files) {
-      const errorMessage = ImageUtils.checkFile(Array.from(files));
-      errorMessage
-        ? toast({
-            variant: "destructive",
-            description: errorMessage,
-          })
-        : setFiles(Array.from(files));
-    }
-  };
+  const navigate = useNavigate()
+
 
   return (
     <div className="px-4">
@@ -48,17 +36,15 @@ const AddToUserPost: FC<Props> = ({ setFiles }) => {
         <div className="flex items-center gap-0">
           <div
             className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none"
-            onClick={() => imageRef.current?.click()}
+            onClick={() => {
+              navigate('/feed/create')
+              setGiphyModel(false)
+              setModelOpen(false)
+              dispatch(closeModel())
+
+            }}
           >
             <img src={ImageVideoIcon} alt="image" className="w-5 md:w-6"/>
-            <input
-              type="file"
-              ref={imageRef}
-              multiple
-              hidden
-              onChange={onChangeImage}
-              accept="image/*,video/*"
-            />
           </div>
           <div className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none">
             <img src={TagFriendsIcon} alt="image" className="w-5 md:w-6"/>

@@ -40,6 +40,7 @@
     "date-fns": "^3.6.0",
     "emoji-mart": "^5.5.2",
     "file-saver": "^2.0.5",
+    "flv.js": "^1.6.2",
     "hls.js": "^1.5.17",
     "lucide-react": "^0.294.0",
     "millify": "^6.1.0",

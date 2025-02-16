@@ -15,12 +15,11 @@ import { IUserDoc } from "@/interfaces/auth.interface";
 import CreateInput from "@/components/post/postForm/CreateInput";
 import SelectBgAndEmoji from "@/components/post/postForm/SelectBgAndEmoji";
 import AddToUserPost from "@/components/post/postForm/AddToUserPost";
-import { IFeelings, IFiles, IPrivacy } from "@/interfaces/post.interface";
-import { useEffect, useState } from "react";
+import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
+import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { clearPost } from "@/store/reducers/SinglePostReducer";
-import { ImageUtils } from "@/services/utils/imageUtils";
 import {
   useCreatePostMutation,
   useUpdatePostMutation,
@@ -36,12 +35,10 @@ const CreatePostModel = () => {
     post,
     gifUrl,
     bgColor,
-    files: oldFiles,
   } = useSelector((store: RootState) => store.SinglePost);
   const dispatch: AppDispatch = useDispatch();
   const { toast } = useToast();
 
-  const [files, setFiles] = useState<File[]>([]);
 
   const [updatePost, { isLoading: loadingUpdate, data: updatedPost }] =
     useUpdatePostMutation();
@@ -54,37 +51,25 @@ const CreatePostModel = () => {
         title: "Post title is required.",
         variant: "destructive",
       });
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("file", files[i]);
+
+    const postData = {
+      privacy: privacy,
+      post: post,
+      feelings: feelings,
+      gifUrl: gifUrl,
+      bgColor: bgColor,
+      files: []
     }
-    formData.append("privacy", `${privacy}`);
-    formData.append("post", `${post}`);
-    formData.append("feelings", `${feelings}`);
-    formData.append("gifUrl", `${gifUrl}`);
-    formData.append("bgColor", `${bgColor}`);
 
     if (type === "createPost") {
-      createPost(formData);
+      createPost(postData);
     } else {
       updatePost({
         id: _id!,
-        post: formData,
+        post: postData,
       });
     }
   };
-
-  useEffect(() => {
-    if (type === "editPost" && oldFiles) {
-      oldFiles.map((fi: IFiles) => {
-        ImageUtils.imageUrlToBlob(fi.path).then((blob) => {
-          const imaFile = ImageUtils.imageBlobToFile(blob, fi.mimetype);
-          setFiles([...files, imaFile]);
-        });
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [oldFiles]);
 
   const loading = loadingUpdate || loadingCreate;
 
@@ -112,7 +97,6 @@ const CreatePostModel = () => {
       onOpenChange={() => {
         dispatch(closeModel());
         dispatch(clearPost());
-        setFiles([]);
       }}
     >
       <DialogContent className="max-w-[500px] p-0 cardBG">
@@ -128,9 +112,9 @@ const CreatePostModel = () => {
             privacy={privacy as IPrivacy}
             feelings={feelings as IFeelings}
           />
-          <CreateInput files={files} setFiles={setFiles} />
+          <CreateInput  />
           <SelectBgAndEmoji />
-          <AddToUserPost setFiles={setFiles} />
+          <AddToUserPost />
         </div>
         <DialogFooter className="px-4 pb-4">
           <Button

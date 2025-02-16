@@ -17,7 +17,7 @@ const PostText: React.FC<Props> = ({ item }) => {
           "h-[320px] md:h-[500px] flex text-[30px] items-center justify-center text-center my-auto text-white font-bold px-4",
         
       )}
-      style={{ backgroundColor: item.bgColor && !item.gifUrl ? item.bgColor : "" }}
+      style={{ backgroundColor: item.bgColor }}
     >
       {item.post}
     </div>

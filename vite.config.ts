@@ -21,11 +21,16 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/live': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+        secure: false,
+      },
       '/hls': {
         target: 'http://localhost:8888',
         changeOrigin: true,
         secure: false,
-      }
+      },
     }
   }
 });

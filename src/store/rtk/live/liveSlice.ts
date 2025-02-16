@@ -8,6 +8,7 @@ export const liveApiSlice = api.injectEndpoints({
         url: "/stream/key",
         method: "GET",
       }),
+      forceRefetch: () => true,
     }),
     resetKey: builder.mutation({
       query: () => ({

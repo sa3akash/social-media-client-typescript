@@ -12,7 +12,8 @@ interface Props {
 
 const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
   return (
-    <div className="w-full h-full flex items-center justify-center overflow-auto">
+    <div className="w-full h-full flex items-center justify-center">
+   
       <div className="w-full sm:w-[80%] md:-[50%] lg:w-[80%] 2xl:w-[70%] h-full sm:h-[700px] flex items-center cardBG sm:rounded-lg">
         <div className="hidden lg:flex flex-1 h-full bg-[#292932] items-center justify-center flex-col gap-2">
           <img
@@ -54,8 +55,11 @@ const CommonCard: React.FC<Props> = ({ title, title2, type, children }) => {
           </div>
         </div>
       </div>
+    
     </div>
   );
 };
 
 export default CommonCard;
+
+// w-full sm:w-[80%] md:-[50%] lg:w-[80%] 2xl:w-[70%] h-full sm:h-[700px] flex items-center cardBG sm:rounded-lg

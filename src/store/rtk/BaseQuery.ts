@@ -21,7 +21,7 @@ export const baseQueryWithReauth: typeof baseQuery = async (
   let result = await baseQuery(args, api, extraOptions);
 
   // Check for a 401 error (access token expired)
-  if (result.error && (result.error as FetchBaseQueryError).status === 401) {
+  if (result.error && (result.error as FetchBaseQueryError).status === (401 | 503)) {
     // Attempt to refresh the access token
     const refreshResult = await baseQuery(
       "/auth/refresh-token",

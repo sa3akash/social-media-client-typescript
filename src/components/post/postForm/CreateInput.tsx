@@ -1,18 +1,18 @@
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import PostInput from "@/components/post/postForm/PostInput";
-import { Dispatch, FC, SetStateAction } from "react";
-import CreateImageShow from "@/components/post/postForm/CreateImageShow";
+import { FC } from "react";
+// import CreateImageShow from "@/components/post/postForm/CreateImageShow";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { updatePostItem } from "@/store/reducers/SinglePostReducer";
 
 interface Props {
-  files: File[];
-  setFiles: Dispatch<SetStateAction<File[]>>;
+  // files: File[];
+  // setFiles: Dispatch<SetStateAction<File[]>>;
 }
 
-const CreateInput: FC<Props> = ({ files, setFiles }) => {
+const CreateInput: FC<Props> = () => {
   const { post, bgColor, gifUrl } = useSelector(
     (state: RootState) => state.SinglePost
   );
@@ -20,13 +20,13 @@ const CreateInput: FC<Props> = ({ files, setFiles }) => {
 
   return (
     <div className="mt-4 flex items-center justify-center flex-col">
-      {!files.length && !gifUrl && (
+       {!gifUrl && (
         <PostInput
           post={post as string}
           bgColor={bgColor as string}
           className=""
         />
-      )}
+      )} 
       {gifUrl && (
         <>
           <PostInput
@@ -44,7 +44,7 @@ const CreateInput: FC<Props> = ({ files, setFiles }) => {
           </div>
         </>
       )}
-      {files.length > 0 && !gifUrl && (
+      {/* {files.length > 0 && !gifUrl && (
         <>
           <PostInput
             post={post as string}
@@ -53,7 +53,7 @@ const CreateInput: FC<Props> = ({ files, setFiles }) => {
           />
           <CreateImageShow images={files} setFiles={setFiles}/>
         </>
-      )}
+      )} */}
     </div>
   );
 };

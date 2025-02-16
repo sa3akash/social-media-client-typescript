@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,6 @@ import { CameraIcon, MicIcon, Video, VideoOff } from "lucide-react";
 import { IPrivacy } from "@/interfaces/post.interface";
 import { useToast } from "../ui/use-toast";
 import { useSocket } from "@/hooks/useSocket";
-import { useStartStremMutation } from "@/store/rtk/live/liveSlice";
 
 interface Props {
   liveValue: {
@@ -38,7 +37,7 @@ interface Props {
   >;
 }
 
-const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
+const StreamCamera: FC<Props> = ({ liveValue, setLiveValue }) => {
   const [devices, setDevices] = useState<{
     video: MediaDeviceInfo[];
     audio: MediaDeviceInfo[];
@@ -50,6 +49,8 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
+  const [streamDuration, setStreamDuration] = useState(0); // Duration starts at 0
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const screenStreamRef = useRef<MediaStream | null>(null);
   const cameraStreamRef = useRef<MediaStream>();
@@ -60,6 +61,7 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
   useEffect(() => {
     const getMedia = async () => {
       if (!videoRef.current) return;
+
       cameraStreamRef.current = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -256,11 +258,12 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
   };
 
   const { toast } = useToast();
-  const [startStrem] = useStartStremMutation();
-  const {socket} = useSocket()
+  const { socket } = useSocket();
 
   const startStream = () => {
     // if (!streamRef.current) return;
+    setStreamDuration(0);
+
     if (!liveValue.title || !liveValue.description) {
       toast({
         variant: "destructive",
@@ -269,11 +272,19 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
       return;
     }
 
-    startStrem({
+    if (!socket) {
+      toast({
+        variant: "destructive",
+        title: "Your not connected to the socket. Please refresh your page.",
+      });
+      return;
+    }
+
+    socket.emit("start-live", {
       title: liveValue.title,
       description: liveValue.description,
       privacy: liveValue.privacy,
-    })
+    });
 
     setLiveValue((prev) => ({ ...prev, live: true }));
 
@@ -288,63 +299,82 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
     mediaRecorderRef.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
         sendToRTMP(event.data);
+        setStreamDuration((prev) => prev + 1);
       }
     };
     mediaRecorderRef.current.start(1000); // Send data every second
   };
 
-  
-
   const sendToRTMP = (blob: Blob) => {
     // console.log("Sending to RTMP server:", blob);
-
     const reader = new FileReader();
     reader.onloadend = () => {
       const arrayBuffer = reader.result as ArrayBuffer;
       const byteArray = new Uint8Array(arrayBuffer);
 
       // send byteArray in server using socketio
-        if (socket) {
-          socket.emit("go-stream", byteArray);
-        }
+      if (socket) {
+        socket.emit("go-stream", byteArray);
+      }
     };
     reader.readAsArrayBuffer(blob);
   };
 
   const stopStream = () => {
+    setStreamDuration(0);
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state !== "inactive"
     ) {
       mediaRecorderRef.current.stop();
-      if(socket){
-        socket.emit('stop-stream')
+      if (socket) {
+        socket.emit("stop-stream");
       }
+    }
+    if (isScreenSharing) {
+      stopScreenShare();
     }
     setLiveValue((prev) => ({ ...prev, live: false }));
   };
 
-
-  useEffect(()=>{
-    if(socket){
-      socket.on('live-error',(message)=>{
+  useEffect(() => {
+    if (socket) {
+      socket.on("live-error", (message) => {
         toast({
           variant: "destructive",
           title: message,
         });
-      })
+      });
     }
     return () => {
-      if(socket){
-        socket.off('live-error')
-        socket.emit('stop-stream')
+      if (socket) {
+        socket.off("live-error");
+        socket.emit("stop-stream");
       }
+    };
+  }, [socket, toast]);
+
+  const formateDuration = useCallback((time: number) => {
+    const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
+      minimumIntegerDigits: 2,
+    });
+
+    const seconds = Math.floor(time % 60);
+    const minutes = Math.floor(time / 60) % 60;
+    const hours = Math.floor(time / 3600);
+
+    if (hours === 0) {
+      return `${minutes}:${leadingZeroFormatter.format(seconds)}`;
+    } else {
+      return `${hours}:${leadingZeroFormatter.format(
+        minutes
+      )}:${leadingZeroFormatter.format(seconds)}`;
     }
-  },[socket, toast])
+  }, []);
 
   return (
     <div className="flex flex-col gap-2">
-      <Card>
+      <Card className="cardBG">
         <CardHeader>
           <CardTitle className="text-lg">Camera controls</CardTitle>
           <CardDescription>
@@ -399,8 +429,11 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
           </div>
         </CardContent>
       </Card>
-      <div className="">
-        <video ref={videoRef} autoPlay muted controls ></video>
+      <div className="relative cardBG">
+        <video ref={videoRef} autoPlay muted></video>
+        {liveValue.live && <p className="absolute top-2 left-2 bg-rose-400 px-2 py-1 rounded-sm text-sm">
+          LIVE {formateDuration(streamDuration)}
+        </p>}
       </div>
 
       {liveValue.live ? (
@@ -426,6 +459,8 @@ const StreamCamera:FC<Props> = ({liveValue,setLiveValue}) => {
 };
 
 export default StreamCamera;
+
+// ========================
 
 // const toggleScreenShare = async () => {
 //     if (isScreenSharing) {

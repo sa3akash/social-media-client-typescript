@@ -12,6 +12,7 @@ const AuthLayout = () => {
   return user ? (
     <Navigate to={PageURL.Feed} />
   ) : (
+    
     <CommonCard
       title={
         path === "login"

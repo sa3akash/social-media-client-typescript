@@ -2,29 +2,25 @@
 export interface FileUploadProgress {
     file: File;
     progress: number;
-  }
+}
   
 export class FileUploader {
     static CHUNK_SIZE = 5 * 1024 * 1024; // 5MB chunk size
   
     private file: File;
     private totalChunks: number;
-    private progressList: FileUploadProgress[];
     private uploadUrl: string;
-    private updateProgressCallback: (progressList: FileUploadProgress[]) => void;
+    private updateProgressCallback: any;
   
-    constructor(file: File, uploadUrl: string, updateProgressCallback: (progressList: FileUploadProgress[]) => void) {
+    constructor(file: File, uploadUrl: string, updatePersentance:any) {
       this.file = file;
       this.uploadUrl = uploadUrl;
       this.totalChunks = Math.ceil(file.size / FileUploader.CHUNK_SIZE);
-      this.progressList = []
-      this.updateProgressCallback = updateProgressCallback; // Callback to update progress in parent component
+      this.updateProgressCallback = updatePersentance
     }
   
     // Start the upload process
     public async uploadFile() {
-
-        this.progressList.push({ file: this.file, progress: 0 })
 
       for (let chunkIndex = 0; chunkIndex < this.totalChunks; chunkIndex++) {
         const start = chunkIndex * FileUploader.CHUNK_SIZE;
@@ -33,9 +29,6 @@ export class FileUploader {
   
         await this.uploadChunk(chunk, chunkIndex);
       }
-  
-      // After the upload is complete, set the progress to 100%
-      this.updateProgress(100);
     }
   
     // Upload a single chunk using fetch
@@ -68,8 +61,6 @@ export class FileUploader {
           } else {
             throw new Error("Failed to upload chunk");
           }
-        } else {
-          throw new Error("Failed to upload chunk");
         }
       } catch (err) {
         console.error("Error uploading chunk", err);
@@ -89,8 +80,7 @@ export class FileUploader {
     // Update progress for the file
     private updateProgress(progress: number) {
       // Update progress in the current list and notify the parent component
-      this.progressList = [{ file: this.file, progress }];
-      this.updateProgressCallback(this.progressList); // Call the callback function to update the parent state
+      this.updateProgressCallback(progress); // Call the callback function to update the parent state
     }
   }
   

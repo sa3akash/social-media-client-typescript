@@ -55,7 +55,7 @@ const LiveForm:FC<Props> = ({liveValue,setLiveValue}) => {
 
   return (
     <div className="flex-1">
-      <Card className="flex-1 h-max">
+      <Card className="flex-1 h-max cardBG">
         <CardHeader>
           <CardTitle className="text-lg">Add post details</CardTitle>
           <CardDescription>

@@ -5,6 +5,7 @@ import PhotoSkeleton from "@/components/photos/Skeleton/PhotoSkeleton";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import NotificationSkeleton from "@/components/notificaton/skeleton/NotificationSkeleton";
 import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
+import CreateVideoOrPhotoPost from "@/components/post/CreateVideoOrPhotoPost";
 
 // lazy loading
 const Profile = lazy(() => import("@/pages/Profile"));
@@ -22,11 +23,24 @@ const Live = lazy(() => import("@/pages/Live"));
 const Protected = [
   {
     path: PageURL.Feed,
-    element: (
-      <Suspense fallback={<HomeSkeleton />}>
-        <Home />
-      </Suspense>
-    ),
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<HomeSkeleton />}>
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'create',
+        element: (
+          <Suspense fallback={"Loading..."}>
+            <CreateVideoOrPhotoPost />
+          </Suspense>
+        )
+      }
+    ]
   },
   {
     path: PageURL.Friends,

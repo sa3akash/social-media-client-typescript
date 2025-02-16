@@ -98,7 +98,7 @@ const DropdownItem = ({
         className="w-4 filter dark:invert"
       />
       <div>
-        <h4 className="text-[16px] font-semibold">{privacy}</h4>
+        <h4 className="text-[14px] font-semibold">{privacy}</h4>
         <span className="capitalize text-[12px]">
           {privacy === "Public"
             ? "Anyone On square"

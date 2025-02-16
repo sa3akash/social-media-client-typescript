@@ -9,6 +9,7 @@ interface Props {
 }
 
 const ImagesShow: React.FC<Props> = ({ images }) => {
+
   return (
     <div className="w-full">
       <div
@@ -27,11 +28,11 @@ const ImagesShow: React.FC<Props> = ({ images }) => {
         )}
       >
         {images.map((url, i) =>
-          url.mimetype === "video/mp4" ? (
-            <VideoPreview key={i} videoUrl={url.path} />
+          url.mimetype.includes('video') || url.mimetype.includes('flv') ? (
+            <VideoPreview key={i} videoUrl={url.url} />
           ) : (
             <Image
-              src={url.path}
+              src={url.url}
               key={i}
               className={cn(
                 "",

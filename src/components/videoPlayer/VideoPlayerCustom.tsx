@@ -408,7 +408,7 @@ const VideoPlayerCustom = ({
   }, [src]);
 
   const SettingPanel = isSettingsOpen && (
-    <div ref={settingsPanelRef} className="_6pp-video-player-setting-panel">
+    <div ref={settingsPanelRef} className="_sa2-video-player-setting-panel">
       <ul>
         {qualityOptions.map((i, idx) => (
           <li
@@ -431,7 +431,7 @@ const VideoPlayerCustom = ({
   );
 
   const SpeedPanel = isSpeedOpen && (
-    <div ref={speedPanelRef} className="_6pp-video-player-speed-panel">
+    <div ref={speedPanelRef} className="_sa2-video-player-speed-panel">
       <ul>
         {speedOptions.map((i, idx) => (
           <li
@@ -455,25 +455,25 @@ const VideoPlayerCustom = ({
 
   const TimeLine = (
     <div
-      className="_6pp-video-player-timeline-container"
+      className="_sa2-video-player-timeline-container"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
       <div
-        className="_6pp-video-player-timeline-thumb"
+        className="_sa2-video-player-timeline-thumb"
         style={{
           left: `${timelineProgress}%`,
         }}
       />
       <div
-        className="_6pp-video-player-timeline-progress"
+        className="_sa2-video-player-timeline-progress"
         style={{
           width: `${timelineProgress}%`,
         }}
       />
       <div
-        className="_6pp-video-player-timeline-buffer-progress"
+        className="_sa2-video-player-timeline-buffer-progress"
         style={{
           width: `${buffered}%`,
         }}
@@ -482,7 +482,7 @@ const VideoPlayerCustom = ({
   );
 
   const ControlsPanel = (
-    <div className="_6pp-video-player-controls">
+    <div className="_sa2-video-player-controls">
       <button
         title="Rewind Backward 10 Seconds"
         onClick={handleRewindBackward10}
@@ -505,14 +505,14 @@ const VideoPlayerCustom = ({
         {isMuted ? CiVolumeMute : volume > 50 ? CiVolumeHigh : CiVolume}
       </button>
 
-      <div className="_6pp-video-player-volume-slider">
+      <div className="_sa2-video-player-volume-slider">
         <RangeSlider
           value={volume}
           changeHandler={(e) => setVolume(Number(e.target.value))}
         />
       </div>
 
-      <div className="_6pp-video-player-duration">
+      <div className="_sa2-video-player-duration">
         <span>{currentTime}</span> <span>/</span> <span>{duration}</span>
       </div>
 
@@ -538,14 +538,14 @@ const VideoPlayerCustom = ({
   );
 
   const Loader = (
-    <div className="_6pp-video-player-loading">
-      <div className="_6pp-video-player-loading-spinner"></div>
+    <div className="_sa2-video-player-loading">
+      <div className="_sa2-video-player-loading-spinner"></div>
     </div>
   );
 
   return (
     <div
-      className="_6pp-video-player-container"
+      className="_sa2-video-player-container"
       style={{
         width: isFullScreen ? "100vw" : isTheater ? "100%" : width,
         height: isFullScreen ? "100vh" : isTheater ? "70vh" : height,
@@ -560,7 +560,7 @@ const VideoPlayerCustom = ({
 
       {SpeedPanel}
 
-      <div className="_6pp-video-player-controls-container">
+      <div className="_sa2-video-player-controls-container">
         {/* Timeline Below */}
         {TimeLine}
 
@@ -574,7 +574,7 @@ const VideoPlayerCustom = ({
       <video
         ref={videoPlayerRef}
         // src={src}
-        className={`_6pp-video-player-video ${className}`}
+        className={`_sa2-video-player-video ${className}`}
         style={{
           filter: isLoading ? "blur(5px)" : "none",
         }}
@@ -587,7 +587,7 @@ const VideoPlayerCustom = ({
       >
         <track src={captions} kind="captions" srcLang="en" label="English" />
       </video>
-      <div className="_6pp-video-player-backdrop"></div>
+      <div className="_sa2-video-player-backdrop"></div>
     </div>
   );
 };

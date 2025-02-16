@@ -15,7 +15,7 @@ import {
   useStartStremMutation,
   useStopStreamByKeyMutation,
 } from "@/store/rtk/live/liveSlice";
-import VideoPlayer from "./HLSVideoPlayer";
+import HLSVideoPlayer from "./HLSVideoPlayer";
 import { IPrivacy } from "@/interfaces/post.interface";
 import { useToast } from "../ui/use-toast";
 
@@ -38,26 +38,40 @@ interface Props {
 
 const StremKey: FC<Props> = ({ liveValue, setLiveValue }) => {
   const [key, setKey] = useState("");
-  const [showIcon, setShowIcon] = useState(false);
+  const [showIcon, setShowIcon] = useState<'key' | 'server' | null>(null);
   const { toast } = useToast();
 
   const [resetKey, { isLoading: resetLoading, data: resetDdata }] =
     useResetKeyMutation();
   const { data: getData } = useGetStreamKeyQuery("");
 
-  const handleCopy = () => {
-    setShowIcon(true);
-    navigator.clipboard.writeText(key).then(() => {
-      setTimeout(() => setShowIcon(false), 2000);
-    });
+  const handleCopy = (value:'key' | 'server') => {
+    setShowIcon(value);
+    if(value === 'key'){
+      navigator.clipboard.writeText(key).then(() => {
+        setTimeout(() => setShowIcon(null), 2000);
+      });
+    }else{
+      navigator.clipboard.writeText('rtmp://localhost:2323/live').then(() => {
+        setTimeout(() => setShowIcon(null), 2000);
+      });
+    }
+   
   };
 
   useEffect(() => {
-    setKey(getData?.streamKey);
+
     if (resetDdata) {
       setKey(resetDdata?.streamKey);
+      setLiveValue(prev => ({ ...prev, live: resetDdata.isLive }))
+
     }
-  }, [getData?.streamKey, resetDdata]);
+    if (getData) {
+      setKey(getData?.streamKey);
+      setLiveValue(prev => ({ ...prev, live: getData.isLive }))
+
+    }
+  }, [getData, resetDdata, setLiveValue]);
 
   const [startStrem, { data, error, isLoading }] = useStartStremMutation();
   const [stopStreamByKey] = useStopStreamByKeyMutation();
@@ -90,7 +104,9 @@ const StremKey: FC<Props> = ({ liveValue, setLiveValue }) => {
     if (error) {
       toast({
         variant: "destructive",
-        title: "Failed to start live",
+        title: `${(error as { data: { message: string } }).data.message ||
+          "Failed to start live"
+          }`,
       });
       setLiveValue((prev) => ({ ...prev, live: false }));
     }
@@ -99,7 +115,7 @@ const StremKey: FC<Props> = ({ liveValue, setLiveValue }) => {
   return (
     <>
       <div className="flex flex-col gap-2 rounded-md">
-        <Card className="h-max">
+        <Card className="h-max cardBG">
           <CardHeader>
             <CardTitle className="text-lg">Streaming software setup</CardTitle>
             <CardDescription>
@@ -107,18 +123,30 @@ const StremKey: FC<Props> = ({ liveValue, setLiveValue }) => {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex gap-2 flex-col">
-            <div className="flex items-center gap-2">
-              <Input defaultValue={key} readOnly />
-              <Button onClick={handleCopy}>
-                {showIcon ? <Check /> : "Copy"}
+            <div className="flex items-center justify-between gap-2">
+              <div className="min-w-max">Server</div>
+              <Input defaultValue={'rtmp://localhost:2323/live'} readOnly className="flex-1" />
+              <Button onClick={() => handleCopy('server')} className="min-w-max">
+                {showIcon === 'server' ? <Check /> : "Copy"}
               </Button>
-              <Button onClick={() => resetKey("")} disabled={resetLoading}>
-                Reset
-              </Button>
+
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="min-w-max">Key</div>
+              <Input defaultValue={key} readOnly className="flex-1" />
+              <div className="flex gap-2 items-center">
+                <Button onClick={()=>handleCopy('key')} className="min-w-max">
+                  {showIcon === 'key' ? <Check /> : "Copy"}
+                </Button>
+                <Button onClick={() => resetKey("")} disabled={resetLoading || liveValue.live}>
+                  Reset
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
-        {key && <VideoPlayer streamUrl={`/hls/${key}.m3u8`} />}
+        {/* {key && <LivePlayer videoUrl={`/live/${key}_360p/index.m3u8`} />} */}
+        {key && <HLSVideoPlayer streamName={key} />}
       </div>
 
       {liveValue.live ? (

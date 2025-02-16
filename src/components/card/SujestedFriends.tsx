@@ -21,6 +21,8 @@ const SujestedFriends = () => {
 
   const mainData: IFollowerDoc[] = data?.users || ([] as IFollowerDoc[]);
 
+  if(!mainData.length) return;
+
   return (
     <div
       className={cn(

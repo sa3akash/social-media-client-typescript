@@ -42,7 +42,7 @@ const RangeSlider = ({
 
   return (
     <input
-      className={`_6pp-basic-slider slider-theme-${color}`}
+      className={`_sa2-basic-slider slider-theme-${color}`}
       ref={inputRef}
       type="range"
       min={min}

@@ -14,8 +14,8 @@ import {
   FaRegClosedCaptioning,
   IoSettings,
   IoSettingsOutline,
-  // RiMovieFill,
-  // RiMovieLine,
+  ResulationIcon,
+  SpeedIcon,
   TbRewindBackward10,
   TbRewindForward10,
 } from "./icons/Icons";
@@ -32,6 +32,7 @@ type VideoPlayerProps = {
   qualityOptions?: number[];
   setQuality: React.Dispatch<React.SetStateAction<number>>;
   className?: string;
+  quality?: number;
 };
 
 const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
@@ -60,18 +61,15 @@ const formatTime = (time: number) => {
 // };
 
 const VideoPlayer = ({
-  width = "40rem",
-  height = "20.5rem",
   src,
-  poster,
   captions,
   qualityOptions = [480, 720, 1080, 1440],
   setQuality,
   loop = false,
   className,
+  quality,
 }: VideoPlayerProps) => {
   const settingsPanelRef = useRef<HTMLDivElement>(null);
-  const speedPanelRef = useRef<HTMLDivElement>(null);
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
 
   const isDragging = useRef(false);
@@ -88,7 +86,6 @@ const VideoPlayer = ({
   // const [quality, setQuality] = useState(qualityOptions[0]);
 
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [isTheater, setIsTheater] = useState(false);
   const [isCaptions, setIsCaptions] = useState(false);
 
   const [duration, setDuration] = useState("00:00");
@@ -97,28 +94,30 @@ const VideoPlayer = ({
   const [timelineProgress, setTimelineProgress] = useState(0);
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isQualityOpen, setIsQualityOpen] = useState(false);
   const [isSpeedOpen, setIsSpeedOpen] = useState(false);
 
-  const toggleSettings = useCallback(
-    () => setIsSettingsOpen((prev) => !prev),
-    []
-  );
+  const toggleSettings = useCallback(() => {
+    setIsSettingsOpen((prev) => !prev);
+  }, []);
   const toggleSpeed = useCallback(() => setIsSpeedOpen((prev) => !prev), []);
   const toggleCaptions = useCallback(() => setIsCaptions((prev) => !prev), []);
-  const toggleTheater = useCallback(() => setIsTheater((prev) => !prev), []);
 
-  const handlePlayPause = useCallback(
-    () =>
-      setIsPaused((prev) => {
-        if (prev) {
-          videoPlayerRef.current?.play();
-        } else {
-          videoPlayerRef.current?.pause();
-        }
-        return !prev;
-      }),
-    []
-  );
+  const handlePlayPause = useCallback(() => {
+    if (!videoPlayerRef.current) return;
+
+    if (videoPlayerRef.current.paused) {
+      videoPlayerRef.current.play();
+      setIsPaused(false);
+    } else {
+      videoPlayerRef.current.pause();
+      setIsPaused(true);
+    }
+  }, []);
+
+  console.log(isPaused, 'isPaused')
+  console.log('running')
+
 
   const handleFullScreenChange = useCallback(() => {
     if (isFullScreen) {
@@ -135,11 +134,14 @@ const VideoPlayer = ({
 
   const handleSpeedChange = (speed: number) => {
     setSpeed(speed);
-    toggleSpeed();
+    setIsQualityOpen(false);
+    setIsSpeedOpen(false);
+    toggleSettings();
   };
   const handleQualityChange = (quality: number) => {
     setQuality(quality);
     toggleSettings();
+    setIsQualityOpen(false);
   };
   const handleRewindBackward10 = useCallback(() => {
     const player = videoPlayerRef.current;
@@ -202,12 +204,7 @@ const VideoPlayer = ({
       !settingsPanelRef.current.contains(event.target as Node)
     ) {
       setIsSettingsOpen(false);
-    }
-
-    if (
-      speedPanelRef.current &&
-      !speedPanelRef.current.contains(event.target as Node)
-    ) {
+      setIsQualityOpen(false);
       setIsSpeedOpen(false);
     }
   }, []);
@@ -239,10 +236,6 @@ const VideoPlayer = ({
         toggleCaptions();
       }
 
-      if (e.key === "t") {
-        toggleTheater();
-      }
-
       if (e.key === "ArrowRight") {
         handleRewindForward10();
       }
@@ -259,7 +252,6 @@ const VideoPlayer = ({
       handleRewindForward10,
       toggleCaptions,
       toggleSettings,
-      toggleTheater,
     ]
   );
 
@@ -274,7 +266,9 @@ const VideoPlayer = ({
 
   const loadedDataHandler = useCallback(() => {
     const player = videoPlayerRef.current;
-    if (player) setDuration(formatTime(videoPlayerRef.current.duration));
+    if (player) {
+      setDuration(formatTime(videoPlayerRef.current.duration));
+    }
   }, []);
 
   const timeupdateHandler = useCallback(() => {
@@ -299,15 +293,24 @@ const VideoPlayer = ({
   useEffect(() => {
     const videoPlayer = videoPlayerRef.current;
 
+    // const playHandler = () => setIsPaused(false);
+    // const pauseHandler = () => setIsPaused(true);
+
     if (videoPlayer) {
       videoPlayer.addEventListener("loadeddata", loadedDataHandler);
       videoPlayer.addEventListener("timeupdate", timeupdateHandler);
+      // videoPlayer.addEventListener("play", playHandler);
+      // videoPlayer.addEventListener("pause", pauseHandler);
+      // videoPlayer.addEventListener("ended", pauseHandler);
     }
 
     return () => {
       if (videoPlayer) {
         videoPlayer.removeEventListener("loadeddata", loadedDataHandler);
         videoPlayer.removeEventListener("timeupdate", timeupdateHandler);
+        // videoPlayer.removeEventListener("play", playHandler);
+        // videoPlayer.removeEventListener("pause", pauseHandler);
+        // videoPlayer.removeEventListener("ended", pauseHandler);
       }
     };
   }, [loadedDataHandler, timeupdateHandler]);
@@ -354,75 +357,94 @@ const VideoPlayer = ({
       setIsLoading(false);
       setSpeed(1);
     };
-  }, [src, poster]);
+  }, [src]);
 
   const SettingPanel = isSettingsOpen && (
-    <div ref={settingsPanelRef} className="_6pp-video-player-setting-panel">
-      <ul>
-        {qualityOptions.map((i, idx) => (
-          <li
-            key={i}
-            style={{
-              borderTopLeftRadius: idx === 0 ? "0.5rem" : 0,
-              borderTopRightRadius: idx === 0 ? "0.5rem" : 0,
-              borderBottomLeftRadius:
-                idx === qualityOptions.length - 1 ? "0.5rem" : 0,
-              borderBottomRightRadius:
-                idx === qualityOptions.length - 1 ? "0.5rem" : 0,
-            }}
-            onClick={() => handleQualityChange(i)}
-          >
-            {i}p
+    <div ref={settingsPanelRef} className="_sa2-video-player-setting-panel">
+      {!isSpeedOpen && !isQualityOpen && (
+        <ul>
+          <li title="Plackback Speed" onClick={toggleSpeed}>
+            <span>{SpeedIcon} Speed</span> <span>{speed}x</span>
           </li>
-        ))}
-      </ul>
-    </div>
-  );
+          <li onClick={() => setIsQualityOpen(true)}>
+            <span>{ResulationIcon} Quality</span>{" "}
+            <span>{quality || "auto"}</span>
+          </li>
+          <li
+            title={isCaptions ? "Hide Captions" : "Show Captions"}
+            onClick={toggleCaptions}
+          >
+            {isCaptions ? FaClosedCaptioning : FaRegClosedCaptioning}{" "}
+            {isCaptions ? "Hide Captions" : "Show Captions"}
+          </li>
+        </ul>
+      )}
 
-  const SpeedPanel = isSpeedOpen && (
-    <div ref={speedPanelRef} className="_6pp-video-player-speed-panel">
-      <ul>
-        {speedOptions.map((i, idx) => (
-          <li
-            key={i}
-            style={{
-              borderTopLeftRadius: idx === 0 ? "0.5rem" : 0,
-              borderTopRightRadius: idx === 0 ? "0.5rem" : 0,
-              borderBottomLeftRadius:
-                idx === speedOptions.length - 1 ? "0.5rem" : 0,
-              borderBottomRightRadius:
-                idx === speedOptions.length - 1 ? "0.5rem" : 0,
-            }}
-            onClick={() => handleSpeedChange(i)}
-          >
-            {i}x
-          </li>
-        ))}
-      </ul>
+      {isSpeedOpen && (
+        <ul>
+          {speedOptions.map((i, idx) => (
+            <li
+              key={i}
+              style={{
+                borderTopLeftRadius: idx === 0 ? "0.5rem" : 0,
+                borderTopRightRadius: idx === 0 ? "0.5rem" : 0,
+                borderBottomLeftRadius:
+                  idx === speedOptions.length - 1 ? "0.5rem" : 0,
+                borderBottomRightRadius:
+                  idx === speedOptions.length - 1 ? "0.5rem" : 0,
+              }}
+              onClick={() => handleSpeedChange(i)}
+            >
+              {i}x
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {isQualityOpen && (
+        <ul>
+          {qualityOptions.map((i, idx) => (
+            <li
+              key={i}
+              style={{
+                borderTopLeftRadius: idx === 0 ? "0.5rem" : 0,
+                borderTopRightRadius: idx === 0 ? "0.5rem" : 0,
+                borderBottomLeftRadius:
+                  idx === qualityOptions.length - 1 ? "0.5rem" : 0,
+                borderBottomRightRadius:
+                  idx === qualityOptions.length - 1 ? "0.5rem" : 0,
+              }}
+              onClick={() => handleQualityChange(i)}
+            >
+              {i}p
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 
   const TimeLine = (
     <div
-      className="_6pp-video-player-timeline-container"
+      className="_sa2-video-player-timeline-container"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
       <div
-        className="_6pp-video-player-timeline-thumb"
+        className="_sa2-video-player-timeline-thumb"
         style={{
           left: `${timelineProgress}%`,
         }}
       />
       <div
-        className="_6pp-video-player-timeline-progress"
+        className="_sa2-video-player-timeline-progress"
         style={{
           width: `${timelineProgress}%`,
         }}
       />
       <div
-        className="_6pp-video-player-timeline-buffer-progress"
+        className="_sa2-video-player-timeline-buffer-progress"
         style={{
           width: `${buffered}%`,
         }}
@@ -431,7 +453,7 @@ const VideoPlayer = ({
   );
 
   const ControlsPanel = (
-    <div className="_6pp-video-player-controls">
+    <div className="_sa2-video-player-controls">
       <button
         title="Rewind Backward 10 Seconds"
         onClick={handleRewindBackward10}
@@ -443,7 +465,7 @@ const VideoPlayer = ({
         onClick={handlePlayPause}
         title={isPaused ? "Play" : "Pause"}
       >
-        {isPaused ? FaPlay : FaPause}
+        {isPaused ? FaPause : FaPlay}
       </button>
 
       <button title="Fast Forward 10 Seconds" onClick={handleRewindForward10}>
@@ -454,14 +476,14 @@ const VideoPlayer = ({
         {isMuted ? CiVolumeMute : volume > 50 ? CiVolumeHigh : CiVolume}
       </button>
 
-      <div className="_6pp-video-player-volume-slider">
+      <div className="_sa2-video-player-volume-slider">
         <RangeSlider
           value={volume}
           changeHandler={(e) => setVolume(Number(e.target.value))}
         />
       </div>
 
-      <div className="_6pp-video-player-duration">
+      <div className="_sa2-video-player-duration">
         <span>{currentTime}</span> <span>/</span> <span>{duration}</span>
       </div>
 
@@ -473,30 +495,10 @@ const VideoPlayer = ({
         {isSettingsOpen ? IoSettings : IoSettingsOutline}
       </button>
 
-      <button
-        title={isCaptions ? "Hide Captions" : "Show Captions"}
-        onClick={toggleCaptions}
-      >
-        {isCaptions ? FaClosedCaptioning : FaRegClosedCaptioning}
-      </button>
-
-      <button
-        title="Plackback Speed"
-        style={{ fontSize: "1.25rem" }}
-        onClick={toggleSpeed}
-      >
-        {speed}x
-      </button>
-
       <button onClick={handleMiniPlayerChange} title="Mini Player">
         {CgMiniPlayer}
       </button>
-      {/* <button
-        onClick={toggleTheater}
-        title={isTheater ? "Exit Theater Mode" : "Theater Mode"}
-      >
-        {isTheater ? RiMovieFill : RiMovieLine}
-      </button> */}
+
       <button
         onClick={handleFullScreenChange}
         title={isFullScreen ? "Exit Full Screen" : "Full Screen"}
@@ -507,19 +509,14 @@ const VideoPlayer = ({
   );
 
   const Loader = (
-    <div className="_6pp-video-player-loading">
-      <div className="_6pp-video-player-loading-spinner"></div>
+    <div className="_sa2-video-player-loading">
+      <div className="_sa2-video-player-loading-spinner"></div>
     </div>
   );
 
   return (
     <div
-      className="_6pp-video-player-container"
-      style={{
-        width: isFullScreen ? "100vw" : isTheater ? "100%" : width,
-        height: isFullScreen ? "100vh" : isTheater ? "70vh" : height,
-        position: isFullScreen ? "fixed" : "relative",
-      }}
+      className="_sa2-video-player-container"
       onContextMenu={(e) => e.preventDefault()}
     >
       {/* Panel for adjusting quality setting */}
@@ -527,9 +524,9 @@ const VideoPlayer = ({
 
       {/* Panel for adjusting Speed */}
 
-      {SpeedPanel}
+      {/* {SpeedPanel} */}
 
-      <div className="_6pp-video-player-controls-container">
+      <div className="_sa2-video-player-controls-container">
         {/* Timeline Below */}
         {TimeLine}
 
@@ -543,20 +540,21 @@ const VideoPlayer = ({
       <video
         ref={videoPlayerRef}
         src={src}
-        className={`_6pp-video-player-video ${className}`}
+        className={`_sa2-video-player-video`}
         style={{
           filter: isLoading ? "blur(5px)" : "none",
         }}
         onClick={handlePlayPause}
-        poster={poster}
+        // poster={poster}
         onWaiting={() => setIsLoading(true)}
         onPlaying={() => setIsLoading(false)}
         onEnded={handlePlayPause}
         loop={loop}
+        // autoPlay
       >
         <track src={captions} kind="captions" srcLang="en" label="English" />
       </video>
-      <div className="_6pp-video-player-backdrop"></div>
+      <div className="_sa2-video-player-backdrop"></div>
     </div>
   );
 };

@@ -33,14 +33,15 @@ export const feelingData = [
   "thankful",
   "wonderful",
 ];
+
 export interface IFiles {
-  fieldname?: string;
-  originalname?: string;
-  filename?: string;
-  encoding?: string;
-  mimetype: string;
-  path: string;
-  size?: number;
+  mimetype: string,
+  size: number,
+  url:string,
+  name: string,
+  duration: number
+  resulation: string
+  display_aspect_ratio: string
 }
 
 export type IPrivacy = "Public" | "Private" | "Only me";
@@ -75,12 +76,15 @@ export interface IPostDoc {
   uId: string;
   creator: IUserDoc;
   post: string;
-  bgColor?: string;
+  bgColor: string;
+  description: string;
   commentsCount: number;
   files: IFiles[];
   feelings?: string;
-  gifUrl?: string;
-  privacy: IPrivacy;
+  gifUrl: string;
+  privacy: 'Public' | 'Private' | 'Only me';
+  live: boolean;
+  liveUrl: string;
   reactions: IReactions;
   createdAt: string;
 }
