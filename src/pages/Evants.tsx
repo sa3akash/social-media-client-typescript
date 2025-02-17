@@ -1,3 +1,4 @@
+import StreamStats from "@/components/Advanced";
 import { VideoPlayer } from "@/components/videoPlayer/VideoPlayer"
 import { Utils } from "@/services/utils/utils";
 import { VideoUtils } from "@/services/utils/videoUtils";
@@ -31,9 +32,9 @@ const Evants = () => {
 
   return (
     <section className="w-full h-full">
-      <div className=" h-[800px] ">
-      {/* <VideoPlayer src={videoUrl} setQuality={()=>{}} poster={image}/> */}
-      </div>
+     
+     {/* <Chart /> */}
+     <StreamStats streamKey="square-live-bb4d2e9a-e052-4341-90f5-4aaea0979281"/>
     </section>
   )
 }
