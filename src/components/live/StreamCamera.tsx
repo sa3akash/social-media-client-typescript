@@ -261,9 +261,9 @@ const StreamCamera: FC<Props> = ({ liveValue, setLiveValue }) => {
   const { socket } = useSocket();
 
   const startStream = () => {
-    // if (!streamRef.current) return;
+    if (!cameraStreamRef.current) return;
     setStreamDuration(0);
-
+  
     if (!liveValue.title || !liveValue.description) {
       toast({
         variant: "destructive",
@@ -271,54 +271,63 @@ const StreamCamera: FC<Props> = ({ liveValue, setLiveValue }) => {
       });
       return;
     }
-
-    if (!socket) {
+  
+    if (!socket || !socket.connected) {
       toast({
         variant: "destructive",
-        title: "Your not connected to the socket. Please refresh your page.",
+        title: "You're not connected to the socket. Please refresh your page.",
       });
       return;
     }
-
+  
     socket.emit("start-live", {
       title: liveValue.title,
       description: liveValue.description,
       privacy: liveValue.privacy,
     });
-
+  
     setLiveValue((prev) => ({ ...prev, live: true }));
-
+  
     const streamToSend = isScreenSharing
-      ? screenStreamRef.current!
-      : cameraStreamRef.current!;
-
+      ? screenStreamRef.current
+      : cameraStreamRef.current;
+  
+    if (!streamToSend) {
+      toast({ variant: "destructive", title: "Stream source is not available." });
+      return;
+    }
+  
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+    }
+  
     mediaRecorderRef.current = new MediaRecorder(streamToSend, {
       mimeType: "video/webm; codecs=vp8,opus",
     });
-
+  
     mediaRecorderRef.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
         sendToRTMP(event.data);
         setStreamDuration((prev) => prev + 1);
       }
     };
+  
     mediaRecorderRef.current.start(1000); // Send data every second
   };
-
+  
   const sendToRTMP = (blob: Blob) => {
-    // console.log("Sending to RTMP server:", blob);
     const reader = new FileReader();
     reader.onloadend = () => {
       const arrayBuffer = reader.result as ArrayBuffer;
       const byteArray = new Uint8Array(arrayBuffer);
-
-      // send byteArray in server using socketio
-      if (socket) {
+  
+      if (socket && socket.connected) {
         socket.emit("go-stream", byteArray);
       }
     };
     reader.readAsArrayBuffer(blob);
   };
+  
 
   const stopStream = () => {
     setStreamDuration(0);

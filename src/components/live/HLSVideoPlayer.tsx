@@ -240,11 +240,11 @@ interface VideoPlayerProps {
 }
 
 const resolutions = [
-  { label: "1080p", value: "1080p" },
-  { label: "720p", value: "720p" },
-  { label: "480p", value: "480p" },
-  { label: "360p", value: "360p" },
-  { label: "240p", value: "240p" },
+  { label: "1080p", value: "1080p4000kbs" },
+  { label: "720p", value: "720p2500kbs" },
+  { label: "480p", value: "480p1000kbs" },
+  { label: "360p", value: "360p750kbs" },
+  { label: "240p", value: "240p200kbs" },
   { label: "auto", value: "auto" },
 ];
 
@@ -257,7 +257,8 @@ const HLSVideoPlayer: React.FC<VideoPlayerProps> = ({ streamName }) => {
 
     hlsRef.current = new Hls();
     const hls = hlsRef.current;
-    const hlsUrl = `/live/${streamName}_360p/index.m3u8`;
+    // const hlsUrl = `/live/${streamName}_360p/index.m3u8`;
+    const hlsUrl = `/live/${streamName}_360p750kbs/index.m3u8`;
 
     // Load the stream
     hls.loadSource(hlsUrl);
@@ -306,7 +307,7 @@ const HLSVideoPlayer: React.FC<VideoPlayerProps> = ({ streamName }) => {
       <div>
         <label htmlFor="resolution">Select Resolution: </label>
         <select
-          defaultValue={'360p'}
+          defaultValue={'360p750kbs'}
           onChange={handleChange}
           className="bg-black text-white"
         >

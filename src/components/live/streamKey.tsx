@@ -18,6 +18,7 @@ import {
 import HLSVideoPlayer from "./HLSVideoPlayer";
 import { IPrivacy } from "@/interfaces/post.interface";
 import { useToast } from "../ui/use-toast";
+import { config } from "@/config";
 
 interface Props {
   liveValue: {
@@ -52,7 +53,7 @@ const StremKey: FC<Props> = ({ liveValue, setLiveValue }) => {
         setTimeout(() => setShowIcon(null), 2000);
       });
     }else{
-      navigator.clipboard.writeText('rtmp://localhost:2323/live').then(() => {
+      navigator.clipboard.writeText(config.RTMP_SERVER_URL).then(() => {
         setTimeout(() => setShowIcon(null), 2000);
       });
     }
@@ -125,7 +126,7 @@ const StremKey: FC<Props> = ({ liveValue, setLiveValue }) => {
           <CardContent className="flex gap-2 flex-col">
             <div className="flex items-center justify-between gap-2">
               <div className="min-w-max">Server</div>
-              <Input defaultValue={'rtmp://localhost:2323/live'} readOnly className="flex-1" />
+              <Input defaultValue={config.RTMP_SERVER_URL} readOnly className="flex-1" />
               <Button onClick={() => handleCopy('server')} className="min-w-max">
                 {showIcon === 'server' ? <Check /> : "Copy"}
               </Button>

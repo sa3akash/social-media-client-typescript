@@ -22,12 +22,12 @@ export default defineConfig({
         secure: false,
       },
       '/live': {
-        target: 'http://localhost:8888',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
       },
       '/hls': {
-        target: 'http://localhost:8888',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
       },
