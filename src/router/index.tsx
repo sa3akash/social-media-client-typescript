@@ -39,6 +39,7 @@ const Router = createBrowserRouter([
       </Suspense>
     ),
   },
+
 ]);
 
 export default Router;

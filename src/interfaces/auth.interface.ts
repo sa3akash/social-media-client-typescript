@@ -121,7 +121,7 @@ export interface IUserReactionDoc {
   authId: string;
   creator: IUserDoc;
   type: string;
-  postId: string;
+  targetId: string;
   createdAt: string;
 }
 

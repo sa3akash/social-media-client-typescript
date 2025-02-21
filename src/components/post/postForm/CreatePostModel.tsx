@@ -24,6 +24,7 @@ import {
   useCreatePostMutation,
   useUpdatePostMutation,
 } from "@/store/rtk/post/getPostSlice";
+import VideoAndPhoto from "./VideoAndPhoto";
 
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -99,7 +100,7 @@ const CreatePostModel = () => {
         dispatch(clearPost());
       }}
     >
-      <DialogContent className="max-w-[500px] p-0 cardBG">
+      <DialogContent className="max-h-[90vh] overflow-y-scroll p-0 cardBG">
         <DialogHeader>
           <DialogTitle className="text-center mt-4">
             {type === "createPost" ? "Create post" : "Update Post"}
@@ -113,6 +114,7 @@ const CreatePostModel = () => {
             feelings={feelings as IFeelings}
           />
           <CreateInput  />
+          <VideoAndPhoto />
           <SelectBgAndEmoji />
           <AddToUserPost />
         </div>

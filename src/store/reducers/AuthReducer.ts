@@ -58,13 +58,13 @@ export const AuthSlice = createSlice({
 
     addUserReactions: (state, action: PayloadAction<IUserReactionDoc>) => {
       const findIndex = state.userReaction.findIndex(
-        (p) => p.postId === action.payload.postId,
+        (p) => p.targetId === action.payload.targetId,
       );
 
       if (findIndex !== -1) {
         if (state.userReaction[findIndex].type === action.payload.type) {
           state.userReaction = state.userReaction.filter(
-            (p) => p.postId !== action.payload.postId,
+            (p) => p.targetId !== action.payload.targetId,
           );
         } else {
           state.userReaction[findIndex] = {

@@ -75,6 +75,22 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 5px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
   .borderWrapper {
     @apply border border-[#dddddd] dark:border-[#44444F];
   }
@@ -136,33 +152,28 @@ em-emoji-picker {
   height: 350px;
 }
 
-
 #scrollOverOff > div > div {
   /* min-width: unset !important; */
   display: unset !important;
 }
 
 #scrollOverHight > div > div {
- height: 100%;
- 
+  height: 100%;
 }
 
-
-.scrollType{
+.scrollType {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   overflow-y: auto;
   scrollbar-width: none;
 
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     display: none;
   }
 }
-.scrollTypeItem{
+.scrollTypeItem {
   scroll-snap-align: center;
 }
-
-
 
 .floating-heart {
   position: absolute;
@@ -204,11 +215,13 @@ em-emoji-picker {
   }
   30% {
     opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1.2) translateY(-20px) translateX(-10px);
+    transform: translate(-50%, -50%) scale(1.2) translateY(-20px)
+      translateX(-10px);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5) translateY(-100px) translateX(-20px);
+    transform: translate(-50%, -50%) scale(1.5) translateY(-100px)
+      translateX(-20px);
   }
 }
 
@@ -219,17 +232,15 @@ em-emoji-picker {
   }
   30% {
     opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1.2) translateY(-20px) translateX(10px);
+    transform: translate(-50%, -50%) scale(1.2) translateY(-20px)
+      translateX(10px);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5) translateY(-100px) translateX(20px);
+    transform: translate(-50%, -50%) scale(1.5) translateY(-100px)
+      translateX(20px);
   }
 }
-
-
-
-
 
 /* ================= */
 .heart {
@@ -260,13 +271,13 @@ em-emoji-picker {
     transform: scale(0.9);
   }
   21% {
-    transform: scale(1.1) skew(0.004turn)
+    transform: scale(1.1) skew(0.004turn);
   }
   28% {
     transform: scale(1) skew(0.008turn);
   }
   35% {
-    transform: scale(1) skew(0)
+    transform: scale(1) skew(0);
   }
 }
 
@@ -288,8 +299,6 @@ em-emoji-picker {
     transform: scale(3);
   }
 }
-
-
 
 .swiper {
   width: 220px;

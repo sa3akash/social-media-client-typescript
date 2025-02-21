@@ -72,7 +72,7 @@ export class PostUtils {
     userReaction: IUserReactionDoc[],
     postId: string,
   ): IUserReactionDoc | undefined {
-    return userReaction.find((reaction) => reaction.postId === postId);
+    return userReaction.find((reaction) => reaction.targetId === postId);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

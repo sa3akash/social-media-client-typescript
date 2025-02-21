@@ -53,7 +53,7 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
           onTouchEnd={handleMouseLeave}
           onClick={(e) => {
             e.stopPropagation();
-            createReaction({ postId, type: "like" });
+            createReaction({ targetId: postId, type: "like" });
             handleMouseLeave();
           }}
         >
@@ -155,7 +155,7 @@ const SingleReaciton = ({
   const [createReaction] = useCreateReactionMutation();
 
   const handleReactionClick = () => {
-    createReaction({ postId, type });
+    createReaction({ targetId:postId, type });
     setOpenReaction(false);
   };
 

@@ -1,14 +1,9 @@
-import React, { FC, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import PostHeader from "@/components/post/item/PostHeader";
 import PostActions from "@/components/post/item/PostActions";
 import CommentAction from "@/components/post/item/CommentAction";
-import ImagesShow from "@/components/post/item/ImagesShow";
 import PostReactions from "@/components/post/item/PostReactions";
 import { IPostDoc } from "@/interfaces/post.interface";
-import PostText from "@/components/post/item/PostText";
-import GifPreview from "@/components/common/GifPreview";
-import HLSVideoPlayer from "@/components/common/HLSVideoPlayer";
-import { Utils } from "@/services/utils/utils";
 import { Link } from "react-router-dom";
 import VideoPreview from "@/components/common/VideoPreview";
 import { extractHashTages } from "@/services/genaral/descriptionHashTagExtract";

@@ -1,7 +1,6 @@
 import LivePage from "@/components/live/LivePage";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { StreamProvider } from "@/context/StreamContext";
-import React from "react";
 
 const Live = () => {
   return (

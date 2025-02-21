@@ -6,6 +6,7 @@ import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import NotificationSkeleton from "@/components/notificaton/skeleton/NotificationSkeleton";
 import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
 import CreateVideoOrPhotoPost from "@/components/post/CreateVideoOrPhotoPost";
+import Test from "@/pages/test";
 
 // lazy loading
 const Profile = lazy(() => import("@/pages/Profile"));
@@ -137,6 +138,15 @@ const Protected = [
     element: (
       <Suspense fallback={"Loading..."}>
         <Settings />
+      </Suspense>
+    ),
+  },
+
+  {
+    path: '/test',
+    element: (
+      <Suspense>
+        <Test />
       </Suspense>
     ),
   },

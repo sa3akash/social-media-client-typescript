@@ -16,6 +16,9 @@ const CallAction: FC<Props> = ({ closeConnection }) => {
   const {offerData} = useSimplePeer()
 
 
+  if(!offerData){
+    return;
+  }
 
   return (
     <div className="h-20 flex items-center justify-center gap-2 relative">

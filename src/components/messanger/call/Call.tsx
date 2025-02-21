@@ -19,7 +19,9 @@ const Call = () => {
   console.log(activeSpeakerId)
 
 
-  const friendUser = offerData.to as IUserDoc;
+  const friendUser = offerData?.to as IUserDoc;
+
+  if(!friendUser) return;
 
   return (
     <div className="py-4 pl-4 flex flex-col gap-4 h-full">
@@ -66,7 +68,7 @@ const Call = () => {
               <audio src="/caller.mp3" loop autoPlay hidden></audio>
 
               <div>
-                {friendUser.authId === user?.authId ? (
+                {friendUser?.authId === user?.authId ? (
                   <ChevronsLeft className="w-10 h-10" />
                 ) : (
                   <ChevronsRight className="w-10 h-10" />
@@ -75,14 +77,14 @@ const Call = () => {
 
               <div className="flex flex-col gap-2 items-center">
                 <UserAvater
-                  src={friendUser.profilePicture}
-                  name={friendUser.name as NameDoc}
+                  src={friendUser?.profilePicture}
+                  name={friendUser?.name as NameDoc}
                   indicator="hidden"
                   className="md:w-[120px] md:h-[120px] h-[80px] w-[80px] xl:w-[80px] xl:h-[80px] 2xl:w-[120px] 2xl:h-[120px] border-[3px]"
-                  style={{ borderColor: friendUser.avatarColor }}
+                  style={{ borderColor: friendUser?.avatarColor }}
                 />
                 <h3>
-                  {friendUser.name.first} {friendUser.name.last}
+                  {friendUser?.name.first} {friendUser?.name.last}
                 </h3>
               </div>
             </div>

@@ -1,88 +1,64 @@
-import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import ReactDropzone from "react-dropzone";
-import { FileUploadProgress } from "@/services/genaral/FileUploader";
-import { useToast } from "../ui/use-toast";
-import { ScrollArea } from "../ui/scroll-area";
-import { cn } from "@/lib/utils";
-import { Upload } from "./uploads";
-import { IFiles } from "@/interfaces/post.interface";
+import { useCallback } from "react";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
+import { useDropzone } from "react-dropzone";
+import { Button } from "../ui/button";
 
 const CreateVideoOrPhotoPost = () => {
-  const [isHover, setIsHover] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const onDrop = useCallback((acceptedFiles) => {
+    // Handle file upload
+    console.log(acceptedFiles);
+    // You can also process the files here (e.g. send them to a server)
+  }, []);
 
-  const [uploadProgressList, setUploadProgressList] = useState<
-    FileUploadProgress[]
-  >([]);
-  const [uploadedFiles, setUploadedFiles] = useState<IFiles[]>([]);
-
-  const { toast } = useToast();
-
-  const handleHover = (): void => setIsHover(true);
-  const handleExitHover = (): void => setIsHover(false);
-
-  
-  const onDrop = async (acceptedFiles: File[]) => {
-    // Separate files into images and videos
-    const videoFiles = acceptedFiles.filter((file) =>
-      file.type.startsWith("video/")
-    );
-    const imageFiles = acceptedFiles.filter((file) =>
-      file.type.startsWith("image/")
-    );
-
-    // Check for the number of files
-    if (videoFiles.length >= 1) {
-      setUploadProgressList([
-        {
-          file: videoFiles[0],
-          progress: 0,
-        },
-
-      ]);
-
-      Upload(videoFiles[0],(progress,name,data)=>{
-        setUploadProgressList((prev) =>
-          prev.map((item) =>
-            item.file.name === name ? { ...item, progress } : item
-          )
-        );
-
-        if(progress === 100 && data){
-          setUploadedFiles([data])
-        }
-
-      })  
-      // toast({
-      //   title: "Only one video file can be uploaded.",
-      //   description: `You have uploaded a video: ${videoFiles[0].name}`,
-      // });
-      return;
-    }
-
-    if (imageFiles.length > 0) {
-      setUploadProgressList([
-        ...imageFiles.map((fi) => ({ file: fi, progress: 0 })),
-      ]);
-    } else {
-      toast({
-        title: "Please select a valid video or image file.",
-      });
-    }
-  };
-
-
-//  useEffect(()=>{},[])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <ScrollArea className="flex-1">
+    <div className="flex-1 my-4 space-y-6">
+      <div className="cardBG space-y-2 p-4 rounded-md">
+        <div className="space-y-2">
+          <Label htmlFor="title">Title</Label>
+          <Input placeholder="What's your mind?" id="title" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="title">Descript</Label>
+          <Textarea
+            placeholder="Write details here"
+            id="title"
+            className="focus-visible:ring-0 focus-visible:ring-inset focus-visible:ring-offset-0"
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-4">
+
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+
+
+        <div className="cardBG rounded-md min-h-[180px] p-4 ">
+        <div {...getRootProps()} className="border border-dashed h-full rounded-md flex items-center justify-center text-center">
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          )}
+        </div>
+        </div>
+        
+      </div>
+
+      <Button className="w-full">Uplaod</Button>
+    </div>
+  );
+};
+
+export default CreateVideoOrPhotoPost;
+
+{
+  /* <ScrollArea className="flex-1">
       <div className="flex-1 flex flex-col md:flex-row gap-2 pt-4">
       <div className="flex-1 h-max">
         <Card className="h-max cardBG">
@@ -167,10 +143,78 @@ const CreateVideoOrPhotoPost = () => {
           </CardContent>
         </Card>
       </div>
-      <div className="flex-1">2</div>
+    
     </div>
-    </ScrollArea>
-  );
-};
+    </ScrollArea> */
+}
 
-export default CreateVideoOrPhotoPost;
+{
+  /**
+      const [isHover, setIsHover] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  const [uploadProgressList, setUploadProgressList] = useState<
+    FileUploadProgress[]
+  >([]);
+  const [uploadedFiles, setUploadedFiles] = useState<IFiles[]>([]);
+
+  const { toast } = useToast();
+
+  const handleHover = (): void => setIsHover(true);
+  const handleExitHover = (): void => setIsHover(false);
+
+  
+  const onDrop = async (acceptedFiles: File[]) => {
+    // Separate files into images and videos
+    const videoFiles = acceptedFiles.filter((file) =>
+      file.type.startsWith("video/")
+    );
+    const imageFiles = acceptedFiles.filter((file) =>
+      file.type.startsWith("image/")
+    );
+
+    // Check for the number of files
+    if (videoFiles.length >= 1) {
+      setUploadProgressList([
+        {
+          file: videoFiles[0],
+          progress: 0,
+        },
+
+      ]);
+
+      Upload(videoFiles[0],(progress,name,data)=>{
+        setUploadProgressList((prev) =>
+          prev.map((item) =>
+            item.file.name === name ? { ...item, progress } : item
+          )
+        );
+
+        if(progress === 100 && data){
+          setUploadedFiles([data])
+        }
+
+      })  
+      // toast({
+      //   title: "Only one video file can be uploaded.",
+      //   description: `You have uploaded a video: ${videoFiles[0].name}`,
+      // });
+      return;
+    }
+
+    if (imageFiles.length > 0) {
+      setUploadProgressList([
+        ...imageFiles.map((fi) => ({ file: fi, progress: 0 })),
+      ]);
+    } else {
+      toast({
+        title: "Please select a valid video or image file.",
+      });
+    }
+  };
+
+
+//  useEffect(()=>{},[])
+      
+      **/
+}

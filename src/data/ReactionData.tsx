@@ -5,7 +5,7 @@ export const reactionData:IReactionDoc[] = [
         _id: '123456',
         authId: '123456',
         createdAt: '20/10/2015',
-        postId: '123456',
+        targetId: '123456',
         creator: {
             authId: '123',
             avatarColor: '#F4CE14',

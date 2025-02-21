@@ -37,11 +37,12 @@ const AddToUserPost = () => {
           <div
             className="rounded-full p-2 hover:bg-secondary cursor-pointer select-none"
             onClick={() => {
-              navigate('/feed/create')
-              setGiphyModel(false)
-              setModelOpen(false)
-              dispatch(closeModel())
+              // navigate('/feed/create')
+              // setGiphyModel(false)
+              // setModelOpen(false)
+              // dispatch(closeModel())
 
+              console.log('running..')
             }}
           >
             <img src={ImageVideoIcon} alt="image" className="w-5 md:w-6"/>

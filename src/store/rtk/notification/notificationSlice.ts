@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import api from "@/store/rtk/BaseQuery";
 import { IReactionDoc } from "@/interfaces/reaction.interface";
 import { INotification } from "@/interfaces/notificaton.interface";

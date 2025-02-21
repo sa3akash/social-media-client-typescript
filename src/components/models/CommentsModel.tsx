@@ -7,6 +7,7 @@ import { Loader2,MessagesSquare } from "lucide-react";
 import UserHoverCard from "@/components/common/UserHoverCard";
 import { useInfiniteCommant } from "@/hooks/testhook/useGetCommant";
 
+
 interface Props    {
   postId: string;
 }
@@ -47,7 +48,13 @@ export default CommentsModel;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SingleCommentUser = ({ item }: { item: any }) => {
+
+
   return (
+
+    <>
+
+
     <div className="flex items-center gap-2 px-4 py-2">
       <div className="w-[50px]">
         <UserAvater
@@ -76,5 +83,41 @@ const SingleCommentUser = ({ item }: { item: any }) => {
         </div>
       </div>
     </div>
+    </>
+   
   );
 };
+
+
+{/**
+  
+   <div className="flex items-center gap-2 px-4 py-2">
+      <div className="w-[50px]">
+        <UserAvater
+          src={item?.creator?.profilePicture}
+          name={item?.creator?.name as NameDoc}
+          className="min-w-[36px] min-h-[36px]"
+          avatarColor={item?.creator?.avatarColor}
+          authId={item?._id}
+          indicator="hidden"
+        />
+      </div>
+      <div>
+        <div className="bg-muted py-2 px-4 rounded-2xl">
+          <div>
+            <UserHoverCard
+              item={{ _id: item?.creator.authId, ...item?.creator }}
+              className="capitalize font-semibold text-[14px] tracking-[0.1px] h-max"
+            />
+          </div>
+          <span className="text-[16px] flex-1">{item?.comment}</span>
+        </div>
+        <div>
+          <span className="text-[12px] roboto text-[#696974]">
+            {timeAgo.transform(`${item?.createdAt}`)}
+          </span>
+        </div>
+      </div>
+    </div>
+  
+  */}

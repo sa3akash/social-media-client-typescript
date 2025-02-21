@@ -23,7 +23,7 @@ export type OnlyReactionName =
 export interface IReactionDoc {
   _id: string;
   authId: string;
-  postId: string;
+  targetId: string;
   type: string;
   createdAt: string;
   creator: IUserDoc;

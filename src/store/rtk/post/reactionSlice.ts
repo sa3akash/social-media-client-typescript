@@ -59,10 +59,11 @@ export const reactionsApi = api.injectEndpoints({
       }),
 
       invalidatesTags: (_result, _error, post) => [
-        { type: "Post", id: post.postId },
+        { type: "Post", id: post.targetId },
         { type: "Post", id: "USER_LIST" },
       ], // Optimistically update the cache after updating a post
       async onQueryStarted(newData, { dispatch, queryFulfilled }) {
+      
         dispatch(addUserReactions(newData));
 
         try {

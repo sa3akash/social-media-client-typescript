@@ -1,8 +1,6 @@
 // ================ main data ==================== //
 
-import { IPostDoc } from "@/interfaces/post.interface";
-
-export const postData: IPostDoc[] = [
+export const postData = [
   {
     _id: "123456",
     authId: "789654",
@@ -654,7 +652,7 @@ export const postData: IPostDoc[] = [
   },
 ];
 
-export const photoPost: IPostDoc[] = [
+export const photoPost = [
   {
     _id: "123456",
     authId: "789654",
