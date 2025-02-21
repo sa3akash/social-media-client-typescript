@@ -9,7 +9,9 @@ const MessageDropDown = () => {
   const [seatchParams] = useSearchParams();
   const conversationId = seatchParams.get("conversationId");
 
- const {data} = useGetConversationQuery('')
+ const { data } = useGetConversationQuery('');
+
+ const conversationList = data?.conversationList;
 
   
   return (
@@ -23,7 +25,7 @@ const MessageDropDown = () => {
           Messages
         </h3>
         <div className="flex flex-col gap-2 px-2 py-2">
-          {data?.map((item:IMessageData, index:number) => (
+          {conversationList?.map((item:IMessageData, index:number) => (
             <SingleConversationItem
               key={index}
               item={item}

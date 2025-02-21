@@ -59,7 +59,8 @@ const useAudio = (url: string) => {
     });
 
     ws.on("audioprocess", () => {
-      setCurrentTime(ws.getCurrentTime());
+      const current = ws.getCurrentTime();  
+      setCurrentTime(current);  
     });
 
     ws.on("finish", () => {

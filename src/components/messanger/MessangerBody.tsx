@@ -14,7 +14,6 @@ import MessangerInput from "@/components/messanger/item/MessangerInput";
 import MessangerHeader from "@/components/messanger/item/MessangerHeader";
 import useChatAsRead from "@/hooks/socket/useMessageRead";
 
-
 const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { selectedUser } = useSelector((state: RootState) => state.model);
@@ -43,39 +42,39 @@ const MessangerBody = () => {
           </div>
         )}
         <div className="flex-1 border flex flex-col">
-          <div className="flex-1 relative h-full ">
-            <div
-              className="h-full w-full px-4 overflow-y-scroll"
-              ref={chatContainerRef}
-              id="chat-container"
-            >
-              {isLoading && (
-                <div className="w-full flex items-center gap-2 justify-center py-2">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Loading...
-                </div>
-              )}
+          <div className="flex-1"></div>
 
-              {messages.map((message, index) => (
-                <SingleMessage
-                  item={message}
-                  wonMessage={user?.authId === message.senderId}
-                  multipleMessage={
-                    index > 0 &&
-                    message.senderId === messages[index - 1].senderId
-                  }
-                  separatorDate={
-                    index > 0 &&
-                    !Utils.checkDateSame(
-                      messages[index - 1].createdAt,
-                      message.createdAt
-                    )
-                  }
-                  key={index}
-                  lastMessage={index + 1 === messages.length}
-                />
-              ))}
-            </div>
+          <div
+            className="relative h-full overflow-y-scroll"
+            ref={chatContainerRef}
+            id="chat-container"
+          >
+            {isLoading && (
+              <div className="w-full flex items-center gap-2 justify-center py-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Loading...
+              </div>
+            )}
+            <div className="h-auto"></div>
+
+            {messages.map((message, index) => (
+              <SingleMessage
+                item={message}
+                wonMessage={user?.authId === message.senderId}
+                multipleMessage={
+                  index > 0 && message.senderId === messages[index - 1].senderId
+                }
+                separatorDate={
+                  index > 0 &&
+                  !Utils.checkDateSame(
+                    messages[index - 1].createdAt,
+                    message.createdAt
+                  )
+                }
+                key={index}
+                lastMessage={index + 1 === messages.length}
+              />
+            ))}
 
             {gif && (
               <div className="absolute bottom-0 left-0 w-full h-[150px]">
