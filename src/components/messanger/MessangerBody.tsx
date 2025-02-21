@@ -1,32 +1,117 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
-
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-// import CallingAudioVideo from "@/components/messanger/item/CallingAudioVideo";
-import { ElementRef, lazy, Suspense, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Utils } from "@/services/utils/utils";
 import Call from "./call/Call";
 import {} from "@/interfaces/auth.interface";
-// import useWebrtc from "@/hooks/webrtc/useWebrtc";
-import useMessageScroll from "@/hooks/testhook/useMessageScroll";
-import { Button } from "@/components/ui/button";
-import useChatAsRead from "@/hooks/socket/useMessageRead";
 import useSimplePeer from "@/hooks/webrtc/useSimplePeer";
+import { useChat } from "@/hooks/chat/useChat";
 
-const SingleMessage = lazy(
-  () => import("@/components/messanger/item/SingleMessage")
-);
+import SingleMessage from "@/components/messanger/item/SingleMessage";
+import MessangerInput from "@/components/messanger/item/MessangerInput";
+import MessangerHeader from "@/components/messanger/item/MessangerHeader";
+import useChatAsRead from "@/hooks/socket/useMessageRead";
 
-const MessangerInput = lazy(
-  () => import("@/components/messanger/item/MessangerInput")
-);
-const MessangerHeader = lazy(
-  () => import("@/components/messanger/item/MessangerHeader")
-);
 
 const MessangerBody = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { selectedUser } = useSelector((state: RootState) => state.model);
+  const [gif, setGif] = useState<string>("");
+  const { isCalling } = useSimplePeer();
+
+  const [searchParams] = useSearchParams();
+  const conversationId = searchParams.get("conversationId");
+  const receiverId = searchParams.get("receiverId");
+
+  const { chatContainerRef, messages, isLoading, scrollToBottom } =
+    useChat(conversationId);
+
+  useChatAsRead(messages, conversationId!, receiverId!, user!.authId);
+
+  return (
+    <div className="flex flex-col w-full h-full">
+      <MessangerHeader
+        userFriend={selectedUser?.user || messages[0]?.user}
+        conversationId={conversationId}
+      />
+      <div className="flex-1 flex flex-col h-full 2xl:flex-row gap-4">
+        {isCalling && (
+          <div className="flex-1">
+            <Call />
+          </div>
+        )}
+        <div className="flex-1 border flex flex-col">
+          <div className="flex-1 relative h-full ">
+            <div
+              className="h-full w-full px-4 overflow-y-scroll"
+              ref={chatContainerRef}
+              id="chat-container"
+            >
+              {isLoading && (
+                <div className="w-full flex items-center gap-2 justify-center py-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Loading...
+                </div>
+              )}
+
+              {messages.map((message, index) => (
+                <SingleMessage
+                  item={message}
+                  wonMessage={user?.authId === message.senderId}
+                  multipleMessage={
+                    index > 0 &&
+                    message.senderId === messages[index - 1].senderId
+                  }
+                  separatorDate={
+                    index > 0 &&
+                    !Utils.checkDateSame(
+                      messages[index - 1].createdAt,
+                      message.createdAt
+                    )
+                  }
+                  key={index}
+                  lastMessage={index + 1 === messages.length}
+                />
+              ))}
+            </div>
+
+            {gif && (
+              <div className="absolute bottom-0 left-0 w-full h-[150px]">
+                <div className="w-[150px] h-full relative group">
+                  <img
+                    src={gif}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                  <X
+                    className="w-5 h-5 absolute top-2 right-2 cursor-pointer z-10 hidden group-hover:block transition-all"
+                    onClick={() => setGif("")}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <MessangerInput
+            setGif={setGif}
+            gif={gif}
+            scrollToBottom={scrollToBottom}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MessangerBody;
+
+// id="scrollOverHight"
+
+{
+  /**
+  const MessangerBody = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { selectedUser } = useSelector((state: RootState) => state.model);
 
@@ -132,7 +217,6 @@ const MessangerBody = () => {
     </div>
   );
 };
-
-export default MessangerBody;
-
-// id="scrollOverHight"
+  
+  */
+}

@@ -1,5 +1,3 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-// import SingleConversationItem from "@/components/messanger/item/SingleConversationItem";
 import { FC, lazy, Suspense, useState } from "react";
 import AddConversationDialog from "@/components/messanger/item/AddConversationDialog";
 import { Button } from "@/components/ui/button";
@@ -18,14 +16,14 @@ const MessangerSidebar: FC<Props> = ({ conversations }) => {
 
   return (
     <>
-      <ScrollArea className="w-full h-full">
+      <div className="w-full h-full overflow-y-scroll">
         <div className="py-4 px-4 flex items-center justify-between">
           <h4 className="text-[18px] font-semibold leading-6 tracking-[0.1px]">
             Message
           </h4>
           <Button onClick={() => setOpenSearchModel(true)}>New</Button>
         </div>
-        <div className="flex flex-col gap-2 px-2 py-2">
+        <div className="px-2 py-2 space-y-4">
           {conversations?.map((item, index) => (
             <Suspense key={index}>
               <SingleConversationItem
@@ -36,7 +34,7 @@ const MessangerSidebar: FC<Props> = ({ conversations }) => {
             </Suspense>
           ))}
         </div>
-      </ScrollArea>
+      </div>
 
       {openSearchModel && (
         <AddConversationDialog setOpenSearchModel={setOpenSearchModel} />

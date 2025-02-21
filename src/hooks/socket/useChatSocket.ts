@@ -18,6 +18,15 @@ const useChatSocket = () => {
     socket?.on("message-received", (data: IMessageData) => {
       dispatch(messagesHelpers.addMessage(data));
       dispatch(messagesHelpers.updateConversation(data));
+      const container = document.getElementById("chat-container");
+      setTimeout(() => {
+        // container?.scrollTo(0, container.scrollHeight);
+        container?.scrollTo({
+          top: container.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 50);
+  
     });
 
     // **************************

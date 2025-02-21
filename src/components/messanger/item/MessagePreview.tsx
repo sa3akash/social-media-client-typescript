@@ -16,7 +16,7 @@ const MessagePreview: React.FC<Props> = ({ text, wonMessage }) => {
     >
       <p
         dangerouslySetInnerHTML={{ __html: extractText.originalString }}
-        className="px-4 py-2"
+        className="px-4 py-2 flex flex-wrap"
       />
       {extractText.links.length > 0 ? (
         <MessangerLinkPreview url={extractText.links[0]} />

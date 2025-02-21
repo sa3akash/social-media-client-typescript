@@ -4,7 +4,7 @@ import { IMessageData } from "@/interfaces/chat.interface";
 import { cn } from "@/lib/utils";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { RootState } from "@/store";
-import { Check, CheckCheck } from "lucide-react";
+import { AudioWaveform, Check, CheckCheck, File, Video } from "lucide-react";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -21,21 +21,31 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
   const won = user?.authId === item.senderId;
 
   const getString = () => {
-    if (item.body.trim().length > 0) {
-      return item.body.length > 35
-        ? item.body.substring(0, 35) + " ..."
-        : item.body;
-    }
     if (item.gifUrl) {
       return "Send a gif image";
     }
-    // if (item.audioUrl) {
-    //   return 'Send an audio message'
-    // }
-    // if (item.videoUrl) {
-    //   return 'Send a video message'
-    // }
-    return "Send a file";
+    if (item.files.some((file) => file.mimetype.includes("audio"))) {
+      return (
+        <>
+          <AudioWaveform className="w-4" /> Audio message
+        </>
+      );
+    }
+    if (item.files.some((file) => file.mimetype.includes("video"))) {
+      return (
+        <>
+          <Video className="w-4" /> Audio message
+        </>
+      );
+    }
+    return item.files.length > 0 ? (
+      <>
+        <File className="w-4" />
+        Send a file
+      </>
+    ) : (
+      item.body
+    );
   };
 
   return (
@@ -74,10 +84,10 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
             {timeAgo.chatMessageTransform(`${item.createdAt}`)}
           </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <span
             className={cn(
-              "roboto text-[14px] tracking-[0.1px] text-[#92929D]",
+              "roboto text-[14px] tracking-[0.1px] text-[#92929D] line-clamp-1 flex items-center gap-2 flex-1",
               !item.isRead && !active && item.senderId !== user?.authId
                 ? "text-[#1E75FF] font-bold"
                 : "text-[#92929D]",
@@ -93,7 +103,7 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
               {item.isRead ? (
                 <CheckCheck
                   className={cn(
-                    "w-5",
+                    "min-w-4 min-h-4",
                     !item.isRead &&
                       !active &&
                       item.senderId !== user?.authId &&
@@ -103,7 +113,7 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
               ) : (
                 <Check
                   className={cn(
-                    "w-5",
+                    "min-w-4 min-h-4",
                     !item.isRead &&
                       !active &&
                       item.senderId !== user?.authId &&

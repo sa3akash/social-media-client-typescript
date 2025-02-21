@@ -72,7 +72,7 @@ const Reals = () => {
         </Button>
         <Button>Create</Button>
       </div>
-      <div className="absolute bottom-5 right-5 z-50 flex flex-col gap-4">
+      <div className="absolute bottom-5 right-5 z-50 hidden md:flex flex-col gap-4">
         <Button id="prevButton" onClick={() => handleUpDown("prev")} size="lg">
           <ChevronUp className="w-8 h-8" />
         </Button>

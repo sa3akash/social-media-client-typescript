@@ -20,11 +20,12 @@ import { IMessageFile } from "@/interfaces/chat.interface";
 interface Props {
   setGif: React.Dispatch<React.SetStateAction<string>>;
   gif: string;
+  scrollToBottom: () => void;
 }
 
 export const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
 
-const MessangerInput: FC<Props> = ({ setGif, gif }) => {
+const MessangerInput: FC<Props> = ({ setGif, gif, scrollToBottom }) => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [messageValue, setMessageValue] = useState<string>("");
@@ -34,7 +35,8 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
 
   const [openSelectedModel, setOpenSelectedModel] = useState(false);
 
-  const [uploadSingleFile,{isLoading:isFetching}] = useUploadSingleFileMutation();
+  const [uploadSingleFile, { isLoading: isFetching }] =
+    useUploadSingleFileMutation();
 
   const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && messageValue.length > 0) {
@@ -50,13 +52,10 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
   const receiverId = searchParam.get("receiverId") as string;
 
   const sendMessageHandle = async () => {
-
-
     if (voiceAudio) {
       await uploadFile(voiceAudio);
     } else {
-      if ((messageValue.length > 0 && user) || gif ) {
-
+      if ((messageValue.length > 0 && user) || gif) {
         const data = {
           body: messageValue,
           receiverId: receiverId,
@@ -65,11 +64,12 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
           files: [] as IMessageFile[],
         };
 
-        sendMessage(data);
+        await sendMessage(data);
         setMessageValue("");
         setGif("");
         setVoiceAudio(null);
         setIsAudioRecord(false);
+        scrollToBottom();
       }
     }
   };
@@ -113,19 +113,20 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
         params: params.toString(),
       }).unwrap();
 
-      if (result.type) {
+      if (result.mimetype) {
         const data = {
-          body: '',
+          body: "",
           receiverId: receiverId,
           conversationId: conversationId,
-          gifUrl: '',
+          gifUrl: "",
           files: [result],
         };
-        sendMessage(data);
-        setMessageValue("");
-        setGif("");
-        setVoiceAudio(null);
-        setIsAudioRecord(false);
+      await sendMessage(data);
+      setMessageValue("");
+      setGif("");
+      setVoiceAudio(null);
+      setIsAudioRecord(false);
+      scrollToBottom();
       }
     } catch (err) {
       console.error("Error uploading chunk", err);
@@ -213,7 +214,10 @@ const MessangerInput: FC<Props> = ({ setGif, gif }) => {
               </div>
             </div>
           )}
-          <Button onClick={sendMessageHandle} disabled={isLoading || isFetching}>
+          <Button
+            onClick={sendMessageHandle}
+            disabled={isLoading || isFetching}
+          >
             Send
           </Button>
         </div>

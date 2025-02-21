@@ -3,15 +3,15 @@ import { IMessageFile } from "@/interfaces/chat.interface";
 class General {
   public categoriesFile(files: IMessageFile[]) {
     const categorizedFiles = {
-      videos: files.filter((file) => file.type.includes("video")),
-      audio: files.filter((file) => file.type.includes("audio")),
-      images: files.filter((file) => file.type.includes("image")),
+      videos: files.filter((file) => file.mimetype.includes("video")),
+      audio: files.filter((file) => file.mimetype.includes("audio")),
+      images: files.filter((file) => file.mimetype.includes("image")),
       others: files.filter((file) => {
-        // Check if the file type does not match any of the specified types
+        // Check if the file mimetype does not match any of the specified mimetypes
         return !(
-          file.type.includes("video") ||
-          file.type.includes("audio") ||
-          file.type.includes("image")
+          file.mimetype.includes("video") ||
+          file.mimetype.includes("audio") ||
+          file.mimetype.includes("image")
         );
       }),
     };

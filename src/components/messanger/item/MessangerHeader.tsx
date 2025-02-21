@@ -39,6 +39,8 @@ const MessangerHeader: React.FC<Props> = ({ userFriend,conversationId }) => {
     startCall(user.authId,userFriend, isVideo,conversationId!)
   };
 
+  if(!userFriend) return null;
+
   return (
     <div className="h-[78px] flex items-center justify-between px-4 border-b shadow">
       <div className="flex items-center gap-2">

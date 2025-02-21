@@ -27,7 +27,7 @@ export interface ISendMessageDataJson {
 }
 
 export interface IMessageFile {
-  type: string,
+  mimetype: string,
   size?: string,
   url:string,
   name?: string,

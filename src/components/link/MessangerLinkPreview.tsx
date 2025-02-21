@@ -33,23 +33,19 @@ const MessangerLinkPreview: React.FC<Props> = ({ url }) => {
               </div>
             )}
           </div>
-          <div className="flex-1 py-3 px-4 flex flex-col justify-center gap-2">
-            <header title={metadata.title} className="font-bold">
-              {metadata?.title.length > 40
-                ? metadata.title.slice(0, 40) + "..."
-                : metadata.title}
+          <div className="flex-1 py-3 px-4 flex flex-col justify-center gap-2 ">
+            <header title={metadata.title} className="font-bold line-clamp-1">
+              {metadata?.title}
             </header>
             <section
-              className="text-sm"
+              className="text-sm line-clamp-2"
               title={
                 metadata?.description.length > 90
                   ? metadata.description.slice(0, 90) + "..."
                   : metadata.description
               }
             >
-              {metadata?.description.length > 90
-                ? metadata.description.slice(0, 90) + "..."
-                : metadata.description}
+              {metadata?.description}
             </section>
             <footer
               className="flex items-center justify-between gap-2 text-xs w-full"
