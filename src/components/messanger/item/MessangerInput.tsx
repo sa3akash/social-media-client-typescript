@@ -14,8 +14,8 @@ import { useSendMessageMutation } from "@/store/rtk/message/message";
 import { Mic } from "lucide-react";
 import AudioRecorder from "../AudioRecorder";
 import SelectFiles from "./SelectFiles";
-import { useUploadSingleFileMutation } from "@/store/rtk/upload/upload";
 import { IMessageFile } from "@/interfaces/chat.interface";
+import { useUpload } from "@/hooks/upload/useUpload";
 
 interface Props {
   setGif: React.Dispatch<React.SetStateAction<string>>;
@@ -35,8 +35,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif, scrollToBottom }) => {
 
   const [openSelectedModel, setOpenSelectedModel] = useState(false);
 
-  const [uploadSingleFile, { isLoading: isFetching }] =
-    useUploadSingleFileMutation();
+  const { uploadFile, uploading } = useUpload();
 
   const handlekeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && messageValue.length > 0) {
@@ -53,7 +52,18 @@ const MessangerInput: FC<Props> = ({ setGif, gif, scrollToBottom }) => {
 
   const sendMessageHandle = async () => {
     if (voiceAudio) {
-      await uploadFile(voiceAudio);
+      uploadFile(voiceAudio).then(async (result) => {
+        const data = {
+          body: "",
+          receiverId: receiverId,
+          conversationId: conversationId,
+          gifUrl: "",
+          files: [result],
+        };
+        await sendMessage(data);
+
+        scrollToBottom();
+      });
     } else {
       if ((messageValue.length > 0 && user) || gif) {
         const data = {
@@ -63,85 +73,17 @@ const MessangerInput: FC<Props> = ({ setGif, gif, scrollToBottom }) => {
           gifUrl: gif,
           files: [] as IMessageFile[],
         };
-
         await sendMessage(data);
-        setMessageValue("");
-        setGif("");
-        setVoiceAudio(null);
-        setIsAudioRecord(false);
         scrollToBottom();
       }
     }
+    setMessageValue("");
+    setGif("");
+    setVoiceAudio(null);
+    setIsAudioRecord(false);
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const uploadFile = async (file: File) => {
-    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-
-    // Sequentially upload chunks of the file
-    for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-      const start = chunkIndex * CHUNK_SIZE;
-      const end = Math.min(start + CHUNK_SIZE, file.size);
-      const chunk = file.slice(start, end);
-
-      // Wait for each chunk to be uploaded before proceeding to the next
-      await uploadChunk(chunk, file, chunkIndex, totalChunks);
-    }
-  };
-
-  // Upload a single chunk
-  const uploadChunk = async (
-    chunk: Blob,
-    file: File,
-    chunkIndex: number,
-    totalChunks: number
-  ) => {
-    const params = new URLSearchParams({
-      name: file.name,
-      size: `${file.size}`,
-      currentChunkIndex: `${chunkIndex}`,
-      totalChunks: `${totalChunks}`,
-      type: `${file.type || "audio/wav"}`,
-    });
-
-    const data = await readChunkAsDataURL(chunk);
-
-    try {
-      const result = await uploadSingleFile({
-        data: data,
-        params: params.toString(),
-      }).unwrap();
-
-      if (result.mimetype) {
-        const data = {
-          body: "",
-          receiverId: receiverId,
-          conversationId: conversationId,
-          gifUrl: "",
-          files: [result],
-        };
-      await sendMessage(data);
-      setMessageValue("");
-      setGif("");
-      setVoiceAudio(null);
-      setIsAudioRecord(false);
-      scrollToBottom();
-      }
-    } catch (err) {
-      console.error("Error uploading chunk", err);
-    }
-  };
-
-  // Convert chunk to base64 data URL
-  const readChunkAsDataURL = (chunk: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(chunk);
-    });
-  };
 
   return (
     <>
@@ -216,7 +158,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif, scrollToBottom }) => {
           )}
           <Button
             onClick={sendMessageHandle}
-            disabled={isLoading || isFetching}
+            disabled={isLoading || uploading}
           >
             Send
           </Button>
@@ -228,6 +170,7 @@ const MessangerInput: FC<Props> = ({ setGif, gif, scrollToBottom }) => {
           setOpenSelectedModel={setOpenSelectedModel}
           conversationId={conversationId}
           receiverId={receiverId}
+          scrollToBottom={scrollToBottom}
         />
       )}
     </>

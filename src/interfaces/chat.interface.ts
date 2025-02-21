@@ -23,15 +23,14 @@ export interface ISendMessageDataJson {
   body: string;
   gifUrl?: string;
   isRead?: boolean;
-  files: IMessageFile[] | null
+  files: IMessageFile[] | []
 }
 
 export interface IMessageFile {
   mimetype: string,
-  size?: string,
+  size?: number,
   url:string,
   name?: string,
-  _id?: string
   duration?: string
   resulation?: string
 }

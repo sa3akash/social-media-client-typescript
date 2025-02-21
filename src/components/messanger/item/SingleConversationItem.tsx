@@ -34,14 +34,14 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
     if (item.files.some((file) => file.mimetype.includes("video"))) {
       return (
         <>
-          <Video className="w-4" /> Audio message
+          <Video className="w-4" /> Video message
         </>
       );
     }
     return item.files.length > 0 ? (
       <>
         <File className="w-4" />
-        Send a file
+       File message
       </>
     ) : (
       item.body

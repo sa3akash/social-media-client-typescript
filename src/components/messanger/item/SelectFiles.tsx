@@ -1,207 +1,197 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
-import { IMessageFile } from "@/interfaces/chat.interface";
+import { Progress } from "@/components/ui/progress";
+import { useUpload } from "@/hooks/upload/useUpload";
 import { useSendMessageMutation } from "@/store/rtk/message/message";
-import { useUploadSingleFileMutation } from "@/store/rtk/upload/upload";
-import React, { useState } from "react";
-import ReactDropzone from "react-dropzone";
+import { Upload, X } from "lucide-react";
+import React, { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
 
-interface FileUploadProgress {
-  file: File;
-  progress: number;
+interface FileWithPreview extends File {
+  preview: string;
 }
-
 interface Props {
   setOpenSelectedModel: React.Dispatch<React.SetStateAction<boolean>>;
   conversationId?: string;
   receiverId?: string;
+  scrollToBottom: () => void
 }
 
-export const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
+interface UplodFile {
+  mimetype: string;
+  name: string;
+  size: number;
+  url: string;
+}
 
-const SelectFiles: React.FC<Props> = ({ setOpenSelectedModel,conversationId,receiverId }) => {
-  const [isHover, setIsHover] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-
-  const [uploadProgressList, setUploadProgressList] = useState<
-    FileUploadProgress[]
-  >([]);
-  const [uploadedFiles, setUploadedFiles] = useState<Set<string>>(new Set());
-
-  const [properData,setProperData] = useState<IMessageFile[]|null>(null)
-
-  const [uploadSingleFile] = useUploadSingleFileMutation();
-
-  const handleHover = (): void => setIsHover(true);
-  const handleExitHover = (): void => setIsHover(false);
-
-  const { toast } = useToast();
-
-  const onDrop = async (acceptedFiles: File[]) => {
-    try {
-      setIsDisabled(true);
-      const newFiles = acceptedFiles.filter(
-        (file) => !uploadedFiles.has(file.name)
-      );
-
-      setUploadProgressList((prev) => [
-        ...prev,
-        ...newFiles.map((fi) => ({ file: fi, progress: 0 })),
-      ]);
-
-      // Sequential upload of all files
-      for (const file of newFiles) {
-        await uploadFile(file);
-      }
-
-      setUploadedFiles(
-        new Set([...uploadedFiles, ...newFiles.map((file) => file.name)])
-      ); // Track uploaded files
-
-      handleExitHover();
-      setIsDisabled(false);
-    } catch (err) {
-      setIsDisabled(false);
-      console.log(err);
-      toast({
-        title: `${(err as { data: { message: string } }).data.message}`,
-        variant: "destructive",
-      });
-    }
-  };
-
-  // Upload file with sequential chunks
-  const uploadFile = async (file: File) => {
-    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-
-    // Sequentially upload chunks of the file
-    for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-      const start = chunkIndex * CHUNK_SIZE;
-      const end = Math.min(start + CHUNK_SIZE, file.size);
-      const chunk = file.slice(start, end);
-
-      // Wait for each chunk to be uploaded before proceeding to the next
-      await uploadChunk(chunk, file, chunkIndex, totalChunks);
-    }
-  };
-
-  // Upload a single chunk
-  const uploadChunk = async (
-    chunk: Blob,
-    file: File,
-    chunkIndex: number,
-    totalChunks: number
-  ) => {
-    const params = new URLSearchParams({
-      name: file.name,
-      size: `${file.size}`,
-      currentChunkIndex: `${chunkIndex}`,
-      totalChunks: `${totalChunks}`,
-      type: `${file.type}`
-    });
-
-    const data = await readChunkAsDataURL(chunk);
-
-    try {
-      const result = await uploadSingleFile({
-        data: data,
-        params: params.toString(),
-      }).unwrap();
-
-      if (result) {
-        const progress = Math.round(((chunkIndex + 1) / totalChunks) * 100);
-        // Update the specific file's progress
-        setUploadProgressList((prev) =>
-          prev.map((item) =>
-            item.file.name === file.name ? { ...item, progress } : item
-          )
-        );
-
-        if(result.type){
-          setProperData(prev=>(prev ? [...prev, result] : [result]))
-        }
-
-      }
-    } catch (err) {
-      console.error("Error uploading chunk", err);
-      toast({
-        title: "Error uploading chunk",
-        variant: "destructive",
-      });
-    }
-  };
-
-  // Convert chunk to base64 data URL
-  const readChunkAsDataURL = (chunk: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(chunk);
-    });
-  };
-
+const SelectFiles: React.FC<Props> = ({
+  setOpenSelectedModel,
+  conversationId,
+  receiverId,
+  scrollToBottom
+}) => {
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [uploadedList, setUploadedList] = useState<UplodFile[]>([]);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
 
-  
-  const sendFileMessage = ()=> {
-    sendMessage({
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFiles(
+      acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      )
+    );
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    // accept: {
+    //   "image/*": [".png", ".jpg", ".jpeg", ".gif"],
+    //   "video/*": [".mp4", ".webm", ".ogg"],
+    // },
+    maxSize: 1024 * 1024 * 500, // 50MB
+  });
+
+  const removeFile = (file: FileWithPreview) => {
+    const newFiles = [...files];
+    newFiles.splice(newFiles.indexOf(file), 1);
+    URL.revokeObjectURL(file.preview);
+    setFiles(newFiles);
+  };
+
+  const sendFileMessage = async () => {
+    await sendMessage({
       conversationId: conversationId!,
       receiverId: receiverId!,
-      files: properData,
-      gifUrl: '',
-      body: ''
-    })
-
+      files: uploadedList,
+      gifUrl: "",
+      body: "",
+    });
+    scrollToBottom();
     setOpenSelectedModel(false);
-  }
+  };
 
   return (
     <Dialog open={true} onOpenChange={() => setOpenSelectedModel(false)}>
-      <DialogContent className="">
-        <ReactDropzone
-          disabled={isDisabled}
-          onDragEnter={handleHover}
-          onDragLeave={handleExitHover}
-          onDrop={onDrop}
-          multiple={true}
+      <DialogContent className="overflow-y-scroll max-h-[80vh] cardBG">
+        <div
+          {...getRootProps()}
+          className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
+          ${
+            isDragActive
+              ? "border-primary bg-primary/10"
+              : "border-muted-foreground/25"
+          }
+          ${files.length > 0 ? "h-42" : "h-45"}`}
         >
-          {({ getRootProps, getInputProps }) => (
-            <div
-              {...getRootProps()}
-              className={`${
-                isHover ? "border-black bg-gray-100/80" : "border-default-gray"
-              } flex justify-center items-center border rounded-md border-dashed flex-col cursor-pointer w-full py-6 ${
-                isDisabled ? "cursor-not-allowed" : ""
-              }`}
-            >
-              <input {...getInputProps()} />
-              <h3 className="text-center mt-5">
-                Click to select video <br />
-                or
-                <br />
-                drag video and drop
-              </h3>
+          <input {...getInputProps()} />
+          <Upload className="w-8 h-8 mx-auto mb-4 text-muted-foreground" />
+          {isDragActive ? (
+            <p className="text-lg">Drop the files here ...</p>
+          ) : (
+            <div>
+              <p className="text-lg mb-2">
+                Drag & drop files here, or click to select files
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Support for images and videos up to 500MB
+              </p>
             </div>
           )}
-        </ReactDropzone>
-
-        <div>
-          {uploadProgressList.map((upload, index) => (
-            <div key={index} className="text-sm font-normal">
-              {index + 1}. {upload.file.name.slice(0, 25)}{" "}
-              <strong>
-                : {upload.progress}%{" "}
-                {upload.progress === 100 ? "Completed" : "progressing"}
-              </strong>
-            </div>
-          ))}
         </div>
-        <Button disabled={isDisabled || isLoading} onClick={sendFileMessage}>Send</Button>
+
+        {files.length > 0 && (
+          <div className="space-y-6">
+            {files.map((file) => (
+              <SingleFile
+                key={file.name}
+                file={file}
+                removeFile={removeFile}
+                setUploadedList={setUploadedList}
+              />
+            ))}
+          </div>
+        )}
+        <Button onClick={sendFileMessage} disabled={isLoading}>
+          Send
+        </Button>
       </DialogContent>
     </Dialog>
   );
 };
 
 export default SelectFiles;
+
+const SingleFile = ({
+  file,
+  removeFile,
+  setUploadedList,
+}: {
+  file: FileWithPreview;
+  removeFile: (file: FileWithPreview) => void;
+  setUploadedList: React.Dispatch<React.SetStateAction<UplodFile[]>>;
+}) => {
+  const { uploadFileChunk, uploadProgress, uploading } = useUpload();
+
+  return (
+    <div className="relative">
+      <div className="flex items-start gap-4 p-4 border rounded-lg bg-background/50">
+        <div className="relative w-32 h-32 overflow-hidden rounded-md">
+          {file.type.startsWith("image/") ? (
+            <img
+              src={file.preview || "/placeholder.svg"}
+              alt={file.name}
+              className="object-cover w-full h-full"
+              onLoad={() => {
+                URL.revokeObjectURL(file.preview);
+              }}
+            />
+          ) : (
+            <video
+              src={file.preview}
+              className="object-cover w-full h-full"
+              controls
+            />
+          )}
+        </div>
+        <div className="flex-1 space-y-2">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="font-medium">{file.name}</p>
+              <p className="text-sm text-muted-foreground">
+                {(file.size / 1024 / 1024).toFixed(2)} MB
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => removeFile(file)}
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+          <div className="space-y-2">
+            <Progress value={uploadProgress} className="h-2" />
+            {!uploading && uploadProgress < 100 && (
+              <Button
+                onClick={() => {
+                  uploadFileChunk(file).then((data) => {
+                    setUploadedList((prev) => [...prev, data]);
+                  });
+                }}
+                className="w-full"
+              >
+                Upload File
+              </Button>
+            )}
+            {uploadProgress === 100 && (
+              <p className="text-sm text-green-600">Upload complete!</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

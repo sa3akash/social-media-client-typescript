@@ -45,7 +45,7 @@ const MessangerBody = () => {
           <div className="flex-1"></div>
 
           <div
-            className="relative h-full overflow-y-scroll"
+            className="relative overflow-y-scroll"
             ref={chatContainerRef}
             id="chat-container"
           >
@@ -55,8 +55,6 @@ const MessangerBody = () => {
                 Loading...
               </div>
             )}
-            <div className="h-auto"></div>
-
             {messages.map((message, index) => (
               <SingleMessage
                 item={message}
