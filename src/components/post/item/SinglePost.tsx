@@ -13,7 +13,7 @@ const SinglePost = forwardRef(
     const [isVideo, setIsVideo] = useState(false);
 
     useEffect(() => {
-      if (item.files.length > 0) {
+      if (item.files?.length > 0) {
         const { fileType } = Utils.checkFileUrl(item.files[0]?.url);
         setIsVideo(fileType === "video");
       }
@@ -21,11 +21,12 @@ const SinglePost = forwardRef(
 
     return (
       <div className="cardBG md:rounded-xl relative" ref={ref}>
-        {isVideo ? (
+        {/* {isVideo ? (
           <SinglePostWithVideo item={item} />
         ) : (
           <SinglePostWithOthers item={item} />
-        )}
+        )} */}
+        <SinglePostWithOthers item={item} />
       </div>
     );
   }

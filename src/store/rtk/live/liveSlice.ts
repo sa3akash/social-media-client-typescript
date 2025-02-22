@@ -5,7 +5,7 @@ export const liveApiSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getStreamKey: builder.query({
       query: () => ({
-        url: "/stream/key",
+        url: "/streams/key",
         method: "GET",
       }),
       forceRefetch: () => true,

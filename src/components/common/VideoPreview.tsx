@@ -1,103 +1,367 @@
-import React, { useEffect, useRef } from "react";
-import flvjs from "flv.js";
-import Hls from "hls.js";
+import React, { useEffect, useRef } from "react";  
+import flvjs from "flv.js";  
+import Hls from "hls.js";  
 
-interface Props {
-  videoUrl: string; // URL of the video (can be FLV or MP4)
-  observerAutoPlayPause?: boolean;
-}
+interface Props {  
+  videoUrl: string;  
+}  
 
-const VideoPreview: React.FC<Props> = ({ videoUrl }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const flvPlayerRef = useRef<flvjs.Player | null>(null);
-  const hlsPlayerRef = useRef<Hls | null>(null);
+const VideoPreview: React.FC<Props> = ({ videoUrl }) => {  
+  const videoRef = useRef<HTMLVideoElement>(null);  
+  const flvPlayerRef = useRef<flvjs.Player | null>(null);  
+  const hlsPlayerRef = useRef<Hls | null>(null);  
+  const previousUrlRef = useRef<string | null>(null); // Track previous video URL  
 
-  useEffect(() => {
-    const video = videoRef.current;
+  useEffect(() => {  
+    const video = videoRef.current;  
 
-    if (!video) return;
+    if (!video) return; // Ensure the video reference is valid  
 
-    const options = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.5, // Adjust this threshold as needed
-    };
+    const initializePlayer = () => {  
+      if (flvjs.isSupported() && videoUrl?.endsWith(".flv")) {  
+        if (!flvPlayerRef.current) {  
+          const flvPlayer = flvjs.createPlayer({  
+            type: "flv",  
+            url: videoUrl,  
+            isLive: false,  
+          });  
+          flvPlayer.attachMediaElement(video);  
+          flvPlayer.load();  
+          flvPlayerRef.current = flvPlayer;  
+          console.log("FLV player initialized");  
+        }  
+      } else if (Hls.isSupported() && videoUrl?.endsWith(".m3u8")) {  
+        if (!hlsPlayerRef.current) {  
+          const hls = new Hls();  
+          hls.loadSource(videoUrl);  
+          hls.attachMedia(video);  
+          hlsPlayerRef.current = hls;  
+          console.log("HLS player initialized");  
+        }  
+      } else {  
+        video.src = videoUrl;  
+        video.load();  
+        console.log("Video source set directly");  
+      }  
+    };  
 
-    // Intersection Observer callback
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Play video if in the viewport
-          if (flvjs.isSupported() && videoUrl.endsWith(".flv")) {
-            if (!flvPlayerRef.current) {
-              // Initialize FLV.js player if not already initialized
-              const flvPlayer = flvjs.createPlayer({
-                type: "flv",
-                url: videoUrl,
-              });
-              flvPlayer.attachMediaElement(video);
-              flvPlayer.load();
-              flvPlayerRef.current = flvPlayer;
-            }
-          } else if (Hls.isSupported() && videoUrl.endsWith(".m3u8")) {
-            if (!hlsPlayerRef.current) {
-              const hls = new Hls();
-              hls.loadSource(videoUrl);
-              hls.attachMedia(video);
-              hlsPlayerRef.current = hls;
-            }
-          } else {
-            // For non-FLV videos, set the source dynamically
-            if (!video.src) {
-              video.src = videoUrl;
-            }
-          }
-          video.play();
-        } else {
-          // Pause video when out of viewport
-          video.pause();
-        }
-      });
-    };
+    const destroyPlayers = () => {  
+      if (flvPlayerRef.current) {  
+        flvPlayerRef.current.destroy();  
+        flvPlayerRef.current = null;  
+        console.log("FLV player destroyed");  
+      }  
+      if (hlsPlayerRef.current) {  
+        hlsPlayerRef.current.destroy();  
+        hlsPlayerRef.current = null;  
+        console.log("HLS player destroyed");  
+      }  
+    };  
 
-    // Create the Intersection Observer
-    const observer = new IntersectionObserver(handleIntersection, options);
+    // Only initialize player if videoUrl has changed  
+    if (previousUrlRef.current !== videoUrl) {  
+      console.log("Video URL changed. Destroying previous players...");  
+      destroyPlayers(); // Ensure players are destroyed before initializing new ones  
+      initializePlayer();  
+      previousUrlRef.current = videoUrl; // Update previousUrlRef  
+    }  
 
-    // Observe the video element
+    return () => {  
+      destroyPlayers();
+    };  
+  }, [videoUrl]); // Only re-run if videoUrl changes  
 
-    observer.observe(video);
+  useEffect(() => {  
+    const video = videoRef.current;  
 
-    // Cleanup on component unmount
-    return () => {
-      observer.unobserve(video);
-      observer.disconnect();
+    if (!video) return;  
 
-      // Destroy FLV.js player if exists
-      if (flvPlayerRef.current) {
-        flvPlayerRef.current.destroy();
-        flvPlayerRef.current = null;
-      }
-    };
-  }, [videoUrl]);
+    const observer = new IntersectionObserver(  
+      (entries) => {  
+        entries.forEach((entry) => {  
+          if (entry.isIntersecting) {  
+            video.play().catch((error) => console.error("Play failed:", error));  
+          } else {  
+            video.pause();  
+          }  
+        });  
+      },  
+      { threshold: 0.5 }  
+    );  
 
+    observer.observe(video);  
 
-  return (
-    <video
-      width="200"
-      height="200"
-      controlsList="nodownload"
-      onContextMenu={(e) => e.preventDefault()}
-      loop
-      controls
-      className="w-full h-full max-h-[500px] object-contain"
-      ref={videoRef}
-    >
-      Your browser does not support the video tag.
-    </video>
-  );
-};
+    return () => {  
+      observer.unobserve(video);  
+      observer.disconnect();  
+    };  
+  }, []);  
+
+  return (  
+    <video  
+      width="200"  
+      height="200"  
+      controlsList="nodownload"  
+      onContextMenu={(e) => e.preventDefault()}  
+      loop  
+      controls  
+      className="w-full h-full max-h-[500px] object-contain"  
+      ref={videoRef}  
+    >  
+      Your browser does not support the video tag.  
+    </video>  
+  );  
+};  
 
 export default VideoPreview;
+
+
+
+// import React, { useEffect, useRef } from "react";  
+// import flvjs from "flv.js";  
+// import Hls from "hls.js";  
+
+// interface Props {  
+//   videoUrl: string;  
+// }  
+
+// const VideoPreview: React.FC<Props> = ({ videoUrl }) => {  
+//   const videoRef = useRef<HTMLVideoElement>(null);  
+//   const flvPlayerRef = useRef<flvjs.Player | null>(null);  
+//   const hlsPlayerRef = useRef<Hls | null>(null);  
+//   const previousUrlRef = useRef<string | null>(null); // Track previous video URL  
+
+//   useEffect(() => {  
+//     const video = videoRef.current;  
+
+//     if (!video) return; // Ensure the video reference is valid  
+
+//     const initializePlayer = () => {  
+//       if (flvjs.isSupported() && videoUrl?.endsWith(".flv")) {  
+//         if (!flvPlayerRef.current) {  
+//           const flvPlayer = flvjs.createPlayer({  
+//             type: "flv",  
+//             url: videoUrl,  
+//             isLive: false,  
+//           });  
+//           flvPlayer.attachMediaElement(video);  
+//           flvPlayer.load();  
+//           flvPlayerRef.current = flvPlayer;  
+//           console.log("FLV player initialized");  
+//         }  
+//       } else if (Hls.isSupported() && videoUrl?.endsWith(".m3u8")) {  
+//         if (!hlsPlayerRef.current) {  
+//           const hls = new Hls();  
+//           hls.loadSource(videoUrl);  
+//           hls.attachMedia(video);  
+//           hlsPlayerRef.current = hls;  
+//           console.log("HLS player initialized");  
+//         }  
+//       } else {  
+//         video.src = videoUrl;  
+//         video.load();  
+//         console.log("Video source set directly");  
+//       }  
+//     };  
+
+//     const destroyPlayers = () => {  
+//       if (flvPlayerRef.current) {  
+//         flvPlayerRef.current.destroy();  
+//         flvPlayerRef.current = null;  
+//         console.log("FLV player destroyed");  
+//       }  
+//       if (hlsPlayerRef.current) {  
+//         hlsPlayerRef.current.destroy();  
+//         hlsPlayerRef.current = null;  
+//         console.log("HLS player destroyed");  
+//       }  
+//     };  
+
+//     // Only initialize player if videoUrl has changed  
+//     if (previousUrlRef.current !== videoUrl) {  
+//       console.log("Video URL changed. Destroying previous players...");  
+//       destroyPlayers(); // Ensure players are destroyed before initializing new ones  
+//       initializePlayer();  
+//       previousUrlRef.current = videoUrl; // Update previousUrlRef  
+//     }  
+
+//     return () => {  
+//       destroyPlayers();  
+//     };  
+//   }, [videoUrl]); // Only re-run if videoUrl changes  
+
+//   useEffect(() => {  
+//     const video = videoRef.current;  
+
+//     if (!video) return;  
+
+//     const observer = new IntersectionObserver(  
+//       (entries) => {  
+//         entries.forEach((entry) => {  
+//           if (entry.isIntersecting) {  
+//             video.play().catch((error) => console.error("Play failed:", error));  
+//           } else {  
+//             video.pause();  
+//           }  
+//         });  
+//       },  
+//       { threshold: 0.5 }  
+//     );  
+
+//     observer.observe(video);  
+
+//     return () => {  
+//       observer.unobserve(video);  
+//       observer.disconnect();  
+//     };  
+//   }, []);  
+
+//   return (  
+//     <video  
+//       width="200"  
+//       height="200"  
+//       controlsList="nodownload"  
+//       onContextMenu={(e) => e.preventDefault()}  
+//       loop  
+//       controls  
+//       className="w-full h-full max-h-[500px] object-contain"  
+//       ref={videoRef}  
+//     >  
+//       Your browser does not support the video tag.  
+//     </video>  
+//   );  
+// };  
+
+// export default VideoPreview;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useRef } from "react";  
+// import flvjs from "flv.js";  
+// import Hls from "hls.js";  
+
+// interface Props {  
+//   videoUrl: string;  
+// }  
+
+// const VideoPreview: React.FC<Props> = ({ videoUrl }) => {  
+//   const videoRef = useRef<HTMLVideoElement>(null);  
+//   const flvPlayerRef = useRef<flvjs.Player | null>(null);  
+//   const hlsPlayerRef = useRef<Hls | null>(null);  
+
+//   useEffect(() => {  
+//     const video = videoRef.current;  
+
+//     if (!video) return;  
+
+//     const initializePlayer = () => {  
+//       if (flvjs.isSupported() && videoUrl?.endsWith(".flv")) {  
+//         if (!flvPlayerRef.current) {  
+//           const flvPlayer = flvjs.createPlayer({  
+//             type: "flv",  
+//             url: videoUrl,  
+//             isLive: false,  
+//           });  
+//           flvPlayer.attachMediaElement(video);  
+//           flvPlayer.load();  
+//           flvPlayerRef.current = flvPlayer;  
+//         }  
+//       } else if (Hls.isSupported() && videoUrl?.endsWith(".m3u8")) {  
+//         if (!hlsPlayerRef.current) {  
+//           const hls = new Hls();  
+//           hls.loadSource(videoUrl);  
+//           hls.attachMedia(video);  
+//           hlsPlayerRef.current = hls;  
+//         }  
+//       } else {  
+//         video.src = videoUrl;  
+//         video.load();  
+//         // video.play();  
+//       }  
+//     };  
+
+//     const destroyPlayers = () => {  
+//       if (flvPlayerRef.current) {  
+//         flvPlayerRef.current.destroy();  
+//         flvPlayerRef.current = null;  
+//       }  
+//       if (hlsPlayerRef.current) {  
+//         hlsPlayerRef.current.destroy();  
+//         hlsPlayerRef.current = null;  
+//       }  
+//     };  
+
+//     destroyPlayers(); // Ensure players are destroyed before initializing new ones  
+//     initializePlayer();  
+
+//     return () => {  
+//       destroyPlayers();  
+//     };  
+//   }, [videoUrl]);  
+
+//   useEffect(() => {  
+//     const video = videoRef.current;  
+
+//     if (!video) return;  
+
+//     const observer = new IntersectionObserver(  
+//       (entries) => {  
+//         entries.forEach((entry) => {  
+//           if (entry.isIntersecting) {  
+//             video.play().catch((error) => console.error("Play failed:", error));  
+//           } else {  
+//             video.pause();  
+//           }  
+//         });  
+//       },  
+//       { threshold: 0.5 }  
+//     );  
+
+//     observer.observe(video);  
+
+//     return () => {  
+//       observer.unobserve(video);  
+//       observer.disconnect();  
+//     };  
+//   }, []);  
+
+//   return (  
+//     <video  
+//       width="200"  
+//       height="200"  
+//       controlsList="nodownload"  
+//       onContextMenu={(e) => e.preventDefault()}  
+//       loop  
+//       controls  
+//       className="w-full h-full max-h-[500px] object-contain"  
+//       ref={videoRef}  
+//     >  
+//       Your browser does not support the video tag.  
+//     </video>  
+//   );  
+// };  
+
+// export default VideoPreview;
+
+
+
+
+
+
+
+
+
 
 // import React, { useEffect, useRef } from "react";
 // import flvjs from "flv.js";
@@ -117,52 +381,90 @@ export default VideoPreview;
 
 //     if (!video) return;
 
-//     if (flvjs.isSupported() && videoUrl.endsWith(".flv")) {
-//       if (!flvPlayerRef.current) {
-//         const flvPlayer = flvjs.createPlayer({
-//           type: "flv",
-//           url: videoUrl,
-//         });
-
-//         flvPlayer.attachMediaElement(video);
-//         flvPlayer.load();
-
-//         flvPlayerRef.current = flvPlayer;
+//     // Initialize the player based on the video format
+//     const initializePlayer = () => {
+//       if (flvjs.isSupported() && videoUrl?.endsWith(".flv")) {
+//         if (!flvPlayerRef.current) {
+//           const flvPlayer = flvjs.createPlayer({
+//             type: "flv",
+//             url: videoUrl,
+//             isLive: false, // Set to true for live streaming
+//           });
+//           flvPlayer.attachMediaElement(video);
+//           flvPlayer.load();
+//           flvPlayerRef.current = flvPlayer;
+//         }
+//       } else if (Hls.isSupported() && videoUrl?.endsWith(".m3u8")) {
+//         if (!hlsPlayerRef.current) {
+//           const hls = new Hls();
+//           hls.loadSource(videoUrl);
+//           hls.attachMedia(video);
+//           hlsPlayerRef.current = hls;
+//         }
+//       } else {
+//         video.src = videoUrl;
+//         video.load();
+//         video.readyState > 1 && video.play();
 //       }
-//     } else if (Hls.isSupported() && videoUrl.endsWith(".m3u8")) {
-//       if (!hlsPlayerRef.current) {
-//         const hls = new Hls();
-//         hls.loadSource(videoUrl);
-//         hls.attachMedia(video);
-//         hlsPlayerRef.current = hls;
-//       }
-//     } else {
-//       video.src = videoUrl;
-//     }
+//     };
 
-//     return () => {
+//     // Cleanup players
+//     const destroyPlayers = () => {
 //       if (flvPlayerRef.current) {
 //         flvPlayerRef.current.destroy();
 //         flvPlayerRef.current = null;
 //       }
-
 //       if (hlsPlayerRef.current) {
 //         hlsPlayerRef.current.destroy();
 //         hlsPlayerRef.current = null;
 //       }
 //     };
+
+//     // Initialize the player
+//     initializePlayer();
+
+//     // Cleanup on unmount or videoUrl change
+//     return () => {
+//       destroyPlayers();
+//     };
 //   }, [videoUrl]);
+
+//   useEffect(() => {
+//     const video = videoRef.current;
+
+//     if (!video) return;
+
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting) {
+//             video.play();
+//           } else {
+//             video.pause();
+//           }
+//         });
+//       },
+//       { threshold: 0.5 } // Adjust as needed
+//     );
+
+//     observer.observe(video);
+
+//     return () => {
+//       observer.unobserve(video);
+//       observer.disconnect();
+//     };
+//   }, []);
 
 //   return (
 //     <video
-//       ref={videoRef}
 //       width="200"
 //       height="200"
 //       controlsList="nodownload"
 //       onContextMenu={(e) => e.preventDefault()}
+//       loop
 //       controls
 //       className="w-full h-full max-h-[500px] object-contain"
-
+//       ref={videoRef}
 //     >
 //       Your browser does not support the video tag.
 //     </video>

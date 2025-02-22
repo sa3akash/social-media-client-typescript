@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { IFiles } from "@/interfaces/post.interface";
 import { ModelType } from "@/store/reducers/ModelReducer";
+import { cn } from "@/lib/utils";
 
 interface UploadFormProps {
   post?: SinglePostDoc;
@@ -159,7 +160,7 @@ const VideoAndPhoto = ({ post, setOpenSelectFile, type }: UploadFormProps) => {
         <div className="space-y-6">
           {/* Preview Section */}
           <div className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className={cn("grid grid-cols-1 gap-4", files.length > 1 && "md:grid-cols-2")}>
               {files.map((file, index) => (
                 <SingleMediaPreview
                   key={index}

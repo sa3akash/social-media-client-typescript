@@ -16,8 +16,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/uploads': {
-        target: 'http://localhost:5500',
+      '/stream': {
+        target: 'http://localhost:5500/api/v1',
         changeOrigin: true,
         secure: false,
       },

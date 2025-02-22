@@ -18,7 +18,7 @@ const SinglePhoto = forwardRef(({ post }: Props, ref: Ref<HTMLDivElement>) => {
           <SinglePostItem
             key={index}
             post={post?.post}
-            imageUrl={image?.path}
+            imageUrl={image?.url}
             ref={ref}
             onClick={handleClick}
           />
