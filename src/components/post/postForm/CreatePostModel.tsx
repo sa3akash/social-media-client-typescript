@@ -29,7 +29,7 @@ import VideoAndPhoto from "./VideoAndPhoto";
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { type, isOpen } = useSelector((store: RootState) => store.model);
-  const { _id, privacy, feelings, post, gifUrl, bgColor, files } = useSelector(
+  const { _id, privacy, feelings, post, gifUrl, bgColor, files,description } = useSelector(
     (store: RootState) => store.SinglePost
   );
   const dispatch: AppDispatch = useDispatch();
@@ -56,6 +56,7 @@ const CreatePostModel = () => {
       gifUrl: gifUrl,
       bgColor: bgColor,
       files: files,
+      description
     };
 
     if (type === "createPost") {

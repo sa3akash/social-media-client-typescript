@@ -14,7 +14,7 @@ interface Props {
 const SinglePostWithVideo: FC<Props> = ({ item }) => {
   const commentInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [descriptSplice, setDescriptionSplice] = useState(120);
+  const [descriptSplice, setDescriptionSplice] = useState(false);
 
   const { hashTag, originalString } = extractHashTages(
     item.description,
@@ -34,34 +34,29 @@ const SinglePostWithVideo: FC<Props> = ({ item }) => {
       </div>
 
       <div className="flex flex-col gap-3 px-4 pt-4">
-        <div className="text-base text-emerald-400 flex items-center gap-2">
+        <div className="text-base text-emerald-400 flex items-center gap-2 line-clamp-1">
           {hashTag.map((text: string, i: number) => (
             <Link to="" className="hover:underline" key={i}>
               {text}
             </Link>
           ))}
-          {/* {Utils.extractHashtags(item?.description).map((text:string,i:number)=>(
-                <Link to="" className="hover:underline" key={i}>{text}</Link>
-            ))} */}
         </div>
-        <h3 className="text-base font-bold">{item.post}</h3>
-        <div className="text-sm text-[#696974] flex-1 text-start tracking-[0.1px] text-[14px]">
+        <h3 className="font-semibold leading-none tracking-tight line-clamp-1">{item.post}</h3>
+        <div className="text-sm text-muted-foreground">
           <p
-            className=""
+            className={descriptSplice ? "" : "line-clamp-2"}
             dangerouslySetInnerHTML={{
-              __html: `${originalString.slice(0, descriptSplice)}`,
+              __html: `${originalString}`,
             }}
           />
-          {item.description.length > 120 && (
+          {item.description?.length > 120 && (
             <span
-              className="text-primary hover:underline cursor-pointer"
+              className="text-primary hover:underline cursor-pointer "
               onClick={() => {
-                setDescriptionSplice((prev) =>
-                  prev === 120 ? originalString.length : 120
-                );
+                setDescriptionSplice((prev) => !prev );
               }}
             >
-              {descriptSplice === 120 ? "see more" : "see less"}
+              {descriptSplice ? "see more" : "see less"}
             </span>
           )}
         </div>

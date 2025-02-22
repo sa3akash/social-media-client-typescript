@@ -43,7 +43,6 @@ const VideoAndPhoto = ({ post, setOpenSelectFile, type }: UploadFormProps) => {
 
   useEffect(() => {
     if (post?.files && type === "editPost") {
-      setOpenSelectFile(true);
       setFiles(
         post.files.map((file) => ({
           ...file,
@@ -51,9 +50,6 @@ const VideoAndPhoto = ({ post, setOpenSelectFile, type }: UploadFormProps) => {
         }))
       );
     }
-    return () => {
-      setOpenSelectFile(false);
-    };
   }, [post, setOpenSelectFile, type]);
 
   const onDrop = useCallback(
