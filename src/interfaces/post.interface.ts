@@ -39,9 +39,11 @@ export interface IFiles {
   size: number,
   url:string,
   name: string,
-  duration: number
-  resulation: string
-  display_aspect_ratio: string
+  duration?: number
+  display_aspect_ratio?: string
+  resolution?: string;
+  file?: File;
+  preview?: string;
 }
 
 export type IPrivacy = "Public" | "Private" | "Only me";

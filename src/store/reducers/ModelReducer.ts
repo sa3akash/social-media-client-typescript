@@ -2,7 +2,7 @@ import { IUserDoc } from "@/interfaces/auth.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-type ModelType = "createPost" | "editPost";
+export type ModelType = "createPost" | "editPost";
 
 interface ISelectedUser {
   user: IUserDoc;

@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import { FC, useRef } from "react";
 import PostHeader from "@/components/post/item/PostHeader";
 import PostActions from "@/components/post/item/PostActions";
 import CommentAction from "@/components/post/item/CommentAction";
@@ -14,8 +14,6 @@ interface Props {
 }
 const SinglePostWithOthers: FC<Props> = ({ item }) => {
   const commentInputRef = useRef<HTMLInputElement | null>(null);
-
-  
 
   return (
     <>

@@ -14,7 +14,7 @@ interface Props {
 const SinglePostWithVideo: FC<Props> = ({ item }) => {
   const commentInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [descriptSplice, setDescriptionSplice] = useState(120)
+  const [descriptSplice, setDescriptionSplice] = useState(120);
 
   const { hashTag, originalString } = extractHashTages(
     item.description,
@@ -23,8 +23,7 @@ const SinglePostWithVideo: FC<Props> = ({ item }) => {
 
   return (
     <>
-
-<PostHeader
+      <PostHeader
         user={item.creator}
         createAt={item.createdAt}
         feelings={item.feelings}
@@ -53,11 +52,18 @@ const SinglePostWithVideo: FC<Props> = ({ item }) => {
               __html: `${originalString.slice(0, descriptSplice)}`,
             }}
           />
-          {item.description.length > 120 &&<span className="text-primary hover:underline cursor-pointer" onClick={()=>{
-            setDescriptionSplice(prev=> prev === 120 ? originalString.length : 120)
-          }}>
-            {descriptSplice === 120 ? 'see more' : 'see less'}
-          </span>}
+          {item.description.length > 120 && (
+            <span
+              className="text-primary hover:underline cursor-pointer"
+              onClick={() => {
+                setDescriptionSplice((prev) =>
+                  prev === 120 ? originalString.length : 120
+                );
+              }}
+            >
+              {descriptSplice === 120 ? "see more" : "see less"}
+            </span>
+          )}
         </div>
       </div>
 

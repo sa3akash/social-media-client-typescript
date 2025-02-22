@@ -14,9 +14,10 @@ interface Props {
 const SingleVideoItem = forwardRef(
   ({ item }: Props, ref: LegacyRef<HTMLDivElement>) => {
     const commentInputRef = useRef<HTMLInputElement | null>(null);
+
     return (
-      <div className="cardBG md:rounded-xl relative" ref={ref} >
-       <PostHeader
+      <div className="cardBG md:rounded-xl relative" ref={ref}>
+        <PostHeader
           user={item.creator}
           createAt={item.createdAt}
           feelings={item.feelings}
@@ -30,7 +31,7 @@ const SingleVideoItem = forwardRef(
         {/* actions */}
         <PostReactions post={item} />
         <PostActions commentInputRef={commentInputRef} postId={item._id} />
-        <CommentAction commentInputRef={commentInputRef} postId={item._id}/>
+        <CommentAction commentInputRef={commentInputRef} postId={item._id} />
       </div>
     );
   }

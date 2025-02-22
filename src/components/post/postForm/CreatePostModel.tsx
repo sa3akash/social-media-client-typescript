@@ -16,7 +16,7 @@ import CreateInput from "@/components/post/postForm/CreateInput";
 import SelectBgAndEmoji from "@/components/post/postForm/SelectBgAndEmoji";
 import AddToUserPost from "@/components/post/postForm/AddToUserPost";
 import { IFeelings, IPrivacy } from "@/interfaces/post.interface";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { clearPost } from "@/store/reducers/SinglePostReducer";
@@ -29,22 +29,18 @@ import VideoAndPhoto from "./VideoAndPhoto";
 const CreatePostModel = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { type, isOpen } = useSelector((store: RootState) => store.model);
-  const {
-    _id,
-    privacy,
-    feelings,
-    post,
-    gifUrl,
-    bgColor,
-  } = useSelector((store: RootState) => store.SinglePost);
+  const { _id, privacy, feelings, post, gifUrl, bgColor, files } = useSelector(
+    (store: RootState) => store.SinglePost
+  );
   const dispatch: AppDispatch = useDispatch();
   const { toast } = useToast();
-
 
   const [updatePost, { isLoading: loadingUpdate, data: updatedPost }] =
     useUpdatePostMutation();
   const [createPost, { isLoading: loadingCreate, data: createPostRes }] =
     useCreatePostMutation();
+
+  const [openSelectFile, setOpenSelectFile] = useState(false);
 
   const createPostCall = () => {
     if (!post)
@@ -59,8 +55,8 @@ const CreatePostModel = () => {
       feelings: feelings,
       gifUrl: gifUrl,
       bgColor: bgColor,
-      files: []
-    }
+      files: files,
+    };
 
     if (type === "createPost") {
       createPost(postData);
@@ -92,15 +88,18 @@ const CreatePostModel = () => {
     }
   }, [updatedPost, dispatch, toast, createPostRes]);
 
+
+
   return (
     <Dialog
       open={isOpen}
       onOpenChange={() => {
         dispatch(closeModel());
         dispatch(clearPost());
+        setOpenSelectFile(false);
       }}
     >
-      <DialogContent className="max-h-[90vh] overflow-y-scroll p-0 cardBG">
+      <DialogContent className="max-h-[80vh] overflow-y-scroll p-0 cardBG">
         <DialogHeader>
           <DialogTitle className="text-center mt-4">
             {type === "createPost" ? "Create post" : "Update Post"}
@@ -113,10 +112,16 @@ const CreatePostModel = () => {
             privacy={privacy as IPrivacy}
             feelings={feelings as IFeelings}
           />
-          <CreateInput  />
-          <VideoAndPhoto />
+          {!openSelectFile && <CreateInput />}
+          {openSelectFile && (
+            <VideoAndPhoto
+              post={{ _id, privacy, feelings, post, gifUrl, bgColor, files }}
+              setOpenSelectFile={setOpenSelectFile}
+              type={type}
+            />
+          )}
           <SelectBgAndEmoji />
-          <AddToUserPost />
+          <AddToUserPost setOpenSelectFile={setOpenSelectFile} />
         </div>
         <DialogFooter className="px-4 pb-4">
           <Button

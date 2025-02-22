@@ -1,7 +1,7 @@
 import { IFeelings, IFiles, IPrivacy } from "@/interfaces/post.interface";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface SinglePostDoc {
+export interface SinglePostDoc {
   _id?: string;
   post?: string;
   bgColor?: string;
@@ -9,6 +9,7 @@ interface SinglePostDoc {
   feelings?: IFeelings | "";
   gifUrl?: string;
   privacy?: IPrivacy;
+  description?: string;
 }
 
 const initialState: SinglePostDoc = {
@@ -18,6 +19,7 @@ const initialState: SinglePostDoc = {
   privacy: "Public",
   bgColor: "",
   feelings: "",
+  description: "",
   gifUrl: "",
 };
 
@@ -30,6 +32,12 @@ const SinglePost = createSlice({
         state[key as keyof SinglePostDoc] = value;
       }
     },
+    updateFilesItem: (state, action: PayloadAction<IFiles>) => {
+      state.files = [...state.files!, action.payload];
+    },
+    updateRemoveItem: (state, action: PayloadAction<{name:string}>) => {
+      state.files = state.files?.filter((item) => item.name !== action.payload.name);
+    },
     clearPost: (state) => {
       (state.files = []),
         (state.post = ""),
@@ -41,5 +49,5 @@ const SinglePost = createSlice({
   },
 });
 
-export const { updatePostItem, clearPost } = SinglePost.actions;
+export const { updatePostItem, clearPost,updateFilesItem,updateRemoveItem } = SinglePost.actions;
 export default SinglePost.reducer;

@@ -1,4 +1,5 @@
 import PostSkeleton from "@/components/home/skeleton/PostSkeleton";
+import usePostSocket from "@/hooks/socket/usePostSocket";
 import { Suspense, lazy, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -17,6 +18,9 @@ const Videos = () => {
       });
     }
   }, [setSearchParams, tab]);
+
+
+  usePostSocket();
 
   return (
     <div className="max-w-[1200px] h-[calc(100%-70px)] md:h-full w-full flex gap-8">

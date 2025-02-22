@@ -25,6 +25,8 @@ const usePostSocket = () => {
 
     socket?.on("updated-post", (newPost: IPostDoc) => {
       dispatch(posts.update(newPost._id, newPost));
+      dispatch(posts.updateVideo(newPost._id, newPost));
+      dispatch(posts.updatePhoto(newPost._id, newPost));
     });
 
     socket?.on("update-comment", (newPost: IPostDoc, id: string) => {

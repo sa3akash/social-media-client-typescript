@@ -14,12 +14,40 @@ export const posts = {
       { type: "Post", id: "LIST" },
       (draft) => {
         const index = draft.posts.findIndex(
-          (post: IPostDoc) => post._id === id,
+          (post: IPostDoc) => post._id === id
         );
         if (index !== -1) {
           draft.posts[index] = newPost;
         }
-      },
+      }
+    );
+  },
+  updateVideo: (id: string, newPost: IPostDoc) => {
+    return postsApi.util.updateQueryData(
+      "getPaginatedVideoPosts",
+      { type: "Post", id: "LIST" },
+      (draft) => {
+        const index = draft.postWithVideos.findIndex(
+          (post: IPostDoc) => post._id === id
+        );
+        if (index !== -1) {
+          draft.postWithVideos[index] = newPost;
+        }
+      }
+    );
+  },
+  updatePhoto: (id: string, newPost: IPostDoc) => {
+    return postsApi.util.updateQueryData(
+      "getPaginatedImagePosts",
+      { type: "Post", id: "LIST" },
+      (draft) => {
+        const index = draft.postWithImages.findIndex(
+          (post: IPostDoc) => post._id === id
+        );
+        if (index !== -1) {
+          draft.postWithImages[index] = newPost;
+        }
+      }
     );
   },
 
@@ -41,7 +69,7 @@ export const postsUser = {
       { authId: post.creator.authId, page: 1 }, // Ensure correct args are passed
       (draft) => {
         draft.posts = [post, ...draft.posts];
-      },
+      }
     );
   },
 
@@ -51,13 +79,13 @@ export const postsUser = {
       { authId: post?.authId },
       (draft) => {
         const index = draft.posts.findIndex(
-          (post: IPostDoc) => post._id === id,
+          (post: IPostDoc) => post._id === id
         );
 
         if (index !== -1) {
           draft.posts[index] = post;
         }
-      },
+      }
     );
   },
 
@@ -70,7 +98,7 @@ export const postsUser = {
         if (index !== -1) {
           draft.posts.splice(index, 1);
         }
-      },
+      }
     );
   },
 };
