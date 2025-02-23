@@ -54,7 +54,7 @@ export const useUpload = () => {
   const uploadFile = async (file: File) => {
     setUploading(true);
     const params = new URLSearchParams({
-      name: `${file.name + Date.now()}`,
+      name: `${Date.now()+"-"+file.name}`,
       size: `${file.size}`,
       currentChunkIndex: `${0}`,
       totalChunks: `${1}`,

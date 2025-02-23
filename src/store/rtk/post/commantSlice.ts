@@ -13,27 +13,39 @@ export interface ReactionResponse {
 export const commentApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCommantByPostId: builder.query({
-      query: ({ postId, page = 1 }) => `/comments/${postId}?page=${page}`,
+      query: ({ postId, lastCreatedAt }) => `/comments/get/${postId}?lastCreatedAt=${lastCreatedAt}`,
       serializeQueryArgs: ({ queryArgs }) =>
         `posts-commant-${queryArgs.postId}`,
       merge: (currentCache, newData) => {
         // Merge the new data with the current cached data
 
         const uniqueArray = Utils.uniqueArray([
-          ...currentCache.comments,
-          ...newData.comments,
+          ...currentCache,
+          ...newData,
         ]);
-        currentCache.comments = uniqueArray;
+        currentCache = uniqueArray;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
+    }),
+    getNestedCommant: builder.query({
+      query: ({ commentId, lastCreatedAt }) => `/comments/reply/${commentId}?lastCreatedAt=${lastCreatedAt}`,
+      serializeQueryArgs: ({ queryArgs }) =>
+        `posts-commant-reply-${queryArgs.commentId}`,
+      merge: (currentCache, newData) => {
+        // Merge the new data with the current cached data
 
-        currentCache.currentPage = newData.currentPage;
-        currentCache.numberOfPages = newData.numberOfPages;
+        const uniqueArray = Utils.uniqueArray([
+          ...currentCache,
+          ...newData,
+        ]);
+        currentCache = uniqueArray;
       },
       forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
 
     addCommant: builder.mutation({
       query: (post) => ({
-        url: "/add-comment",
+        url: "/comments/add",
         method: "POST",
         body: post,
       }),
@@ -64,4 +76,4 @@ export const commentApi = api.injectEndpoints({
   }),
 });
 
-export const { useAddCommantMutation, useGetCommantByPostIdQuery } = commentApi;
+export const { useAddCommantMutation, useGetCommantByPostIdQuery, useGetNestedCommantQuery } = commentApi;

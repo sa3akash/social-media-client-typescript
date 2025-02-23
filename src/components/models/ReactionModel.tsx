@@ -17,7 +17,7 @@ const ReactionModel: React.FC<Props> = ({ post, reactionType }) => {
 
   return (
     <div className="mx-auto max-w-[700px] w-full h-[92%] flex gap-4">
-      <div className="w-full h-full md:rounded-lg bg-[#1C1C24]">
+      <div className="w-full h-full md:rounded-lg ">
         <div className="w-full flex items-center justify-center text-white p-2">
           <SingleReactionItem
             type="all"

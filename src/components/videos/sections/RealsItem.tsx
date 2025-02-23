@@ -1,12 +1,12 @@
 
-import { ImageUtils } from "@/services/utils/imageUtils";  
+// import { ImageUtils } from "@/services/utils/imageUtils";  
 import { VideoUtils } from "@/services/utils/videoUtils";  
 import { useEffect, useRef, useState } from "react";  
 import Heart from "@/assets/heart.png";  
 
 const RealsItem = ({ videoUrl }: { videoUrl: string }) => {  
   const [image, setImage] = useState("");  
-  const [bgColor, setBGColor] = useState("");  
+  // const [bgColor, setBGColor] = useState("");  
   const [isPlaying, setIsPlaying] = useState(false);  
   const [hearts, setHearts] = useState<  
     {  
@@ -44,16 +44,16 @@ const RealsItem = ({ videoUrl }: { videoUrl: string }) => {
   }, [videoUrl]);  
 
   // Fetch background color only when image changes  
-  useEffect(() => {  
-    if (image) {  
-      const fetchBackgroundColor = async () => {  
-        const color = await ImageUtils.getBackgroundImageColor(image);  
-        setBGColor(color as string);  
-      };  
+  // useEffect(() => {  
+  //   if (image) {  
+  //     const fetchBackgroundColor = async () => {  
+  //       const color = await ImageUtils.getBackgroundImageColor(image);  
+  //       setBGColor(color as string);  
+  //     };  
 
-      fetchBackgroundColor();  
-    }  
-  }, [image]);  
+  //     fetchBackgroundColor();  
+  //   }  
+  // }, [image]);  
 
   // Play/Pause video based on isPlaying state  
   useEffect(() => {  
@@ -147,7 +147,7 @@ const RealsItem = ({ videoUrl }: { videoUrl: string }) => {
             src={videoUrl}  
             loop  
             className="flex items-center object-contain justify-center rounded-md w-[464px] h-[825px]"  
-            style={{ backgroundColor: bgColor ? bgColor : "#000" }}  
+            style={{ backgroundColor: "#000" }}  
             autoPlay  
             onContextMenu={(e) => e.preventDefault()}  
           ></video>  

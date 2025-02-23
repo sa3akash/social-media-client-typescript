@@ -24,7 +24,7 @@ const SingleReactionData = forwardRef(
     const followingReaction = following.some((id) => id === reaction.authId);
     
     return (
-      <div className="w-full h-full" ref={ref}>
+      <div className="w-full h-full" ref={ref} >
         <div className="p-4 flex gap-2">
           <div className="h-full relative">
             <UserAvater

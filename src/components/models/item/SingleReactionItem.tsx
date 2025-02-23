@@ -30,7 +30,7 @@ const SingleReactionItem: React.FC<Props> = ({
     <>
       <button
         className={cn(
-          "relative w-[80px] h-[50px] rounded-lg font-semibold text-[15px] tracking-[0.1px]  capitalize",
+          "relative w-[80px] h-[50px] rounded-lg font-semibold text-[15px] tracking-[0.1px] capitalize",
           active ? "text-[#1E75FF]" : "hover:bg-[#393946]"
         )}
         onClick={() => {

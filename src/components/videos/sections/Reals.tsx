@@ -8,11 +8,6 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const videos = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26,27,28
-];
-
 const Reals = () => {
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -81,8 +76,8 @@ const Reals = () => {
         </Button>
       </div>
       <div className="scrollType w-full h-full" ref={listRef}>
-        {videos.map((item, index) => (
-          <RealsItem key={index} videoUrl={`/reals/${item}.mp4`} />
+        {Array.from({length:39}).map((_, index) => (
+          <RealsItem key={index} videoUrl={`/reals/${index}.mp4`} />
         ))}
       </div>
     </section>

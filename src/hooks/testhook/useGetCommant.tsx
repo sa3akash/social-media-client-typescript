@@ -3,18 +3,18 @@ import { useGetCommantByPostIdQuery } from "@/store/rtk/post/commantSlice";
 import { useEffect, useState, useRef, useCallback } from "react";
 
 export const useInfiniteCommant = (postId: string) => {
-  const [page, setPage] = useState(1); // Track the current page
+  const [lastCreatedAt, setLastCreatedAt] = useState(''); // Track the current page
   const lastPostRef = useRef<HTMLDivElement | null>(null); // Ref for the last post element
   const observerRef = useRef<IntersectionObserver | null>(null); // Ref for the observer
 
-  const { data, isFetching, isError } = useGetCommantByPostIdQuery({postId,page});
+  const { data, isFetching, isError } = useGetCommantByPostIdQuery({postId,lastCreatedAt});
 
-  const commants: ICommentType[] = data?.comments || [];
+  const commants: ICommentType[] = data || [];
 
   // Callback to load more posts
   const loadMorePosts = useCallback(() => {
-    if (data && !isFetching && data.currentPage < data.numberOfPages) {
-      setPage((prevPage) => prevPage + 1);
+    if (data && !isFetching && data.length > 5) {
+      setLastCreatedAt(data[data?.length - 1]?.createdAt);
     }
   }, [data, isFetching]);
 

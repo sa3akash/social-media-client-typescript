@@ -26,7 +26,7 @@ const CommentAction: React.FC<Props> = ({ commentInputRef, postId }) => {
     if (e.key === "Enter" && commentValue.length > 1) {
 
       addCommant({
-        comment: commentValue,
+        content: commentValue,
         postId: postId,
       });
       setCommentValue("");
