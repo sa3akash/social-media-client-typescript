@@ -77,6 +77,7 @@ export const userAuthApi = api.injectEndpoints({
       serializeQueryArgs: () => `current-user-data`,
       forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
+
     checkUsername: builder.query({
       query: (username) => ({
         url: `/check-username?username=${username}`,
@@ -85,6 +86,7 @@ export const userAuthApi = api.injectEndpoints({
       serializeQueryArgs: ({ queryArgs }) => `check-${queryArgs}`,
       forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
     }),
+
     updateUsername: builder.mutation({
       query: (username) => ({
         url: `/update-username`,
@@ -93,6 +95,7 @@ export const userAuthApi = api.injectEndpoints({
       }),
       invalidatesTags: (result) => [{ type: "User", id: result?.authId }],
     }),
+
     updatePassword: builder.mutation({
       query: (body: IUpdatePassword) => ({
         url: "/update-password",
@@ -100,16 +103,18 @@ export const userAuthApi = api.injectEndpoints({
         body: body,
       }),
     }),
+
     updateProfileCover: builder.mutation({
-      query: (body: FormData) => ({
+      query: (body: {url:string}) => ({
         url: "/update-cover-picture",
         method: "PUT",
         body: body,
       }),
       invalidatesTags: (result) => [{ type: "User", id: result?.authId }],
     }),
+
     updateProfileImage: builder.mutation({
-      query: (body: FormData) => ({
+      query: (body: {url:string}) => ({
         url: "/update-profile-picture",
         method: "PUT",
         body: body,

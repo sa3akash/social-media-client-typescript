@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
+import { useUpload } from "@/hooks/upload/useUpload";
 import { IUserDoc, StoreImagProfile } from "@/interfaces/auth.interface";
 import { AppDispatch, RootState } from "@/store";
 import { setAuth } from "@/store/reducers/AuthReducer";
@@ -33,11 +34,11 @@ const ProfilewImageDialog: React.FC<Props> = ({
   const profileRef = useRef<HTMLInputElement>(null);
   const cropperRef = useRef<CropperRef>(null);
   const { user } = useSelector((state: RootState) => state.auth);
+  const { uploadFile, uploading } = useUpload();
 
   const dispatch: AppDispatch = useDispatch();
 
-  const [updateProfileImage, { isLoading }] =
-    useUpdateProfileImageMutation();
+  const [updateProfileImage] = useUpdateProfileImageMutation();
 
   // if (data) {
   //   const mainOb: IUserDoc = {
@@ -67,35 +68,32 @@ const ProfilewImageDialog: React.FC<Props> = ({
 
       const canvas = cropperRef.current?.getCanvas();
       if (canvas) {
-        const form = new FormData();
         canvas.toBlob((blob) => {
           if (blob) {
-            form.append("file", blob);
-            updateProfileImage(form).then((res) => {
-              if ((res as { error: string }).error) {
-                toast({
-                  title: "Profile image not updated",
-                  description: (res as { error: { data: { message: string } } })
-                    .error.data.message,
-                  variant: "destructive",
-                });
-              } else {
-                const result = res as {data:{ url: string; message: string }};
-                const mainOb: IUserDoc = {
-                  ...user,
-                  profilePicture: result.data.url,
-                } as IUserDoc;
-                dispatch(setAuth(mainOb));
-                toast({
-                  title: result.data?.message,
-                });
-                setProfileImg((prev) => ({
-                  ...prev,
-                  openProfileModel: false,
-                  profileRow: null,
-                  profilePic: result.data.url,
-                }));
-              }
+            const file = new File([blob], `profile-picture-${Date.now()}.jpg`, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+
+            uploadFile(file).then((data) => {
+              const mainOb: IUserDoc = {
+                ...user,
+                profilePicture: data.url,
+              } as IUserDoc;
+              dispatch(setAuth(mainOb));
+
+              toast({
+                title: "Profile picture uploaded successfully",
+              });
+
+              setProfileImg((prev) => ({
+                ...prev,
+                openProfileModel: false,
+                profileRow: null,
+                profilePic: data.url,
+              }));
+
+              updateProfileImage({ url: data.url });
             });
           }
         }, "image/jpeg");
@@ -160,16 +158,16 @@ const ProfilewImageDialog: React.FC<Props> = ({
           </Button>
           <Button
             onClick={() => profileRef.current?.click()}
-            disabled={isLoading}
+            disabled={uploading}
           >
             Change
           </Button>
           <Button
             type="submit"
             onClick={makeNewImageAndUpdate}
-            disabled={isLoading}
+            disabled={uploading}
           >
-            {isLoading ? (
+            {uploading ? (
               <span className="flex items-center gap-1">
                 <Loader2 className="w-5 animate-spin" /> Loading...
               </span>

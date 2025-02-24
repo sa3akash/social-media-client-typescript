@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "@/store/reducers/AuthReducer";
 import { useUpdateProfileCoverMutation } from "@/store/rtk/auth/authSlice";
 import { useToast } from "@/components/ui/use-toast";
+import { useUpload } from "@/hooks/upload/useUpload";
 
 interface Props {
   user: IUserDoc;
@@ -25,6 +26,8 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user, setProfileImg, profi
   const dispatch: AppDispatch = useDispatch();
   const { user: stateUser } = useSelector((state: RootState) => state.auth);
 
+  const { uploadFile,uploading } = useUpload()
+
   const {toast} = useToast()
 
   useEffect(() => {
@@ -37,23 +40,24 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user, setProfileImg, profi
 
  
 
-  const [updateProfileCover, { isLoading, data }] =
+  const [updateProfileCover] =
     useUpdateProfileCoverMutation();
 
   const handleSaveCoverImage = () => {
     if (profileImg.coverPicRow) {
-      const form = new FormData();
-      form.append("file", profileImg.coverPicRow);
-      updateProfileCover(form).then(() => {
-        if (data) {
-          const mainObj = { ...stateUser, coverPicture: data.url } as IUserDoc;
-          dispatch(setAuth(mainObj));
-          setProfileImg((prev) => ({ ...prev, coverPicRow: null }));
-          toast({
-            title: data.message,
-          });
-        }
+      uploadFile(profileImg.coverPicRow).then((data)=>{
+
+        updateProfileCover({url:data.url})
+
+        const mainObj = { ...stateUser, coverPicture: data.url } as IUserDoc;
+        dispatch(setAuth(mainObj));
+        setProfileImg((prev) => ({ ...prev, coverPicRow: null }));
+        toast({
+          title: data.message,
+        });
       });
+      
+      
     }
   };
 
@@ -87,12 +91,12 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user, setProfileImg, profi
                 </Button>
                 <Button
                   onClick={() => coverRef.current?.click()}
-                  disabled={isLoading}
+                  disabled={uploading}
                 >
                   Change
                 </Button>
-                <Button onClick={handleSaveCoverImage} disabled={isLoading}>
-                  {isLoading ? (
+                <Button onClick={handleSaveCoverImage} disabled={uploading}>
+                  {uploading ? (
                     <span className="flex items-center gap-2">
                       <Loader2 className="animate-spin w-5" /> Loading...
                     </span>
@@ -105,7 +109,7 @@ const CoverImageAndProfileImage: React.FC<Props> = ({ user, setProfileImg, profi
               <Button
                 className="transition-all font-semibold text-[12px] absolute top-4 right-4 select-none"
                 onClick={() => coverRef.current?.click()}
-                disabled={isLoading}
+                disabled={uploading}
               >
                 Edit Cover
               </Button>

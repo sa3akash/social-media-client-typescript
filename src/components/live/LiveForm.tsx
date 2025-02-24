@@ -25,36 +25,26 @@ interface Props {
     description: string;
     privacy: IPrivacy;
     live: boolean;
-},
-setLiveValue: React.Dispatch<React.SetStateAction<{
-  title: string;
-  description: string;
-  privacy: IPrivacy;
-  live: boolean;
-}>>
-
+  };
+  setLiveValue: React.Dispatch<
+    React.SetStateAction<{
+      title: string;
+      description: string;
+      privacy: IPrivacy;
+      live: boolean;
+    }>
+  >;
 }
 
-const LiveForm:FC<Props> = ({liveValue,setLiveValue}) => {
-
-
-
-
-
+const LiveForm: FC<Props> = ({ liveValue, setLiveValue }) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setLiveValue((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-
-
-
-
-
-
   return (
-    <div className="flex-1">
+    <div className="flex-1 space-y-4">
       <Card className="flex-1 h-max cardBG">
         <CardHeader>
           <CardTitle className="text-lg">Add post details</CardTitle>
@@ -112,9 +102,9 @@ const LiveForm:FC<Props> = ({liveValue,setLiveValue}) => {
               />
             </DropdownMenuContent>
           </DropdownMenu>
-          
         </CardContent>
       </Card>
+      
     </div>
   );
 };
