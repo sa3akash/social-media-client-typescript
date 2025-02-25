@@ -185,6 +185,8 @@ export const postsApi = api.injectEndpoints({
           // Update the cache with the updated post
           dispatch(posts.update(id, updatedPost.post));
           dispatch(postsUser.update(id, updatedPost.post));
+          dispatch(postsUser.updateImage(id, updatedPost.post));
+          dispatch(postsUser.updateVideo(id, updatedPost.post));
         } catch {
           // Handle error if needed
         }
@@ -204,6 +206,8 @@ export const postsApi = api.injectEndpoints({
         try {
           const { data: deletedPost } = await queryFulfilled; // Await the mutation to complete
           dispatch(postsUser.delete(id, deletedPost.authId));
+          dispatch(postsUser.deleteImagePost(id, deletedPost.authId));
+          dispatch(postsUser.deleteVideoPost(id, deletedPost.authId));
         } catch {
           patchResult.undo(); // Undo the optimistic update if failed
         }

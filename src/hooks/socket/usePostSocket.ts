@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { IPostDoc } from "@/interfaces/post.interface";
-import { posts } from "@/store/rtk/post/helpers";
+import { posts, postsUser } from "@/store/rtk/post/helpers";
 
 const usePostSocket = () => {
   const { socket } = useSocket();
@@ -20,6 +20,8 @@ const usePostSocket = () => {
     socket?.on("update-post", (newPost: IPostDoc) => {
       if (user?.authId !== newPost.creator.authId) {
         dispatch(posts.update(newPost._id, newPost));
+        dispatch(posts.updateVideo(newPost._id, newPost));
+        dispatch(posts.updatePhoto(newPost._id, newPost));
       }
     });
 
@@ -32,12 +34,16 @@ const usePostSocket = () => {
     socket?.on("update-comment", (newPost: IPostDoc, id: string) => {
       if (user?.authId !== id) {
         dispatch(posts.update(newPost._id, newPost));
+        dispatch(posts.updateVideo(newPost._id, newPost));
+        dispatch(posts.updatePhoto(newPost._id, newPost));
       }
     });
 
     socket?.on("delete-post", (postId: string, creatorId: string) => {
       if (user?.authId !== creatorId) {
         dispatch(posts.delete(postId));
+        dispatch(postsUser.deleteImagePost(postId, creatorId));
+        dispatch(postsUser.deleteVideoPost(postId, creatorId));
       }
     });
 

@@ -64,7 +64,7 @@ const ProfileSection: React.FC<Props> = ({
         </div>
         <div className="flex flex-col md:gap-4 md:h-full md:justify-end xl:justify-center items-center justify-center px-4">
           <div className="text-[#FAFAFB] flex md:flex-col gap-4 md:gap-0 items-center">
-            <h3 className="font-semibold md:text-[24px] tracking-[0.1px] leading-9">
+            <h3 className="font-semibold md:text-[24px] tracking-[0.1px] leading-9 capitalize">
               {user?.name?.first} {user?.name?.last}
             </h3>
             <span className="roboto text-[14px] leading-6 tracking-[0.1px] md:w-full">

@@ -42,6 +42,19 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
     setOpenReaction(false);
   };
 
+
+  const handleShare = async () => {  
+    try {  
+      await navigator.share({  
+        title: 'Share a post',  
+        url: postId,  
+      });  
+      console.log('Share successful!');  
+    } catch (error) {  
+      console.error('Error sharing:', error);  
+    }  
+  }; 
+
   return (
     <div className="px-4 py-1 border-t border-b">
       <div className="flex items-center justify-around gap-2 select-none">
@@ -112,7 +125,7 @@ const PostActions: React.FC<Props> = ({ commentInputRef, postId }) => {
           </div>
         </div>
 
-        <div className="flex-1 flex items-center justify-center gap-2 py-2 px-2 rounded-sm dark:hover:bg-[#292932] cursor-pointer">
+        <div className="flex-1 flex items-center justify-center gap-2 py-2 px-2 rounded-sm dark:hover:bg-[#292932] cursor-pointer" onClick={handleShare}>
           <img
             src={ShareIcon}
             alt="share"

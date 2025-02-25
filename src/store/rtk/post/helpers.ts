@@ -88,10 +88,80 @@ export const postsUser = {
       }
     );
   },
+  updateImage: (id: string, post: IPostDoc) => {
+    return postsApi.util.updateQueryData(
+      "getPaginatedImagePosts",
+      { authId: post?.authId },
+      (draft) => {
+        const index = draft.posts.findIndex(
+          (post: IPostDoc) => post._id === id
+        );
+
+        if (index !== -1) {
+          draft.posts[index] = post;
+        }
+      }
+    );
+  },
+  updateVideo: (id: string, post: IPostDoc) => {
+    return postsApi.util.updateQueryData(
+      "getPaginatedVideoPosts",
+      { authId: post?.authId },
+      (draft) => {
+        const index = draft.posts.findIndex(
+          (post: IPostDoc) => post._id === id
+        );
+
+        if (index !== -1) {
+          draft.posts[index] = post;
+        }
+      }
+    );
+  },
+
+  updateDelete: (id: string, post: IPostDoc) => {
+    return postsApi.util.updateQueryData(
+      "getPaginatedUserPosts",
+      { authId: post?.authId },
+      (draft) => {
+        const index = draft.posts.findIndex(
+          (post: IPostDoc) => post._id === id
+        );
+
+        if (index !== -1) {
+          draft.posts[index] = post;
+        }
+      }
+    );
+  },
 
   delete: (id: string, authId: string) => {
     return postsApi.util.updateQueryData(
       "getPaginatedUserPosts",
+      { authId: authId }, // Ensure correct args are passed
+      (draft) => {
+        const index = draft.posts.findIndex((p: IPostDoc) => p._id === id);
+        if (index !== -1) {
+          draft.posts.splice(index, 1);
+        }
+      }
+    );
+  },
+  deleteImagePost: (id: string, authId: string) => {
+    return postsApi.util.updateQueryData(
+      "getPaginatedImagePosts",
+      { authId: authId }, // Ensure correct args are passed
+      (draft) => {
+        const index = draft.posts.findIndex((p: IPostDoc) => p._id === id);
+        if (index !== -1) {
+          draft.posts.splice(index, 1);
+        }
+      }
+    );
+  },
+  deleteVideoPost: (id: string, authId: string) => {
+    return postsApi.util.updateQueryData(
+      "getPaginatedVideoPosts",
       { authId: authId }, // Ensure correct args are passed
       (draft) => {
         const index = draft.posts.findIndex((p: IPostDoc) => p._id === id);
