@@ -45,9 +45,7 @@ const NotificationToast: React.FC<Props> = ({ notification }) => {
           </span>
         ) : type === "follow" ? (
           <span className="text-sm">
-            <strong className="capitalize">{fullName}</strong> posted in
-            <strong> UI/UX Community</strong> : “Mobile Apps UI Designer is
-            required...”
+            <strong className="capitalize">{fullName}</strong> “{notification.message}”
           </span>
         ) : (
           <span className="text-sm">

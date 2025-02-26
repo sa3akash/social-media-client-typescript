@@ -47,7 +47,7 @@ interface CommentListProps {
   initialComments?: RealDataMessage[]
 }
 
-export function CommentList({ postId, initialComments = [] }: CommentListProps) {
+export function CommentList({ postId }: CommentListProps) {
   const [comments, setComments] = useState<RealDataMessage[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [lastCreatedAt, setLastCreatedAt] = useState<string | null>(null)
@@ -138,9 +138,6 @@ export function CommentList({ postId, initialComments = [] }: CommentListProps) 
         .then((res) => res.json())
         .then((data) => {
           if (data.length) {
-
-            console.log(data)
-
             setComments((prev) => [...prev, ...data])
           } else {
             // setHasMore(false)

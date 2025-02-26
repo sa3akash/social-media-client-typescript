@@ -7,10 +7,6 @@ import FeelingsModel from "@/components/post/postForm/FeelingsModel";
 import useDetectOutsideClick from "@/hooks/useDetactOutsideClick";
 import {FC, useRef, useState } from "react";
 import Giphy from "@/components/post/postForm/Giphy";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store";
-import { closeModel } from "@/store/reducers/ModelReducer";
 
 interface Props {
   setOpenSelectFile: React.Dispatch<React.SetStateAction<boolean>>

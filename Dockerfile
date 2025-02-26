@@ -1,4 +1,4 @@
-FROM node:18-alpine as build
+FROM node:alpine as build
 
 RUN addgroup app && adduser -S -G app app
 USER app
@@ -14,8 +14,8 @@ RUN yarn build
 
 
 # nginx
-FROM nginx:mainline-alpine3.18-perl
-EXPOSE 3000
+FROM nginx:alpine
+# EXPOSE 4000
 COPY ./nginx /etc/nginx/conf.d
 COPY --from=build /usr/src/client/dist /usr/share/nginx/html
 EXPOSE 80

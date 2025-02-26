@@ -3,9 +3,10 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(),nodePolyfills()],
+  plugins: [react(), nodePolyfills()],
   define: {
     global: "globalThis",
   },
@@ -15,27 +16,31 @@ export default defineConfig({
     },
   },
   server: {
+    // port: 4000,
+    // strictPort: true,
+    // host: true,
+    // origin: "http://0.0.0.0:4000",
     proxy: {
-      '/stream': {
-        target: 'http://localhost:5500/api/v1',
+      "/stream": {
+        target: "http://localhost:5500/api/v1",
         changeOrigin: true,
         secure: false,
       },
-      '/live': {
-        target: 'http://localhost:8080',
+      "/live": {
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
       },
-      '/stat': {
-        target: 'http://localhost:8080',
+      "/stat": {
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
       },
-      '/hls': {
-        target: 'http://localhost:8080',
+      "/hls": {
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
       },
-    }
-  }
+    },
+  },
 });

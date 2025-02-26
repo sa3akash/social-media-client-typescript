@@ -272,11 +272,11 @@ export const StreamProvider: React.FC<{ children: React.ReactNode }> = ({
     reader.onloadend = () => {
       const arrayBuffer = reader.result as ArrayBuffer;
       const byteArray = new Uint8Array(arrayBuffer);
-
+      console.log(byteArray);
       // send byteArray in server using socketio
-      //   if (socketRef.current) {
-      //     socketRef.current.emit("stream", byteArray);
-      //   }
+        // if (socketRef.current) {
+        //   socketRef.current.emit("stream", byteArray);
+        // }
     };
     reader.readAsArrayBuffer(blob);
   };
@@ -310,6 +310,7 @@ export const StreamProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useStreamContext = () => {
   const context = useContext(StreamContext);
   if (!context) {

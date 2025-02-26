@@ -44,14 +44,13 @@ const useNotificationSocket = () => {
     });
 
     socket?.on("follow-notification", (notificationData, { userTo }) => {
-      console.log(notificationData, { userTo });
 
-      // if (user?.authId === userTo) {
-      //   toast({
-      //     description: `${notificationData.message}`,
-      //     data: notificationData,
-      //   });
-      // }
+      if (user?.authId !== userTo) {
+        toast({
+          description: `${notificationData.message}`,
+          data: notificationData,
+        });
+      }
     });
 
     return () => {

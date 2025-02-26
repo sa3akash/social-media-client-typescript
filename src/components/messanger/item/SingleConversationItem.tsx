@@ -83,7 +83,7 @@ const SingleConversationItem: FC<Props> = ({ item, active }) => {
         <div className="flex items-center justify-between gap-4">
           <span
             className={cn(
-              "roboto text-[14px] tracking-[0.1px] text-[#92929D] line-clamp-1 flex items-center gap-2 flex-1",
+              "roboto text-[14px] tracking-[0.1px] text-[#92929D] flex items-center gap-2 flex-1 truncate",
               !item.isRead && !active && item.senderId !== user?.authId
                 ? "text-[#1E75FF] font-bold"
                 : "text-[#92929D]",

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
 
 import type React from "react";
 
@@ -28,6 +27,7 @@ import {
   HardDrive,
   Activity,
 } from "lucide-react";
+import { config } from "@/config";
 
 interface StreamMetrics {
   timestamp: number;
@@ -150,8 +150,13 @@ const StreamMetrics: React.FC<StreamMetricsProps> = ({ streamKey }) => {
   const fetchMetrics = useCallback(async () => {
     if (!streamKey) return;
 
+    const url =
+      config.NODE_ENV === "development"
+        ? "/stat"
+        : `${config.RTMP_PREVIEW_URL}/stat`;
+
     try {
-      const response = await axios.get("/stat");
+      const response = await axios.get(url);
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(response.data, "text/xml");
 
@@ -877,8 +882,6 @@ const StreamMetrics: React.FC<StreamMetricsProps> = ({ streamKey }) => {
 };
 
 export default StreamMetrics;
-
-
 
 // import type React from "react"
 

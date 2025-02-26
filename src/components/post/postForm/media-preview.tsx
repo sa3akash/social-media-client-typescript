@@ -1,5 +1,3 @@
-"use client"
-
 import { IFiles } from "@/interfaces/post.interface"
 import type React from "react"
 

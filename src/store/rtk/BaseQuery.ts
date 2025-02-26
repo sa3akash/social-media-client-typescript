@@ -38,7 +38,6 @@ export const baseQueryWithReauth: typeof baseQuery = async (
       // Optionally, redirect to login page or clear auth state
       localStorage.clear();
       window.location.href = PageURL.Login; // Example for redirect
-      console.log(result);
     }
   }
 

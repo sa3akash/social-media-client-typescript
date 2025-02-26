@@ -5,7 +5,6 @@ import PhotoSkeleton from "@/components/photos/Skeleton/PhotoSkeleton";
 import ProfileSkeleton from "@/components/profile/skeleton/ProfileSkeleton";
 import NotificationSkeleton from "@/components/notificaton/skeleton/NotificationSkeleton";
 import FriendsSkeleton from "@/components/friends/skeleton/FriendsSkeleton";
-import CreateVideoOrPhotoPost from "@/components/post/CreateVideoOrPhotoPost";
 import Test from "@/pages/test";
 
 // lazy loading
@@ -32,14 +31,6 @@ const Protected = [
             <Home />
           </Suspense>
         ),
-      },
-      {
-        path: 'create',
-        element: (
-          <Suspense fallback={"Loading..."}>
-            <CreateVideoOrPhotoPost />
-          </Suspense>
-        )
       }
     ]
   },

@@ -205,6 +205,7 @@ export const postsApi = api.injectEndpoints({
 
         try {
           const { data: deletedPost } = await queryFulfilled; // Await the mutation to complete
+
           dispatch(postsUser.delete(id, deletedPost.authId));
           dispatch(postsUser.deleteImagePost(id, deletedPost.authId));
           dispatch(postsUser.deleteVideoPost(id, deletedPost.authId));

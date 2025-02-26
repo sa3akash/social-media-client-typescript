@@ -14,6 +14,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { timeAgo } from "@/services/utils/timeAgo";
 import { Link } from "react-router-dom";
 import { IComment } from "../CommentsModel";
+import { extractLinks } from "@/services/genaral/messageUtils";
+import MessangerLinkPreview from "@/components/link/MessangerLinkPreview";
 
 interface ICommentNode extends IComment {
   replies: ICommentNode[];
@@ -96,6 +98,8 @@ const Comment: React.FC<CommentProps> = ({
     setIsEditing(false);
   };
 
+  const extractText = extractLinks(comment.content);
+
   return (
     <div className="mb-4">
       {/* Comment content and actions */}
@@ -139,7 +143,7 @@ const Comment: React.FC<CommentProps> = ({
                 <Button onClick={handleUpdateComment}>Update Comment</Button>
               </>
             ) : (
-              <p>
+              <div>
                 {comment?.replyToUser && (
                   <span className="text-blue-500 mr-1">
                     @
@@ -152,9 +156,17 @@ const Comment: React.FC<CommentProps> = ({
                     </Link>
                   </span>
                 )}
-                {comment.content}
-              </p>
+                 <p
+        dangerouslySetInnerHTML={{ __html: extractText.originalString }}
+        className="flex flex-wrap"
+      />
+              </div>
             )}
+          </div>
+          <div className="-my-1 mb-2">
+          {extractText.links.length > 0 ? (
+        <MessangerLinkPreview url={extractText.links[0]} />
+      ) : null}
           </div>
           {/* Comment actions (like, reply, edit, delete) */}
           <div className="flex items-center mt-2 space-x-4">

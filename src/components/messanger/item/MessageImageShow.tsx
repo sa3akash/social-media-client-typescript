@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
 import AudioMessage from "./AudioMessage";
 import { File } from "lucide-react";
+import { config } from "@/config";
 
 interface Props {
   files: IMessageFile[];
@@ -38,7 +39,7 @@ const MessageImageShow: React.FC<Props> = ({ files, won }) => {
          >
          {fileData.videos.map((p, i) => (
            <div key={i}>
-            <video src={p.url} controls ></video>
+            <video src={config.NODE_ENV === 'development' ? p.url : `${config.apiUrl}/${p.url}`} controls ></video>
            </div>
          ))}
        </div>
@@ -56,7 +57,7 @@ const MessageImageShow: React.FC<Props> = ({ files, won }) => {
               <div key={i} className={cn('relative group w-full',
                 fileData.images.length > 2 ? 'w-[300px]':''
               )}>
-                <img src={p.url} />
+                <img src={config.NODE_ENV === 'development' ? p.url : `${config.apiUrl}/${p.url}`} />
                 <img src={DownlaodIcon} alt="d" className="z-50 absolute right-4 bottom-4 hidden group-hover:block cursor-pointer" onClick={()=>saveAs(p.url,p.name)}/>
               </div>
             </SwiperSlide>
@@ -70,7 +71,7 @@ const MessageImageShow: React.FC<Props> = ({ files, won }) => {
             <div key={i} className={cn('py-2 px-4 rounded-md flex items-center gap-2 hover:underline cursor-pointer',
               won ? "bg-[#0084ff]" : "bg-[#292932]"
             )}
-            onClick={()=>saveAs(o.url,o.name)}
+            onClick={()=>saveAs(config.NODE_ENV === 'development' ? o.url : `${config.apiUrl}/${o.url}`,o.name)}
             >
               <div>
                 <File className="w-5 h-5"/>

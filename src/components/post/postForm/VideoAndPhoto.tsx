@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { ImagePlus, Loader2, X, UploadCloud, Check } from "lucide-react";

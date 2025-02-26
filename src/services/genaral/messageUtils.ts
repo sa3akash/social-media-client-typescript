@@ -20,7 +20,7 @@ export const extractLinks = (
       // Replace the first occurrence of the URL (match.index) with the anchor tag
       return modifiedText.replace(
         url,
-        `<a href="${url}" target="_blank" style="text-decoration:underline; color:#E2E2EA; font-weight:500" rel="noopener noreferrer" title="${url}">${url}</a>`,
+        `<a href="${url}" target="_blank" style="text-decoration:underline; color:#E2E2EA; font-weight:500; margin-right:5px" rel="noopener noreferrer" title="${url}">${url}</a>`,
       );
     } catch (error) {
       console.error(`Invalid URL encountered: ${url}`, error);

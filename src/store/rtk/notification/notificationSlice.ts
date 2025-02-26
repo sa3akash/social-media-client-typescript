@@ -28,7 +28,7 @@ export const notificationApi = api.injectEndpoints({
         currentCache.numberOfPages = newData.numberOfPages;
       },
       forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
-      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (_, { queryFulfilled }) => {
         // Optimistically update the cache after fetching posts
         try {
           await queryFulfilled;
